@@ -1,6 +1,5 @@
 #include <pokeagb/pokeagb.h>
 
-
 extern void dprintf(const char * str, ...);
 u8* ParasiteSizeIndex = (u8*)0x020370B8;
 
@@ -34,9 +33,9 @@ u16 SaveBlockParasiteSizes[3] = {
         SECTOR_DATA_SIZE - 0x450, // 0xBA0
 };
 
-
 /* Saving and loading for sector 30 and 31. Could potentially add the Hall of fame sectors too */
-void loadSector30And31() {
+void loadSector30And31()
+{
     struct SaveSection* saveBuffer = (struct SaveSection*)0x02039A38;
     memset(saveBuffer, 0, sizeof(struct SaveSection));
     DoReadFlashWholeSection(30, saveBuffer);
@@ -49,7 +48,9 @@ void loadSector30And31() {
     memcpy((void*)(startLoc), saveBuffer, SECTOR_DATA_SIZE);
 }
 
-void saveSector30And31() {
+
+void saveSector30And31()
+{
     struct SaveSection* saveBuffer = (struct SaveSection*)0x02039A38;
     memset(saveBuffer, 0, sizeof(struct SaveSection));
     u32 startLoc = gSaveBlockParasite + parasiteSize;
@@ -62,9 +63,9 @@ void saveSector30And31() {
     TryWriteSector(31, saveBuffer->data);
 }
 
-
 /* This parasitic saveblock idea originated from JPAN's work. Frees up 0xEC4 bytes - almost a sector */
-void saveParasite() {
+void saveParasite()
+{
     struct SaveSection* s = gFastSaveSection;
     u32 size = 0;
     u32* data = NULL;
@@ -93,7 +94,8 @@ void saveParasite() {
 }
 
 
-void loadParasite() {
+void loadParasite()
+{
     struct SaveSection* s = gFastSaveSection;
     u32 size = 0;
     u32* data = NULL;
@@ -121,7 +123,8 @@ void loadParasite() {
 }
 
 // 080D9E54
-u8 HandleLoadSector(u16 a1, const struct SaveBlockChunk *chunks) {
+u8 HandleLoadSector(u16 a1, const struct SaveBlockChunk *chunks)
+{
     struct SaveSection* saveSection = gFastSaveSection;
     u16 sector = NUM_SECTORS_PER_SAVE_SLOT * ((*gSaveCounter) % 2);
     bool checksum_status = false;
@@ -138,8 +141,6 @@ u8 HandleLoadSector(u16 a1, const struct SaveBlockChunk *chunks) {
             loadParasite();
         }
     }
-    // start of the game don't load jibberish into block
-    dprintf("checksum status is %d\n", checksum_status);
     if (checksum_status)
         loadSector30And31();
     return 1;
@@ -168,6 +169,7 @@ u8 HandleWriteSector(u16 chunkId, const struct SaveBlockChunk *chunks) {
     saveSector30And31();
     return retVal;
 }
+
 
 void call_something(u16 arg, EraseFlash func) {
     func(arg);
@@ -211,6 +213,3 @@ u8 HandleSavingData(u8 saveType) {
     gMain.vblankCounter1 = backupPtr;
     return 0;
 }
-/*
-
-*/

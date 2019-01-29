@@ -22,7 +22,6 @@ u8 *GetFlagPointer(u16 id)
         tempFlag = tempFlag >> 3;
         return (u8*)(tempFlag + tempFlagsAddr);
     }
-
 }
 
 

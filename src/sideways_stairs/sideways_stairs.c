@@ -46,7 +46,6 @@ void PlayerSetAnimId(u8 movementActionId, u8 copyableMovement)
 
 void PlayerWalkDirection(u8 dir)
 {
-
     struct MapObject* playerObject = &mapObjects[gPlayerAvatar.spriteId];
     u32 behaviour = MapGridGetMetatileBehaviorAt(playerObject->currentCoords.x, playerObject->currentCoords.y);
     u8 movement = 0;
