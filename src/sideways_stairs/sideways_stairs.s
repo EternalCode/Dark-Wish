@@ -18,7 +18,6 @@
 .equ run_return,                                0x0805C156+ 1
 
 .equ npc_set_direction,                         0x0805FBDC+ 1
-.equ numbers_move_direction,                    0x08063A20+ 1
 .equ sub_8064008,                               0x08064008+ 1
 .equ npc_apply_direction_return,                0x080646AC+ 1
 .equ an_run_any_return,                         0x08064728+ 1
@@ -37,7 +36,6 @@
 .equ sub_8068C18_return_1,                      0x08068C3E+ 1
 .equ sub_8068CB4_return_0,                      0x08068CDE+ 1
 .equ sub_8068CB4_return_1,                      0x08068CE8+ 1
-.equ change_movement_2_return,                  0x080BD3D0+ 1
 .equ off_83A6884,                               0x083A6884
 .equ stepspeeds,                                0x083A719C
 .equ stepspeed_seq_length,                      0x083A71B0
@@ -55,7 +53,7 @@ change_movement:
     bl SidewaysStairsUpdateToCoords
     add r1, sp, #4
     mov r2, r4
-    ldr r3, =(numbers_move_direction)
+    ldr r3, =(MoveCoords)
     bl call_via_r3
     ldr r3, =(change_movement_return)
 
