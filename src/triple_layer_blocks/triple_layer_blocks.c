@@ -8,7 +8,6 @@ void DrawMetatile(s32 metatileLayerType, u16 *metatiles, u16 offset)
     switch (metatileLayerType) {
     case 3:
         // triple layer
-        dprintf("it is running this\n");
         gBGTilemapBuffers3[offset] = metatiles[0];
         gBGTilemapBuffers3[offset + 1] = metatiles[1];
         gBGTilemapBuffers3[offset + 0x20] = metatiles[2];
