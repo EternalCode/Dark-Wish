@@ -38,15 +38,16 @@ const u8* run_table[6] = {(u8*)(run_entry_0), (u8*)(run_entry_1), (u8*)(run_entr
 
 void PlayerSetAnimId(u8 movementActionId, u8 copyableMovement)
 {
+    if (movementActionId)
     if (!PlayerIsAnimActive()) {
         PlayerSetCopyableMovement(copyableMovement);
-        EventObjectSetHeldMovement(&mapObjects[gPlayerAvatar.mapObjectId], movementActionId);
+        MapObjectSetHeldMovement(&gMapObjects[gPlayerAvatar.mapObjectId], movementActionId);
     }
 }
 
 void PlayerWalkDirection(u8 dir)
 {
-    struct MapObject* playerObject = &mapObjects[gPlayerAvatar.spriteId];
+    struct MapObject* playerObject = &gMapObjects[gPlayerAvatar.spriteId];
     u32 behaviour = MapGridGetMetatileBehaviorAt(playerObject->currentCoords.x, playerObject->currentCoords.y);
     u8 movement = 0;
     if (behaviour < 0xB0 || behaviour > 0xB5) {
@@ -60,7 +61,7 @@ void PlayerWalkDirection(u8 dir)
 
 void PlayerRunDirection(u8 dir)
 {
-    struct MapObject* playerObject = &mapObjects[gPlayerAvatar.spriteId];
+    struct MapObject* playerObject = &gMapObjects[gPlayerAvatar.spriteId];
     u32 behaviour = MapGridGetMetatileBehaviorAt(playerObject->currentCoords.x, playerObject->currentCoords.y);
     u8 movement = 0;
     if (behaviour < 0xB0 || behaviour > 0xB5) {
@@ -74,7 +75,7 @@ void PlayerRunDirection(u8 dir)
 
 void PlayerBikeDirection(u8 dir)
 {
-    struct MapObject* playerObject = &mapObjects[gPlayerAvatar.spriteId];
+    struct MapObject* playerObject = &gMapObjects[gPlayerAvatar.spriteId];
     u32 behaviour = MapGridGetMetatileBehaviorAt(playerObject->currentCoords.x, playerObject->currentCoords.y);
     u8 movement = 0;
     if (behaviour < 0xB0 || behaviour > 0xB5) {
@@ -107,9 +108,9 @@ u8 GetPlayerSidewaysstairsAction(u8 dir, u8 behaviour, u8 type)
 }
 
 
-u8 SidewaysStairsUpdateToCoords(u8 dir, struct MapObject* eventObject)
+u8 SidewaysStairsUpdateToCoords(u8 dir, struct MapObject* mapObject)
 {
-    u8 behaviour = MapGridGetMetatileBehaviorAt(eventObject->currentCoords.x, eventObject->currentCoords.y);
+    u8 behaviour = MapGridGetMetatileBehaviorAt(mapObject->currentCoords.x, mapObject->currentCoords.y);
     switch (behaviour - 0xB0) {
         case 0:
             if (dir == DIR_LEFT) {
@@ -146,4 +147,25 @@ u8 SidewaysStairsUpdateToCoords(u8 dir, struct MapObject* eventObject)
             break;
     };
     return dir;
+}
+
+
+u8 Bike_CheckCollisionTryAdvanceCollisionCount(struct MapObject *mapObject, s16 x, s16 y, u8 direction, u8 metatitleBehavior)
+{
+    u8 collision = CheckForMapObjectCollision(mapObject, x, y, direction, metatitleBehavior);
+    if (collision == 0 && metatitleBehavior == 0xA)
+        return 2;
+    return collision;
+}
+
+
+u8 GetBikeCollisionType(u8 direction)
+{
+    u8 dir = direction;
+    struct MapObject *playerMapObj = &gMapObjects[gPlayerAvatar.mapObjectId];
+    s16 x = playerMapObj->currentCoords.x;
+    s16 y = playerMapObj->currentCoords.y;
+    u8 metatitleBehavior = MapGridGetMetatileBehaviorAt(x, y);
+    MoveCoords(SidewaysStairsUpdateToCoords(dir, playerMapObj), &x, &y);
+    return Bike_CheckCollisionTryAdvanceCollisionCount(playerMapObj, x, y, direction, metatitleBehavior);
 }

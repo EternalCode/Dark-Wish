@@ -62,19 +62,6 @@ change_movement:
 call_via_r3:
     bx r3
 
-.align 2
-.global change_movement_2
-change_movement_2:
-    mov r0, r4
-    bl SidewaysStairsUpdateToCoords
-    add r1, sp, #4
-    mov r2, r5
-    ldr r3, =(numbers_move_direction)
-    bl call_via_r3
-    ldr r3, =(change_movement_2_return)
-    bx r3
-
-
 .pool
 
 .align 4
