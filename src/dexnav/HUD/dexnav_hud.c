@@ -58,7 +58,7 @@ void init_dexnav_hud(u16 species, u8 environment) {
 
 /* This is called via a c1 from the GUI, while waiting to return to the OW */
 void exec_dexnav_hud() {
-    if (!pal_fade_control.active && !script_env_2_is_enabled() && gMain.callback2 == c2_overworld) {
+    if (!gPaletteFade.active && !script_env_2_is_enabled() && gMain.callback2 == c2_overworld) {
         SetMainCallback(c1_overworld);
         init_dexnav_hud(var_8000, var_8001);
     }

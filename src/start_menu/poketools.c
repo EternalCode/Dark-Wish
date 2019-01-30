@@ -2,6 +2,7 @@
 
 #define TOOL_COUNT 2
 extern u8 exec_dexnav(void);
+extern u8 ExecPokedex(void);
 
 const pchar menu_text[] = _("Pokédex\nDexnav");
 const pchar sm_poketools_text[] = _("TOOLS");
@@ -39,9 +40,10 @@ void tool_selection(u8 task_id) {
             s8 choice = rbox_choice_update();
             if (choice == 0) {
                 //pokedex
-                sm_pokedex();
-                task_del(task_id);
-				BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
+				ExecPokedex();
+                // sm_pokedex();
+                // task_del(task_id);
+				// BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
             } else if (choice == 1) {
                 // dexnav
                 exec_dexnav();

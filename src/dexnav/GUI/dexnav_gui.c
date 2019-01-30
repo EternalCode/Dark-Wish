@@ -197,7 +197,7 @@ void dexnav_gui_exit_search() {
             gMain.state++;
             break;
         case 1:
-            if (!pal_fade_control.active) {
+            if (!gPaletteFade.active) {
                 free((*DNavState)->backbuffer);
                 gMain.state++;
             }
@@ -217,7 +217,7 @@ void dexnav_gui_exit_nosearch() {
             gMain.state++;
             break;
         case 1:
-            if (!pal_fade_control.active) {
+            if (!gPaletteFade.active) {
                 free((*DNavState)->backbuffer);
                 free((void*)*DNavState);
                 gMain.state++;
@@ -237,7 +237,7 @@ extern void dexnav_populate_encounter_list();
 void dexnav_gui_handler() {
     switch(gMain.state) {
         case 0:
-            if (!pal_fade_control.active) {
+            if (!gPaletteFade.active) {
                 dexnav_gui_setup();
                 SetMainCallback(dexnav_gui_handler);
                 // allocate dexnav struct
@@ -277,7 +277,7 @@ void dexnav_gui_handler() {
             gMain.state++;
             break;
         case 4:
-            if (!pal_fade_control.active) {
+            if (!gPaletteFade.active) {
                 switch (gMain.newKeys & (KEY_A | KEY_B | KEY_DOWN | KEY_UP | KEY_LEFT | KEY_RIGHT | KEY_SELECT)) {
                     case KEY_A:
                         {
