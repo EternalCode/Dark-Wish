@@ -41,6 +41,7 @@ void tool_selection(u8 task_id) {
                 //pokedex
                 sm_pokedex();
                 task_del(task_id);
+				BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
             } else if (choice == 1) {
                 // dexnav
                 exec_dexnav();

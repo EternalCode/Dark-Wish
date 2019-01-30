@@ -1,8 +1,9 @@
 #include <pokeagb/pokeagb.h>
 #include "dexnav_hud.h"
+#include "../../saveblock_expansion/save.h"
 
-static struct DexnavHudData** DNavState = (struct DexnavHudData**)(NAV_SAVERAM + SPECIES_MAX);
-static u8* SearchLevels = (u8*)NAV_SAVERAM;
+static struct DexnavHudData** DNavState = (struct DexnavHudData**)(DEXNAV_START);
+static u8* SearchLevels = (u8*)SEARCH_LEVEL_START;
 
 void dexnav_message_show(u8 id) {
     switch(id) {

@@ -4,14 +4,14 @@
 #include "../../pokemon_base_stats.h"
 #include "../../../generated/images/dexnav_gui.h"
 #include "../../../generated/images/pokenav/selection_cursor.h"
-
+#include "../../saveblock_expansion/save.h"
 
 #define ICON_PAL_TAG 0xDAC0
 #define ICON_GFX_TAG 0xD75A
 #define SELECTION_CURSOR_TAG 0x200
 
-static struct DexnavHudData** DNavState = (struct DexnavHudData**)(NAV_SAVERAM + SPECIES_MAX);
-static u8* SearchLevels = (u8*)NAV_SAVERAM;
+static struct DexnavHudData** DNavState = (struct DexnavHudData**)(DEXNAV_START);
+static u8* SearchLevels = (u8*)SEARCH_LEVEL_START;
 extern void vblank_cb_spq(void);
 extern void c2_dexnav_gui(void);
 extern void setup(void);
@@ -19,7 +19,7 @@ extern u16 rand_range(u16 min, u16 max);
 
 /* Entry point into dexnav + dexnav gui */
 u8 exec_dexnav() {
-    fade_screen(0xFFFFFFFF, 0, 0, 16, 0x0000);
+    BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
     void dexnav_gui_handler(void);
     SetMainCallback(dexnav_gui_handler);
     gMain.state = 0;
@@ -192,7 +192,7 @@ void c1_dexnavOW() {
 void dexnav_gui_exit_search() {
     switch (gMain.state) {
         case 0:
-            fade_screen(~0, 0, 0x0, 0x10, 0);
+            BeginNormalPaletteFade(~0, 0, 0x0, 0x10, 0);
             audio_play(SOUND_PC_OPEN);
             gMain.state++;
             break;
@@ -213,7 +213,7 @@ void dexnav_gui_exit_search() {
 void dexnav_gui_exit_nosearch() {
     switch (gMain.state) {
         case 0:
-            fade_screen(~0, 0, 0x0, 0x10, 0);
+            BeginNormalPaletteFade(~0, 0, 0x0, 0x10, 0);
             gMain.state++;
             break;
         case 1:
@@ -267,7 +267,7 @@ void dexnav_gui_handler() {
             gMain.state++;
             break;
         case 3:
-            fade_screen(0xFFFFFFFF, 0, 16, 0, 0x0000);
+            BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, 0x0000);
             gpu_sync_bg_show(0);
             gpu_sync_bg_show(1);
             dexnav_load_pokemon_icons();

@@ -1,7 +1,8 @@
 #include <pokeagb/pokeagb.h>
+#include "../saveblock_expansion/save.h"
 #include "HUD/dexnav_hud.h"
 
-static struct DexnavHudData** DNavState = (struct DexnavHudData**)(NAV_SAVERAM + SPECIES_MAX);
+static struct DexnavHudData** DNavState = (struct DexnavHudData**)(DEXNAV_START);
 
 #define SCANSTART_X 0
 #define SCANSTART_Y 0

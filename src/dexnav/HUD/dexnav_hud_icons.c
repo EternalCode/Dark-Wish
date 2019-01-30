@@ -2,6 +2,7 @@
 #include "dexnav_hud.h"
 #include "../../../generated/images/pokenav/dexnav_stars.h"
 #include "../../../generated/images/pokenav/empty.h"
+#include "../../saveblock_expansion/save.h"
 
 void outlined_font_draw(u8 obj_id, u8 tile_num, u16 size);
 extern u16 rand_range(u16 min, u16 max);
@@ -12,7 +13,7 @@ extern const struct OamData picon_oam;
 extern const struct Template bulbtemp;
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
-static struct DexnavHudData** DNavState = (struct DexnavHudData**)(NAV_SAVERAM + SPECIES_MAX);
+static struct DexnavHudData** DNavState = (struct DexnavHudData**)(DEXNAV_START);
 
 void dexnav_draw_ability(enum PokemonAbility ability, u8* objid) {
     // create empty object of size 32x64 to draw font on

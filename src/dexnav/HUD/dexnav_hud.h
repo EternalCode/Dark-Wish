@@ -11,7 +11,6 @@ extern void CpuFastSet(void* src, void* dst, u32 mode);
 #define OBJID_HIDE(objid) objects[objid].final_oam.affine_mode = 2
 #define OBJID_SHOW(objid) objects[objid].final_oam.affine_mode = 0
 
-#define NAV_SAVERAM 0x203C000
 #define DEXNAV_VAR 0x408B
 
 #define ICONX 0x10

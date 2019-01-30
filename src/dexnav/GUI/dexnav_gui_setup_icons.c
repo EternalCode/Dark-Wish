@@ -1,7 +1,8 @@
 #include <pokeagb/pokeagb.h>
 #include "../HUD/dexnav_hud.h"
+#include "../../saveblock_expansion/save.h"
 
-static struct DexnavHudData** DNavState = (struct DexnavHudData**)(NAV_SAVERAM + SPECIES_MAX);
+static struct DexnavHudData** DNavState = (struct DexnavHudData**)(DEXNAV_START);
 
 /* Functions responsible for populating icons species array with seen and encounterable Pokemon */
 bool species_in_array(u16 species, u8 index_count) {
