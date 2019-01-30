@@ -1,5 +1,5 @@
 #include <pokeagb/pokeagb.h>
-#include "../pokemon_base_stats.h"
+#include "../pokemon/pokemon_base_stats.h"
 
 u8 get_ability(u16 species, u8 ability_index) {
     u8 ability = 0;

@@ -1,32 +1,15 @@
 #include <pokeagb/pokeagb.h>
+#include "global.h"
 
-#define CPUFSCPY 0
-#define CPUFSSET 1
-#define CPUModeFS(size, mode) ((size >> 2) | (mode << 24))
-extern void CpuFastSet(void* src, void* dst, u32 mode);
-
-void vblank_cb_spq() {
+void VblankSPQ()
+{
 	gpu_sprites_upload();
 	copy_queue_process();
 	gpu_pal_upload();
 }
 
 
-void c2_pokenav() {
-	tilemaps_sync();
-	copy_queue_process();
-	gpu_pal_upload();
-}
-
-
-void handlers_clear() {
-	SetVBlankCallback(NULL);
-	SetHBlankCallback(NULL);
-	SetMainCallback(NULL);
-	SetMainCallback2(NULL);
-}
-
-void c2_dexnav_gui()
+void C2DexnavGui()
 {
     obj_sync_superstate();
     objc_exec();
@@ -38,7 +21,17 @@ void c2_dexnav_gui()
 }
 
 
-void reset_pal_settings() {
+void HandlersClear()
+{
+	SetVBlankCallback(NULL);
+	SetHBlankCallback(NULL);
+	SetMainCallback(NULL);
+	SetMainCallback2(NULL);
+}
+
+
+void ResetPals()
+{
 	pal_fade_control_and_dead_struct_reset();
 	palette_bg_faded_fill_black();
 	gpu_pal_allocator_reset();
@@ -46,7 +39,8 @@ void reset_pal_settings() {
 }
 
 
-void reset_bg_settings() {
+void ResetBgs()
+{
 	overworld_free_bgmaps();
 	gpu_tile_bg_drop_all_sets(0);
 	bgid_mod_x_offset(0, 0, 0);
@@ -59,20 +53,22 @@ void reset_bg_settings() {
     bgid_mod_y_offset(3, 0, 0);
 }
 
-void reset_boxes() {
+
+void ResetTextBoxes()
+{
 	remo_reset_acknowledgement_flags();
 	rboxes_free();
 }
 
 
-void setup()
+void Setup()
 {
     // callbacks
-    handlers_clear();
+    HandlersClear();
     // BGs
-    reset_bg_settings();
+    ResetBgs();
     // pals
-    reset_pal_settings();
+    ResetPals();
     // objs
     obj_and_aux_reset_all();
     gpu_tile_obj_tags_reset();

@@ -1,10 +1,11 @@
 #include <pokeagb/pokeagb.h>
 #include "dexnav_gui.h"
 #include "../HUD/dexnav_hud.h"
-#include "../../pokemon_base_stats.h"
+#include "../../saveblock_expansion/save.h"
+#include "../../pokemon/pokemon_base_stats.h"
 #include "../../../generated/images/dexnav_gui.h"
 #include "../../../generated/images/pokenav/selection_cursor.h"
-#include "../../saveblock_expansion/save.h"
+
 
 #define ICON_PAL_TAG 0xDAC0
 #define ICON_GFX_TAG 0xD75A
@@ -12,9 +13,9 @@
 
 static struct DexnavHudData** DNavState = (struct DexnavHudData**)(DEXNAV_START);
 static u8* SearchLevels = (u8*)SEARCH_LEVEL_START;
-extern void vblank_cb_spq(void);
-extern void c2_dexnav_gui(void);
-extern void setup(void);
+extern void VblankSPQ(void);
+extern void C2DexnavGui(void);
+extern void Setup(void);
 extern u16 rand_range(u16 min, u16 max);
 
 /* Entry point into dexnav + dexnav gui */
@@ -28,7 +29,7 @@ u8 exec_dexnav() {
 
 // gfx clean
 void dexnav_gui_setup() {
-    setup();
+    Setup();
     rboxes_free();
     bgid_mod_x_offset(0, 0, 0);
     bgid_mod_y_offset(0, 0, 0);
@@ -40,8 +41,8 @@ void dexnav_gui_setup() {
     CpuFastSet((void*)&set, (void*)ADDR_VRAM, CPUModeFS(0x10000, CPUFSSET));
     gpu_sync_bg_hide(1);
     gpu_sync_bg_hide(0);
-    SetMainCallback2(c2_dexnav_gui);
-    SetVBlankCallback(vblank_cb_spq);
+    SetMainCallback2(C2DexnavGui);
+    SetVBlankCallback(VblankSPQ);
 }
 
 void dexnav_load_pokemon_icons() {

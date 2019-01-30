@@ -2,12 +2,8 @@
 #define DEVNAV_HUD_H_
 
 #include <pokeagb/pokeagb.h>
-extern void dprintf(const char * str, ...);
+#include "../../global.h"
 
-#define CPUFSCPY 0
-#define CPUFSSET 1
-#define CPUModeFS(size, mode) ((size >> 2) | (mode << 24))
-extern void CpuFastSet(void* src, void* dst, u32 mode);
 #define OBJID_HIDE(objid) objects[objid].final_oam.affine_mode = 2
 #define OBJID_SHOW(objid) objects[objid].final_oam.affine_mode = 0
 

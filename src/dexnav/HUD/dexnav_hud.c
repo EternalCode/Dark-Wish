@@ -1,7 +1,7 @@
 #include <pokeagb/pokeagb.h>
 #include "../../saveblock_expansion/save.h"
 #include "dexnav_hud.h"
-#include "../../pokemon_base_stats.h"
+#include "../../pokemon/pokemon_base_stats.h"
 
 static struct DexnavHudData** DNavState = (struct DexnavHudData**)(DEXNAV_START);
 static u8* SearchLevels = (u8*)SEARCH_LEVEL_START;

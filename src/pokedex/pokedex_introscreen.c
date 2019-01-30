@@ -1,20 +1,14 @@
 #include <pokeagb/pokeagb.h>
 #include "pokedex.h"
+#include "../global.h"
 #include "../saveblock_expansion/save.h"
 #include "../dexnav/GUI/dexnav_gui.h"
 #include "../../generated/images/pokedex_selection_screen.h"
 
-
-extern void dprintf(const char * str, ...);
 static struct PokedexData** gPokedexData = (struct PokedexData**)(POKEDEX_START);
-#define rgb5(r, g, b) (u16)((r >> 3) | ((g >> 3) << 5) | ((b >> 3) << 10))
-#define CPUFSCPY 0
-#define CPUFSSET 1
-#define CPUModeFS(size, mode) ((size >> 2) | (mode << 24))
-extern void CpuFastSet(void* src, void* dst, u32 mode);
-extern void vblank_cb_spq(void);
-extern void c2_dexnav_gui(void);
-extern void setup(void);
+extern void VblankSPQ(void);
+extern void C2DexnavGui(void);
+extern void Setup(void);
 
 /* GUI Rboxes */
 const u16 dexTextPal[] = {rgb5(255, 0, 255),   rgb5(248, 248, 248), rgb5(112, 112, 112), rgb5(96, 96, 96),
@@ -172,14 +166,14 @@ u8 ExecPokedex()
     return true;
 }
 
-// setup pokedex intro screen gfx
+// Setup pokedex intro screen gfx
 void PokedexIntroScreenSetup()
 {
     switch(gMain.state) {
         case 0:
         {
             if (!gPaletteFade.active) {
-                setup();
+                Setup();
                 rboxes_free();
                 bgid_mod_x_offset(0, 0, 0);
                 bgid_mod_y_offset(0, 0, 0);
@@ -193,8 +187,8 @@ void PokedexIntroScreenSetup()
                 gpu_sync_bg_hide(2);
                 gpu_sync_bg_hide(1);
                 gpu_sync_bg_hide(0);
-                SetMainCallback2(c2_dexnav_gui);
-                SetVBlankCallback(vblank_cb_spq);
+                SetMainCallback2(C2DexnavGui);
+                SetVBlankCallback(VblankSPQ);
                 *gPokedexData = (struct PokedexData*)malloc_and_clear(sizeof(struct PokedexData));
                 SetMainCallback(PokedexIntroScreenSetup);
                 // enable Hblank interrupt
