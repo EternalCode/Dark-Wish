@@ -2,6 +2,9 @@
 #include "../global.h"
 #include "ultradex.h"
 
+const pchar appUDexName[] = _("UltraDex");
+const pchar appUDexDesc[] = _("Select an Application.");
+
 const pchar appPokeLogName[] = _("Pokélog");
 const pchar appPokeLogDesc[] = _("A logging app to keep track of your\nPokémon capturing feats.");
 
@@ -16,6 +19,11 @@ const pchar appPokepediaDesc[] = _("The Pokémon encyclopedia.\nLearn about thin
 
 
 struct DexApplication DexApps[] = {
+    {
+        .appName = appUDexName,
+        .appDescription = appUDexDesc,
+        .appCB = NULL,
+    },
     {
         .appName = appPokeLogName,
         .appDescription = appPokeLogDesc,
