@@ -1,7 +1,7 @@
 #include <pokeagb/pokeagb.h>
 
 /* Overworld textbox functions */
-void task_delete_completed_textbox(u8 t_id) {
+void TaskDeleteCompletedTextbox(u8 t_id) {
     if (!box_status_and_type) {
         textbox_close();
         task_del(t_id);
@@ -9,10 +9,10 @@ void task_delete_completed_textbox(u8 t_id) {
     }
 }
 
-void msg_normal(pchar *str){
+void MsgNormal(pchar *str){
    textbox_fdecode_auto_and_task_add(str);
    box_status_and_type = 1;
-   task_add((TaskCallback)task_delete_completed_textbox, 0x1);
+   task_add((TaskCallback)TaskDeleteCompletedTextbox, 0x1);
    script_env_enable();
    return;
 }
@@ -20,17 +20,17 @@ void msg_normal(pchar *str){
 /* GUI Rboxes */
 #define rgb5(r, g, b) (u16)((r >> 3) | ((g >> 3) << 5) | ((b >> 3) << 10))
 
-const u16 dnav_text_pal[] = {rgb5(255, 0, 255),   rgb5(248, 248, 248), rgb5(112, 112, 112), rgb5(96, 96, 96),
+const u16 GenericTextPal[] = {rgb5(255, 0, 255),   rgb5(248, 248, 248), rgb5(112, 112, 112), rgb5(96, 96, 96),
                                 rgb5(208, 208, 208), rgb5(76, 154, 38),   rgb5(102, 194, 66),  rgb5(168, 75, 76),
                                 rgb5(224, 114, 75),  rgb5(180, 124, 41),  rgb5(241, 188, 60),  rgb5(255, 0, 255),
                                 rgb5(255, 0, 255),   rgb5(255, 0, 255),   rgb5(255, 133, 200),   rgb5(64, 200, 248)};
 
-struct TextColor dnav_text_black = {0, 3, 4};
-struct TextColor dnav_text_white = {0, 1, 2};
-struct TextColor dnav_text_red = {0, 7, 8};
-struct TextColor dnav_text_green = {0, 5, 6};
+struct TextColor textBlack = {0, 3, 4};
+struct TextColor textWhite = {0, 1, 2};
+struct TextColor textRed = {0, 7, 8};
+struct TextColor textGreen = {0, 5, 6};
 
-struct TextboxTemplate dexnav_boxes[] = {
+struct TextboxTemplate dexnavBoxes[] = {
     {
         /*Species */
         .bg_id = 0,

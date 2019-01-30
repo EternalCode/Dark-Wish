@@ -20,7 +20,7 @@ void init_dexnav_hud(u16 species, u8 environment) {
     if ((*DNavState)->pokemon_level < 1) {
         free((void*)*DNavState);
         pchar empty_string[] = _("This Pokemon cannot be found here.\p");
-        msg_normal(empty_string);
+        MsgNormal(empty_string);
         return;
     }
 
@@ -29,7 +29,7 @@ void init_dexnav_hud(u16 species, u8 environment) {
     if (!shaking_grass(environment, 12, 12, 0)) {
         free((void*)*DNavState);
         pchar empty_string[] = _("It couldn’t be found nearby.\nTry looking in a different area!\p");
-        msg_normal(empty_string);
+        MsgNormal(empty_string);
         return;
     }
 

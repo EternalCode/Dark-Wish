@@ -141,14 +141,14 @@ void dexnav_load_pnames(u8 status) {
     // rbox commit species name
     u16 species = (*DNavState)->selected_arr ? (*DNavState)->water_species[(*DNavState)->selected_index >> 1] : (*DNavState)->grass_species[(*DNavState)->selected_index>>1];
     if (species) {
-        rboxid_print(0, 0, 0, 4, &dnav_text_black, 0, pokemon_names[species]);
+        rboxid_print(0, 0, 0, 4, &textBlack, 0, pokemon_names[species]);
     } else {
-        rboxid_print(0, 0, 0, 4, &dnav_text_black, 0, &no_info[0]);
+        rboxid_print(0, 0, 0, 4, &textBlack, 0, &no_info[0]);
     }
 
     // rbox commit search level
     fmt_int_10(string_buffer, SearchLevels[species], 0, 4);
-    rboxid_print(1, 0, 0, 4, &dnav_text_black, 0, &string_buffer[0]);
+    rboxid_print(1, 0, 0, 4, &textBlack, 0, &string_buffer[0]);
 
     // rbox commit level bonus
     u8 search_level_bonus = 0;
@@ -158,25 +158,25 @@ void dexnav_load_pnames(u8 status) {
         search_level_bonus = (SearchLevels[species] >> 2);
     }
     fmt_int_10(string_buffer, search_level_bonus, 0, 4);
-    rboxid_print(2, 0, 0, 4, &dnav_text_black, 0, &string_buffer[0]);
+    rboxid_print(2, 0, 0, 4, &textBlack, 0, &string_buffer[0]);
 
     // rbox commit hidden ability name
     if (gBaseStats[species].hidden_ability) {
-        rboxid_print(3, 0, 0, 4, &dnav_text_black, 0, pokemon_ability_names[gBaseStats[species].hidden_ability]);
+        rboxid_print(3, 0, 0, 4, &textBlack, 0, pokemon_ability_names[gBaseStats[species].hidden_ability]);
     } else {
-        rboxid_print(3, 0, 0, 4, &dnav_text_black, 0, &no_info[0]);
+        rboxid_print(3, 0, 0, 4, &textBlack, 0, &no_info[0]);
     }
 
     // rbox commit status message bar
     switch(status) {
         case 0:
-            rboxid_print(4, 1, 0, 8, &dnav_text_white, 0, &invalid_pick_text[0]);
+            rboxid_print(4, 1, 0, 8, &textWhite, 0, &invalid_pick_text[0]);
             break;
         case 1:
-            rboxid_print(4, 1, 0, 8, &dnav_text_white, 0, &resting_text[0]);
+            rboxid_print(4, 1, 0, 8, &textWhite, 0, &resting_text[0]);
             break;
         case 2:
-            rboxid_print(4, 1, 0, 8, &dnav_text_white, 0, &select_locked_text[0]);
+            rboxid_print(4, 1, 0, 8, &textWhite, 0, &select_locked_text[0]);
     }
     // display committed gfx
     for (u8 i = 0; i < 5; i++) {
@@ -251,7 +251,7 @@ void dexnav_gui_handler() {
                 // load BG assets
                 void *dexnav_gbackbuffer = malloc(0x800);
                 (*DNavState)->backbuffer = dexnav_gbackbuffer;
-                gpu_pal_apply((void *)(&dnav_text_pal), 15 * 16, 32);
+                gpu_pal_apply((void *)(&GenericTextPal), 15 * 16, 32);
                 gpu_pal_apply_compressed((void *)dexnav_guiPal, 0, 32);
                 LZ77UnCompWram((void *)dexnav_guiMap, (void *)dexnav_gbackbuffer);
                 lz77UnCompVram((void *)dexnav_guiTiles, (void *)0x06000000);
@@ -262,7 +262,7 @@ void dexnav_gui_handler() {
         }
             break;
         case 2:
-            rbox_init_from_templates(dexnav_boxes);
+            rbox_init_from_templates(dexnavBoxes);
             dexnav_populate_encounter_list();
             dexnav_load_pnames(1);
             gMain.state++;

@@ -9,16 +9,16 @@ void dexnav_message_show(u8 id) {
     switch(id) {
         case 0:
         {
-            extern void msg_normal(pchar *);
+            extern void MsgNormal(pchar *);
             pchar empty_string[] = _("The Pokémon got away!\p");
-            msg_normal(empty_string);
+            MsgNormal(empty_string);
             break;
         }
         case 1:
         {
-            extern void msg_normal(pchar *);
+            extern void MsgNormal(pchar *);
             pchar empty_string[] = _("There is no reaction.\nThe signal was lost!\p");
-            msg_normal(empty_string);
+            MsgNormal(empty_string);
             break;
         }
     };

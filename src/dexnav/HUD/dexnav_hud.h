@@ -107,6 +107,6 @@ extern void dexnav_draw_icons(void);
 extern void dexnav_icons_vision_update(u8, u8);
 extern void dexnav_hud_manage(u8);
 extern void dexhud_hblank(void);
-extern void msg_normal(pchar *);
+extern void MsgNormal(pchar *);
 
 #endif /* DEVNAV_HUD_H_ */
