@@ -3,8 +3,8 @@
 #include "../HUD/dexnav_hud.h"
 #include "../../saveblock_expansion/save.h"
 #include "../../pokemon/pokemon_base_stats.h"
-#include "../../../generated/images/dexnav_gui.h"
-#include "../../../generated/images/pokenav/selection_cursor.h"
+#include "../../../generated/images/dexnav/dexnav_gui/dexnav_gui.h"
+#include "../../../generated/images/dexnav/dexnav_hud/selection_cursor.h"
 
 
 #define ICON_PAL_TAG 0xDAC0

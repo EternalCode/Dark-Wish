@@ -1,5 +1,5 @@
 #include <pokeagb/pokeagb.h>
-#include "../../../generated/images/pokenav/cave_smoke.h"
+#include "../../../generated/images/dexnav/dexnav_hud/cave_smoke.h"
 
 
 const struct SpriteTiles cave_gfx[4] = {

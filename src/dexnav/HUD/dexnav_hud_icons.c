@@ -1,7 +1,7 @@
 #include <pokeagb/pokeagb.h>
 #include "dexnav_hud.h"
-#include "../../../generated/images/pokenav/dexnav_stars.h"
-#include "../../../generated/images/pokenav/empty.h"
+#include "../../../generated/images/dexnav/dexnav_hud/dexnav_stars.h"
+#include "../../../generated/images/dexnav/dexnav_hud/empty.h"
 #include "../../saveblock_expansion/save.h"
 
 void outlined_font_draw(u8 obj_id, u8 tile_num, u16 size);

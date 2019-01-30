@@ -1,7 +1,7 @@
 #include <pokeagb/pokeagb.h>
 #include "dexnav_hud.h"
-#include "../../../generated/images/pokenav/dexnav_stars.h"
-#include "../../../generated/images/pokenav/empty.h"
+#include "../../../generated/images/dexnav/dexnav_hud/dexnav_stars.h"
+#include "../../../generated/images/dexnav/dexnav_hud/empty.h"
 
 
 const struct Frame (**nullframe)[] = (const struct Frame (**)[])0x8231CF0;
