@@ -329,7 +329,8 @@ void dexnav_gen_pkmnn(u16 species, u8 potential, u8 level, u8 ability, u16* move
 
     // clear canvas
     memset((void*)pkmn, 0, 100);
-    pokemon_make(&pkmn->box, species, level, 0x0, 0, 0, 0, gSaveBlock2Ptr->playerTrainerId);
+    u32 trainerId = (u32)gSaveBlock2Ptr->playerTrainerId;
+    pokemon_make(&pkmn->box, species, level, 0x0, 0, 0, 0, trainerId);
 
 
     // set IVs randomly
