@@ -14,7 +14,10 @@ extern void SpawnPageOneIcons(void);
 extern void SpawnPageTwoIcons(void);
 extern void SpawnUltraDexCursor(void);
 extern void SpawnUltraDexPageTracker(void);
-extern void ShowUltraDexObjects(void);
+extern void ShowUltraDexObjects(u8 page);
+extern void UpdateUltraDexCursor(void);
+extern void TransitionPage1(void);
+extern void TransitionPage2(void);
 
 
 /* Entry point into the Ultradex */
@@ -134,29 +137,62 @@ void UltraDexSetup()
     SetVBlankCallback(VblankSPQ);
 }
 
-void UpdateAppHeaderText()
-{
-    // currently open app name
-    rboxid_print(0, 1, 0, 2, &textWhite, 0, DexApps[gUltraDex->currentOpenApp].appName);
 
+void UpdateTimeText()
+{
+    rboxid_clear_pixels(1, 0);
     // time
     u8 hours = 0;
     u8 mins = 0;
     pchar colon[] = _(":");
+    pchar charZero[] = _("0");
+
     GetClockTime(&hours, &mins);
-    fmt_int_10(string_buffer, hours, 0, 4);
-    fmt_int_10(string_buffer + 4, mins, 0, 4);
+    if (hours < 10) {
+        // pad 0
+        pstrcpy(string_buffer, charZero);
+    } else {
+        string_buffer[0] = 0xFF;
+    }
+    fmt_int_10(string_buffer + 20, hours, 0, 4);
+    pstrcat(string_buffer, string_buffer + 20);
     pstrcat(string_buffer, colon);
-    pstrcat(string_buffer, string_buffer + 4);
+
+    if (mins < 10) {
+        // pad 0
+        pstrcpy(string_buffer + 3, charZero);
+        fmt_int_10(string_buffer + 4, mins, 0, 4);
+    } else {
+        fmt_int_10(string_buffer + 3, mins, 0, 4);
+    }
     rboxid_print(1, 1, 0, 2, &textWhite, 0, string_buffer);
+    rboxid_update(1, 3);
+    rboxid_tilemap_update(1);
+}
+
+
+void UpdateAppHeaderText()
+{
+    // currently open app name
+    rboxid_clear_pixels(0, 0);
+    rboxid_print(0, 1, 0, 2, &textWhite, 0, DexApps[gUltraDex->currentOpenApp].appName);
+    rboxid_update(0, 3);
+    rboxid_tilemap_update(0);
+    // time
+    UpdateTimeText();
 }
 
 void UpdateSelectedAppText()
 {
     // currently selected app name
-    rboxid_print(2, 1, 6, 2, &textWhite, 0, DexApps[gUltraDex->selectedAppIndex].appName);
-    rboxid_print(3, 1, 3, 0, &textWhite, 0, DexApps[gUltraDex->selectedAppIndex].appDescription);
-
+    rboxid_clear_pixels(2, 0);
+    rboxid_clear_pixels(3, 0);
+    rboxid_print(2, 1, 6, 2, &textWhite, 0, DexApps[gUltraDex->selectedAppIndex + 1].appName);
+    rboxid_print(3, 1, 3, 0, &textWhite, 0, DexApps[gUltraDex->selectedAppIndex + 1].appDescription);
+    rboxid_update(2, 3);
+    rboxid_tilemap_update(2);
+    rboxid_update(3, 3);
+    rboxid_tilemap_update(3);
 }
 
 
@@ -171,7 +207,7 @@ void C1UltraDexBoot()
                 // allocate ultradex
                 gUltraDex = (struct UltraDexState*)malloc_and_clear(sizeof(struct UltraDexState));
                 gUltraDex->sharedGfx = (struct UltraDexSharedGraphics*)malloc_and_clear(sizeof(struct UltraDexSharedGraphics));
-                gUltraDex->selectedAppIndex = 1;
+                gUltraDex->selectedAppIndex = 0;
                 gMain.state++;
             }
             break;
@@ -188,22 +224,23 @@ void C1UltraDexBoot()
         {
             // update text
             rbox_init_from_templates(UDexTextTemplate);
-            for (u8 i = 0; i < sizeof(gUltraDex->sharedGfx->textboxes); i++) {
-                rboxid_clear_pixels(i, 0);
-            }
+            // for (u8 i = 0; i < sizeof(gUltraDex->sharedGfx->textboxes); i++) {
+            //     rboxid_clear_pixels(i, 0);
+            // }
             UpdateAppHeaderText();
             UpdateSelectedAppText();
             // display committed gfx
-            for (u8 i = 0; i < 5; i++) {
-                rboxid_update(i, 3);
-                rboxid_tilemap_update(i);
-            }
+            // for (u8 i = 0; i < 5; i++) {
+            //     rboxid_update(i, 3);
+            //     rboxid_tilemap_update(i);
+            // }
             gMain.state++;
             break;
         }
         case 3:
             SpawnUltraDexCursor();
             SpawnPageOneIcons();
+            SpawnPageTwoIcons();
             SpawnUltraDexPageTracker();
             gMain.state++;
             break;
@@ -225,7 +262,8 @@ void C1UltraDexBoot()
             gpu_sync_bg_show(1);
             gpu_sync_bg_show(2);
             gpu_sync_bg_show(3);
-            ShowUltraDexObjects();
+            ShowUltraDexObjects(gUltraDex->page);
+            ShowUltraDexObjects(1);
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, 0x0000);
             gMain.state++;
             break;
@@ -250,7 +288,8 @@ void C1UltraDexBoot()
 
 void C1UltraDexInteractionHandler()
 {
-    switch (gMain.newKeys & (KEY_A | KEY_B | KEY_LEFT | KEY_RIGHT)) {
+    UpdateTimeText();
+    switch (gMain.heldKeys & (KEY_A | KEY_B | KEY_LEFT | KEY_RIGHT)) {
         case KEY_A:
             // run selected app
             break;
@@ -258,10 +297,46 @@ void C1UltraDexInteractionHandler()
             // exit to start menu
             break;
         case KEY_LEFT:
-            // move cursor 64px. Check page 2
+            // move cursor right once
+            gUltraDex->selectedAppIndex--;
+            if (gUltraDex->selectedAppIndex < 0) {
+                // make error noise
+                audio_play(SOUND_RSE_BERRY_MIX_CLICK);
+                gUltraDex->selectedAppIndex++;
+                return;
+            } else if (gUltraDex->selectedAppIndex < APPS_PER_PAGE && gUltraDex->page) {
+                // we need to go to page 1
+                gUltraDex->page--;
+                gSprites[gUltraDex->cursorObjId].invisible = true;
+                TransitionPage1();
+                UpdateSelectedAppText();
+                UpdateUltraDexCursor();
+                SetMainCallback(NULL);
+            } else {
+                UpdateSelectedAppText();
+                UpdateUltraDexCursor();
+            }
             break;
         case KEY_RIGHT:
-            // move cursor 64px. Check page 2
+            // move cursor left once
+            gUltraDex->selectedAppIndex++;
+            if (gUltraDex->selectedAppIndex == APPS_COUNT-1) {
+                // make error noise
+                gUltraDex->selectedAppIndex--;
+                audio_play(SOUND_RSE_BERRY_MIX_CLICK);
+                return;
+            } else if (gUltraDex->selectedAppIndex > (APPS_PER_PAGE - 1) && !gUltraDex->page) {
+                // we need to go to page 2
+                gUltraDex->page++;
+                gSprites[gUltraDex->cursorObjId].invisible = true;
+                TransitionPage2();
+                UpdateSelectedAppText();
+                UpdateUltraDexCursor();
+                SetMainCallback(NULL);
+            } else {
+                UpdateSelectedAppText();
+                UpdateUltraDexCursor();
+            }
             break;
         default:
             return;

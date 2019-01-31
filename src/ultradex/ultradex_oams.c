@@ -13,7 +13,7 @@
 #include "../../generated/images/ultradex/icons/weather.h"
 
 static struct UltraDexState** UltraDexPtr = (struct UltraDexState**)(ULTRADEX_START);
-
+extern void C1UltraDexInteractionHandler(void);
 
 /* CURSOR */
 const struct OamData ultraDexCursorOam = {
@@ -75,7 +75,11 @@ void UpdateUltraDexCursor()
     if (!gUltraDex->selectedAppIndex && !gUltraDex->currentOpenApp) {
         cursorX = 36;
     }
-    cursorX = 36 + ((gUltraDex->selectedAppIndex % (gUltraDex->page * APPS_PER_PAGE)) * 64);
+    if (gUltraDex->page) {
+        cursorX = 36 + ((gUltraDex->selectedAppIndex - (APPS_COUNT >> 1)) * 56);
+    } else {
+        cursorX = 36 + (gUltraDex->selectedAppIndex * 56);
+    }
     gSprites[gUltraDex->cursorObjId].pos1.x = cursorX;
 }
 
@@ -157,7 +161,10 @@ void SpawnUltraDexIcon(u8 i, void* tiles, void* pal)
     // uncompressed
     gpu_tile_obj_alloc_tag_and_upload(&iconGfx);
     gpu_pal_obj_alloc_tag_and_apply(&iconPal);
-    gUltraDex->iconObjIds[i] = template_instanciate_forward_search(&iconTemp, 36 + (i * 56), 56, 0);
+    u16 x = i >= (APPS_COUNT >> 1) ? 240 + 36 + ((i - (APPS_COUNT >> 1)) * 56) : 36 + (i * 56);
+    dprintf("x pos is %d\n", x);
+    dprintf("i is %d\n", i);
+    gUltraDex->iconObjIds[i] = template_instanciate_forward_search(&iconTemp, x, 56, 0);
     gSprites[gUltraDex->iconObjIds[i]].invisible = true;
 }
 
@@ -173,18 +180,81 @@ void SpawnPageOneIcons()
 
 void SpawnPageTwoIcons()
 {
-    SpawnUltraDexIcon(0, (void*)phoneTiles, (void*)phonePal);
-    SpawnUltraDexIcon(1, (void*)clockTiles, (void*)webmartPal);
-    SpawnUltraDexIcon(2, (void*)webmartTiles, (void*)webmartPal);
-    SpawnUltraDexIcon(3, (void*)weatherTiles, (void*)weatherPal);
+    SpawnUltraDexIcon(4, (void*)phoneTiles, (void*)phonePal);
+    SpawnUltraDexIcon(5, (void*)clockTiles, (void*)clockPal);
+    SpawnUltraDexIcon(6, (void*)webmartTiles, (void*)webmartPal);
+    SpawnUltraDexIcon(7, (void*)weatherTiles, (void*)weatherPal);
 }
 
 
-void ShowUltraDexObjects()
+void HideUltraDexObjects(u8 page)
+{
+    u8 i = page ? APPS_PER_PAGE - 1 : 0;
+    u8 max = page ? APPS_COUNT : APPS_COUNT >> 1;
+    for (; i < max; i++) {
+        gSprites[gUltraDex->iconObjIds[i]].invisible = true;
+    }
+}
+
+
+void ShowUltraDexObjects(u8 page)
 {
     gSprites[gUltraDex->cursorObjId].invisible = false;
     gSprites[gUltraDex->pageObjId].invisible = false;
-    for (u8 i = 0; i < APPS_COUNT; i++) {
+    u8 i = page ? APPS_PER_PAGE - 1 : 0;
+    u8 max = page ? APPS_COUNT : APPS_COUNT >> 1;
+    for (; i < max; i++) {
         gSprites[gUltraDex->iconObjIds[i]].invisible = false;
+    }
+}
+
+
+void SlideObjLeft240(struct Sprite* s)
+{
+#define INITIAL_POSITION (s->data[0])
+#define GOAL_POSITION (INITIAL_POSITION - 240)
+    if (!INITIAL_POSITION)
+        INITIAL_POSITION = s->pos1.x;
+    if (s->pos1.x == GOAL_POSITION) {
+        INITIAL_POSITION = 0;
+        s->callback = oac_nullsub;
+        SetMainCallback(C1UltraDexInteractionHandler);
+        gSprites[gUltraDex->cursorObjId].invisible = false;
+    } else {
+        s->pos1.x -= 16;
+    }
+#undef INITIAL_POSITION
+#undef GOAL_POSITION
+}
+
+void SlideObjRight240(struct Sprite* s)
+{
+#define INITIAL_POSITION (s->data[0])
+#define GOAL_POSITION (INITIAL_POSITION + 240)
+    if (!INITIAL_POSITION)
+        INITIAL_POSITION = s->pos1.x;
+    if (s->pos1.x == GOAL_POSITION) {
+        INITIAL_POSITION = 0;
+        s->callback = oac_nullsub;
+        SetMainCallback(C1UltraDexInteractionHandler);
+        gSprites[gUltraDex->cursorObjId].invisible = false;
+    } else {
+        s->pos1.x += 16;
+    }
+#undef INITIAL_POSITION
+#undef GOAL_POSITION
+}
+
+void TransitionPage2()
+{
+    for (u8 i = 0; i < (APPS_COUNT - 1); i++) {
+        gSprites[gUltraDex->iconObjIds[i]].callback = SlideObjLeft240;
+    }
+}
+
+void TransitionPage1()
+{
+    for (u8 i = 0; i < (APPS_COUNT - 1); i++) {
+        gSprites[gUltraDex->iconObjIds[i]].callback = SlideObjRight240;
     }
 }

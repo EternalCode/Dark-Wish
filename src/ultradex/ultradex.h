@@ -8,7 +8,7 @@ typedef void (*UDCallback)(void);
 
 #define APPS_PER_PAGE 4
 #define ULTRADEX_NAME_BAR 2
-#define APPS_COUNT 5
+#define APPS_COUNT 9
 
 /* tags */
 #define ULTRADEX_PAGE_ICON_TAG 0x8281
@@ -30,7 +30,7 @@ struct UltraDexSharedGraphics {
 struct UltraDexState {
     struct UltraDexSharedGraphics* sharedGfx;
     u8 page;
-    u8 selectedAppIndex;
+    s8 selectedAppIndex;
     u8 currentOpenApp;
     u8 cursorObjId;
     u8 pageObjId;
