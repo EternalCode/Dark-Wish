@@ -11,6 +11,7 @@ extern void C2DexnavGui(void);
 extern void VblankSPQ(void);
 extern void HBlankCBUltraDex(void);
 extern void SpawnPageOneIcons(void);
+extern void SpawnPageTwoIcons(void);
 extern void SpawnUltraDexCursor(void);
 extern void SpawnUltraDexPageTracker(void);
 extern void ShowUltraDexObjects(void);
@@ -20,8 +21,8 @@ extern void ShowUltraDexObjects(void);
 u8 LaunchUltraDex()
 {
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
-    void C1UltraDex(void);
-    SetMainCallback(C1UltraDex);
+    void C1UltraDexBoot(void);
+    SetMainCallback(C1UltraDexBoot);
     gMain.state = 0;
     return true;
 }
@@ -159,14 +160,14 @@ void UpdateSelectedAppText()
 }
 
 
-void C1UltraDex()
+void C1UltraDexBoot()
 {
     switch(gMain.state) {
         case 0:
             if (!gPaletteFade.active) {
                 m4aMPlayVolumeControl(&mplay_BGM, 0xFFFF, 128);
                 UltraDexSetup();
-                SetMainCallback(C1UltraDex); // setup resets all CBs
+                SetMainCallback(C1UltraDexBoot); // setup resets all CBs
                 // allocate ultradex
                 gUltraDex = (struct UltraDexState*)malloc_and_clear(sizeof(struct UltraDexState));
                 gUltraDex->sharedGfx = (struct UltraDexSharedGraphics*)malloc_and_clear(sizeof(struct UltraDexSharedGraphics));
@@ -236,6 +237,34 @@ void C1UltraDex()
             }
             break;
         case 7:
-            break;
+            // handle input
+            {
+                void C1UltraDexInteractionHandler(void);
+                SetMainCallback(C1UltraDexInteractionHandler);
+                gMain.state = 0;
+                break;
+            }
     };
+}
+
+
+void C1UltraDexInteractionHandler()
+{
+    switch (gMain.newKeys & (KEY_A | KEY_B | KEY_LEFT | KEY_RIGHT)) {
+        case KEY_A:
+            // run selected app
+            break;
+        case KEY_B:
+            // exit to start menu
+            break;
+        case KEY_LEFT:
+            // move cursor 64px. Check page 2
+            break;
+        case KEY_RIGHT:
+            // move cursor 64px. Check page 2
+            break;
+        default:
+            return;
+    };
+    audio_play(SOUND_GENERIC_CLINK);
 }

@@ -7,6 +7,10 @@
 #include "../../generated/images/ultradex/icons/dexnav.h"
 #include "../../generated/images/ultradex/icons/pokepedia.h"
 #include "../../generated/images/ultradex/icons/map.h"
+#include "../../generated/images/ultradex/icons/phone.h"
+#include "../../generated/images/ultradex/icons/clock.h"
+#include "../../generated/images/ultradex/icons/webmart.h"
+#include "../../generated/images/ultradex/icons/weather.h"
 
 static struct UltraDexState** UltraDexPtr = (struct UltraDexState**)(ULTRADEX_START);
 
@@ -164,6 +168,15 @@ void SpawnPageOneIcons()
     SpawnUltraDexIcon(1, (void*)dexnavTiles, (void*)dexnavPal);
     SpawnUltraDexIcon(2, (void*)pokepediaTiles, (void*)pokepediaPal);
     SpawnUltraDexIcon(3, (void*)mapTiles, (void*)mapPal);
+}
+
+
+void SpawnPageTwoIcons()
+{
+    SpawnUltraDexIcon(0, (void*)phoneTiles, (void*)phonePal);
+    SpawnUltraDexIcon(1, (void*)clockTiles, (void*)webmartPal);
+    SpawnUltraDexIcon(2, (void*)webmartTiles, (void*)webmartPal);
+    SpawnUltraDexIcon(3, (void*)weatherTiles, (void*)weatherPal);
 }
 
 
