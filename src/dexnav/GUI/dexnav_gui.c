@@ -1,5 +1,6 @@
 #include <pokeagb/pokeagb.h>
 #include "dexnav_gui.h"
+#include "../../ultradex/ultradex.h"
 #include "../HUD/dexnav_hud.h"
 #include "../../saveblock_expansion/save.h"
 #include "../../pokemon/pokemon_base_stats.h"
@@ -11,6 +12,7 @@
 #define ICON_GFX_TAG 0xD75A
 #define SELECTION_CURSOR_TAG 0x200
 
+static struct UltraDexState** UltraDexPtr = (struct UltraDexState**)(ULTRADEX_START);
 static struct DexnavHudData** DNavState = (struct DexnavHudData**)(DEXNAV_START);
 static u8* SearchLevels = (u8*)SEARCH_LEVEL_START;
 extern void VblankSPQ(void);
@@ -21,8 +23,8 @@ extern u16 rand_range(u16 min, u16 max);
 /* Entry point into dexnav + dexnav gui */
 u8 exec_dexnav() {
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
-    void dexnav_gui_handler(void);
-    SetMainCallback(dexnav_gui_handler);
+    void DexnavGuiHandler(void);
+    SetMainCallback(DexnavGuiHandler);
     gMain.state = 0;
     return true;
 }
@@ -71,7 +73,7 @@ void dexnav_load_pokemon_icons() {
                                             .callback = oac_nullsub,
                                             };
                                                                 // x and y pos of sprite
-            template_instanciate_forward_search(&icon_template, 20 + (24 * (i % 6)), 92 + (i > 5 ? 28 : 0), 0);
+            (*DNavState)->objids[i] = template_instanciate_forward_search(&icon_template, 20 + (24 * (i % 6)), 92 + (i > 5 ? 28 : 0), 0);
         //}
     }
     for (u8 i = 0; i < 5; i++) {
@@ -93,7 +95,7 @@ void dexnav_load_pokemon_icons() {
                                             .callback = oac_nullsub,
                                             };
                                                                 // x and y pos of sprite
-            template_instanciate_forward_search(&icon_template, 30 + 24 * i, 48, 0);
+            (*DNavState)->objids[12 + i] = template_instanciate_forward_search(&icon_template, 30 + 24 * i, 48, 0);
         //}
     }
 }
@@ -212,6 +214,8 @@ void dexnav_gui_exit_search() {
 }
 
 void dexnav_gui_exit_nosearch() {
+
+    extern void C1UltraDexBoot(void);
     switch (gMain.state) {
         case 0:
             BeginNormalPaletteFade(~0, 0, 0x0, 0x10, 0);
@@ -219,15 +223,22 @@ void dexnav_gui_exit_nosearch() {
             break;
         case 1:
             if (!gPaletteFade.active) {
+                rboxes_free();
+                obj_free(&gSprites[(*DNavState)->cursor_id]);
+                for (u8 i = 0; i < 17; i++) {
+                    dprintf("freeing sprites with objid %d\n", (*DNavState)->objids[i]);
+                    obj_free(&gSprites[(*DNavState)->objids[i]]);
+                }
                 free((*DNavState)->backbuffer);
                 free((void*)*DNavState);
                 gMain.state++;
             }
             break;
         case 2:
-            m4aMPlayVolumeControl(&mplay_BGM, 0xFFFF, 256);
-            SetMainCallback(c1_overworld);
-            SetMainCallback2(c2_overworld_switch_start_menu);
+            VarSet(0x5000, 0x2);
+            gUltraDex->currentOpenApp = 0;
+            SetMainCallback(C1UltraDexBoot);
+            gMain.state = 0;
             break;
         }
 }
@@ -235,12 +246,12 @@ void dexnav_gui_exit_nosearch() {
 
 extern void dexnav_populate_encounter_list();
 
-void dexnav_gui_handler() {
+void DexnavGuiHandler() {
     switch(gMain.state) {
         case 0:
             if (!gPaletteFade.active) {
                 dexnav_gui_setup();
-                SetMainCallback(dexnav_gui_handler);
+                SetMainCallback(DexnavGuiHandler);
                 // allocate dexnav struct
                 *DNavState = (struct DexnavHudData*)malloc_and_clear(sizeof(struct DexnavHudData));
                 gMain.state++;
@@ -268,6 +279,11 @@ void dexnav_gui_handler() {
             gMain.state++;
             break;
         case 3:
+            REG_DISPCNT = 0x7F60;
+            REG_WININ = WININ_BUILD(WIN_BG0 | WIN_BG1 | WIN_BG2 | WIN_BG3 | WIN_OBJ, WIN_BG0 |
+                            WIN_BG1 | WIN_BG2 | WIN_BG3 | WIN_OBJ);
+            //WRITE_REG_BLDCNT(0x401E);
+            REG_BLDCNT = BLDALPHA_BUILD(BLDCNT_BG1_SRC | BLDCNT_BG2_SRC | BLDCNT_BG3_SRC | BLDCNT_SPRITES_SRC, 0);
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, 0x0000);
             gpu_sync_bg_show(0);
             gpu_sync_bg_show(1);
