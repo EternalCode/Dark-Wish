@@ -15,11 +15,10 @@ u16 rand_range(u16 min, u16 max)
 
 void GetClockTime(u8* hour, u8* min)
 {
-    dprintf("Saveblock ptr is %x\n", gSaveBlock2Ptr);
-    dprintf("Saveblock time addr is %x\n", &gSaveBlock2Ptr->playTimeMinutes);
     u32 totalMinutes = gSaveBlock2Ptr->playTimeMinutes + (gSaveBlock2Ptr->playTimeHours * 60);
-    dprintf("Total minutes is %d from %d min and %d hours\n", totalMinutes, gSaveBlock2Ptr->playTimeMinutes, gSaveBlock2Ptr->playTimeHours);
     totalMinutes = (totalMinutes * TIME_SCALE) % MINUTES_IN_A_DAY;
+    // add in seconds too
+    totalMinutes += (gSaveBlock2Ptr->playTimeSeconds * TIME_SCALE) / 60;
     *min = totalMinutes % 60;
     totalMinutes -= *min;
     *hour = totalMinutes / 60;
