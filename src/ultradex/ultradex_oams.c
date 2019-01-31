@@ -250,6 +250,7 @@ void TransitionPage2()
     for (u8 i = 0; i < (APPS_COUNT - 1); i++) {
         gSprites[gUltraDex->iconObjIds[i]].callback = SlideObjLeft240;
     }
+    gSprites[gUltraDex->pageObjId].final_oam.h_flip = 1;
 }
 
 void TransitionPage1()
@@ -257,4 +258,5 @@ void TransitionPage1()
     for (u8 i = 0; i < (APPS_COUNT - 1); i++) {
         gSprites[gUltraDex->iconObjIds[i]].callback = SlideObjRight240;
     }
+    gSprites[gUltraDex->pageObjId].final_oam.h_flip = 0;
 }
