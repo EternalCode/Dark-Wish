@@ -21,8 +21,8 @@ extern struct TextColor textGreen;
 extern void CpuFastSet(void* src, void* dst, u32 mode);
 
 /* Game clock */
-// we'll say 30 minutes is 1 day. So 1140 mins is 1 day,
-#define TIME_SCALE 38
+// we'll say 60 minutes is 1 day. So 1140 mins is 1 day,
+#define TIME_SCALE 19
 #define MINUTES_IN_A_DAY 1140
 extern void GetClockTime(u8* hour, u8* min);
 
