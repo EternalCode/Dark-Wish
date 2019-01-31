@@ -6,19 +6,19 @@ const pchar appUDexName[] = _("UltraDex");
 const pchar appUDexDesc[] = _("Select an Application.");
 
 const pchar appPokeLogName[] = _("Pokélog");
-const pchar appPokeLogDesc[] = _("A logging app to keep track of your\nPokémon capturing feats.");
+const pchar appPokeLogDesc[] = _("A logging app to keep track of your\nPokémon capturing progress.");
 
 const pchar appDexnavName[] = _("Dexnav");
 const pchar appDexnavDesc[] = _("Train and use this app to search for\nPokémon in the area.");
 
 const pchar appWorldMapName[] = _("PokeMaps");
-const pchar appWorldMapDesc[] = _("A GPS application containing the Region map.");
+const pchar appWorldMapDesc[] = _("A GPS application containing\nthe Region map.");
 
 const pchar appPokepediaName[] = _("Poképedia");
-const pchar appPokepediaDesc[] = _("The Pokémon encyclopedia.\nLearn about things Pokémon like stats and moves.");
+const pchar appPokepediaDesc[] = _("The Pokémon encyclopedia.\nLearn about discovered Pokémon.");
 
 const pchar appPokecallName[] = _("PokéCall");
-const pchar appPokecallDesc[] = _("Speak with your friends through the PokéNetwork.");
+const pchar appPokecallDesc[] = _("Speak with your friends through\nthe PokéNetwork.");
 
 const pchar appClockName[] = _("Clock");
 const pchar appClockDesc[] = _("Check the current time in KANTO+1");
