@@ -8,7 +8,11 @@ typedef void (*UDCallback)(void);
 
 #define APP_DESC_BAR 0
 #define APP_TIME_BAR 1
+#define APPS_PER_PAGE 4
 #define ULTRADEX_NAME_BAR 2
+
+/* tags */
+#define ULTRADEX_CURSOR_TAG 0x8282
 
 struct DexApplication {
     const pchar* appName;
@@ -26,6 +30,7 @@ struct UltraDexState {
         u8 page;
         u8 selectedAppIndex;
         u8 currentOpenApp;
+        u8 ultraDexCursorObjId;
         struct UltraDexSharedGraphics* sharedGfx;
 };
 

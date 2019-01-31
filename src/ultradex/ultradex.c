@@ -2,6 +2,9 @@
 #include "../global.h"
 #include "ultradex.h"
 
+#include "../../generated/images/ultradex/menu/arrow.h"
+
+
 static struct UltraDexState** UltraDexPtr = (struct UltraDexState**)(ULTRADEX_START);
 extern void BuildGradient(u16 startColor, u16 stopColor);
 extern void BuildGradientPalette(void);
@@ -153,6 +156,82 @@ void UpdateSelectedAppText()
 
 }
 
+const struct OamData ultraDexCursorOam = {
+    .y = 0,
+    .affine_mode = 0,
+    .obj_mode = 0,
+    .mosaic = 0,
+    .bpp = 0,
+    .shape = 0,
+    .x = 0,
+    .matrix_num = 0,
+    .size = 0, //8x8
+    .tile_num = 0,
+    .priority = 0, // above BG layers
+    .palette_num = 0,
+    .affine_param = 0
+};
+
+
+void CursorBob(struct Sprite* s)
+{
+#define CURSOR_ORIGINAL_Y (s->data[0])
+#define CURSOR_BOT_Y (CURSOR_ORIGINAL_Y + 3)
+#define CURSOR_TOP_Y (CURSOR_ORIGINAL_Y - 3)
+#define CURSOR_DIRECTION (s->data[1])
+#define CURSOR_COUNTER (s->data[2])
+    CURSOR_COUNTER++;
+    if (CURSOR_COUNTER % 3)
+        return;
+    if (!CURSOR_ORIGINAL_Y)
+        CURSOR_ORIGINAL_Y = s->pos1.y;
+
+    if (CURSOR_DIRECTION) {
+        // move down until goal
+        if (s->pos1.y >= CURSOR_BOT_Y) {
+            CURSOR_DIRECTION = 0;
+        } else {
+            s->pos1.y++;
+        }
+    } else {
+        // move up until goal
+        if (s->pos1.y <= CURSOR_TOP_Y) {
+            CURSOR_DIRECTION = 1;
+        } else {
+            s->pos1.y--;
+        }
+    }
+#undef CURSOR_ORIGINAL_Y
+#undef CURSOR_BOT_Y
+#undef CURSOR_TOP_Y
+#undef CURSOR_DIRECTION
+#undef CURSOR_COUNTER
+}
+
+
+void SpawnUltraDexCursor()
+{
+    struct SpriteTiles cursorGfx = {(void*)arrowTiles, 32 * 32, ULTRADEX_CURSOR_TAG};
+    struct SpritePalette cursorPal = {(void*)arrowPal, ULTRADEX_CURSOR_TAG};
+    struct Template cursorTemp = {ULTRADEX_CURSOR_TAG, ULTRADEX_CURSOR_TAG, &ultraDexCursorOam,
+                                    (const struct Frame (**)[])0x8231CF0, &cursorGfx,
+                                    (const struct RotscaleFrame (**)[])0x8231CFC, (SpriteCallback)CursorBob};
+    // uncompressed
+    gpu_tile_obj_alloc_tag_and_upload(&cursorGfx);
+    gpu_pal_obj_alloc_tag_and_apply(&cursorPal);
+    gUltraDex->ultraDexCursorObjId = template_instanciate_forward_search(&cursorTemp, 32, 24, 0);
+}
+
+void UpdateUltraDexCursor()
+{
+    u8 cursorX;
+    if (!gUltraDex->selectedAppIndex && !gUltraDex->currentOpenApp) {
+        cursorX = 32;
+    }
+    cursorX = 32 + ((gUltraDex->selectedAppIndex % (gUltraDex->page * APPS_PER_PAGE)) * 64);
+    gSprites[gUltraDex->ultraDexCursorObjId].pos1.x = cursorX;
+}
+
 void C1UltraDex()
 {
     switch(gMain.state) {
@@ -195,6 +274,10 @@ void C1UltraDex()
             break;
         }
         case 3:
+            SpawnUltraDexCursor();
+            gMain.state++;
+            break;
+        case 4:
             BuildGradient(0x71ED, 0x6791);
             BuildGradientPalette();
             gpu_pal_apply(gUltraDex->sharedGfx->gradient_palette, 0, 32);
@@ -203,7 +286,7 @@ void C1UltraDex()
             interrupts_enable(INTERRUPT_VBLANK | INTERRUPT_HBLANK);
             gMain.state++;
             break;
-        case 4:
+        case 5:
             bgid_mark_for_sync(0);
             bgid_mark_for_sync(1);
             bgid_mark_for_sync(2);
@@ -215,14 +298,14 @@ void C1UltraDex()
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, 0x0000);
             gMain.state++;
             break;
-        case 5:
+        case 6:
             if (!gPaletteFade.active) {
                 gMain.state++;
             } else {
                 BuildGradientPalette();
             }
             break;
-        case 6:
+        case 7:
             break;
     };
 }
