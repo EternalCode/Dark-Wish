@@ -10,6 +10,7 @@ extern void Setup(void);
 extern void C2DexnavGui(void);
 extern void VblankSPQ(void);
 extern void HBlankCBUltraDex(void);
+extern void HBlankCBUltraDexFadeOut(void);
 extern void SpawnPageOneIcons(void);
 extern void SpawnPageTwoIcons(void);
 extern void SpawnUltraDexCursor(void);
@@ -225,16 +226,8 @@ void C1UltraDexBoot()
         {
             // update text
             rbox_init_from_templates(UDexTextTemplate);
-            // for (u8 i = 0; i < sizeof(gUltraDex->sharedGfx->textboxes); i++) {
-            //     rboxid_clear_pixels(i, 0);
-            // }
             UpdateAppHeaderText();
             UpdateSelectedAppText();
-            // display committed gfx
-            // for (u8 i = 0; i < 5; i++) {
-            //     rboxid_update(i, 3);
-            //     rboxid_tilemap_update(i);
-            // }
             gMain.state++;
             break;
         }
@@ -287,6 +280,52 @@ void C1UltraDexBoot()
 }
 
 
+void UltraDexExitToStartMenu()
+{
+    switch (gMain.state) {
+        case 0:
+            m4aMPlayVolumeControl(&mplay_BGM, 0xFFFF, 256);
+            SetHBlankCallback(HBlankCBUltraDexFadeOut);
+            gMain.state++;
+            break;
+        case 1:
+            if (gUltraDex->screenTransitionOffsetTop > 17) {
+                free(gUltraDex->sharedGfx);
+                free(gUltraDex);
+                SetHBlankCallback(NULL);
+                REG_DISPCNT = 0x0;
+                SetMainCallback(c1_overworld);
+                SetMainCallback2(c2_overworld_switch_start_menu);
+                return;
+            }
+            break;
+    };
+    gUltraDex->screenTransitionOffsetTop += 1;
+}
+
+void UltraDexExitToApp()
+{
+    switch (gMain.state) {
+        case 0:
+            m4aMPlayVolumeControl(&mplay_BGM, 0xFFFF, 256);
+            SetHBlankCallback(HBlankCBUltraDexFadeOut);
+            gMain.state++;
+            break;
+        case 1:
+            if (gUltraDex->screenTransitionOffsetTop > 17) {
+                SetHBlankCallback(NULL);
+                REG_DISPCNT = 0x0;
+                SetMainCallback(DexApps[gUltraDex->selectedAppIndex].appCB);
+                gUltraDex->screenTransitionOffsetTop = 0;
+                gMain.state = 0;
+                return;
+            }
+            break;
+    };
+    gUltraDex->screenTransitionOffsetTop += 1;
+}
+
+
 void C1UltraDexInteractionHandler()
 {
     UpdateTimeText();
@@ -296,6 +335,8 @@ void C1UltraDexInteractionHandler()
             break;
         case KEY_B:
             // exit to start menu
+            SetMainCallback(UltraDexExitToStartMenu);
+            gMain.state = 0;
             break;
         case KEY_LEFT:
             // move cursor right once

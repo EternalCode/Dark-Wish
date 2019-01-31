@@ -162,8 +162,6 @@ void SpawnUltraDexIcon(u8 i, void* tiles, void* pal)
     gpu_tile_obj_alloc_tag_and_upload(&iconGfx);
     gpu_pal_obj_alloc_tag_and_apply(&iconPal);
     u16 x = i >= (APPS_COUNT >> 1) ? 240 + 36 + ((i - (APPS_COUNT >> 1)) * 56) : 36 + (i * 56);
-    dprintf("x pos is %d\n", x);
-    dprintf("i is %d\n", i);
     gUltraDex->iconObjIds[i] = template_instanciate_forward_search(&iconTemp, x, 56, 0);
     gSprites[gUltraDex->iconObjIds[i]].invisible = true;
 }
@@ -227,6 +225,7 @@ void SlideObjLeft240(struct Sprite* s)
 #undef GOAL_POSITION
 }
 
+
 void SlideObjRight240(struct Sprite* s)
 {
 #define INITIAL_POSITION (s->data[0])
@@ -244,6 +243,7 @@ void SlideObjRight240(struct Sprite* s)
 #undef INITIAL_POSITION
 #undef GOAL_POSITION
 }
+
 
 void TransitionPage2()
 {

@@ -128,3 +128,35 @@ void HBlankCBUltraDex(void)
         }
     }
 }
+
+void HBlankCBUltraDexFadeOut(void)
+{
+    /* HBlank saves memory compared to the DMA implementation as the
+     * gradient only changes colour every 8 scanlines. */
+    REG_WININ = WININ_BUILD(WIN_BG0 | WIN_BG1 | WIN_BG2 | WIN_BG3 | WIN_OBJ, WIN_BG0 |
+                 WIN_BG1 | WIN_BG2 | WIN_BG3 | WIN_OBJ);
+    //WRITE_REG_BLDCNT(0x401E);
+    REG_BLDCNT = BLDALPHA_BUILD(BLDCNT_BG1_SRC | BLDCNT_BG2_SRC | BLDCNT_BG3_SRC | BLDCNT_SPRITES_SRC, 0);
+    u16* buffer = (u16*) gUltraDex->sharedGfx->gradient_palette;
+    if (REG_VCOUNT < 160) {
+        u16 index = (REG_VCOUNT + 1) / 8;
+        CpuFastSet((void*)&buffer[index * 16], (void*) 0x05000000, CPUModeFS(32, CPUFSCPY));
+        if (REG_VCOUNT < gUltraDex->screenTransitionOffsetTop * 8) {
+            //WRITE_REG_WININ(0x3F3F);
+            REG_WININ = WININ_BUILD(WIN_BG0 | WIN_BG1 | WIN_BG2 | WIN_BG3 | WIN_OBJ | WIN_BLD,  WIN_BG0 | WIN_BG1 | WIN_BG2 | WIN_BG3 | WIN_OBJ | WIN_BLD);
+
+            //WRITE_REG_BLDCNT(0x0FFE);
+            REG_BLDCNT = (BLDCNT_BG0_SRC | BLDCNT_BG1_SRC | BLDCNT_BG2_SRC | BLDCNT_BG3_SRC | BLDCNT_SPRITES_SRC | BLDCNT_BACKDROP_SRC | BLDCNT_BG0_DST | BLDCNT_BG1_DST | BLDCNT_BG2_DST | BLDCNT_BG3_DST | BLDCNT_DARKEN);
+            REG_BLDY = gUltraDex->screenTransitionOffsetTop;
+        }
+        if (REG_VCOUNT > 120) {
+            //WRITE_REG_WININ(0x3F3F);
+            REG_WININ = WININ_BUILD(WIN_BG0 | WIN_BG1 | WIN_BG2 | WIN_BG3 | WIN_OBJ | WIN_BLD,  WIN_BG0 | WIN_BG1 | WIN_BG2 | WIN_BG3 | WIN_OBJ | WIN_BLD);
+
+            //WRITE_REG_BLDCNT(0x0FFE);
+            REG_BLDCNT = (BLDCNT_BG0_SRC | BLDCNT_BG1_SRC | BLDCNT_BG2_SRC | BLDCNT_BG3_SRC | BLDCNT_SPRITES_SRC | BLDCNT_BACKDROP_SRC | BLDCNT_BG0_DST | BLDCNT_BG1_DST | BLDCNT_BG2_DST | BLDCNT_BG3_DST | BLDCNT_DARKEN);
+            REG_BLDY = 0x8 + gUltraDex->screenTransitionOffsetTop;
+       }
+    }
+
+}

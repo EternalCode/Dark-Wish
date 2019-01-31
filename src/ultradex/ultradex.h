@@ -30,6 +30,8 @@ struct UltraDexSharedGraphics {
 
 struct UltraDexState {
     struct UltraDexSharedGraphics* sharedGfx;
+    u8 screenTransitionOffsetTop;
+    u8 screenTransitionOffsetBot;
     u8 page;
     s8 selectedAppIndex;
     u8 currentOpenApp;
