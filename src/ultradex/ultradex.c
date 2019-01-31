@@ -19,6 +19,7 @@ extern void ShowUltraDexObjects(u8 page);
 extern void UpdateUltraDexCursor(void);
 extern void TransitionPage1(void);
 extern void TransitionPage2(void);
+extern void HideUltraDexObjects(u8 page);
 
 
 /* Entry point into the Ultradex */
@@ -27,6 +28,7 @@ u8 LaunchUltraDex()
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
     void C1UltraDexBoot(void);
     SetMainCallback(C1UltraDexBoot);
+    VarSet(0x5000, 0xFFFF);
     gMain.state = 0;
     return true;
 }
@@ -197,6 +199,15 @@ void UpdateSelectedAppText()
     rboxid_tilemap_update(3);
 }
 
+void DisplayAppError()
+{
+    // currently selected app name
+    rboxid_clear_pixels(3, 0);
+    rboxid_print(3, 1, 3, 0, &textWhite, 0, DexApps[gUltraDex->selectedAppIndex + 1].errorText);
+    rboxid_update(3, 3);
+    rboxid_tilemap_update(3);
+}
+
 
 void C1UltraDexBoot()
 {
@@ -207,9 +218,13 @@ void C1UltraDexBoot()
                 UltraDexSetup();
                 SetMainCallback(C1UltraDexBoot); // setup resets all CBs
                 // allocate ultradex
-                gUltraDex = (struct UltraDexState*)malloc_and_clear(sizeof(struct UltraDexState));
+                if (VarGet(0x5000) == 0xFFFF) {
+                    gUltraDex = (struct UltraDexState*)malloc_and_clear(sizeof(struct UltraDexState));
+                    gUltraDex->selectedAppIndex = 0;
+                }
+
                 gUltraDex->sharedGfx = (struct UltraDexSharedGraphics*)malloc_and_clear(sizeof(struct UltraDexSharedGraphics));
-                gUltraDex->selectedAppIndex = 0;
+
                 gMain.state++;
             }
             break;
@@ -233,6 +248,7 @@ void C1UltraDexBoot()
         }
         case 3:
             SpawnUltraDexCursor();
+            UpdateUltraDexCursor();
             SpawnPageOneIcons();
             SpawnPageTwoIcons();
             SpawnUltraDexPageTracker();
@@ -313,10 +329,19 @@ void UltraDexExitToApp()
             break;
         case 1:
             if (gUltraDex->screenTransitionOffsetTop > 17) {
+                free(gUltraDex->sharedGfx);
+                for (u8 i = 0; i < APPS_COUNT; i++) {
+                    obj_free(&gSprites[gUltraDex->iconObjIds[i]]);
+                }
+                obj_free(&gSprites[gUltraDex->pageObjId]);
+                obj_free(&gSprites[gUltraDex->cursorObjId]);
+                rboxes_free();
                 SetHBlankCallback(NULL);
-                REG_DISPCNT = 0x0;
-                SetMainCallback(DexApps[gUltraDex->selectedAppIndex].appCB);
+                interrupts_enable(INTERRUPT_VBLANK);
+                SetMainCallback(DexApps[gUltraDex->selectedAppIndex + 1].appCB);
                 gUltraDex->screenTransitionOffsetTop = 0;
+                gUltraDex->currentOpenApp = gUltraDex->selectedAppIndex;
+                BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
                 gMain.state = 0;
                 return;
             }
@@ -332,6 +357,15 @@ void C1UltraDexInteractionHandler()
     switch (gMain.heldKeys & (KEY_A | KEY_B | KEY_LEFT | KEY_RIGHT)) {
         case KEY_A:
             // run selected app
+            dprintf("verifying app index %d\n", gUltraDex->selectedAppIndex + 1);
+            if (DexApps[gUltraDex->selectedAppIndex + 1].appValidityCB()) {
+                SetMainCallback(UltraDexExitToApp);
+                gMain.state = 0;
+            } else {
+                DisplayAppError();
+                audio_play(SOUND_RSE_BERRY_MIX_CLICK);
+                return;
+            }
             break;
         case KEY_B:
             // exit to start menu

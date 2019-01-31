@@ -4,6 +4,7 @@
 #include <pokeagb/pokeagb.h>
 
 typedef void (*UDCallback)(void);
+typedef bool (*UDValidationCallback)(void);
 #define gUltraDex (*UltraDexPtr)
 
 #define APPS_PER_PAGE 4
@@ -18,7 +19,9 @@ typedef void (*UDCallback)(void);
 struct DexApplication {
     const pchar* appName;
     const pchar* appDescription;
+    const pchar* errorText;
     UDCallback appCB;
+    UDValidationCallback appValidityCB;
     u8 xNameShift;
 };
 

@@ -9,6 +9,7 @@
 #include "../../generated/images/ultradex/icons/map.h"
 #include "../../generated/images/ultradex/icons/phone.h"
 #include "../../generated/images/ultradex/icons/clock.h"
+#include "../../generated/images/ultradex/icons/settings.h"
 #include "../../generated/images/ultradex/icons/webmart.h"
 #include "../../generated/images/ultradex/icons/weather.h"
 
@@ -179,7 +180,7 @@ void SpawnPageOneIcons()
 void SpawnPageTwoIcons()
 {
     SpawnUltraDexIcon(4, (void*)phoneTiles, (void*)phonePal);
-    SpawnUltraDexIcon(5, (void*)clockTiles, (void*)clockPal);
+    SpawnUltraDexIcon(5, (void*)settingsTiles, (void*)settingsPal);
     SpawnUltraDexIcon(6, (void*)webmartTiles, (void*)webmartPal);
     SpawnUltraDexIcon(7, (void*)weatherTiles, (void*)weatherPal);
 }
