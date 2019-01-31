@@ -6,13 +6,14 @@
 typedef void (*UDCallback)(void);
 #define gUltraDex (*UltraDexPtr)
 
-#define APP_DESC_BAR 0
-#define APP_TIME_BAR 1
 #define APPS_PER_PAGE 4
 #define ULTRADEX_NAME_BAR 2
+#define APPS_COUNT 5
 
 /* tags */
+#define ULTRADEX_PAGE_ICON_TAG 0x8281
 #define ULTRADEX_CURSOR_TAG 0x8282
+#define ULTRADEX_APP_ICON_TAG 0x8283
 
 struct DexApplication {
     const pchar* appName;
@@ -27,11 +28,13 @@ struct UltraDexSharedGraphics {
 };
 
 struct UltraDexState {
-        u8 page;
-        u8 selectedAppIndex;
-        u8 currentOpenApp;
-        u8 ultraDexCursorObjId;
-        struct UltraDexSharedGraphics* sharedGfx;
+    struct UltraDexSharedGraphics* sharedGfx;
+    u8 page;
+    u8 selectedAppIndex;
+    u8 currentOpenApp;
+    u8 cursorObjId;
+    u8 pageObjId;
+    u8 iconObjIds[APPS_COUNT];
 };
 
 extern struct DexApplication DexApps[];

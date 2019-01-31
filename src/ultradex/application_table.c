@@ -35,13 +35,13 @@ struct DexApplication DexApps[] = {
         .appCB = NULL,
     },
     {
-        .appName = appWorldMapName,
-        .appDescription = appWorldMapDesc,
+        .appName = appPokepediaName,
+        .appDescription = appPokepediaDesc,
         .appCB = NULL,
     },
     {
-        .appName = appPokepediaName,
-        .appDescription = appPokepediaDesc,
+        .appName = appWorldMapName,
+        .appDescription = appWorldMapDesc,
         .appCB = NULL,
     },
 
