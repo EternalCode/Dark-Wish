@@ -99,9 +99,9 @@ struct TextboxTemplate UDexTextTemplate[] = {
     {
         /* Current Selected Application */
         .bg_id = 0,
-        .x = 12,
+        .x = 11,
         .y = 10,
-        .width = 12,
+        .width = 18,
         .height = 3,
         .pal_id = 15,
         .charbase = 61,
@@ -187,7 +187,8 @@ void UpdateSelectedAppText()
     // currently selected app name
     rboxid_clear_pixels(2, 0);
     rboxid_clear_pixels(3, 0);
-    rboxid_print(2, 1, 6, 2, &textWhite, 0, DexApps[gUltraDex->selectedAppIndex + 1].appName);
+    u8 char_shift = DexApps[gUltraDex->selectedAppIndex + 1].xNameShift;
+    rboxid_print(2, 1, char_shift, 2, &textWhite, 0, DexApps[gUltraDex->selectedAppIndex + 1].appName);
     rboxid_print(3, 1, 3, 0, &textWhite, 0, DexApps[gUltraDex->selectedAppIndex + 1].appDescription);
     rboxid_update(2, 3);
     rboxid_tilemap_update(2);

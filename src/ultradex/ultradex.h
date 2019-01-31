@@ -19,6 +19,7 @@ struct DexApplication {
     const pchar* appName;
     const pchar* appDescription;
     UDCallback appCB;
+    u8 xNameShift;
 };
 
 struct UltraDexSharedGraphics {

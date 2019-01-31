@@ -35,46 +35,55 @@ struct DexApplication DexApps[] = {
         .appName = appUDexName,
         .appDescription = appUDexDesc,
         .appCB = NULL,
+        .xNameShift = 0,
     },
     {
         .appName = appPokeLogName,
         .appDescription = appPokeLogDesc,
         .appCB = NULL,
+        .xNameShift = 10,
     },
     {
         .appName = appDexnavName,
         .appDescription = appDexnavDesc,
         .appCB = NULL,
+        .xNameShift = 12,
     },
     {
         .appName = appPokepediaName,
         .appDescription = appPokepediaDesc,
         .appCB = NULL,
+        .xNameShift = 2,
     },
     {
         .appName = appWorldMapName,
         .appDescription = appWorldMapDesc,
         .appCB = NULL,
+        .xNameShift = 5,
     },
     {
         .appName = appPokecallName,
         .appDescription = appPokecallDesc,
         .appCB = NULL,
+        .xNameShift = 5,
     },
     {
         .appName = appClockName,
         .appDescription = appClockDesc,
         .appCB = NULL,
+        .xNameShift = 16,
     },
     {
         .appName = appMartName,
         .appDescription = appMartDesc,
         .appCB = NULL,
+        .xNameShift = 8,
     },
     {
         .appName = appWeatherName,
         .appDescription = appWeatherDesc,
         .appCB = NULL,
+        .xNameShift = 0,
     },
 
 };
