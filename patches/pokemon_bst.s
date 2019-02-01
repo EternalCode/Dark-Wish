@@ -127,6 +127,10 @@
 	.word gBaseStats
 	.pool
 
+.org 0x0804393C
+	.word gBaseStats
+	.pool
+
 .org 0x08043950
 	.word gBaseStats
 	.pool
