@@ -1,5 +1,5 @@
 #include <pokeagb/pokeagb.h>
-#include "pokemon_base_stats.h"
+#include "pokemon.h"
 
 const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
 {
