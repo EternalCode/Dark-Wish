@@ -87,7 +87,7 @@ void UpdateUltraDexCursor()
 
 void SpawnUltraDexCursor()
 {
-    struct SpriteTiles cursorGfx = {(void*)arrowTiles, 32 * 1, ULTRADEX_CURSOR_TAG};
+    struct CompressedSpriteSheet cursorGfx = {(void*)arrowTiles, 32 * 1, ULTRADEX_CURSOR_TAG};
     struct SpritePalette cursorPal = {(void*)arrowPal, ULTRADEX_CURSOR_TAG};
     struct Template cursorTemp = {ULTRADEX_CURSOR_TAG, ULTRADEX_CURSOR_TAG, &ultraDexCursorOam,
                                     (const struct Frame (**)[])0x8231CF0, &cursorGfx,
@@ -120,7 +120,7 @@ const struct OamData ultraDexPageOam = {
 
 void SpawnUltraDexPageTracker()
 {
-    struct SpriteTiles pageGfx = {(void*)page_indicatorTiles, 32 * 2, ULTRADEX_PAGE_ICON_TAG};
+    struct CompressedSpriteSheet pageGfx = {(void*)page_indicatorTiles, 32 * 2, ULTRADEX_PAGE_ICON_TAG};
     struct SpritePalette pagePal = {(void*)page_indicatorPal, ULTRADEX_PAGE_ICON_TAG};
     struct Template pageTemp = {ULTRADEX_PAGE_ICON_TAG, ULTRADEX_PAGE_ICON_TAG, &ultraDexPageOam,
                                     (const struct Frame (**)[])0x8231CF0, &pageGfx,
@@ -154,7 +154,7 @@ const struct OamData ultraDexAppIconOam = {
 void SpawnUltraDexIcon(u8 i, void* tiles, void* pal)
 {
     /* Pokelog */
-    struct SpriteTiles iconGfx = {(void*)tiles, 32 * 64, ULTRADEX_APP_ICON_TAG + i};
+    struct CompressedSpriteSheet iconGfx = {(void*)tiles, 32 * 64, ULTRADEX_APP_ICON_TAG + i};
     struct SpritePalette iconPal = {(void*)pal, ULTRADEX_APP_ICON_TAG + i};
     struct Template iconTemp = {ULTRADEX_APP_ICON_TAG + i, ULTRADEX_APP_ICON_TAG + i, &ultraDexAppIconOam,
                                     (const struct Frame (**)[])0x8231CF0, &iconGfx,

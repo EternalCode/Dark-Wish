@@ -3,7 +3,7 @@
 #include "../../ultradex/ultradex.h"
 #include "../HUD/dexnav_hud.h"
 #include "../../saveblock_expansion/save.h"
-#include "../../pokemon/pokemon_base_stats.h"
+#include "../../pokemon/pokemon.h"
 #include "../../../generated/images/dexnav/dexnav_gui/dexnav_gui.h"
 #include "../../../generated/images/dexnav/dexnav_hud/selection_cursor.h"
 
@@ -61,7 +61,7 @@ void dexnav_load_pokemon_icons() {
             void *icon_gfx = load_party_icon_tiles_with_form(species, pid, false);
             u16 gfx_tag = ICON_GFX_TAG + i;
             u16 pal_tag = ICON_PAL_TAG + pokeicon_pal_indices[species];
-            struct SpriteTiles icon_tiles = {icon_gfx, 4 * 8 * 32, gfx_tag};
+            struct CompressedSpriteSheet icon_tiles = {icon_gfx, 4 * 8 * 32, gfx_tag};
             gpu_tile_obj_alloc_tag_and_upload(&icon_tiles);
             struct Template icon_template = {
                                             .tiles_tag = gfx_tag,
@@ -83,7 +83,7 @@ void dexnav_load_pokemon_icons() {
             void *icon_gfx = load_party_icon_tiles_with_form(species, pid, false);
             u16 gfx_tag = ICON_GFX_TAG + i + 12;
             u16 pal_tag = ICON_PAL_TAG + pokeicon_pal_indices[species];
-            struct SpriteTiles icon_tiles = {icon_gfx, 4 * 8 * 32, gfx_tag};
+            struct CompressedSpriteSheet icon_tiles = {icon_gfx, 4 * 8 * 32, gfx_tag};
             gpu_tile_obj_alloc_tag_and_upload(&icon_tiles);
             struct Template icon_template = {
                                             .tiles_tag = gfx_tag,
@@ -115,7 +115,7 @@ void update_cursor_position() {
     }
 }
 void spawn_pointer_arrow() {
-    struct SpriteTiles cursor_gfx = {(void*)selection_cursorTiles, 32 * 32, SELECTION_CURSOR_TAG};
+    struct CompressedSpriteSheet cursor_gfx = {(void*)selection_cursorTiles, 32 * 32, SELECTION_CURSOR_TAG};
     struct SpritePalette cursor_pal = {(void*)selection_cursorPal, SELECTION_CURSOR_TAG};
     struct Template cursor_temp = {SELECTION_CURSOR_TAG, SELECTION_CURSOR_TAG, &cursor_oam,
                                     (const struct Frame (**)[])0x8231CF0, &cursor_gfx,
@@ -143,7 +143,7 @@ void dexnav_load_pnames(u8 status) {
     // rbox commit species name
     u16 species = (*DNavState)->selected_arr ? (*DNavState)->water_species[(*DNavState)->selected_index >> 1] : (*DNavState)->grass_species[(*DNavState)->selected_index>>1];
     if (species) {
-        rboxid_print(0, 0, 0, 4, &textBlack, 0, pokemon_names[species]);
+        rboxid_print(0, 0, 0, 4, &textBlack, 0, gSpeciesNames[species]);
     } else {
         rboxid_print(0, 0, 0, 4, &textBlack, 0, &no_info[0]);
     }

@@ -2,7 +2,7 @@
 #include "../../../generated/images/dexnav/dexnav_hud/cave_smoke.h"
 
 
-const struct SpriteTiles cave_gfx[4] = {
+const struct CompressedSpriteSheet cave_gfx[4] = {
                                 {.data = (const u8*)&cave_smokeTiles[128 * 0],
                                 .size = 0x80,
                                 .tag = 0xFFFF
@@ -20,7 +20,7 @@ const struct SpriteTiles cave_gfx[4] = {
                                 .tag = 0xFFFF
                                 },
                                 };
-//struct SpriteTiles* ptr_cave_gfx =
+//struct CompressedSpriteSheet* ptr_cave_gfx =
 struct Template objt_cave = { .tiles_tag = 0xFFFF,
                                     .pal_tag = 0x1005,
                                     .oam = (struct OamData*)0x83A36F0,

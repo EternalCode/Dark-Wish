@@ -1,6 +1,7 @@
 #include <pokeagb/pokeagb.h>
 #include "pokedex.h"
 #include "../global.h"
+#include "../pokemon/pokemon.h"
 #include "../saveblock_expansion/save.h"
 #include "../dexnav/GUI/dexnav_gui.h"
 #include "../../generated/images/pokedex_selection_screen.h"
@@ -121,7 +122,7 @@ void dexUpdateText()
 
     // species name
     if (species) {
-        rboxid_print(2, 1, 0, 0, &dexTextWhite, 0, pokemon_names[species]);
+        rboxid_print(2, 1, 0, 0, &dexTextWhite, 0, gSpeciesNames[species]);
     } else {
         rboxid_print(2, 1, 0, 0, &dexTextWhite, 0, &dexNoinfo[0]);
     }

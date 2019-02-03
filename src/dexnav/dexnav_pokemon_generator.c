@@ -1,6 +1,6 @@
 #include <pokeagb/pokeagb.h>
 #include "HUD/dexnav_hud.h"
-#include "../pokemon/pokemon_base_stats.h"
+#include "../pokemon/pokemon.h"
 
 #define EGGMOVE_MAX 8
 

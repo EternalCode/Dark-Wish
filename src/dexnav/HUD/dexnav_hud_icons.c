@@ -17,7 +17,7 @@ static struct DexnavHudData** DNavState = (struct DexnavHudData**)(DEXNAV_START)
 
 void dexnav_draw_ability(enum PokemonAbility ability, u8* objid) {
     // create empty object of size 32x64 to draw font on
-    struct SpriteTiles fontsprite_ability = {(const u8*)(&emptyTiles), 0x800, 0x1EE7};
+    struct CompressedSpriteSheet fontsprite_ability = {(const u8*)(&emptyTiles), 0x800, 0x1EE7};
     struct Template font_temp_ability = {0x1EE7, 0x8472, &font_oam, nullframe, 0x0,
                                 nullrsf, (SpriteCallback)0x800760D};
     gpu_tile_obj_alloc_tag_and_upload(&fontsprite_ability);
@@ -52,7 +52,7 @@ void dexnav_draw_ability(enum PokemonAbility ability, u8* objid) {
 
 void dexnav_draw_move(u16 move, u8 search_level, u8* objid) {
     // create empty object of size 32x64 to draw font on
-    struct SpriteTiles fontsprite_move = {(const u8*)(&emptyTiles), 0x800, 0x4736};
+    struct CompressedSpriteSheet fontsprite_move = {(const u8*)(&emptyTiles), 0x800, 0x4736};
     struct Template font_temp_move = {0x4736, 0x8472, &font_oam, nullframe, 0x0,
                             nullrsf, (SpriteCallback)0x800760D};
     gpu_tile_obj_alloc_tag_and_upload(&fontsprite_move);
@@ -91,8 +91,8 @@ void dexnav_draw_move(u16 move, u8 search_level, u8* objid) {
 
 void dexnav_draw_potential(u8 potential, u8* objid) {
     // 19 tiles per row, stars are on the 4th row. 1 tile is 32 bytes. Hence 19 * 4 *32
-    struct SpriteTiles staricon_lit = {(const u8*)(&(dexnav_starsTiles[19 * 4 * 32])), 64, 0x61};
-    struct SpriteTiles staricon_off = {(const u8*)(&(dexnav_starsTiles[((19 * 4) + 1) *32])), 64, 0x2613};
+    struct CompressedSpriteSheet staricon_lit = {(const u8*)(&(dexnav_starsTiles[19 * 4 * 32])), 64, 0x61};
+    struct CompressedSpriteSheet staricon_off = {(const u8*)(&(dexnav_starsTiles[((19 * 4) + 1) *32])), 64, 0x2613};
 
     // TODO: put these function pointers and other data ptrs in PokeAGB.
     struct Template star_lit_temp = {0x61, 0x8472, &held_oam, nullframe, 0x0,
@@ -126,7 +126,7 @@ void dexnav_draw_potential(u8 potential, u8* objid) {
 void dexnav_draw_sight(u8 sight_lvl, u8* objid) {
 
     // create empty object of size 64x32 to draw icons on
-    struct SpriteTiles sight_tiles = {(const u8*)(&emptyTiles), 0x800, 0x5424};
+    struct CompressedSpriteSheet sight_tiles = {(const u8*)(&emptyTiles), 0x800, 0x5424};
     struct Template font_temp_sight = {0x5424, 0x8472, &font_oam, nullframe, 0x0,
                                             nullrsf, (SpriteCallback)0x800760D};
     gpu_tile_obj_alloc_tag_and_upload(&sight_tiles);
@@ -159,7 +159,7 @@ void dexnav_sight_update(u8 sight) {
 
 void dexnav_draw_helditem(u8* objid) {
     // create object for held item icon
-    struct SpriteTiles heldicon = {(const u8*)(&gfx_heldicons), 64, 0x8472};
+    struct CompressedSpriteSheet heldicon = {(const u8*)(&gfx_heldicons), 64, 0x8472};
     struct Template heldtemp = {0x8472, 0x8472, &held_oam, nullframe, 0x0,
                                     nullrsf, (SpriteCallback)0x800760D};
     gpu_tile_obj_alloc_tag_and_upload(&heldicon);
@@ -180,7 +180,7 @@ void dexnav_draw_speciesicon(u16 species, u8* objid) {
 
     u32 pid = rand_range(0, 0xFFFF) | rand_range(0, 0xFFFF) << 16;
     void *icon_gfx = load_party_icon_tiles_with_form(species, pid, false);
-    struct SpriteTiles bulbicon = {icon_gfx, 4 * 8 * 32, 0x3139};
+    struct CompressedSpriteSheet bulbicon = {icon_gfx, 4 * 8 * 32, 0x3139};
     gpu_tile_obj_alloc_tag_and_upload(&bulbicon);
 
     // create object
