@@ -226,3 +226,380 @@
 .org 0x08156C28
     .word gBaseStats
     .pool
+
+
+// Pokemon names table nop
+.org 0x08245EE0
+    .fill 0x11B4, 0xFF
+
+// Pokemon names table repointing
+.org 0x08000144
+    .word gSpeciesNames
+    .pool
+
+.org 0x08011450
+    .word gSpeciesNames
+    .pool
+
+.org 0x0801150C
+    .word gSpeciesNames
+    .pool
+
+.org 0x080115A4
+    .word gSpeciesNames
+    .pool
+
+.org 0x080116BC
+    .word gSpeciesNames
+    .pool
+
+.org 0x08034D80
+    .word gSpeciesNames
+    .pool
+
+.org 0x08040FEC
+    .word gSpeciesNames
+    .pool
+
+.org 0x080435DC
+    .word gSpeciesNames
+    .pool
+
+.org 0x08049768
+    .word gSpeciesNames
+    .pool
+
+.org 0x08053ADC
+    .word gSpeciesNames
+    .pool
+
+.org 0x08053B44
+    .word gSpeciesNames
+    .pool
+
+.org 0x0806BCC4
+    .word gSpeciesNames
+    .pool
+
+.org 0x0806BD10
+    .word gSpeciesNames
+    .pool
+
+.org 0x08093E8C
+    .word gSpeciesNames
+    .pool
+
+.org 0x0809F560
+    .word gSpeciesNames
+    .pool
+
+.org 0x080A0900
+    .word gSpeciesNames
+    .pool
+
+.org 0x080BD820
+    .word gSpeciesNames
+    .pool
+
+.org 0x080CB120
+    .word gSpeciesNames
+    .pool
+
+.org 0x080CBEAC
+    .word gSpeciesNames
+    .pool
+
+.org 0x080CE0B4
+    .word gSpeciesNames
+    .pool
+
+.org 0x080CE6B8
+    .word gSpeciesNames
+    .pool
+
+.org 0x080CE8D0
+    .word gSpeciesNames
+    .pool
+
+.org 0x080E651C
+    .word gSpeciesNames
+    .pool
+
+.org 0x080F3324
+    .word gSpeciesNames
+    .pool
+
+.org 0x081035C0
+    .word gSpeciesNames
+    .pool
+
+.org 0x08103698
+    .word gSpeciesNames
+    .pool
+
+.org 0x08103738
+    .word gSpeciesNames
+    .pool
+
+.org 0x081037D0
+    .word gSpeciesNames
+    .pool
+
+.org 0x0810386C
+    .word gSpeciesNames
+    .pool
+
+.org 0x081038CC
+    .word gSpeciesNames
+    .pool
+
+.org 0x08104E70
+    .word gSpeciesNames
+    .pool
+
+.org 0x08105FE0
+    .word gSpeciesNames
+    .pool
+
+.org 0x081066B0
+    .word gSpeciesNames
+    .pool
+
+.org 0x08113EFC
+    .word gSpeciesNames
+    .pool
+
+.org 0x08119458
+    .word gSpeciesNames
+    .pool
+
+.org 0x0811ACA0
+    .word gSpeciesNames
+    .pool
+
+.org 0x0811AFF4
+    .word gSpeciesNames
+    .pool
+
+.org 0x0811B048
+    .word gSpeciesNames
+    .pool
+
+.org 0x0812190C
+    .word gSpeciesNames
+    .pool
+
+.org 0x08136318
+    .word gSpeciesNames
+    .pool
+
+
+// Egg hatch cycles repoint gBaseStats[0].eggCycles
+.org 0x08046204
+    .word gBaseStats + 0x11
+    .pool
+
+.org 0x080462A8
+    .word gBaseStats + 0x11
+    .pool
+
+
+
+// Pokemon names table nop
+.org 0x0825D7B4
+    .fill 0x670, 0xFF
+
+.org 0x08040FD0
+    ldr r2, =(GetSpeciesName|1)
+    bx r2
+    .pool
+
+
+// Pokemon level up learn moves repointing
+.org 0x0803EA7C
+    .word gLevelUpLearnsets
+    .pool
+
+.org 0x0803EB10
+    .word gLevelUpLearnsets
+    .pool
+
+.org 0x0803EB84
+    .word gLevelUpLearnsets
+    .pool
+
+.org 0x08043DC8
+    .word gLevelUpLearnsets
+    .pool
+
+.org 0x08043E20
+    .word gLevelUpLearnsets
+    .pool
+
+.org 0x08043F84
+    .word gLevelUpLearnsets
+    .pool
+
+
+// Pokemon front sprites
+.org 0x082350AC
+    .fill 0xDC0, 0xFF
+    .pool
+
+.org 0x08000128
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0800ECA8
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0800ECEC
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0800ED68
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0800ED80
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0800F0F8
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0800F130
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0800F1AC
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0800F1C4
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x080343C4
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x08034D60
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0803507C
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x08046F64
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x08050074
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x080500BC
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x08052068
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x080534C4
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x080769C0
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x080769E4
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0808F470
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x080CE0B8
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x080CE2B8
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x080CE454
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x080CE6C4
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0810BBE4
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0810BBF0
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0811D900
+    .word gMonStillFrontPicTable
+    .pool
+
+.org 0x0814AED8
+    .word gMonStillFrontPicTable
+    .pool
+
+
+// repoint back sprites
+.org 0x0823654C
+    .fill 0xDC0, 0xFF
+    .pool
+
+.org 0x0800012C
+    .word gMonBackPicTable
+    .pool
+
+.org 0x0800ED58
+    .word gMonBackPicTable
+    .pool
+
+.org 0x0800F19C
+    .word gMonBackPicTable
+    .pool
+
+.org 0x08034540
+    .word gMonBackPicTable
+    .pool
+
+.org 0x08034584
+    .word gMonBackPicTable
+    .pool
+
+.org 0x08034F04
+    .word gMonBackPicTable
+    .pool
+
+.org 0x08076A58
+    .word gMonBackPicTable
+    .pool
+
+.org 0x08076AC8
+    .word gMonBackPicTable
+    .pool
+
+.org 0x0810BC0C
+    .word gMonBackPicTable
+    .pool
+
+.org 0x0810BC24
+    .word gMonBackPicTable
+    .pool

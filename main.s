@@ -1,6 +1,6 @@
         .gba
         .thumb
-        .open "roms/BPRE0.gba","build/multi.gba", 0x08000000
+        .open "roms/BPRE0.gba","build/dw.gba", 0x08000000
 
         .include "patches/save.s"
         .include "patches/sideways_stairs.s"
