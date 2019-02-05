@@ -440,6 +440,19 @@
     .word gLevelUpLearnsets
     .pool
 
+// generated bin tables insert
+.org 0x08740000
+    .incbin "src/pokemon/front_sprite_data.bin"
+.pool
+
+.org 0x8740000 + 0x4000
+    .incbin "src/pokemon/back_sprite_data.bin"
+.pool
+
+.org 0x8740000 + 0x8000
+    .incbin "src/pokemon/shared_pal_data.bin"
+.pool
+
 
 // Pokemon front sprites
 .org 0x082350AC
@@ -558,7 +571,6 @@
     .word gMonStillFrontPicTable
     .pool
 
-
 // repoint back sprites
 .org 0x0823654C
     .fill 0xDC0, 0xFF
@@ -602,4 +614,29 @@
 
 .org 0x0810BC24
     .word gMonBackPicTable
+    .pool
+
+// repoint palette table
+.org 0x08000130
+    .word gMonSpritePalTable
+    .pool
+
+.org 0x08000130
+    .word gMonSpritePalTable
+    .pool
+
+.org 0x0804410C
+    .word gMonSpritePalTable
+    .pool
+
+.org 0x08044130
+    .word gMonSpritePalTable
+    .pool
+
+.org 0x080441A4
+    .word gMonSpritePalTable
+    .pool
+
+.org 0x080839C0
+    .word gMonSpritePalTable
     .pool
