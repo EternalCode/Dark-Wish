@@ -250,5 +250,5 @@ struct CompressedSpriteSheet gMonBackPicTable[248] = {
 	{START_ADDR_BACK_T + 195096, 0x800, 245},
 	{START_ADDR_BACK_T + 196744, 0x800, 246},
 	{START_ADDR_BACK_T + 197672, 0x800, 247},
-	
+
 };

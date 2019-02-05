@@ -616,7 +616,11 @@
     .word gMonBackPicTable
     .pool
 
-// repoint palette table
+
+// repoint palette tables
+.org 0x823730C
+    .fill 0xDC0, 0xFF
+
 .org 0x08000130
     .word gMonSpritePalTable
     .pool
@@ -640,3 +644,145 @@
 .org 0x080839C0
     .word gMonSpritePalTable
     .pool
+
+.org 0x080440F4
+    ldr r3, =(GetMonSpritePalStructFromOtIdPersonality|1)
+    bx r3
+.pool
+
+
+// Black sprite height
+.org 0x8235E6C
+    .fill 0x6E0, 0xFF
+
+.org 0x08074634
+    .word gMonBackPicCoords
+    .pool
+
+.org 0x08074664
+    .word gMonBackPicCoords
+    .pool
+
+.org 0x08074670
+    .word gMonBackPicCoords
+    .pool
+
+.org 0x08076564
+    .word gMonBackPicCoords
+    .pool
+
+.org 0x08076B1C
+    .word gMonBackPicCoords
+    .pool
+
+.org 0x08076BE8
+    .word gMonBackPicCoords
+    .pool
+
+.org 0x08076BF8
+    .word gMonBackPicCoords
+    .pool
+
+.org 0x08076C04
+    .word gMonBackPicCoords
+    .pool
+
+
+// Front sprite Y table
+.org 0x2349CC
+    .fill 0x6E0, 0xFF
+
+.org 0x08011F4C
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x08011F80
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x08011FAC
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x080477E0
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x08051410
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x08052120
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x08052800
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x0805357C
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x08074700
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x08074734
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x08074748
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x080765A8
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x08076AD8
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x08076CD4
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x08076CF0
+    .word gMonFrontPicCoords
+    .pool
+
+.org 0x0814A938
+    .word gMonFrontPicCoords
+    .pool
+
+
+// altitude table
+.org 0x080356F8
+    .word gEnemyMonElevation
+    .pool
+
+.org 0x0803575C
+    .word gEnemyMonElevation
+    .pool
+
+.org 0x08074794
+    .word gEnemyMonElevation
+    .pool
+
+.org 0x080747A8
+    .word gEnemyMonElevation
+    .pool
+
+// height table limiters
+.org 0x0807472E
+    .byte 0x03
+    .byte 0xE0
+
+.org 0x0807465E
+    .byte 0x03
+    .byte 0xE0
+
+.org 0x08074788
+    .byte 0x06
+    .byte 0xE0

@@ -250,5 +250,5 @@ struct SpritePalette gMonSpritePalTable[248] = {
 	{START_ADDR_PAL_T + 9128, 245},
 	{START_ADDR_PAL_T + 9168, 246},
 	{START_ADDR_PAL_T + 9204, 247},
-	
+
 };
