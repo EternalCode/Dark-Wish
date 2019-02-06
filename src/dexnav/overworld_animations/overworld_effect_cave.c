@@ -3,19 +3,19 @@
 
 
 const struct CompressedSpriteSheet cave_gfx[4] = {
-                                {.data = (const u8*)&cave_smokeTiles[128 * 0],
+                                {.data = (u8*)&cave_smokeTiles[128 * 0],
                                 .size = 0x80,
                                 .tag = 0xFFFF
                                 },
-                                {.data = (const u8*)&cave_smokeTiles[128 * 1],
+                                {.data = (u8*)&cave_smokeTiles[128 * 1],
                                 .size = 0x80,
                                 .tag = 0xFFFF
                                 },
-                                {.data = (const u8*)&cave_smokeTiles[128 * 2],
+                                {.data = (u8*)&cave_smokeTiles[128 * 2],
                                 .size = 0x80,
                                 .tag = 0xFFFF
                                 },
-                                {.data = (const u8*)&cave_smokeTiles[128 * 3],
+                                {.data = (u8*)&cave_smokeTiles[128 * 3],
                                 .size = 0x80,
                                 .tag = 0xFFFF
                                 },
