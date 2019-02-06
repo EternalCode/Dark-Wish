@@ -1,5 +1,5 @@
 #include <pokeagb/pokeagb.h>
-#include "pokemon.h"
+#include "../pokemon.h"
 
 struct SpritePalette gMonSpritePalTable[248] = {
 	{START_ADDR_PAL_T + 0, 0},

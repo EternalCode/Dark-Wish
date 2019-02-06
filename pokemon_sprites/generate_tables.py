@@ -8,6 +8,9 @@ import subprocess
 import sys
 import math
 
+# destination dir
+dest_dir = "../src/pokemon/gfx_tables/"
+
 order = ["question","horsea","seadra","kingdra","trapinch","vibrava","flygon","togepi","togetic",
         "togekiss","yungoos","gumshoos","bunnelby","diggersby","bounsweet","steenee","tsareena",
         "mareep","flaaffy","ampharos","combee","vespiquen","spinarak","ariados","joltik",
@@ -42,7 +45,7 @@ order = ["question","horsea","seadra","kingdra","trapinch","vibrava","flygon","t
 #-gB4 -gzl -pe16 -gu8 -pu8 -pzl -ftb -fh! -pS -S $base2"Pal" >$base$ext2
 GRIT_FLAGS = ['-gB4', '-gzl', '-pe16', '-gu8', '-pu8', '-pzl', '-ftb', '-fh!', '-pS', '-S']
 MKDIR_BUILD =["mkdir", "-p", "../src/pokemon"]
-MOVE_DATA_TABLES =["mv", "*_data.bin", "../src/pokemon"]
+MOVE_DATA_TABLES =["mv", "*_data.bin", "../src/pokemon/gfx_tables"]
 
 def run_command(cmd):
     try:
@@ -122,33 +125,33 @@ def main():
 
     # create front sprite table file
     run_command(MKDIR_BUILD)
-    open("../src/pokemon/pkmn_front_sprites.c", 'a').close()
-    with open("../src/pokemon/pkmn_front_sprites.c", "w+") as f:
+    open(dest_dir + "pkmn_front_sprites.c", 'a').close()
+    with open(dest_dir + "pkmn_front_sprites.c", "w+") as f:
         # includes
         f.write('#include <pokeagb/pokeagb.h>\n')
-        f.write('#include "pokemon.h"\n\n')
+        f.write('#include "../pokemon.h"\n\n')
         #content
         f.write("struct CompressedSpriteSheet gMonStillFrontPicTable[" + str(len(order)) + "] = {\n")
         f.write(front_sprite_table)
         f.write("\n};\n")
 
     # create back sprite table file
-    open("../src/pokemon/pkmn_back_sprites.c", 'a').close()
-    with open("../src/pokemon/pkmn_back_sprites.c", "w+") as f:
+    open(dest_dir + "pkmn_back_sprites.c", 'a').close()
+    with open(dest_dir +"pkmn_back_sprites.c", "w+") as f:
         # includes
         f.write('#include <pokeagb/pokeagb.h>\n')
-        f.write('#include "pokemon.h"\n\n')
+        f.write('#include "../pokemon.h"\n\n')
         # content
         f.write("struct CompressedSpriteSheet gMonBackPicTable[" + str(len(order)) + "] = {\n")
         f.write(back_sprite_table)
         f.write("\n};\n")
 
     # create palette sprite table file
-    open("../src/pokemon/pkmn_sprite_pals.c", 'a').close()
-    with open("../src/pokemon/pkmn_sprite_pals.c", "w+") as f:
+    open(dest_dir + "pkmn_sprite_pals.c", 'a').close()
+    with open(dest_dir + "pkmn_sprite_pals.c", "w+") as f:
         # includes
         f.write('#include <pokeagb/pokeagb.h>\n')
-        f.write('#include "pokemon.h"\n\n')
+        f.write('#include "../pokemon.h"\n\n')
         f.write("struct SpritePalette gMonSpritePalTable[" + str(len(order)) + "] = {\n")
         #content
         f.write(palette_table)

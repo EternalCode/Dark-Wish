@@ -1,10 +1,10 @@
 #include <pokeagb/pokeagb.h>
 
-#include "pokemon.h"
+#include "../pokemon.h"
 
-const struct MonCoords gMonFrontPicCoords[] =
+const struct MonCoords gMonBackPicCoords[] =
 {
-        // question
+    // question
     {
     	.width = 0,
     	.height = 0,
@@ -1308,9 +1308,9 @@ const struct MonCoords gMonFrontPicCoords[] =
     },
     // snover
     {
-        .width = 0,
-        .height = 0,
-        .y_offset = 0,
+    	.width = 0,
+    	.height = 0,
+    	.y_offset = 0,
     },
     // abomasnow
     {

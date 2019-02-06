@@ -1,5 +1,5 @@
 #include <pokeagb/pokeagb.h>
-#include "pokemon.h"
+#include "../pokemon.h"
 
 struct CompressedSpriteSheet gMonStillFrontPicTable[248] = {
 	{START_ADDR_FRONT_T + 0, 0x800, 0},

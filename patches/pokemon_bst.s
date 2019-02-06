@@ -442,15 +442,15 @@
 
 // generated bin tables insert
 .org 0x08740000
-    .incbin "src/pokemon/front_sprite_data.bin"
+    .incbin "src/pokemon/gfx_tables/front_sprite_data.bin"
 .pool
 
 .org 0x8740000 + 0x4000
-    .incbin "src/pokemon/back_sprite_data.bin"
+    .incbin "src/pokemon/gfx_tables/back_sprite_data.bin"
 .pool
 
 .org 0x8740000 + 0x8000
-    .incbin "src/pokemon/shared_pal_data.bin"
+    .incbin "src/pokemon/gfx_tables/shared_pal_data.bin"
 .pool
 
 
