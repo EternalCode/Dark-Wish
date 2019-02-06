@@ -689,7 +689,7 @@
 
 
 // Front sprite Y table
-.org 0x2349CC
+.org 0x082349CC
     .fill 0x6E0, 0xFF
 
 .org 0x08011F4C

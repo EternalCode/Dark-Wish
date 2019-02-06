@@ -1306,11 +1306,11 @@ const struct MonCoords gMonFrontPicCoords[] =
     	.height = 0,
     	.y_offset = 0,
     },
-    // snorunt
+    // snover
     {
-    	.width = 0,
-    	.height = 0,
-    	.y_offset = 0,
+        .width = 0,
+        .height = 0,
+        .y_offset = 0,
     },
     // abomasnow
     {
@@ -1318,11 +1318,11 @@ const struct MonCoords gMonFrontPicCoords[] =
     	.height = 0,
     	.y_offset = 0,
     },
-    // snover
+    // snorunt
     {
-    	.width = 0,
-    	.height = 0,
-    	.y_offset = 0,
+        .width = 0,
+        .height = 0,
+        .y_offset = 0,
     },
     // glalie
     {

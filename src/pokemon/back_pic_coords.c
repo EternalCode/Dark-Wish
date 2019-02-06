@@ -1306,7 +1306,7 @@ const struct MonCoords gMonBackPicCoords[] =
     	.height = 0,
     	.y_offset = 0,
     },
-    // snorunt
+    // snover
     {
     	.width = 0,
     	.height = 0,
@@ -1318,11 +1318,11 @@ const struct MonCoords gMonBackPicCoords[] =
     	.height = 0,
     	.y_offset = 0,
     },
-    // snover
+    // snorunt
     {
-    	.width = 0,
-    	.height = 0,
-    	.y_offset = 0,
+        .width = 0,
+        .height = 0,
+        .y_offset = 0,
     },
     // glalie
     {

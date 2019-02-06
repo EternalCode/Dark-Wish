@@ -1,4 +1,4 @@
-#include <"pokeagb/pokeagb.h">
+#include <pokeagb/pokeagb.h>
 
 const u8 gEnemyMonElevation[] = {
     //question
@@ -435,11 +435,11 @@ const u8 gEnemyMonElevation[] = {
     0,
     //weavile
     0,
-    //snorunt
+    //snover
     0,
     //abomasnow
     0,
-    //snover
+    //snorunt
     0,
     //glalie
     0,

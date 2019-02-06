@@ -33,8 +33,8 @@ order = ["question","horsea","seadra","kingdra","trapinch","vibrava","flygon","t
         "togedemaru","mimikyu","rotom","sandygast","palossand","litwick","lampent","chandelure",
         "dhelmise","honedge","doublade","aegislash","spirittomb","mawile","shuckle","girafarig",
         "munchlax","snorlax","pancham","pangoro","passimian","stufful","bewear","bouffalant",
-        "kangaskhan","hawlucha","tropius","lapras","skarmory","sneasel","weavile","snorunt",
-        "abomasnow","snover","glalie","froslass","bergmite","avalugg","cryogonal","porygon",
+        "kangaskhan","hawlucha","tropius","lapras","skarmory","sneasel","weavile","snover",
+        "abomasnow","snorunt","glalie","froslass","bergmite","avalugg","cryogonal","porygon",
         "porygon2","porygonz","druddigon","golett","golurk","drilbur","excadrill","beldum","metang",
         "metagross","gible","gabite","garchomp","dratini","dragonair","dragonite","latias","latios",
         "heatran","deoxys","jirachi","darkrai"]
