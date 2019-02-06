@@ -1,8 +1,8 @@
 #include <pokeagb/pokeagb.h>
+#include "pokemon.h"
 
 #define LEVEL_UP_MOVE(lvl, move) ((lvl << 9) | move)
 #define LEVEL_UP_END 0xFFFF
-#define NUM_SPECIES SPECIES_EGG
 
 static const u16 sBulbasaurLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_TACKLE),

@@ -134,7 +134,7 @@ const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1] = {
     _("Glaceon"),
     _("Sylveon"),
     _("Rockruff"),
-    _("Lycanros"),
+    _("Lycanroc"),
     _("Geodude"),
     _("Graveler"),
     _("Golem"),
