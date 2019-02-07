@@ -1,3 +1,22 @@
+.org 0x08104AB0
+    mov r0, 0x0
+    bx lr
+.pool
+
+.org 0x080549AC
+    bx lr
+.pool
+
+.org 0x080829FC
+    push{lr}
+        ldr r0, =(make_pkmn|1)
+        bl lrzero
+    pop {pc}
+lrzero:
+    bx r0
+.pool
+
+
 // nop old Base stats table
 .org 0x08254784
     .fill 11536, 0xFF
@@ -445,15 +464,15 @@
     .pool
 
 // generated bin tables insert
-.org 0x08740000
+.org 0x8740000
     .incbin "src/pokemon/gfx_tables/front_sprite_data.bin"
 .pool
 
-.org 0x8740000 + 0x4000
+.org 0x8740000 + 0x50000
     .incbin "src/pokemon/gfx_tables/back_sprite_data.bin"
 .pool
 
-.org 0x8740000 + 0x8000
+.org 0x8740000 + 0x10000
     .incbin "src/pokemon/gfx_tables/shared_pal_data.bin"
 .pool
 
