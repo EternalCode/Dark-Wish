@@ -2,6 +2,10 @@
 .org 0x08254784
     .fill 11536, 0xFF
 
+.org 0x08130FA4
+    .word gMonStillFrontPicTable + 16
+.pool
+
 // repoint Base stat table
 .org 0x080001BC
 	.word gBaseStats
