@@ -23,3 +23,17 @@ void GetClockTime(u8* hour, u8* min)
     totalMinutes -= *min;
     *hour = totalMinutes / 60;
 }
+
+
+bool PartyHasAbility(u8 ability)
+{
+    for (u8 i = 0; i < gPartyCount; i++) {
+        if (pokemon_getattr(&party_player[i], REQUEST_SANITY_X6, NULL)) continue; // egg
+        u16 species = pokemon_getattr(&party_player[i], REQUEST_SPECIES, NULL);
+        u8 monAbility = get_ability(species, pokemon_getattr(&party_player[i], REQUEST_ABILITY_BIT, NULL));
+        if (monAbility == ability) {
+            return true;
+        }
+    }
+    return false;
+}
