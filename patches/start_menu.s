@@ -12,6 +12,7 @@
 .word sm_poketools|1
 .pool
 
-.org 0x0806F404
-.word sm_poketools|1
+.org 0x0806F3CC
+	mov r0, #0x1
+	bx lr
 .pool

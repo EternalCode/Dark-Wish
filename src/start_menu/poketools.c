@@ -1,4 +1,5 @@
 #include <pokeagb/pokeagb.h>
+#include "../global.h"
 
 #define TOOL_COUNT 2
 extern u8 exec_dexnav(void);
