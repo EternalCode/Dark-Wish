@@ -326,7 +326,6 @@ u8 dexnav_generate_pokemonlvl(u16 species, u8 search_level, u8 environment) {
 
 void dexnav_gen_pkmnn(u16 species, u8 potential, u8 level, u8 ability, u16* moves) {
     struct Pokemon* pkmn = party_opponent;
-
     // clear canvas
     memset((void*)pkmn, 0, 100);
     u32 trainerId = (u32)gSaveBlock2Ptr->playerTrainerId;
@@ -364,9 +363,13 @@ void dexnav_gen_pkmnn(u16 species, u8 potential, u8 level, u8 ability, u16* move
     }
 
     // set ability
-    /* TODO MANAGE HIDDEN ABILITIES */
-    u8 on_bit = gBaseStats[species].ability2 ? 1 : 0;
-    set_pokemon_data_2(pkmn, REQUEST_ABILITY_BIT, (void*) &on_bit);
+    if (gBaseStats[species].ability1 == ability){
+        pkmn->box.unused = 0;
+    } else if (gBaseStats[species].ability2 == ability) {
+        pkmn->box.unused = 1;
+    } else {
+        pkmn->box.unused = 2;
+    }
 
     // set moves
     set_pokemon_data_2(pkmn, REQUEST_MOVE1, (void*) (moves));
