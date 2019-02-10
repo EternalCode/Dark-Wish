@@ -1,5 +1,8 @@
 #include <pokeagb/pokeagb.h>
-#include "global.h"
+
+#define TIME_SCALE 19
+#define MINUTES_IN_A_DAY 1140
+extern u8 get_ability(u16 species, u8 abilityIndicator);
 
 void CpuFastSet(void* src, void* dst, u32 mode)
 {
