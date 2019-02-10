@@ -196,7 +196,7 @@ void dexnav_gui_exit_search() {
     switch (gMain.state) {
         case 0:
             BeginNormalPaletteFade(~0, 0, 0x0, 0x10, 0);
-            audio_play(SOUND_PC_OPEN);
+            PlaySE(SOUND_PC_OPEN);
             gMain.state++;
             break;
         case 1:
@@ -311,7 +311,7 @@ void DexnavGuiHandler() {
                         } else {
                             // beep and update
                             dexnav_load_pnames(0);
-                            audio_play(SOUND_RSE_BERRY_MIX_CLICK);
+                            PlaySE(SOUND_RSE_BERRY_MIX_CLICK);
                         }
                         break;
                         }
@@ -353,14 +353,14 @@ void DexnavGuiHandler() {
                         if (species) {
                             // species was valid
                             dexnav_load_pnames(2);
-                            audio_play(SOUND_PC_OPEN);
+                            PlaySE(SOUND_PC_OPEN);
                             // create value to store in a var
                             u16 var_store = ((*DNavState)->selected_arr << 15) | species;
                             VarSet(DEXNAV_VAR, var_store);
                         } else {
                             // beep and update
                             dexnav_load_pnames(0);
-                            audio_play(SOUND_RSE_BERRY_MIX_CLICK);
+                            PlaySE(SOUND_RSE_BERRY_MIX_CLICK);
                         }
                         break;
                     }
@@ -368,7 +368,7 @@ void DexnavGuiHandler() {
                         return;
                 };
                 update_cursor_position();
-                audio_play(SOUND_GENERIC_CLINK);
+                PlaySE(SOUND_GENERIC_CLINK);
             }
             break;
         default:

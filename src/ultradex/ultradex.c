@@ -363,7 +363,7 @@ void C1UltraDexInteractionHandler()
                 gMain.state = 0;
             } else {
                 DisplayAppError();
-                audio_play(SOUND_RSE_BERRY_MIX_CLICK);
+                PlaySE(SOUND_RSE_BERRY_MIX_CLICK);
                 return;
             }
             break;
@@ -377,7 +377,7 @@ void C1UltraDexInteractionHandler()
             gUltraDex->selectedAppIndex--;
             if (gUltraDex->selectedAppIndex < 0) {
                 // make error noise
-                audio_play(SOUND_RSE_BERRY_MIX_CLICK);
+                PlaySE(SOUND_RSE_BERRY_MIX_CLICK);
                 gUltraDex->selectedAppIndex++;
                 return;
             } else if (gUltraDex->selectedAppIndex < APPS_PER_PAGE && gUltraDex->page) {
@@ -399,7 +399,7 @@ void C1UltraDexInteractionHandler()
             if (gUltraDex->selectedAppIndex == APPS_COUNT-1) {
                 // make error noise
                 gUltraDex->selectedAppIndex--;
-                audio_play(SOUND_RSE_BERRY_MIX_CLICK);
+                PlaySE(SOUND_RSE_BERRY_MIX_CLICK);
                 return;
             } else if (gUltraDex->selectedAppIndex > (APPS_PER_PAGE - 1) && !gUltraDex->page) {
                 // we need to go to page 2
@@ -417,5 +417,5 @@ void C1UltraDexInteractionHandler()
         default:
             return;
     };
-    audio_play(SOUND_GENERIC_CLINK);
+    PlaySE(SOUND_GENERIC_CLINK);
 }
