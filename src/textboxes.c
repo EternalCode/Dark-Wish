@@ -17,7 +17,7 @@ void MsgNormal(pchar *str){
    return;
 }
 
-/* GUI Rboxes */
+/* Text color for text boxes */
 #define rgb5(r, g, b) (u16)((r >> 3) | ((g >> 3) << 5) | ((b >> 3) << 10))
 
 const u16 GenericTextPal[] = {rgb5(255, 0, 255),   rgb5(248, 248, 248), rgb5(112, 112, 112), rgb5(96, 96, 96),
@@ -30,6 +30,7 @@ struct TextColor textWhite = {0, 1, 2};
 struct TextColor textRed = {0, 7, 8};
 struct TextColor textGreen = {0, 5, 6};
 
+/* Dexnav GUI Rboxes */
 struct TextboxTemplate dexnavBoxes[] = {
     {
         /*Species */

@@ -6,6 +6,7 @@
 MainCallback call_203AE8C = (MainCallback)0x0811092;
 extern bool ProcessPlayerFieldInput(struct FieldInput *input);
 
+
 void FieldClearPlayerInput(struct FieldInput *input)
 {
     input->pressedAButton = false;
@@ -22,6 +23,7 @@ void FieldClearPlayerInput(struct FieldInput *input)
     input->input_field_1_3 = false;
     input->dpadDirection = 0;
 }
+
 
 void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
 {
@@ -67,15 +69,17 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
         input->dpadDirection = DIR_EAST;
 }
 
+
 void C1Overworld()
 {
-    if ((gMain.callback2 != (MainCallback)c2_overworld) || (script_env_2.enabled)) return;
+    if ((gMain.callback2 != (MainCallback)c2_overworld)) return;
     enum Keypad newKeys = gMain.newKeys;
     enum Keypad heldKeys = gMain.heldKeys;
     struct FieldInput inputStruct;
     sub_805BEB8(); // something to do with player animation
     memset(&inputStruct, 0, sizeof(struct FieldInput));
     FieldGetPlayerInput(&inputStruct, newKeys, heldKeys);
+    if ((script_env_2.enabled)) return;
     if (ProcessPlayerFieldInput(&inputStruct) == 1) {
         script_env_2.enabled = 1;
         HideMapPopUpWindow();

@@ -2,7 +2,7 @@
 #define GLOBAL_DEFS_H_
 
 #include <pokeagb/pokeagb.h>
-#include "saveblock_expansion/save.h"
+#include "core/saveblock_expansion/save.h"
 
 /* Util general */
 extern u16 rand_range(u16 min, u16 max);
@@ -10,6 +10,10 @@ extern u16 rand_range(u16 min, u16 max);
 /* Pokemon data fetching */
 extern u8 get_ability(u16 species, u8 ability_index);
 extern bool PartyHasAbility(u8 ability);
+
+/* EventObjects fetch macros */
+#define EVENTID_DIR(i) (gEventObjects[i].direction & 0xF)
+#define EVENTOBJ_DIR(n) (n->direction & 0xF)
 
 /* var access funcs */
 extern u8 *GetFlagPointer(u16 id);

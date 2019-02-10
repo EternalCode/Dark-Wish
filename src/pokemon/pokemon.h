@@ -3,7 +3,7 @@
 
 #include <pokeagb/pokeagb.h>
 #include "pokemon_base_stats.h"
-#include "evolution_table.h"
+#include "evolution/evolution_table.h"
 
 #define POKE_COUNT SPECIES_MAX
 #define EVOS_PER_MON 5
@@ -262,7 +262,7 @@ enum PokemonSpecies {
 
 #define START_ADDR_FRONT_T (const u8*)0x08740000
 #define START_ADDR_BACK_T (const u8*)0x8740000 + 0x50000
-#define START_ADDR_PAL_T (const u8*)0x8740000 + 0x10000
+#define START_ADDR_PAL_T (const u8*)0x8740000 + 0x100000
 
 extern const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1];
 extern const u16 *const gLevelUpLearnsets[POKE_COUNT];
