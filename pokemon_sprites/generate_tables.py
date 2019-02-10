@@ -44,7 +44,7 @@ order = ["question","horsea","seadra","kingdra","trapinch","vibrava","flygon","t
 
 #-gB4 -gzl -pe16 -gu8 -pu8 -pzl -ftb -fh! -pS -S $base2"Pal" >$base$ext2
 GRIT_FLAGS = ['-gB4', '-gzl', '-pe16', '-gu8', '-pu8', '-pzl', '-ftb', '-fh!', '-pS', '-S']
-MKDIR_BUILD =["mkdir", "-p", "../src/pokemon"]
+MKDIR_BUILD =["mkdir", "-p", dest_dir]
 MOVE_DATA_TABLES =["mv", "*_data.bin", "../src/pokemon/gfx_tables"]
 
 def run_command(cmd):
