@@ -4,6 +4,17 @@
 #include <pokeagb/pokeagb.h>
 #include "saveblock_expansion/save.h"
 
+/* Util general */
+extern u16 rand_range(u16 min, u16 max);
+
+/* Pokemon data fetching */
+extern u8 get_ability(u16 species, u8 ability_index);
+extern bool PartyHasAbility(u8 ability);
+
+/* var access funcs */
+extern u8 *GetFlagPointer(u16 id);
+extern u16 *GetVarPointer(u16 id);
+
 /* Colors */
 #define rgb5(r, g, b) (u16)((r >> 3) | ((g >> 3) << 5) | ((b >> 3) << 10))
 
