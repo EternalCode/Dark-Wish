@@ -472,7 +472,7 @@ lrzero:
     .incbin "src/pokemon/gfx_tables/back_sprite_data.bin"
 .pool
 
-.org 0x8740000 + 0x10000
+.org 0x8740000 + 0x100000
     .incbin "src/pokemon/gfx_tables/shared_pal_data.bin"
 .pool
 
