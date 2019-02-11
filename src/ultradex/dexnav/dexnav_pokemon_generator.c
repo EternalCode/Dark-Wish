@@ -39,7 +39,7 @@ u8 get_encounter_level(u16 species, u8 environment) {
         {
             u8 i;
             for (i = 0; i < 12; i++) {
-                struct wild_pokemon w_pkmn = wild_pokemon_data[index].grass_encounter->wild_encounters->wild_grass[i];
+                struct wild_pokemon w_pkmn = gWildMonHeaders[index].grass_encounter->wild_encounters->wild_grass[i];
                 if (w_pkmn.species == species) {
                     min = (min < w_pkmn.min_level) ? min : w_pkmn.min_level;
                     max = (max > w_pkmn.max_level) ? max : w_pkmn.max_level;
@@ -53,7 +53,7 @@ u8 get_encounter_level(u16 species, u8 environment) {
         {
             u8 i;
             for (i = 0; i < 5; i++) {
-                struct wild_pokemon w_pkmn = wild_pokemon_data[index].water_encounter->wild_encounters->wild_water[i];
+                struct wild_pokemon w_pkmn = gWildMonHeaders[index].water_encounter->wild_encounters->wild_water[i];
                 if (w_pkmn.species == species) {
                     min = (min < w_pkmn.min_level) ? min : w_pkmn.min_level;
                     max = (max > w_pkmn.max_level) ? max : w_pkmn.max_level;

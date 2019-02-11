@@ -64,7 +64,6 @@ bool CheckPathwayValid(struct EventObject* trainerObj, u8 dir, u8 dist, u8* move
             for (i = 1; i < dist; i++) {
                 // check tile valid
                 if (GetCollisionAtCoords(trainerObj, x + i, y, dir) & COLLISIONMASK)
-                    dprintf("there was a collision to the area... on %d tile\n", i);
                     return false;
                 movements[i] = sMOVE_RIGHT;
             }

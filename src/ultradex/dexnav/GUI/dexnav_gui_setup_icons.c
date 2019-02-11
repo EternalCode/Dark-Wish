@@ -29,9 +29,9 @@ void dexnav_populate_encounter_list() {
     u8 insertion_index = 0;
     u8 index = get_wild_data_index_for_map();
 
-    if (wild_pokemon_data[index].grass_encounter) {
+    if (gWildMonHeaders[index].grass_encounter) {
         for (u8 i = 0; i < 12; i++) {
-            struct wild_pokemon w_pkmn = wild_pokemon_data[index].grass_encounter->wild_encounters->wild_grass[i];
+            struct wild_pokemon w_pkmn = gWildMonHeaders[index].grass_encounter->wild_encounters->wild_grass[i];
             if (!species_in_array(w_pkmn.species, 12)) {
                 (*DNavState)->grass_species[insertion_index] = w_pkmn.species;
                 insertion_index++;
@@ -41,10 +41,10 @@ void dexnav_populate_encounter_list() {
     // populate unique wild water encounters
     insertion_index = 0;
     // exit if no water encounters
-    if (wild_pokemon_data[index].water_encounter == NULL)
+    if (gWildMonHeaders[index].water_encounter == NULL)
         return;
     for (u8 i = 0; i < 5; i++) {
-        struct wild_pokemon w_pkmn = wild_pokemon_data[index].water_encounter->wild_encounters->wild_water[i];
+        struct wild_pokemon w_pkmn = gWildMonHeaders[index].water_encounter->wild_encounters->wild_water[i];
         if (!species_in_array(w_pkmn.species, 5)) {
             (*DNavState)->water_species[insertion_index] = w_pkmn.species;
             insertion_index++;

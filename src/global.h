@@ -3,13 +3,18 @@
 
 #include <pokeagb/pokeagb.h>
 #include "core/saveblock_expansion/save.h"
+#include "pokemon/pokemon_base_stats.h"
 
 /* Util general */
 extern u16 rand_range(u16 min, u16 max);
 
 /* Pokemon data fetching */
+#define TYPES_OF_SPECIES(species) (gBaseStats[species].type1 | (gBaseStats[species].type2 << 8))
 extern u8 get_ability(u16 species, u8 ability_index);
 extern bool PartyHasAbility(u8 ability);
+extern u8 GetPokemonAbility(struct Pokemon* p);
+extern u8 GetGenderFromSpeciesAndPersonality(u16 species, u32 personality);
+
 
 /* EventObjects fetch macros */
 #define EVENTID_DIR(i) (gEventObjects[i].direction & 0xF)

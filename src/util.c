@@ -1,4 +1,5 @@
 #include <pokeagb/pokeagb.h>
+#include "pokemon/pokemon_base_stats.h"
 
 #define TIME_SCALE 19
 #define MINUTES_IN_A_DAY 1140
@@ -39,4 +40,30 @@ bool PartyHasAbility(u8 ability)
         }
     }
     return false;
+}
+
+
+u8 GetPokemonAbility(struct Pokemon* p)
+{
+    if (!pokemon_getattr(p, REQUEST_SANITY_X6, NULL)) {
+        u16 species = pokemon_getattr(p, REQUEST_SPECIES, NULL);
+        u8 monAbility = get_ability(species, pokemon_getattr(p, REQUEST_ABILITY_BIT, NULL));
+        return monAbility;
+    }
+    return ABILITY_NONE;
+}
+
+
+u8 GetGenderFromSpeciesAndPersonality(u16 species, u32 personality)
+{
+    switch (gBaseStats[species].genderRatio) {
+    case MON_MALE:
+    case MON_FEMALE:
+    case MON_GENDERLESS:
+        return gBaseStats[species].genderRatio;
+    };
+    if (gBaseStats[species].genderRatio > (personality & 0xFF))
+        return MON_FEMALE;
+    else
+        return MON_MALE;
 }

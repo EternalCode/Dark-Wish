@@ -5,7 +5,7 @@
 #define EventScript_RepelFinished 0x081BFB65
 
 extern u8 CheckRegisteredDexnavMon(void);
-extern bool CheckStandardWildEncounter(u16 metatileBehavior);
+extern bool DoWildEncounters(struct MapPosition* p);
 extern bool CheckTrainerBattle(struct MapPosition* p);
 
 void GetPlayerPosition(struct MapPosition* p)
@@ -115,8 +115,10 @@ bool ProcessPlayerFieldInput(struct FieldInput *input)
             return true;
     }
 
-    if (input->checkStandardWildEncounter && CheckStandardWildEncounter(metatileBehavior) == true)
+    if (input->checkStandardWildEncounter && DoWildEncounters(&playerPos) == true) {
         return true;
+    }
+
     if (input->heldDirection && input->dpadDirection == playerDirection)
     {
         if (TryArrowWarp(&playerPos, metatileBehavior, playerDirection) == true)
