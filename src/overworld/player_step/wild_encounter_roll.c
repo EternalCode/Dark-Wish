@@ -273,7 +273,7 @@ bool DoWildEncounters(struct MapPosition* playerPos)
     if (DoWildEncounterRateDiceRoll(baseEncounterRate)) {
         if (GenerateWildPokemon(environment, index)) {
             // setup the battle
-            sub_807F8C4();
+            StartWildBattleNormal();
             return true;
         }
     }

@@ -12,12 +12,12 @@ void VblankSPQ()
 void C2DexnavGui()
 {
     obj_sync_superstate();
-    objc_exec();
+    AnimateSprites();
     process_palfade();
-    task_exec();
+    RunTasks();
     tilemaps_sync();
     // merge textbox and text tile maps
-    remoboxes_upload_tilesets();
+    RunTextPrinters();
 }
 
 
@@ -70,12 +70,12 @@ void Setup()
     // pals
     ResetPals();
     // objs
-    obj_and_aux_reset_all();
+    ResetSpriteData();
     gpu_tile_obj_tags_reset();
     // VRAM clear
     u32 set = 0;
     CpuFastSet((void*)&set, (void*)ADDR_VRAM, CPUModeFS(0x10000, CPUFSSET));
     // tasks
     malloc_init((void*)0x2000000, 0x1C000);
-    tasks_init();
+    ResetTasks();
 }

@@ -40,8 +40,8 @@ void dexnav_gui_setup() {
     bg_vram_setup(0, (struct BgConfig *)&bg_config_dexnav_gui, 4);
     u32 set = 0;
     CpuFastSet((void*)&set, (void*)ADDR_VRAM, CPUModeFS(0x10000, CPUFSSET));
-    gpu_sync_bg_hide(1);
-    gpu_sync_bg_hide(0);
+    HideBg(1);
+    HideBg(0);
     SetMainCallback2(C2DexnavGui);
     SetVBlankCallback(VblankSPQ);
 }
@@ -284,8 +284,8 @@ void DexnavGuiHandler() {
             //WRITE_REG_BLDCNT(0x401E);
             REG_BLDCNT = BLDALPHA_BUILD(BLDCNT_BG1_SRC | BLDCNT_BG2_SRC | BLDCNT_BG3_SRC | BLDCNT_SPRITES_SRC, 0);
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, 0x0000);
-            gpu_sync_bg_show(0);
-            gpu_sync_bg_show(1);
+            ShowBg(0);
+            ShowBg(1);
             dexnav_load_pokemon_icons();
             spawn_pointer_arrow();
             (*DNavState)->selected_arr = 0;

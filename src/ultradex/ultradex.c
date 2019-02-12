@@ -132,10 +132,10 @@ void UltraDexSetup()
     bg_vram_setup(0, (struct BgConfig *)&BGConfigUDex, 4);
     u32 set = 0;
     CpuFastSet((void*)&set, (void*)ADDR_VRAM, CPUModeFS(0x10000, CPUFSSET));
-    gpu_sync_bg_hide(3);
-    gpu_sync_bg_hide(2);
-    gpu_sync_bg_hide(1);
-    gpu_sync_bg_hide(0);
+    HideBg(3);
+    HideBg(2);
+    HideBg(1);
+    HideBg(0);
     SetMainCallback2(C2DexnavGui);
     SetVBlankCallback(VblankSPQ);
 }
@@ -268,10 +268,10 @@ void C1UltraDexBoot()
             bgid_mark_for_sync(1);
             bgid_mark_for_sync(2);
             bgid_mark_for_sync(3);
-            gpu_sync_bg_show(0);
-            gpu_sync_bg_show(1);
-            gpu_sync_bg_show(2);
-            gpu_sync_bg_show(3);
+            ShowBg(0);
+            ShowBg(1);
+            ShowBg(2);
+            ShowBg(3);
             ShowUltraDexObjects(gUltraDex->page);
             ShowUltraDexObjects(1);
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, 0x0000);

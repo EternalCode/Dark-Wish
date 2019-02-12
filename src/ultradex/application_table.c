@@ -84,7 +84,7 @@ bool WorldMapIsValid()
 /* Pokecall Application */
 const pchar appPokecallName[] = _("PokéCall");
 const pchar appPokecallDesc[] = _("Speak with your friends through\nthe PokéNetwork.");
-const pchar appPokecallError[] = _("Error: No SIM\n Please insert a SIM card.");
+const pchar appPokecallError[] = _("Error: No SIM\nPlease insert a SIM card.");
 
 void PokecallAppCB()
 {
@@ -186,6 +186,7 @@ struct DexApplication DexApps[] = {
         .appDescription = appPokepediaDesc,
         .errorText = appPokepediaError,
         .appCB = PokepediaAppCB,
+        .appValidityCB = PokepediaIsValid,
         .xNameShift = 2,
     },
     {
