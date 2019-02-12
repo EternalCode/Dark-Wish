@@ -2,32 +2,6 @@
 #include "HUD/dexnav_hud.h"
 #include "../../pokemon/pokemon.h"
 
-#define EGGMOVE_MAX 8
-
-u8 CountEggMoves(u16 *eggmoveBuff) {
-    u8 i;
-    u8 count = 0;
-    for (i = 0; i < EGGMOVE_MAX; i++) {
-        if (eggmoveBuff[i] > MOVE_MAX) {
-            return count;
-        } else {
-            count += 1;
-        }
-    }
-    return count;
-}
-
-void PopulateEggmoveBuffer(u16 eggSpecies, u16 *eggmoveBuff) {
-    memset((void *)eggmoveBuff, 0x0, EGGMOVE_MAX);
-    u16 i;
-    for (i = 0; i < 0x471; i++) {
-        if (pokemon_eggmoves[i] == (eggSpecies + 20000)) { //  lol gamefreak
-            memcpy((void *)eggmoveBuff, (void*)&pokemon_eggmoves[i + 1], 2 * EGGMOVE_MAX);
-            return;
-        }
-
-    }
-}
 
 u8 get_encounter_level(u16 species, u8 environment) {
     u8 index = get_wild_data_index_for_map();
@@ -113,10 +87,9 @@ void dexnav_generate_move(u16 species, u8 search_level, u8 encounter_level, u16*
     // get the species's egg move, if one exists
     enum Move move[4] = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_NONE};
     if (gen_move) {
-        enum Move eggmoveBuff[EGGMOVE_MAX];
-        enum Move eggSpecies = get_base_species(species);
-        PopulateEggmoveBuffer(eggSpecies, &eggmoveBuff[0]);
-        move[0] =  eggmoveBuff[rand() % CountEggMoves(&eggmoveBuff[0])];
+        u8 moveCount = CountEggMoves(species);
+        u16* eggMoves = GetEggMoves(species);
+        move[0] =  eggMoves[rand_range(0, moveCount)];
     } else {
         // case the species has no egg moves
         gen_move = false;

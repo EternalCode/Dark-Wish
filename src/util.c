@@ -67,3 +67,13 @@ u8 GetGenderFromSpeciesAndPersonality(u16 species, u32 personality)
     else
         return MON_MALE;
 }
+
+extern u16* GetEggMoves(u16 species);
+u8 CountEggMoves(u16 species)
+{
+    u16* eggMoves = GetEggMoves(species);
+    u8 i = 0;
+    while (eggMoves[i] != MOVE_NONE)
+        i++;
+    return i;
+}
