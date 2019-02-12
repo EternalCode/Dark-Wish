@@ -11,6 +11,7 @@
         .include "patches/pokemon_bst.s"
         .include "patches/new_game.s"
         .include "patches/overworld.s"
+        .include "patches/252EVs.s"
 
 		.org 0x08FFFFFF
 			.fill 0xFFFFFF, 0xFF
