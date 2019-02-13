@@ -496,7 +496,7 @@ const struct MonCoords gMonBackPicCoords[] =
     	.height = 0,
     	.y_offset = 0,
     },
-    // pelliper
+    // PELIPPER
     {
     	.width = 0,
     	.height = 0,
@@ -1066,13 +1066,13 @@ const struct MonCoords gMonBackPicCoords[] =
     	.height = 0,
     	.y_offset = 0,
     },
-    // comfey
+    // snubbull
     {
     	.width = 0,
     	.height = 0,
     	.y_offset = 0,
     },
-    // klefki
+    // granbull
     {
     	.width = 0,
     	.height = 0,
@@ -1114,19 +1114,7 @@ const struct MonCoords gMonBackPicCoords[] =
     	.height = 0,
     	.y_offset = 0,
     },
-    // dedenne
-    {
-    	.width = 0,
-    	.height = 0,
-    	.y_offset = 0,
-    },
     // togedemaru
-    {
-    	.width = 0,
-    	.height = 0,
-    	.y_offset = 0,
-    },
-    // mimikyu
     {
     	.width = 0,
     	.height = 0,

@@ -30,10 +30,10 @@ order = ["question","horsea","seadra","kingdra","trapinch","vibrava","flygon","t
         "graveler","golem","anorith","armaldo","lileep","cradily","chinchou","lanturn","staryu",
         "starmie","spheal","sealeo","walrein","pawniard","bisharp","scraggy","scrafty","gligar",
         "gliscor","skiddo","gogoat","drampa","larvitar","pupitar","tyranitar","salandit","salazzle",
-        "sandile","krokorok","krookodile","sigilyph","maractus","cacnea","cacturne","slugma",
-        "magcargo","torkoal","turtonator","larvesta","volcarona","swirlix","slurpuff","comfey",
-        "klefki","tynamo","eelektrik","eelektross","magnemite","magneton","magnezone","dedenne",
-        "togedemaru","mimikyu","rotom","sandygast","palossand","litwick","lampent","chandelure",
+        "sandile","krokorok","krookodile","sigilyph","maractus","cacnea","cacturne", "shuckle","slugma",
+        "magcargo","torkoal","turtonator","larvesta","volcarona","swirlix","slurpuff","snubbull",
+        "granbull","tynamo","eelektrik","eelektross","magnemite","magneton","magnezone",
+        "togedemaru","rotom","sandygast","palossand","litwick","lampent","chandelure",
         "dhelmise","honedge","doublade","aegislash","spiritomb","mawile","shuckle","girafarig",
         "munchlax","snorlax","pancham","pangoro","passimian","stufful","bewear","bouffalant",
         "kangaskhan","hawlucha","tropius","lapras","skarmory","sneasel","weavile","snover",
@@ -77,6 +77,7 @@ def main():
             dest.seek(offset)
             dest.write(src.read())
             # format table entry text for logging
+            front_sprite_table = front_sprite_table + "// " + mon + "\n\t"
             front_sprite_table = front_sprite_table + "{START_ADDR_FRONT_T + " + str(offset) + ", 0x800, " + str(counter) + "},\n\t"
             offset = offset + os.path.getsize(".//" + mon+".img.bin")
             # requires word alignment for read with LDR

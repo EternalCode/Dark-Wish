@@ -277,7 +277,7 @@ u16 slowpoke_eggmoves[] = {
 	MOVE_MEFIRST,
 	MOVE_BLOCK,
 	MOVE_ZENHEADBUTT,
-	MOVE_WONDERROOM,
+	MOVE_ECHOEDVOICE,
 	MOVE_BELCH,
 
 	MOVE_NONE,
@@ -295,7 +295,7 @@ u16 abra_eggmoves[] = {
 	MOVE_SKILLSWAP,
 	MOVE_GUARDSPLIT,
 	MOVE_PSYCHOSHIFT,
-	MOVE_ALLYSWITCH,
+	MOVE_NIGHTSHADE,
 	MOVE_PSYCHICTERRAIN,
 	MOVE_NONE,
 };
@@ -723,7 +723,6 @@ u16 mienfoo_eggmoves[] = {
 	MOVE_FEINT,
 	MOVE_MEFIRST,
 	MOVE_KNOCKOFF,
-	MOVE_ALLYSWITCH,
 	MOVE_NONE,
 };
 
@@ -753,7 +752,6 @@ u16 ponyta_eggmoves[] = {
 	MOVE_MORNINGSUN,
 	MOVE_LOWKICK,
 	MOVE_CAPTIVATE,
-	MOVE_ALLYSWITCH,
 	MOVE_HIGHHORSEPOWER,
 	MOVE_NONE,
 };
@@ -1108,28 +1106,22 @@ u16 swirlix_eggmoves[] = {
 	MOVE_NONE,
 };
 
-u16 comfey_eggmoves[] = {
-	MOVE_ENDURE,
-	MOVE_AMNESIA,
-	MOVE_AFTERYOU,
-	MOVE_LUCKYCHANT,
-	MOVE_NONE,
-};
-
-u16 klefki_eggmoves[] = {
-	MOVE_SWITCHEROO,
-	MOVE_THIEF,
-	MOVE_LOCKON,
-	MOVE_IRONDEFENSE,
-	MOVE_NONE,
-};
-
-u16 dedenne_eggmoves[] = {
-	MOVE_EERIEIMPULSE,
-	MOVE_COVET,
-	MOVE_HELPINGHAND,
-	MOVE_NATURALGIFT,
-	MOVE_TEARFULLOOK,
+u16 snubbull_eggmoves[] = {
+	MOVE_METRONOME,
+	MOVE_FEINTATTACK,
+	MOVE_PRESENT,
+	MOVE_CRUNCH,
+	MOVE_HEALBELL,
+	MOVE_SNORE,
+	MOVE_SMELLINGSALTS,
+	MOVE_CLOSECOMBAT,
+	MOVE_ICEFANG,
+	MOVE_FIREFANG,
+	MOVE_THUNDERFANG,
+	MOVE_FOCUSPUNCH,
+	MOVE_DOUBLEEDGE,
+	MOVE_MIMIC,
+	MOVE_FAKETEARS,
 	MOVE_NONE,
 };
 
@@ -1143,14 +1135,6 @@ u16 togedemaru_eggmoves[] = {
 	MOVE_TICKLE,
 	MOVE_FLAIL,
 	MOVE_DISARMINGVOICE,
-	MOVE_NONE,
-};
-
-u16 mimikyu_eggmoves[] = {
-	MOVE_GRUDGE,
-	MOVE_DESTINYBOND,
-	MOVE_CURSE,
-	MOVE_NIGHTMARE,
 	MOVE_NONE,
 };
 
@@ -1334,7 +1318,6 @@ u16 kangaskhan_eggmoves[] = {
 u16 hawlucha_eggmoves[] = {
 	MOVE_AGILITY,
 	MOVE_MEFIRST,
-	MOVE_ALLYSWITCH,
 	MOVE_ENTRAINMENT,
 	MOVE_MUDSPORT,
 	MOVE_BATONPASS,
@@ -1624,7 +1607,7 @@ u16* GetEggMoves(u16 species)
         case SPECIES_HOUNDOOM:
             return houndour_eggmoves;
         case SPECIES_WINGULL:
-        case SPECIES_PELLIPER:
+        case SPECIES_PELIPPER:
             return wingull_eggmoves;
         case SPECIES_TENTACOOL:
         case SPECIES_TENTACRUEL:
@@ -1763,16 +1746,11 @@ u16* GetEggMoves(u16 species)
         case SPECIES_SWIRLIX:
         case SPECIES_SLURPUFF:
             return swirlix_eggmoves;
-        case SPECIES_COMFEY:
-            return comfey_eggmoves;
-        case SPECIES_KLEFKI:
-            return klefki_eggmoves;
-        case SPECIES_DEDENNE:
-            return dedenne_eggmoves;
+		case SPECIES_SNUBBULL:
+		case SPECIES_GRANBULL:
+			return snubbull_eggmoves;
         case SPECIES_TOGEDEMARU:
             return togedemaru_eggmoves;
-        case SPECIES_MIMIKYU:
-            return mimikyu_eggmoves;
         case SPECIES_SANDYGAST:
         case SPECIES_PALOSSAND:
             return sandygast_eggmoves;

@@ -1,4 +1,4 @@
-// function redirection, tfw all 3 params are used
+// function redirection, tfw all 4 params are used
 .org 0x0805A9B4
     push {r4, lr}
     ldr r4, =(DrawMetatile|1)

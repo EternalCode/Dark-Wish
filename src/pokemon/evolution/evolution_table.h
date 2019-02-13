@@ -47,6 +47,6 @@ struct Evolution
     u16 param_2;
 };
 
-extern const struct Evolution gEvolutionTable[248][EVOS_PER_MON];
+extern const struct Evolution gEvolutionTable[][EVOS_PER_MON];
 
 #endif /* POKEMON_EVOLUTION_H_ */

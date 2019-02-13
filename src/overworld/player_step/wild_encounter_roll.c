@@ -1,5 +1,6 @@
 #include <pokeagb/pokeagb.h>
 #include "../../global.h"
+#include "../../pokemon/pokemon.h"
 
 u16 TryPickTypedSpecies(u8 env, u8 index, u8 type, u8* min, u8* max)
 {

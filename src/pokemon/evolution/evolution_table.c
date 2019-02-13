@@ -242,9 +242,9 @@ const struct Evolution gEvolutionTable[SPECIES_MAX][EVOS_PER_MON] =
     {},
 
     //WINGULL
-    {{EVO_LEVEL, 25, SPECIES_PELLIPER, 0}},
+    {{EVO_LEVEL, 25, SPECIES_PELIPPER, 0}},
 
-    //PELLIPER
+    //PELIPPER
     {},
 
     //TENTACOOL
@@ -521,10 +521,10 @@ const struct Evolution gEvolutionTable[SPECIES_MAX][EVOS_PER_MON] =
     //SLURPUFF
     {},
 
-    //COMFEY
-    {},
+    //SNUBBULL
+    {{EVO_LEVEL, 23, SPECIES_GRANBULL}},
 
-    //KLEFKI
+    //GRANBULL
     {},
 
     //TYNAMO
@@ -545,13 +545,7 @@ const struct Evolution gEvolutionTable[SPECIES_MAX][EVOS_PER_MON] =
     //MAGNEZONE
     {},
 
-    //DEDENNE
-    {},
-
     //TOGEDEMARU
-    {},
-
-    //MIMIKYU
     {},
 
     //ROTOM

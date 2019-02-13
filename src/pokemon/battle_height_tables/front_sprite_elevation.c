@@ -165,7 +165,7 @@ const u8 gEnemyMonElevation[] = {
     0,
     //wingull
     0,
-    //pelliper
+    //PELIPPER
     0,
     //tentacool
     0,
@@ -355,9 +355,9 @@ const u8 gEnemyMonElevation[] = {
     0,
     //slurpuff
     0,
-    //comfey
+    //snubbull
     0,
-    //klefki
+    //granbull
     0,
     //tynamo
     0,
@@ -371,11 +371,7 @@ const u8 gEnemyMonElevation[] = {
     0,
     //magnezone
     0,
-    //dedenne
-    0,
     //togedemaru
-    0,
-    //mimikyu
     0,
     //rotom
     0,
