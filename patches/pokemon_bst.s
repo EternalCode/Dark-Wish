@@ -7,15 +7,6 @@
     bx lr
 .pool
 
-.org 0x080829FC
-    push{lr}
-        ldr r0, =(make_pkmn|1)
-        bl lrzero
-    pop {pc}
-lrzero:
-    bx r0
-.pool
-
 
 // nop old Base stats table
 .org 0x08254784
@@ -731,7 +722,7 @@ lrzero:
     .word gMonFrontPicCoords
     .pool
 
-.org 0x08051410
+.org 0x08051410 // trading
     .word gMonFrontPicCoords
     .pool
 

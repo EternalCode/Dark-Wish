@@ -9,7 +9,9 @@ import sys
 import math
 
 # destination dir
-dest_dir = "../src/pokemon/gfx_tables/"
+base_dir = "../src/pokemon"
+dest_dir = base_dir + "/gfx_tables/"
+heights_dir = base_dir + "/battle_height_tables/"
 
 order = ["question","horsea","seadra","kingdra","trapinch","vibrava","flygon","togepi","togetic",
         "togekiss","yungoos","gumshoos","bunnelby","diggersby","bounsweet","steenee","tsareena",
@@ -34,7 +36,7 @@ order = ["question","horsea","seadra","kingdra","trapinch","vibrava","flygon","t
         "magcargo","torkoal","turtonator","larvesta","volcarona","swirlix","slurpuff","snubbull",
         "granbull","tynamo","eelektrik","eelektross","magnemite","magneton","magnezone",
         "togedemaru","rotom","sandygast","palossand","litwick","lampent","chandelure",
-        "dhelmise","honedge","doublade","aegislash","spiritomb","mawile","shuckle","girafarig",
+        "dhelmise","honedge","doublade","aegislash","spiritomb","mawile","girafarig",
         "munchlax","snorlax","pancham","pangoro","passimian","stufful","bewear","bouffalant",
         "kangaskhan","hawlucha","tropius","lapras","skarmory","sneasel","weavile","snover",
         "abomasnow","snorunt","glalie","froslass","bergmite","avalugg","cryogonal","porygon",
@@ -45,6 +47,7 @@ order = ["question","horsea","seadra","kingdra","trapinch","vibrava","flygon","t
 #-gB4 -gzl -pe16 -gu8 -pu8 -pzl -ftb -fh! -pS -S $base2"Pal" >$base$ext2
 GRIT_FLAGS = ['-gB4', '-gzl', '-pe16', '-gu8', '-pu8', '-pzl', '-ftb', '-fh!', '-pS', '-S']
 MKDIR_BUILD =["mkdir", "-p", dest_dir]
+MKDIR_BUILD_HEIGHT =["mkdir", "-p", heights_dir]
 MOVE_DATA_TABLES =["mv", "*_data.bin", "../src/pokemon/gfx_tables"]
 
 def run_command(cmd):
@@ -122,10 +125,79 @@ def main():
             x = offset % 4
             if (x > 0):
                 dest.write("0" * 4 - x)
-            counter+=1
+            counter += 1
+
+	#create species.h file
+    open(base_dir + "/species.h", 'a').close()
+    print("creating " + base_dir + "/species.h")
+    with open (base_dir + "/species.h", "w+") as f:
+        #includes and header guards
+        f.write('#ifndef PKMN_SPECIES_H_\n')
+        f.write('#define PKMN_SPECIES_H_\n\n')
+        f.write("enum PokemonSpecies {\n\tSPECIES_NONE = 0,\n")
+        #content
+        counter = 0
+        for i in range(1, len(order)):
+            mon = order[i]
+            f.write("\tSPECIES_" + mon.upper() + " = " + str(i) + ",\n")
+            counter = i
+        f.write("\tSPECIES_MAX = " + str(counter + 1) + ",\n};\n")
+        f.write("#endif /*PKMN_SPECIES_H_*/\n")
+
+    run_command(MKDIR_BUILD_HEIGHT)
+	#create empty front height table
+    print("creating " + heights_dir + "front_pic_coords.c")
+    open(heights_dir + "front_pic_coords.c", 'a').close()
+    with open (heights_dir + "front_pic_coords.c", "w+") as f:
+        #includes
+        f.write('#include <pokeagb/pokeagb.h>\n')
+        f.write('#include "../pokemon.h"\n\n')
+        f.write("const struct MonCoords gMonFrontPicCoords[] =\n{\n")
+        #content
+        counter = 0
+        for mon in order:
+            f.write("\t// " + mon + " " + str(counter) + "\n")
+            f.write("\t{\n")
+            f.write("\t\t.width = 0,\n\t\t.height = 0,\n\t\t.y_offset = 0,\n\t},\n")
+            counter += 1
+        f.write("};\n")
+	
+	#create empty back height table
+    print("creating " + heights_dir + "back_pic_coords.c")
+    open(heights_dir + "back_pic_coords.c", 'a').close()
+    with open (heights_dir + "back_pic_coords.c", "w+") as f:
+        #includes
+        f.write('#include <pokeagb/pokeagb.h>\n')
+        f.write('#include "../pokemon.h"\n\n')
+        f.write("const struct MonCoords gMonBackPicCoords[] =\n{\n")
+        #content
+        counter = 0
+        for mon in order:
+            f.write("\t// " + mon + " " + str(counter) + "\n")
+            f.write("\t{\n")
+            f.write("\t\t.width = 0,\n\t\t.height = 0,\n\t\t.y_offset = 0,\n\t},\n")
+            counter += 1
+        f.write("};\n")
+
+	#create empty altitude table
+    print("creating " + heights_dir + "front_sprite_elevation.c")
+    open(heights_dir + "front_sprite_elevation.c", 'a').close()
+    with open (heights_dir + "front_sprite_elevation.c", "w+") as f:
+        #includes
+        f.write('#include <pokeagb/pokeagb.h>\n')
+        f.write("const u8 gEnemyMonElevation[] =\n{\n")
+        #content
+        counter = 0
+        for mon in order:
+            f.write("\t// " + mon + " " + str(counter) + "\n")
+            f.write("\t0,\n")
+            counter += 1
+        f.write("};\n")
+	
 
     # create front sprite table file
     run_command(MKDIR_BUILD)
+    print("creating " + dest_dir + "pkmn_front_sprites.c")
     open(dest_dir + "pkmn_front_sprites.c", 'a').close()
     with open(dest_dir + "pkmn_front_sprites.c", "w+") as f:
         # includes
@@ -138,6 +210,7 @@ def main():
 
     # create back sprite table file
     open(dest_dir + "pkmn_back_sprites.c", 'a').close()
+    print("creating " + dest_dir +"pkmn_back_sprites.c")
     with open(dest_dir +"pkmn_back_sprites.c", "w+") as f:
         # includes
         f.write('#include <pokeagb/pokeagb.h>\n')
@@ -149,6 +222,7 @@ def main():
 
     # create palette sprite table file
     open(dest_dir + "pkmn_sprite_pals.c", 'a').close()
+    print("creating " + dest_dir + "pkmn_sprite_pals.c")
     with open(dest_dir + "pkmn_sprite_pals.c", "w+") as f:
         # includes
         f.write('#include <pokeagb/pokeagb.h>\n')
