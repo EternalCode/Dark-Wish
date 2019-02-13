@@ -37,7 +37,7 @@ bool FillPokemonMoves(struct Pokemon* p)
     for (u8 i = 0; i < 4; i++) {
         u16 move = moves[i].move;
         pokemon_setattr(p, REQUEST_MOVE1 + i, &move);
-        u8 PP = gBattleMoves[move].pp;
+        u8 PP = 5;//gBattleMoves[move].pp;
         pokemon_setattr(p, REQUEST_PP1 + i, &PP);
     }
     free(moves);

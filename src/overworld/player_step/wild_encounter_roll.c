@@ -195,7 +195,8 @@ bool GenerateWildPokemon(u8 environment, u8 index)
     if (PID) {
         pokemon_make_full(party_opponent, species, level, 0xFF, true, PID, false, 0);
     } else {
-        pokemon_make_full(party_opponent, species, level, 0xFF, false, 0, false, 0);
+        dprintf("species DARKRAI is index %d\n", SPECIES_DARKRAI);
+        pokemon_make_full(party_opponent, var_8000, level, 0xFF, false, 0, false, 0);
     }
     return true;
 }
