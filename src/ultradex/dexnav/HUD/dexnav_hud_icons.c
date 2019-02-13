@@ -1,5 +1,6 @@
 #include <pokeagb/pokeagb.h>
 #include "dexnav_hud.h"
+#include "../../../pokemon/pokemon.h"
 #include "../../../../generated/images/dexnav/dexnav_hud/dexnav_stars.h"
 #include "../../../../generated/images/dexnav/dexnav_hud/empty.h"
 
@@ -61,7 +62,7 @@ void dexnav_draw_move(u16 move, u8 search_level, u8* objid) {
     gSprites[obj_id].final_oam.affine_mode = 2;
 
     // Copy move string from table using state id, add '/' character to the end of it
-    memcpy((void *)string_buffer, (void *)pokemon_move_names[move], POKEAGB_MOVE_NAME_LENGTH);
+    memcpy((void *)string_buffer, (void *)gMoveNames[move], POKEAGB_MOVE_NAME_LENGTH);
     string_buffer[POKEAGB_MOVE_NAME_LENGTH + 1] = 0xFF;
     u8 len = pstrlen(string_buffer);
 

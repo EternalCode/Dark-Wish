@@ -12,6 +12,7 @@
         .include "patches/new_game.s"
         .include "patches/overworld.s"
         .include "patches/252EVs.s"
+        .include "patches/move_expansion.s"
 
 		.org 0x08FFFFFF
 			.fill 0xFFFFFF, 0xFF

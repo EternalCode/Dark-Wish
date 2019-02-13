@@ -8,6 +8,22 @@
 #define POKE_COUNT SPECIES_MAX
 #define EVOS_PER_MON 5
 
+
+struct BattleMove
+{
+    u8 argument;
+    u8 power;
+    u8 type;
+    u8 accuracy;
+    u8 pp;
+    u8 secondaryEffectChance;
+    u8 target;
+    s8 priority;
+    u32 flags;
+    u8 split;
+    u16 effect;
+};
+
 enum PokemonSpecies {
 	SPECIES_NONE = 0,
 	SPECIES_HORSEA,
@@ -91,7 +107,7 @@ enum PokemonSpecies {
 	SPECIES_HOUNDOUR,
 	SPECIES_HOUNDOOM,
 	SPECIES_WINGULL,
-	SPECIES_PELLIPER,
+	SPECIES_PELIPPER,
 	SPECIES_TENTACOOL,
 	SPECIES_TENTACRUEL,
 	SPECIES_REMORAID,
@@ -187,17 +203,15 @@ enum PokemonSpecies {
 	SPECIES_VOLCARONA,
 	SPECIES_SWIRLIX,
 	SPECIES_SLURPUFF,
-	SPECIES_COMFEY,
-	SPECIES_KLEFKI,
+	SPECIES_SNUBBULL,
+	SPECIES_GRANBULL,
 	SPECIES_TYNAMO,
 	SPECIES_EELEKTRIK,
 	SPECIES_EELEKTROSS,
 	SPECIES_MAGNEMITE,
 	SPECIES_MAGNETON,
 	SPECIES_MAGNEZONE,
-	SPECIES_DEDENNE,
 	SPECIES_TOGEDEMARU,
-	SPECIES_MIMIKYU,
 	SPECIES_ROTOM,
 	SPECIES_SANDYGAST,
 	SPECIES_PALOSSAND,
@@ -265,11 +279,12 @@ enum PokemonSpecies {
 #define START_ADDR_PAL_T (const u8*)0x8740000 + 0x100000
 
 extern const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1];
-extern const u16 *const gLevelUpLearnsets[POKE_COUNT];
+extern const struct LearnMove* const gLevelUpLearnsets[POKE_COUNT];
+extern const u8 gMoveNames[MOVE_MAX][POKEAGB_MOVE_NAME_LENGTH];
 extern const void* FrontSpriteGfxTable;
 extern const void* BackSpriteGfxTable;
 extern const void* PKMNSpritePalTable;
-
+extern const struct BattleMove gBattleMoves[];
 
 struct MonCoords
 {
@@ -277,6 +292,13 @@ struct MonCoords
     u8 height : 4;
     u8 y_offset;
 };
+
+struct LearnMove {
+	u16 move;
+	u8 level;
+	u8 padding;
+};
+
 
 
 #endif /* POKEMON_H_ */
