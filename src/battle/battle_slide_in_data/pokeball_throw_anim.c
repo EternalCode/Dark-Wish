@@ -53,7 +53,7 @@ u8 send_out_backsprite(u8 bank)
     gSprites[objid].data[1] = 3; // delay
     gSprites[objid].data[5] = gSprites[objid].pos1.y;
     gSprites[objid].pos1.y += 64;
-    gPkmnBank[0]->objid = objid;
+    gPkmnBank[bank]->objid = objid;
     u8 pal_slot = gSprites[objid].final_oam.palette_num;
     u32 pal_fade = ((1 << (pal_slot + 16)));
 

@@ -10,7 +10,7 @@ extern void ShowStatusAilmentGraphic(u8 bank, enum Effect status);
 extern const u8 gPlayerAbility;
 extern const u8 gOpponentAbility;
 extern void AilmentCallbackInitExisting(u8 bank);
-
+extern const static bool USE_TESTS;
 
 void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
 {
@@ -26,13 +26,15 @@ void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
     gPkmnBank[bank]->battleData.current_hp = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_CURRENT_HP, NULL);;
     gPkmnBank[bank]->battleData.total_hp = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_TOTAL_HP, NULL);;
 
-    if (SIDE_OF(bank)) {
-        gPkmnBank[bank]->battleData.ability = gOpponentAbility;
-        dprintf("ability_opp = %d\n", gOpponentAbility);
+    if (USE_TESTS) {
+        if (SIDE_OF(bank)) {
+            gPkmnBank[bank]->battleData.ability = gOpponentAbility;
+        } else {
+            gPkmnBank[bank]->battleData.ability = gPlayerAbility;
+        }
     } else {
-        gPkmnBank[bank]->battleData.ability = gPlayerAbility;
+        PokemonGetAbility(gPkmnBank[bank]->this_pkmn);
     }
-    //PokemonGetAbility(gPkmnBank[bank]->this_pkmn);
 
     gPkmnBank[bank]->battleData.item = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_HELD_ITEM, NULL);
     gPkmnBank[bank]->battleData.level = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_LEVEL, NULL);

@@ -320,16 +320,21 @@ void free_unused_objs()
     if (gBattleMaster->battle_cursor.objid_mv_crsr[0] != 0x3F) {
         obj_free(&gSprites[gBattleMaster->battle_cursor.objid_mv_crsr[0]]);
         obj_free(&gSprites[gBattleMaster->battle_cursor.objid_mv_crsr[1]]);
-
+        gBattleMaster->battle_cursor.objid_mv_crsr[0] = 0x3F;
+        gBattleMaster->battle_cursor.objid_mv_crsr[1] = 0x3F;
     }
     for (u8 i = 0; i < 4; i++) {
         if (gBattleMaster->type_objid[i] != 0x3F) {
             obj_free(&gSprites[gBattleMaster->type_objid[i]]);
             obj_free(&gSprites[gBattleMaster->move_pss_objid[i]]);
             obj_free(&gSprites[gBattleMaster->move_pp_objid[i]]);
+            gBattleMaster->type_objid[i] = 0x3F;
+            gBattleMaster->move_pss_objid[i] = 0x3F;
+            gBattleMaster->move_pp_objid[i] = 0x3F;
         }
         if (gBattleMaster->move_name_objid[i] != 0x3F) {
             obj_free(&gSprites[gBattleMaster->move_name_objid[i]]);
+            gBattleMaster->move_name_objid[i] = 0x3F;
         }
     }
 }
