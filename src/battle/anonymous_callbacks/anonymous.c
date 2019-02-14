@@ -8,7 +8,7 @@ extern void sort_priority_cbs(void);
 extern bool has_callback_src(u32 func, u8 src);
 
 // insert a new anonymous callback
-u8 add_callback(u8 CB_id, s8 priority, u8 dur, u8 src, u32 func)
+u8 AddCallback(u8 CB_id, s8 priority, u8 dur, u8 src, u32 func)
 {
     if (has_callback_src(func, src)) {
         dprintf("WARNING: DUPLICATE FUNCTION %x WAS NOT ADDED TO BANK %d\n", func, src);
@@ -33,7 +33,7 @@ u8 add_callback(u8 CB_id, s8 priority, u8 dur, u8 src, u32 func)
 }
 
 // execution order building before executing a specific type of CB
-void build_execution_order(u8 CB_id) {
+void BuildCallbackExecutionBuffer(u8 CB_id) {
     CB_EXEC_INDEX = 0;
     sort_priority_cbs();
     for (u8 i = 0; i < ANON_CB_MAX; i++) {
@@ -49,7 +49,7 @@ void build_execution_order(u8 CB_id) {
 }
 
 // Run the next callback in the built list
-u16 pop_callback(u8 attacker, u16 move) {
+u16 PopCallback(u8 attacker, u16 move) {
     u8 i = CB_EXEC_ORDER[CB_EXEC_INDEX];
     if (i != ANON_CB_MAX) {
         i = CB_EXEC_ORDER[CB_EXEC_INDEX];

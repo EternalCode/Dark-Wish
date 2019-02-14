@@ -29,8 +29,8 @@ u8 tailwind_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     if (user != src) return true;
     if (callback_exists_side((u32)tailwind_on_speed, src) < ANON_CB_MAX)
         return false;
-    add_callback(CB_ON_STAT_MOD, 0, 4, user, (u32)tailwind_on_speed);
-    add_callback(CB_ON_RESIDUAL, 0, 4, user, (u32)tailwind_on_residual);
+    AddCallback(CB_ON_STAT_MOD, 0, 4, user, (u32)tailwind_on_speed);
+    AddCallback(CB_ON_RESIDUAL, 0, 4, user, (u32)tailwind_on_residual);
     QueueMessage(NULL, user, STRING_TAILWIND_BLEW, NULL);
     return true;
 }
@@ -60,7 +60,7 @@ u8 trick_room_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
     } else {
         QueueMessage(NULL, user, STRING_TWISTED_DIM, NULL);
     }
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, src, (u32)trick_room_on_residual);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, src, (u32)trick_room_on_residual);
     CB_MASTER[id].delay_before_effect = 5;
     gBattleMaster->field_state.speed_inverse = true;
     return true;
@@ -91,8 +91,8 @@ u8 safe_guard_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
     if (user != src) return true;
     if (callback_exists((u32)safe_guard_on_status)) return false;
 
-    add_callback(CB_ON_STATUS, 0, 5, src, (u32)safe_guard_on_status);
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, src, (u32)safe_guard_on_residual);
+    AddCallback(CB_ON_STATUS, 0, 5, src, (u32)safe_guard_on_status);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, src, (u32)safe_guard_on_residual);
     CB_MASTER[id].delay_before_effect = 5;
     QueueMessage(NULL, NULL, STRING_SAFE_GUARD_VEIL, NULL);
     return true;
@@ -122,8 +122,8 @@ u8 lucky_chant_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* a
     if (user != src) return true;
     if (callback_exists((u32)lucky_chant_on_residual)) return false;
 
-    add_callback(CB_ON_RESIDUAL, 0, 5, src, (u32)lucky_chant_on_residual);
-    add_callback(CB_ON_MODIFY_MOVE, -100, 5, src, (u32)lucky_chant_on_modify_move);
+    AddCallback(CB_ON_RESIDUAL, 0, 5, src, (u32)lucky_chant_on_residual);
+    AddCallback(CB_ON_MODIFY_MOVE, -100, 5, src, (u32)lucky_chant_on_modify_move);
     QueueMessage(MOVE_LUCKYCHANT, user, STRING_SHIELDED_CRITS, NULL);
     return true;
 }
@@ -159,9 +159,9 @@ u8 gravity_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     if (user != src) return true;
     if (callback_exists((u32)gravity_on_residual)) return false;
 
-    add_callback(CB_ON_STAT_MOD, 0, 5, src, (u32)gravity_on_accuracy);
-    add_callback(CB_ON_DISABLE_MOVE, 0, 5, src, (u32)gravity_on_disabled_move);
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, src, (u32)gravity_on_residual);
+    AddCallback(CB_ON_STAT_MOD, 0, 5, src, (u32)gravity_on_accuracy);
+    AddCallback(CB_ON_DISABLE_MOVE, 0, 5, src, (u32)gravity_on_disabled_move);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, src, (u32)gravity_on_residual);
     CB_MASTER[id].delay_before_effect = 5;
     QueueMessage(NULL, NULL, STRING_GRAVITY_INTENSE, NULL);
 
@@ -230,7 +230,7 @@ u8 mist_on_before_stat_mod(u8 user, u8 src, u16 stat_id, struct anonymous_callba
 u8 mist_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
-    add_callback(CB_ON_BEFORE_STAT_MOD, 0, 5, user, (u32)mist_on_before_stat_mod);
+    AddCallback(CB_ON_BEFORE_STAT_MOD, 0, 5, user, (u32)mist_on_before_stat_mod);
     QueueMessage(MOVE_MIST, user, STRING_PROTECTED_TEAM, NULL);
     return true;
 }
@@ -239,7 +239,7 @@ u8 mist_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 /* Mud sport */
 void mud_sport_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if (B_MOVE_HAS_TYPE(user, MTYPE_ELECTRIC)) {
+    if (B_MOVE_HAS_TYPE(user, TYPE_ELECTRIC)) {
         B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 33);
     }
 }
@@ -248,8 +248,8 @@ u8 mud_sport_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb
 {
     if (user != src) return true;
     if (callback_exists((u32)mud_sport_on_base_power)) return false;
-    add_callback(CB_ON_BASE_POWER_MOVE, 1, 5, src, (u32)mud_sport_on_base_power);
-    QueueMessage(MTYPE_ELECTRIC, user, STRING_TYPE_WEAKEN, MTYPE_ELECTRIC);
+    AddCallback(CB_ON_BASE_POWER_MOVE, 1, 5, src, (u32)mud_sport_on_base_power);
+    QueueMessage(TYPE_ELECTRIC, user, STRING_TYPE_WEAKEN, TYPE_ELECTRIC);
     return true;
 }
 
@@ -257,7 +257,7 @@ u8 mud_sport_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb
 /* Water sport */
 void water_sport_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if (B_MOVE_HAS_TYPE(user, MTYPE_FIRE)) {
+    if (B_MOVE_HAS_TYPE(user, TYPE_FIRE)) {
         B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 33);
     }
 }
@@ -266,8 +266,8 @@ u8 water_sport_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* a
 {
     if (user != src) return true;
     if (callback_exists((u32)water_sport_on_base_power)) return false;
-    add_callback(CB_ON_BASE_POWER_MOVE, 1, 5, src, (u32)water_sport_on_base_power);
-    QueueMessage(MTYPE_ELECTRIC, user, STRING_TYPE_WEAKEN, MTYPE_ELECTRIC);
+    AddCallback(CB_ON_BASE_POWER_MOVE, 1, 5, src, (u32)water_sport_on_base_power);
+    QueueMessage(TYPE_ELECTRIC, user, STRING_TYPE_WEAKEN, TYPE_ELECTRIC);
     return true;
 }
 

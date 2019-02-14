@@ -43,7 +43,7 @@ void beatup_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* ac
     // figure out how many hits to do
     struct Pokemon *p = SIDE_OF(user) ? (&party_opponent[0]) : (&party_player[0]);
     u8 user_slot;
-    u8 cb_id = add_callback(CB_ON_BASE_POWER_MOVE, 0, 0, user, (u32)beatup_on_base_power);
+    u8 cb_id = AddCallback(CB_ON_BASE_POWER_MOVE, 0, 0, user, (u32)beatup_on_base_power);
     if (SIDE_OF(user)) {
         user_slot = ((u32)(gPkmnBank[user]->this_pkmn) - (u32)(&party_opponent[0])) / 100;
     } else {

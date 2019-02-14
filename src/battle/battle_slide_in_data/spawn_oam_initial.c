@@ -2,6 +2,7 @@
 #include "battle_obj_sliding.h"
 #include "../battle_data/pkmn_bank.h"
 #include "../../global.h"
+#include "../../pokemon/pokemon.h"
 
 // back sprites
 #include "../../../generated/images/backsprites/female_player.h"
@@ -85,7 +86,7 @@ u8 spawn_pkmn_backsprite_obj_slot(u8 bank, u16 tag)
 
     gpu_tile_obj_decompress_alloc_tag_and_upload(&pkmn_sprite_gfx);
     gpu_pal_decompress_alloc_tag_and_upload(&pkmn_sprite_pal);
-    u8 species_y = pokemon_player_xy_table[species] >> 8;
+    u8 species_y = gMonBackPicCoords[species].y_offset;
     return template_instanciate_forward_search(&pkmn_temp, 64, 80 + species_y, 0);
 }
 

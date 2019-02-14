@@ -34,7 +34,7 @@ u8 partially_trapped_effect_cb(u8 user, u8 src, u16 move, struct anonymous_callb
         return true;
     ADD_VOLATILE(defender, VOLATILE_BIND);
     ADD_VOLATILE(defender, VOLATILE_TRAPPED);
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, RandRange(4, 6), src, (u32)partial_dmg_on_residual);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, RandRange(4, 6), src, (u32)partial_dmg_on_residual);
     CB_MASTER[id].data_ptr = move;
     return true;
 }
@@ -54,7 +54,7 @@ u8 aqua_ring_effect_cb(u8 user, u8 src, u16 move, struct anonymous_callback* acb
     if (user != src) return true;
     if (has_callback_src((u32)aqua_ring_on_residual, user))
         return true;
-    u8 id = add_callback(CB_ON_RESIDUAL, 6, CB_PERMA, user, (u32)aqua_ring_on_residual);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 6, CB_PERMA, user, (u32)aqua_ring_on_residual);
     CB_MASTER[id].data_ptr = move;
     return true;
 }
@@ -87,8 +87,8 @@ u8 leech_seed_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* 
 enum TryHitMoveStatus leech_seed_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return TRYHIT_USE_MOVE_NORMAL;
-    if (BankMonHasType(TARGET_OF(user), MTYPE_GRASS)) return TRYHIT_TARGET_MOVE_IMMUNITY; // immune
-    u8 id = add_callback(CB_ON_RESIDUAL, 8, CB_PERMA, TARGET_OF(user), (u32)leech_seed_on_residual);
+    if (BankMonHasType(TARGET_OF(user), TYPE_GRASS)) return TRYHIT_TARGET_MOVE_IMMUNITY; // immune
+    u8 id = AddCallback(CB_ON_RESIDUAL, 8, CB_PERMA, TARGET_OF(user), (u32)leech_seed_on_residual);
     CB_MASTER[id].data_ptr = user;
     QueueMessage(NULL, TARGET_OF(user), STRING_SEEDED, 0);
     return TRYHIT_USE_MOVE_NORMAL;

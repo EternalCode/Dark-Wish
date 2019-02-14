@@ -15,18 +15,18 @@ void event_move_failed(struct action* current_action)
     for (u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].on_fail) && (ACTIVE_BANK(i)))
-            add_callback(CB_ON_MOVE_FAIL, 0, 0, i, (u32)abilities[ability].on_fail);
+            AddCallback(CB_ON_MOVE_FAIL, 0, 0, i, (u32)abilities[ability].on_fail);
     }
     u16 move = CURRENT_MOVE(bank);
     // add callbacks specific to field
-    if (moves[move].on_move_fail) {
-        add_callback(CB_ON_MOVE_FAIL, 0, 0, bank, (u32)moves[move].on_move_fail);
+    if (gBattleMoves[move].on_move_fail) {
+        AddCallback(CB_ON_MOVE_FAIL, 0, 0, bank, (u32)gBattleMoves[move].on_move_fail);
     }
     // run callbacks
-    build_execution_order(CB_ON_MOVE_FAIL);
+    BuildCallbackExecutionBuffer(CB_ON_MOVE_FAIL);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        pop_callback(bank, move);
+        PopCallback(bank, move);
     }
     CURRENT_ACTION->event_state = EventDoFaints;
 }

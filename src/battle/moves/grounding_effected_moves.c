@@ -33,7 +33,7 @@ u8 ingrain_on_effect(u8 user, u8 src, u16 status_id, struct anonymous_callback* 
     ADD_VOLATILE(user, VOLATILE_INGRAIN);
     ADD_VOLATILE(user, VOLATILE_TRAPPED);
     gPkmnBank[user]->battleData.is_grounded = true;
-    add_callback(CB_ON_RESIDUAL, 0, 0xFF, user, (u32)ingrain_on_residual);
+    AddCallback(CB_ON_RESIDUAL, 0, 0xFF, user, (u32)ingrain_on_residual);
     QueueMessage(NULL, user, STRING_ROOTS_PLANTED, 0);
     return true;
 }
@@ -100,7 +100,7 @@ u8 rototiller_on_effect(u8 user, u8 src, u16 status_id, struct anonymous_callbac
     if (user != src) return true;
     bool boosted = false;
     for (u8 i = 0; i < BANK_MAX; i++) {
-        if (BankMonHasType(i, MTYPE_GRASS) && is_grounded(i)) {
+        if (BankMonHasType(i, TYPE_GRASS) && is_grounded(i)) {
             // boosts apply
             stat_boost(i, ATTACK_MOD, 1, user);
             stat_boost(i, SPATTACK_MOD, 1, user);

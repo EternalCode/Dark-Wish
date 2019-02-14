@@ -15,7 +15,7 @@ extern bool is_grounded(u8 bank);
 u16 future_sight_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     // do damage
-    B_MOVE_TYPE(user, 0) = MTYPE_PSYCHIC;
+    B_MOVE_TYPE(user, 0) = TYPE_PSYCHIC;
     B_MOVE_POWER(user) = 120;
     B_MOVE_ACCURACY(user) = 100;
     B_MOVE_CATEGORY(user) = MOVE_SPECIAL;
@@ -33,7 +33,7 @@ enum TryHitMoveStatus future_sight_on_tryhit(u8 user, u8 src, u16 move, struct a
     if (callback_exists((u32)future_sight_on_residual)) return TRYHIT_CANT_USE_MOVE;
     extern u16 doom_desire_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
     if (callback_exists((u32)doom_desire_on_residual)) return TRYHIT_CANT_USE_MOVE;
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, user, (u32)future_sight_on_residual);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, user, (u32)future_sight_on_residual);
     CB_MASTER[id].data_ptr = TARGET_OF(src);
     CB_MASTER[id].delay_before_effect = 3;
     QueueMessage(MOVE_FUTURESIGHT, user, STRING_FUTURE_FORESAW, 0);
@@ -56,7 +56,7 @@ u8 wish_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
     if (!callback_exists((u32)wish_on_residual)) {
-        u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, src, (u32)wish_on_residual);
+        u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, src, (u32)wish_on_residual);
         CB_MASTER[id].delay_before_effect = 1;
         return true;
     }
@@ -87,7 +87,7 @@ u8 yawn_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
     if (B_STATUS(TARGET_OF(user))) return false;
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, user, (u32)yawn_on_residual);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, user, (u32)yawn_on_residual);
     CB_MASTER[id].delay_before_effect = 1;
     CB_MASTER[id].data_ptr = TARGET_OF(user);
 
@@ -100,13 +100,13 @@ u8 yawn_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 void charge_on_base_power_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    if (B_MOVE_HAS_TYPE(user, MTYPE_ELECTRIC))
+    if (B_MOVE_HAS_TYPE(user, TYPE_ELECTRIC))
         B_MOVE_POWER(user) *= 2;
 }
 
 u8 charge_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    u8 id = add_callback(CB_ON_BASE_POWER_MOVE, 0, 0, src, (u32)charge_on_base_power_move);
+    u8 id = AddCallback(CB_ON_BASE_POWER_MOVE, 0, 0, src, (u32)charge_on_base_power_move);
     CB_MASTER[id].delay_before_effect = 1;
     return true;
 }
@@ -115,7 +115,7 @@ u8 charge_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 // Doom Desire
 u16 doom_desire_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    B_MOVE_TYPE(user, 0) = MTYPE_STEEL;
+    B_MOVE_TYPE(user, 0) = TYPE_STEEL;
     B_MOVE_POWER(user) = 140;
     B_MOVE_ACCURACY(user) = 100;
     B_MOVE_CATEGORY(user) = MOVE_SPECIAL;
@@ -132,7 +132,7 @@ enum TryHitMoveStatus doom_desire_on_tryhit(u8 user, u8 src, u16 move, struct an
     if (user != src) return TRYHIT_USE_MOVE_NORMAL;
     if (callback_exists((u32)future_sight_on_residual)) return TRYHIT_CANT_USE_MOVE;
     if (callback_exists((u32)doom_desire_on_residual)) return TRYHIT_CANT_USE_MOVE;
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, user, (u32)doom_desire_on_residual);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, user, (u32)doom_desire_on_residual);
     CB_MASTER[id].data_ptr = TARGET_OF(src);
     CB_MASTER[id].delay_before_effect = 3;
 

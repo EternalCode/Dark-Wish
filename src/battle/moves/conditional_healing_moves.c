@@ -23,7 +23,7 @@ void strength_sap_on_after_move(u8 user, u8 src, u16 move, struct anonymous_call
 u8 strength_sap_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
-    u8 id = add_callback(CB_ON_AFTER_MOVE, 0, 0, user, (u32)strength_sap_on_after_move);
+    u8 id = AddCallback(CB_ON_AFTER_MOVE, 0, 0, user, (u32)strength_sap_on_after_move);
     CB_MASTER[id].data_ptr = B_ATTACK_STAT(TARGET_OF(user));
     return true;
 }

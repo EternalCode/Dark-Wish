@@ -21,7 +21,7 @@ u8 helping_hand_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* 
     if (id < ANON_CB_MAX) {
         CB_MASTER[id].data_ptr += 50;
     } else {
-        id = add_callback(CB_ON_BASE_POWER_MOVE, 3, 1, TARGET_OF(user), (u32)helping_hand_on_base_power);
+        id = AddCallback(CB_ON_BASE_POWER_MOVE, 3, 1, TARGET_OF(user), (u32)helping_hand_on_base_power);
         CB_MASTER[id].data_ptr = 150;
     }
     QueueMessage(NULL, user, STRING_READY_TO_HELP, NULL);

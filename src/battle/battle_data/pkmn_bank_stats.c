@@ -37,7 +37,7 @@ u16 stage_modify_stat(u16 stat, s8 mod, u8 id, u8 bank)
         if (ACTIVE_BANK(i)) {
             u8 ability = gPkmnBank[i]->battleData.ability;
             if (abilities[ability].on_stat)
-                add_callback(CB_ON_STAT_MOD, 0, 0, i, (u32)abilities[ability].on_stat);
+                AddCallback(CB_ON_STAT_MOD, 0, 0, i, (u32)abilities[ability].on_stat);
         }
     }
 
@@ -46,11 +46,11 @@ u16 stage_modify_stat(u16 stat, s8 mod, u8 id, u8 bank)
     u8 old_index = CB_EXEC_INDEX;
     bool execution_status = gBattleMaster->executing;
     // Stat modifying callbacks
-    build_execution_order(CB_ON_STAT_MOD);
+    BuildCallbackExecutionBuffer(CB_ON_STAT_MOD);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
         set_data_next_acb(stat_total);
-        u16 new_total = pop_callback(bank, id);
+        u16 new_total = PopCallback(bank, id);
         if (new_total != 1) {
             stat_total = new_total;
         }

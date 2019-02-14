@@ -30,7 +30,7 @@ void buffer_write_player_name(pchar* buffer)
 
 void buffer_write_move_name(pchar* buffer, u16 moveId)
 {
-    pstrcpy(buffer, moves[moveId].name);
+    pstrcpy(buffer, gBattleMoves[moveId].name);
 }
 
 void buffer_write_ability_name(pchar* buffer, u8 ability)
@@ -40,7 +40,7 @@ void buffer_write_ability_name(pchar* buffer, u8 ability)
 
 void buffer_write_move_type(pchar* buffer, u16 move)
 {
-    pstrcpy(buffer, pkmn_type_names[MOVE_TYPE(move)]);
+    pstrcpy(buffer, PkmnTypeNames[MOVE_TYPE(move)]);
 }
 
 void buffer_write_stat_mod(pchar* buffer, u8 stat_id)
@@ -169,7 +169,7 @@ void fdecoder_battle(pchar* buffer, u8 bank, u16 moveId, u16 move_effect_id)
                 case 0x17:
                     {
                     // Buffer the name of a general type
-                        pstrcpy(&result[result_index], (const pchar*)pkmn_type_names[move_effect_id]);
+                        pstrcpy(&result[result_index], (const pchar*)PkmnTypeNames[move_effect_id]);
                         result_index = pstrlen(result);
                         break;
                     }

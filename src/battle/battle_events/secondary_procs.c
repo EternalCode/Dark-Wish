@@ -29,10 +29,10 @@ void event_move_boosts(struct action* current_action)
     u32* old_execution_array = push_callbacks();
     u8 old_index = CB_EXEC_INDEX;
     // Stat modifying callbacks
-    build_execution_order(CB_ON_BEFORE_STAT_MOD);
+    BuildCallbackExecutionBuffer(CB_ON_BEFORE_STAT_MOD);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        pop_callback(bank, NULL);
+        PopCallback(bank, NULL);
     }
     restore_callbacks(old_execution_array);
     CB_EXEC_INDEX = old_index;

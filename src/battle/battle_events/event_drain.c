@@ -25,20 +25,20 @@ void event_drain(struct action* current_action)
     for (u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].on_drain) && (ACTIVE_BANK(i)))
-            add_callback(CB_ON_DRAIN, 0, 0, i, (u32)abilities[ability].on_drain);
+            AddCallback(CB_ON_DRAIN, 0, 0, i, (u32)abilities[ability].on_drain);
     }
 
-    B_DRAIN(bank) = PERCENT(B_MOVE_DMG(bank), moves[move].drain);
+    B_DRAIN(bank) = PERCENT(B_MOVE_DMG(bank), gBattleMoves[move].drain);
     // back up cbs
     u8 old_index = CB_EXEC_INDEX;
     u32* old_execution_array = push_callbacks();
     bool execution_status = gBattleMaster->executing;
 
     // run callbacks
-    build_execution_order(CB_ON_DRAIN);
+    BuildCallbackExecutionBuffer(CB_ON_DRAIN);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        pop_callback(bank, move);
+        PopCallback(bank, move);
     }
     // restore callbacks
     restore_callbacks(old_execution_array);

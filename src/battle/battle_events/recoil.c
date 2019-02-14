@@ -18,13 +18,13 @@ void event_move_recoil(struct action* current_action) {
         return;
     }
     // check for recoil
-    if (moves[move].recoil_struggle) {
+    if (gBattleMoves[move].recoil_struggle) {
         // struggle recoil is based off max health
-        do_damage(bank, PERCENT(TOTAL_HP(bank), moves[move].recoil));
+        do_damage(bank, PERCENT(TOTAL_HP(bank), gBattleMoves[move].recoil));
         QueueMessage(move, bank, STRING_RECOIL, 0);
-    } else if (B_MOVE_DMG(bank) != 0 && moves[move].recoil > 0) {
+    } else if (B_MOVE_DMG(bank) != 0 && gBattleMoves[move].recoil > 0) {
         // normal recoil based on move damage
-        if(do_damage_residual(bank, MAX(PERCENT(B_MOVE_DMG(bank), moves[move].recoil), 1), A_FLAG_RECOIL_DMG_PREVENT)) {
+        if(do_damage_residual(bank, MAX(PERCENT(B_MOVE_DMG(bank), gBattleMoves[move].recoil), 1), A_FLAG_RECOIL_DMG_PREVENT)) {
             QueueMessage(move, bank, STRING_RECOIL, 0);
         }
     }

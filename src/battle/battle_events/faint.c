@@ -21,7 +21,7 @@ bool on_faint_callbacks(u8 bank)
     for (u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].on_faint) && (ACTIVE_BANK(i)))
-            add_callback(CB_ON_FAINT_CHECK, 0, 0, i, (u32)abilities[ability].on_faint);
+            AddCallback(CB_ON_FAINT_CHECK, 0, 0, i, (u32)abilities[ability].on_faint);
     }
 
     // back up cbs
@@ -29,10 +29,10 @@ bool on_faint_callbacks(u8 bank)
     u32* old_execution_array = push_callbacks();
     bool old_execution_status = gBattleMaster->executing;
     // callbacks for effectiveness of moves
-    build_execution_order(CB_ON_FAINT_CHECK);
+    BuildCallbackExecutionBuffer(CB_ON_FAINT_CHECK);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        pop_callback(bank, CURRENT_MOVE(bank));
+        PopCallback(bank, CURRENT_MOVE(bank));
     }
     // restore callbacks
     restore_callbacks(old_execution_array);

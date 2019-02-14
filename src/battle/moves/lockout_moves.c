@@ -67,8 +67,8 @@ u8 encore_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     if (has_callback_src((u32)encore_on_disable, target)) return false;
     CURRENT_MOVE(target) = LAST_MOVE(target);
     set_attack_bm_inplace(target, (target), 0);
-    add_callback(CB_ON_RESIDUAL, 0, 3, target, (u32)encore_on_residual);
-    add_callback(CB_ON_DISABLE_MOVE, 0, 3, target, (u32)encore_on_disable);
+    AddCallback(CB_ON_RESIDUAL, 0, 3, target, (u32)encore_on_residual);
+    AddCallback(CB_ON_DISABLE_MOVE, 0, 3, target, (u32)encore_on_disable);
     QueueMessage(NULL, target, STRING_RECIEVED_ENCORE, NULL);
     return true;
 }
@@ -92,7 +92,7 @@ u8 torment_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
     if (has_callback_src((u32)torment_on_disable, TARGET_OF(user))) return false;
-    add_callback(CB_ON_DISABLE_MOVE, 0, 0xFF, TARGET_OF(user), (u32)torment_on_disable);
+    AddCallback(CB_ON_DISABLE_MOVE, 0, 0xFF, TARGET_OF(user), (u32)torment_on_disable);
     QueueMessage(NULL, TARGET_OF(user), STRING_SUBJECTED_TORM, NULL);
     return true;
 }
@@ -123,7 +123,7 @@ u8 taunt_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
     if (has_callback_src((u32)taunt_on_disable, TARGET_OF(user))) return false;
-    add_callback(CB_ON_DISABLE_MOVE, 0, 0x5, TARGET_OF(user), (u32)taunt_on_disable);
+    AddCallback(CB_ON_DISABLE_MOVE, 0, 0x5, TARGET_OF(user), (u32)taunt_on_disable);
     QueueMessage(NULL, TARGET_OF(user), STRING_FELL_FOR_TAUNT, NULL);
     return true;
 }
@@ -165,7 +165,7 @@ u8 disable_on_effect_cb(u8 user, u8 src, u16 move, struct anonymous_callback* ac
     if (CountBankMovePP(LAST_MOVE(target), target) < 1) return false;
     // fail if effect already active on target
     if (has_callback_src((u32)disable_on_disable_move, target) || HAS_VOLATILE(user, VOLATILE_DISABLE)) return false;
-    u8 id = add_callback(CB_ON_DISABLE_MOVE, 0, 4, target, (u32)disable_on_disable_move);
+    u8 id = AddCallback(CB_ON_DISABLE_MOVE, 0, 4, target, (u32)disable_on_disable_move);
     ADD_VOLATILE(target, VOLATILE_DISABLE);
     CB_MASTER[id].data_ptr = LAST_MOVE(target);
     QueueMessage(LAST_MOVE(target), target, STRING_DISABLED, 0);
@@ -204,7 +204,7 @@ u8 throat_chop_on_effect_cb(u8 user, u8 src, u16 move, struct anonymous_callback
     u8 target = TARGET_OF(user);
     // don't reapply effect if effect is active
     if (has_callback_src((u32)throat_chop_disable_move, target)) return true;
-    add_callback(CB_ON_DISABLE_MOVE, 0, 2, target, (u32)throat_chop_disable_move);
+    AddCallback(CB_ON_DISABLE_MOVE, 0, 2, target, (u32)throat_chop_disable_move);
 	return true;
 }
 
@@ -225,6 +225,6 @@ u8 imprison_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 	if (user != src) return true;
     // don't reapply effect if effect is active, fail move
     if (has_callback_src((u32)imprison_disable_move, user)) return false;
-    add_callback(CB_ON_DISABLE_MOVE, 0, CB_PERMA, user, (u32)imprison_disable_move);
+    AddCallback(CB_ON_DISABLE_MOVE, 0, CB_PERMA, user, (u32)imprison_disable_move);
 	return true;
 }

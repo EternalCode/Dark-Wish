@@ -25,7 +25,7 @@ enum TryHitMoveStatus counter_on_tryhit(u8 user, u8 src, u16 move, struct anonym
 void counter_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    add_callback(CB_ON_DAMAGE_MOVE, -101, 0, user, (u32)counter_on_damage);
+    AddCallback(CB_ON_DAMAGE_MOVE, -101, 0, user, (u32)counter_on_damage);
 }
 
 // Mirror Coat
@@ -47,7 +47,7 @@ enum TryHitMoveStatus mirror_coat_on_tryhit(u8 user, u8 src, u16 move, struct an
 void mirror_coat_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    add_callback(CB_ON_DAMAGE_MOVE, -101, 0, user, (u32)mirror_coat_on_damage);
+    AddCallback(CB_ON_DAMAGE_MOVE, -101, 0, user, (u32)mirror_coat_on_damage);
 }
 
 // Metal Burst
@@ -70,5 +70,5 @@ enum TryHitMoveStatus metal_burst_on_tryhit(u8 user, u8 src, u16 move, struct an
 void metal_burst_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    add_callback(CB_ON_DAMAGE_MOVE, -101, 0, user, (u32)metal_burst_damage);
+    AddCallback(CB_ON_DAMAGE_MOVE, -101, 0, user, (u32)metal_burst_damage);
 }

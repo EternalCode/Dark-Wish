@@ -15,7 +15,7 @@ u8 conversion_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
 {
     if (user != src) return true;
     // get type of move in first slot
-    u8 type = moves[(B_GET_MOVE(user, 0))].type;
+    u8 type = gBattleMoves[(B_GET_MOVE(user, 0))].type;
     if (BankMonHasType(user, type)) {
         return false;
     }
@@ -31,12 +31,12 @@ u8 conversion_two_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback
 {
     if (user != src) return true;
     u8 last_type = MOVE_TYPE(LAST_MOVE((user ? 0 : 2)));
-    u8 possible_types[MTYPE_NONE];
-    memset(&possible_types, MTYPE_NONE, MTYPE_NONE);
-    if (last_type == MTYPE_EGG)
+    u8 possible_types[TYPE_NONE];
+    memset(&possible_types, TYPE_NONE, TYPE_NONE);
+    if (last_type == TYPE_NONE)
         return false;
     u8 array_index = 0;
-    for (u8 i = 0; i < MTYPES_MAX; i++) {
+    for (u8 i = 0; i < TYPE_MAX; i++) {
         if (BankMonHasType(user, i))
             continue;
         u16 effectiveness = MOVE_EFFECTIVENESS(i, last_type);
@@ -61,13 +61,13 @@ u8 reflect_type_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* 
     types[1] = B_PKMN_TYPE(defender, 1);
     types[2] = B_PKMN_TYPE(defender, 2);
     // fail if target lost it's types
-    if ((types[0] == MTYPE_EGG) && (types[1] == MTYPE_EGG) && (types[2] == MTYPE_EGG)) {
+    if ((types[0] == TYPE_NONE) && (types[1] == TYPE_NONE) && (types[2] == TYPE_NONE)) {
         return false;
     }
-    
-    if ((types[0] == MTYPE_EGG) && (types[1] == MTYPE_EGG) && (types[2] != MTYPE_EGG)) {
-        B_PKMN_TYPE(user, 0) = MTYPE_NORMAL;
-        B_PKMN_TYPE(user, 1) = MTYPE_EGG;
+
+    if ((types[0] == TYPE_NONE) && (types[1] == TYPE_NONE) && (types[2] != TYPE_NONE)) {
+        B_PKMN_TYPE(user, 0) = TYPE_NORMAL;
+        B_PKMN_TYPE(user, 1) = TYPE_NONE;
         B_PKMN_TYPE(user, 2) = types[2];
     } else {
         B_PKMN_TYPE(user, 0) = types[0];
@@ -85,8 +85,8 @@ u8 reflect_type_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* 
 u8 soak_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
-    if (BankMonSetType(TARGET_OF(src), MTYPE_WATER))
-        QueueMessage(move, TARGET_OF(src), STRING_CONVERSION_TYPE, MTYPE_WATER);
+    if (BankMonSetType(TARGET_OF(src), TYPE_WATER))
+        QueueMessage(move, TARGET_OF(src), STRING_CONVERSION_TYPE, TYPE_WATER);
     else
         return false;
     return true;
@@ -97,7 +97,7 @@ u8 soak_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 u8 flying_press_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
-    B_MOVE_TYPE(user, 1) = MTYPE_FLYING;
+    B_MOVE_TYPE(user, 1) = TYPE_FLYING;
     if (HAS_VOLATILE(TARGET_OF(user), VOLATILE_MINIMIZE)) {
         B_MOVE_ACCURACY(user) = 101;
     }
@@ -122,10 +122,10 @@ void flying_press_on_base_power(u8 user, u8 src, u16 move, struct anonymous_call
 /* Ion Deluge */
 u8 ion_deluge_on_modify_move_anon(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if (B_MOVE_TYPE(user, 0) == MTYPE_NORMAL) {
-        B_MOVE_TYPE(user, 0) = MTYPE_ELECTRIC;
-    } else if (B_MOVE_TYPE(user, 1) == MTYPE_NORMAL) {
-        B_MOVE_TYPE(user, 0) = MTYPE_ELECTRIC;
+    if (B_MOVE_TYPE(user, 0) == TYPE_NORMAL) {
+        B_MOVE_TYPE(user, 0) = TYPE_ELECTRIC;
+    } else if (B_MOVE_TYPE(user, 1) == TYPE_NORMAL) {
+        B_MOVE_TYPE(user, 0) = TYPE_ELECTRIC;
     }
     return true;
 }
@@ -135,7 +135,7 @@ u8 ion_deluge_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
     if (user != src) return true;
     // a deluge of ions showers the battlefield!
     QueueMessage(move, user, STRING_ION_DELUGE, 0);
-    add_callback(CB_ON_TRYHIT_MOVE, -2, 0, user, (u32)(ion_deluge_on_modify_move_anon));
+    AddCallback(CB_ON_TRYHIT_MOVE, -2, 0, user, (u32)(ion_deluge_on_modify_move_anon));
     return true;
 }
 
@@ -144,15 +144,15 @@ u8 ion_deluge_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
 enum TryHitMoveStatus burn_up_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return TRYHIT_USE_MOVE_NORMAL;
-    return BankMonHasType(user, MTYPE_FIRE);
+    return BankMonHasType(user, TYPE_FIRE);
 }
 
 u8 burn_up_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
     for (u8 i = 0; i < sizeof(gPkmnBank[user]->battleData.type); i++) {
-        if (B_PKMN_TYPE(user, i) == MTYPE_FIRE) {
-            B_PKMN_TYPE(user, i) = MTYPE_EGG;
+        if (B_PKMN_TYPE(user, i) == TYPE_FIRE) {
+            B_PKMN_TYPE(user, i) = TYPE_NONE;
         }
     }
     QueueMessage(move, user, STRING_BURNT_OUT, 0);
@@ -184,9 +184,9 @@ u8 roost_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (acb->in_use) {
         if (acb->data_ptr) {
-            BankAddType(src, MTYPE_FLYING);
+            BankAddType(src, TYPE_FLYING);
         } else {
-            BankMonReplaceType(src, MTYPE_NORMAL, MTYPE_FLYING);
+            BankMonReplaceType(src, TYPE_NORMAL, TYPE_FLYING);
         }
         acb->in_use = false;
     }
@@ -196,14 +196,14 @@ u8 roost_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 u8 roost_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
-    if (BankMonHasType(user, MTYPE_FLYING)) {
-        BankMonReplaceType(user, MTYPE_FLYING, MTYPE_EGG);
+    if (BankMonHasType(user, TYPE_FLYING)) {
+        BankMonReplaceType(user, TYPE_FLYING, TYPE_NONE);
         bool add = true;
         if (BankMonUntyped(user)) {
-            BankAddType(user, MTYPE_NORMAL);
+            BankAddType(user, TYPE_NORMAL);
             add = false;
         }
-        u8 id = add_callback(CB_ON_RESIDUAL, -10, 0, user, (u32)roost_on_residual);
+        u8 id = AddCallback(CB_ON_RESIDUAL, -10, 0, user, (u32)roost_on_residual);
         CB_MASTER[id].data_ptr = add;
     }
     return true;

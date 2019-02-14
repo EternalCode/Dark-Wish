@@ -1,6 +1,7 @@
 #include <pokeagb/pokeagb.h>
 #include "HUD/dexnav_hud.h"
 #include "../../pokemon/pokemon.h"
+#include "../../battle/moves/moves.h"
 
 
 u8 get_encounter_level(u16 species, u8 environment) {
@@ -91,21 +92,21 @@ void dexnav_generate_move(u16 species, u8 search_level, u8 encounter_level, u16*
         u16* eggMoves = GetEggMoves(species);
         move[0] =  eggMoves[rand_range(0, moveCount)];
     } else {
-        // case the species has no egg moves
+        // case the species has no egg generatedMoves
         gen_move = false;
     }
 
-    // calculate the normal moves
+    // calculate the normal generatedMoves
     enum Move this_move = MOVE_NONE;
 
     u8 i = 0;
     u8 c_move_index = gen_move;
     while (this_move < MOVE_MAX) {
-       struct LearnsetEntry learnable_move = pokemon_learnset[species][i];
-       this_move = learnable_move.move;
+       struct LearnMove learnableMove = (struct LearnMove)gLevelUpLearnsets[species][i];
+       this_move = learnableMove.move;
 
        // learnset is level ordered, so exit early
-       if (learnable_move.level > encounter_level) {
+       if (learnableMove.level > encounter_level) {
             break;
        } else {
             // if an eggmove is in the first slot, skip it and move to the next slot
@@ -120,7 +121,7 @@ void dexnav_generate_move(u16 species, u8 search_level, u8 encounter_level, u16*
 
     }
 
-    // assign moves to array
+    // assign generatedMoves to array
     for (i = 0; i < 4; i++) {
         move_loc[i] = move[i];
     }
@@ -297,7 +298,7 @@ u8 dexnav_generate_pokemonlvl(u16 species, u8 search_level, u8 environment) {
 }
 
 
-void dexnav_gen_pkmnn(u16 species, u8 potential, u8 level, u8 ability, u16* moves) {
+void dexnav_gen_pkmnn(u16 species, u8 potential, u8 level, u8 ability, u16* generatedMoves) {
     struct Pokemon* pkmn = party_opponent;
     // clear canvas
     memset((void*)pkmn, 0, 100);
@@ -344,17 +345,17 @@ void dexnav_gen_pkmnn(u16 species, u8 potential, u8 level, u8 ability, u16* move
         pkmn->box.unused = 2;
     }
 
-    // set moves
-    set_pokemon_data_2(pkmn, REQUEST_MOVE1, (void*) (moves));
-    set_pokemon_data_2(pkmn, REQUEST_MOVE2, (void*) (moves + 1));
-    set_pokemon_data_2(pkmn, REQUEST_MOVE3, (void*) (moves + 2));
-    set_pokemon_data_2(pkmn, REQUEST_MOVE4, (void*) (moves + 3));
+    // set generated moves
+    set_pokemon_data_2(pkmn, REQUEST_MOVE1, (void*) (generatedMoves));
+    set_pokemon_data_2(pkmn, REQUEST_MOVE2, (void*) (generatedMoves + 1));
+    set_pokemon_data_2(pkmn, REQUEST_MOVE3, (void*) (generatedMoves + 2));
+    set_pokemon_data_2(pkmn, REQUEST_MOVE4, (void*) (generatedMoves + 3));
 
-    // set PP of moves
-    set_pokemon_data_2(pkmn, REQUEST_PP1, (void *) &pokemon_moves[moves[0]].pp);
-    set_pokemon_data_2(pkmn, REQUEST_PP2, (void *) &pokemon_moves[moves[1]].pp);
-    set_pokemon_data_2(pkmn, REQUEST_PP3, (void *) &pokemon_moves[moves[2]].pp);
-    set_pokemon_data_2(pkmn, REQUEST_PP4, (void *) &pokemon_moves[moves[3]].pp);
+    // set PP of generated moves
+    set_pokemon_data_2(pkmn, REQUEST_PP1, (void *) &gBattleMoves[generatedMoves[0]].pp);
+    set_pokemon_data_2(pkmn, REQUEST_PP2, (void *) &gBattleMoves[generatedMoves[1]].pp);
+    set_pokemon_data_2(pkmn, REQUEST_PP3, (void *) &gBattleMoves[generatedMoves[2]].pp);
+    set_pokemon_data_2(pkmn, REQUEST_PP4, (void *) &gBattleMoves[generatedMoves[3]].pp);
 
     // pokerus
     i = 0xFF;

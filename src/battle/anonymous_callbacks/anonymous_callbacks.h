@@ -53,13 +53,13 @@ struct anonymous_callback {
 typedef u16 (*AnonymousCallback)(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 
 // Generic callback functions
-extern u8 add_callback(u8 CB_id, s8 priority, u8 dur, u8 src, u32 func);
+extern u8 AddCallback(u8 CB_id, s8 priority, u8 dur, u8 src, u32 func);
 extern bool callback_exists(u32 func);
 extern void delete_callback(u32 func);
 
 // Building and running callbacks
-extern void build_execution_order(u8 CB_id);
-extern u16 pop_callback(u8 attacker, u16 move);
+extern void BuildCallbackExecutionBuffer(u8 CB_id);
+extern u16 PopCallback(u8 attacker, u16 move);
 extern u16 run_callback(u8 attacker, u16 move);
 
 // Fetch callbacks and generic

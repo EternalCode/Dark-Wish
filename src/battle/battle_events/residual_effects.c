@@ -17,10 +17,10 @@ void event_residual_effects(struct action* current_action)
 			for (u8 i = 0; i < BANK_MAX; i++) {
 				u8 ability = gPkmnBank[i]->battleData.ability;
 				if ((abilities[ability].on_residual) && (ACTIVE_BANK(i))) {
-					add_callback(CB_ON_RESIDUAL, 0, 0, i, (u32)abilities[ability].on_residual);
+					AddCallback(CB_ON_RESIDUAL, 0, 0, i, (u32)abilities[ability].on_residual);
 				}
 			}
-            build_execution_order(CB_ON_RESIDUAL);
+            BuildCallbackExecutionBuffer(CB_ON_RESIDUAL);
             gBattleMaster->executing = true;
             s8 last_index = -1;
             for (u8 i = 0; i < 4; i++) {
@@ -42,7 +42,7 @@ void event_residual_effects(struct action* current_action)
             if (gBattleMaster->executing) {
                 if (gBattleMaster->bank_state == gBattleMaster->c1_prestate) {
                     if (B_FAINTED(bank) == false) {
-                        pop_callback(bank , CURRENT_MOVE(bank));
+                        PopCallback(bank , CURRENT_MOVE(bank));
                     } else {
                         CB_EXEC_INDEX++;
                         if ((CB_EXEC_ORDER[CB_EXEC_INDEX] == ANON_CB_MAX) || (CB_EXEC_ORDER[CB_EXEC_INDEX - 1] == ANON_CB_MAX))

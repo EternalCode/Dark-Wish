@@ -28,9 +28,9 @@ u8 curse_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 enum TryHitMoveStatus curse_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return TRYHIT_USE_MOVE_NORMAL;
-    if (BankMonHasType(user, MTYPE_GHOST)) {
-        add_callback(CB_ON_RESIDUAL, 0, CB_PERMA, TARGET_OF(user), (u32)curse_on_residual);
-        add_callback(CB_ON_EFFECT, 0, 0, user, (u32)curse_on_effect_ghost);
+    if (BankMonHasType(user, TYPE_GHOST)) {
+        AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, TARGET_OF(user), (u32)curse_on_residual);
+        AddCallback(CB_ON_EFFECT, 0, 0, user, (u32)curse_on_effect_ghost);
     } else {
         // set the stat boosts
         B_USER_STAT_MOD_CHANCE(user, ATTACK_MOD) = 100;

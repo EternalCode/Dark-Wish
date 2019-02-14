@@ -64,13 +64,13 @@ u8 protect_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     if (user != src) return true;
     QueueMessage(0, src, STRING_PROTECTED_SELF, 0);
     if ((CURRENT_MOVE(user) == MOVE_PROTECT) || (CURRENT_MOVE(user) == MOVE_DETECT)) {
-        add_callback(CB_ON_TRYHIT_MOVE, 4, 0, user, (u32)(protect_on_tryhit_anon));
+        AddCallback(CB_ON_TRYHIT_MOVE, 4, 0, user, (u32)(protect_on_tryhit_anon));
     } else if ((CURRENT_MOVE(user) == MOVE_SPIKYSHIELD)) {
         extern u8 spiky_shield_on_tryhit_anon(u8 user, u8 source, u16 move, struct anonymous_callback* acb);
-        add_callback(CB_ON_TRYHIT_MOVE, 4, 0, user, (u32)spiky_shield_on_tryhit_anon);
+        AddCallback(CB_ON_TRYHIT_MOVE, 4, 0, user, (u32)spiky_shield_on_tryhit_anon);
     } else {
         extern u8 kings_shield_on_tryhit_anon(u8 user, u8 source, u16 move, struct anonymous_callback* acb);
-        add_callback(CB_ON_TRYHIT_MOVE, 4, 0, user, (u32)kings_shield_on_tryhit_anon);
+        AddCallback(CB_ON_TRYHIT_MOVE, 4, 0, user, (u32)kings_shield_on_tryhit_anon);
     }
     return true;
 }
@@ -123,7 +123,7 @@ u8 wide_guard_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
     // queue an anon func to read and interrupt
     if (user != src) return true;
     QueueMessage(MOVE_WIDEGUARD, src, STRING_PROTECTED_TEAM, 0);
-    add_callback(CB_ON_TRYHIT_MOVE, 3, 0, user, (u32)wide_guard_on_tryhit_anon);
+    AddCallback(CB_ON_TRYHIT_MOVE, 3, 0, user, (u32)wide_guard_on_tryhit_anon);
     return true;
 }
 
@@ -144,7 +144,7 @@ u8 quick_guard_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* a
     // queue an anon func to read and interrupt
     if (user != src) return true;
     QueueMessage(MOVE_QUICKGUARD, src, STRING_PROTECTED_TEAM, 0);
-    add_callback(CB_ON_TRYHIT_MOVE, 3, 0, user, (u32)quick_guard_on_tryhit_anon);
+    AddCallback(CB_ON_TRYHIT_MOVE, 3, 0, user, (u32)quick_guard_on_tryhit_anon);
     return true;
 }
 
@@ -166,7 +166,7 @@ u8 endure_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     // msg: braced itself
     if (user != src) return true;
     QueueMessage(0, src, STRING_BRACED_ITSELF, 0);
-    add_callback(CB_ON_DAMAGE_MOVE, -10, 0, user, (u32)endure_on_damage);
+    AddCallback(CB_ON_DAMAGE_MOVE, -10, 0, user, (u32)endure_on_damage);
     return true;
 }
 

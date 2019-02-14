@@ -21,7 +21,7 @@ u8 rage_powder_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* a
         if (SIDE_OF(i) == SIDE_OF(TARGET_OF(user)))
             continue;
         if (M_HITS_TARGET(CURRENT_MOVE(i))) {
-            u8 id = add_callback(CB_ON_MODIFY_MOVE, 0, 0, i, (u32)rage_powder_on_modify_move);
+            u8 id = AddCallback(CB_ON_MODIFY_MOVE, 0, 0, i, (u32)rage_powder_on_modify_move);
             CB_MASTER[id].data_ptr = TARGET_OF(user);
             applied = true;
         }

@@ -27,7 +27,7 @@ u8 mimic_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
         // set move slot of mimic to the target's last used move
         u8 slot = GetMoveIndexBank(MOVE_MIMIC, user);
         B_GET_MOVE(user, slot) = target_move;
-        B_GET_MOVE_PP(user, slot) = moves[target_move].pp;
+        B_GET_MOVE_PP(user, slot) = gBattleMoves[target_move].pp;
         QueueMessage(target_move, user, STRING_LEARNED_MOVE, NULL);
         return true;
 }

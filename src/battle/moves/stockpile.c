@@ -62,7 +62,7 @@ u8 spit_up_on_tryhit_move(u8 user, u8 src, u16 move, struct anonymous_callback* 
     if (user != src) return true;
     if (gPkmnBank[user]->battleData.stockpile_uses == 0)
         return false;
-    add_callback(CB_ON_BEFORE_STAT_MOD, -1, 0, user, (u32)stockpile_drop_on_before_stat_mod);
+    AddCallback(CB_ON_BEFORE_STAT_MOD, -1, 0, user, (u32)stockpile_drop_on_before_stat_mod);
     return true;
 }
 
@@ -82,7 +82,7 @@ u8 swallow_on_tryhit_move(u8 user, u8 src, u16 move, struct anonymous_callback* 
             B_HEAL(user) = 100;
             break;
     }
-    add_callback(CB_ON_BEFORE_STAT_MOD, -1, 0, user, (u32)stockpile_drop_on_before_stat_mod);
+    AddCallback(CB_ON_BEFORE_STAT_MOD, -1, 0, user, (u32)stockpile_drop_on_before_stat_mod);
     return true;
 }
 

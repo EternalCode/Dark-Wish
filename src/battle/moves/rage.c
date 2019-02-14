@@ -19,7 +19,7 @@ void rage_on_damage_move(u8 user, u8 src, u16 move, struct anonymous_callback* a
 u8 rage_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
-    add_callback(CB_ON_DAMAGE_MOVE, 0, 0, src, (u32)rage_on_damage_move);
+    AddCallback(CB_ON_DAMAGE_MOVE, 0, 0, src, (u32)rage_on_damage_move);
     return true;
 }
 

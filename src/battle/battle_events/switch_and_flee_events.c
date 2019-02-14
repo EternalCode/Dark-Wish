@@ -32,18 +32,18 @@ void move_on_switch_cb(u8 attacker)
     for (u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].before_switch) && (ACTIVE_BANK(i)))
-            add_callback(CB_ON_BEFORE_SWITCH, 0, 0, i, (u32)abilities[ability].before_switch);
+            AddCallback(CB_ON_BEFORE_SWITCH, 0, 0, i, (u32)abilities[ability].before_switch);
     }
     u16 move = CURRENT_MOVE(attacker);
     // add callbacks specific to field
-    if (moves[move].before_switch) {
-        add_callback(CB_ON_BEFORE_SWITCH, 0, 0, attacker, (u32)moves[move].before_switch);
+    if (gBattleMoves[move].before_switch) {
+        AddCallback(CB_ON_BEFORE_SWITCH, 0, 0, attacker, (u32)gBattleMoves[move].before_switch);
     }
     // run callbacks
-    build_execution_order(CB_ON_BEFORE_SWITCH);
+    BuildCallbackExecutionBuffer(CB_ON_BEFORE_SWITCH);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        pop_callback(attacker, move);
+        PopCallback(attacker, move);
     }
 }
 
@@ -55,17 +55,17 @@ void run_after_switch(u8 attacker)
         if (ACTIVE_BANK(i)) {
             u8 ability = gPkmnBank[i]->battleData.ability;
             if (abilities[ability].on_start)
-                add_callback(CB_ON_START, 0, 0, i, (u32)abilities[ability].on_start);
+                AddCallback(CB_ON_START, 0, 0, i, (u32)abilities[ability].on_start);
             u16 move = CURRENT_MOVE(i);
-            if (moves[move].on_start)
-                add_callback(CB_ON_START, 0, 0, i, (u32)moves[move].on_start);
+            if (gBattleMoves[move].on_start)
+                AddCallback(CB_ON_START, 0, 0, i, (u32)gBattleMoves[move].on_start);
         }
     }
     // run on start callbacks
-    build_execution_order(CB_ON_START);
+    BuildCallbackExecutionBuffer(CB_ON_START);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing)
-        pop_callback(0xFF, NULL);
+        PopCallback(0xFF, NULL);
 }
 
 
@@ -76,17 +76,17 @@ void event_on_start(struct action* current_action)
         if (ACTIVE_BANK(i)) {
             u8 ability = gPkmnBank[i]->battleData.ability;
             if (abilities[ability].on_start)
-                add_callback(CB_ON_START, 0, 0, i, (u32)abilities[ability].on_start);
+                AddCallback(CB_ON_START, 0, 0, i, (u32)abilities[ability].on_start);
             u16 move = CURRENT_MOVE(i);
-            if (moves[move].on_start)
-                add_callback(CB_ON_START, 0, 0, i, (u32)moves[move].on_start);
+            if (gBattleMoves[move].on_start)
+                AddCallback(CB_ON_START, 0, 0, i, (u32)gBattleMoves[move].on_start);
         }
     }
     // run on start callbacks
-    build_execution_order(CB_ON_START);
+    BuildCallbackExecutionBuffer(CB_ON_START);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing)
-        pop_callback(0xFF, NULL);
+        PopCallback(0xFF, NULL);
     end_action(CURRENT_ACTION);
 }
 

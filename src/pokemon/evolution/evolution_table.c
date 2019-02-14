@@ -1,6 +1,7 @@
 #include <pokeagb/pokeagb.h>
 #include "evolution_table.h"
 #include "../pokemon.h"
+#include "../types/pkmn_types.h"
 
 const struct Evolution gEvolutionTable[SPECIES_MAX][EVOS_PER_MON] =
 {

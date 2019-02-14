@@ -25,7 +25,7 @@ bool is_grounded(u8 bank) {
     if (has_callback_src((u32)telekinesis_on_residual, bank)) return false;
     // if air balloon true
     // false
-    if (BankMonHasType(bank, MTYPE_FLYING)) {
+    if (BankMonHasType(bank, TYPE_FLYING)) {
         B_IS_GROUNDED(bank) = false;
         return false;
     }

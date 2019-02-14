@@ -67,9 +67,9 @@ enum TryHitMoveStatus nightmare_on_tryhit(u8 user, u8 src, u16 move, struct anon
     u8 status = B_STATUS(TARGET_OF(user));
 
     if ((status == AILMENT_SLEEP) || (BANK_ABILITY(TARGET_OF(user)) == ABILITY_COMATOSE)) {
-        add_callback(CB_ON_RESIDUAL, 0, CB_PERMA, TARGET_OF(user), (u32)nightmare_on_residual);
-        add_callback(CB_ON_STATUS, 0, CB_PERMA, TARGET_OF(user), (u32)nightmare_on_status);
-        add_callback(CB_ON_MODIFY_MOVE, 0, CB_PERMA, TARGET_OF(user), (u32)nightmare_on_modify_move);
+        AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, TARGET_OF(user), (u32)nightmare_on_residual);
+        AddCallback(CB_ON_STATUS, 0, CB_PERMA, TARGET_OF(user), (u32)nightmare_on_status);
+        AddCallback(CB_ON_MODIFY_MOVE, 0, CB_PERMA, TARGET_OF(user), (u32)nightmare_on_modify_move);
         return TRYHIT_USE_MOVE_NORMAL;
     } else {
         return TRYHIT_CANT_USE_MOVE;

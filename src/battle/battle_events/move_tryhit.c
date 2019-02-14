@@ -17,17 +17,17 @@ enum TryHitMoveStatus move_tryhit(u8 attacker, u8 defender, u16 move)
     for (u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].on_tryhit) && (ACTIVE_BANK(i)))
-            add_callback(CB_ON_TRYHIT_MOVE, 0, 0, i, (u32)abilities[ability].on_tryhit);
+            AddCallback(CB_ON_TRYHIT_MOVE, 0, 0, i, (u32)abilities[ability].on_tryhit);
     }
     // add callbacks specific to field
-    if (moves[move].on_tryhit_move) {
-        add_callback(CB_ON_TRYHIT_MOVE, 0, 0, attacker, (u32)moves[move].on_tryhit_move);
+    if (gBattleMoves[move].on_tryhit_move) {
+        AddCallback(CB_ON_TRYHIT_MOVE, 0, 0, attacker, (u32)gBattleMoves[move].on_tryhit_move);
     }
     // run callbacks
-    build_execution_order(CB_ON_TRYHIT_MOVE);
+    BuildCallbackExecutionBuffer(CB_ON_TRYHIT_MOVE);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        enum TryHitMoveStatus status = pop_callback(attacker, move);
+        enum TryHitMoveStatus status = PopCallback(attacker, move);
         if (status != TRYHIT_USE_MOVE_NORMAL)
             return status;
     }
@@ -40,17 +40,17 @@ bool tryhit_semi_invulnerble(u8 attacker, u8 defender, u16 move)
     if (HAS_VOLATILE(defender, VOLATILE_SEMI_INVULNERABLE)) {
         // add callbacks specific to field
         u16 move = CURRENT_MOVE(attacker);
-        if (moves[move].on_inv_tryhit_move) {
-            add_callback(CB_ON_TRYHIT_INV_MOVE, 0, 0, attacker, (u32)moves[move].on_inv_tryhit_move);
+        if (gBattleMoves[move].on_inv_tryhit_move) {
+            AddCallback(CB_ON_TRYHIT_INV_MOVE, 0, 0, attacker, (u32)gBattleMoves[move].on_inv_tryhit_move);
         }
         // run callbacks
         u8 old_index = CB_EXEC_INDEX;
         u32* old_execution_array = push_callbacks();
-        build_execution_order(CB_ON_TRYHIT_INV_MOVE);
+        BuildCallbackExecutionBuffer(CB_ON_TRYHIT_INV_MOVE);
         gBattleMaster->executing = true;
         bool is_inv = true;
         while (gBattleMaster->executing) {
-            if (!pop_callback(attacker, move)) {
+            if (!PopCallback(attacker, move)) {
                 is_inv = false;
                 break;
             }
@@ -134,14 +134,14 @@ void event_move_tryhit_external(struct action* current_action)
         for (u8 i = 0; i < BANK_MAX; i++) {
             u8 ability = gPkmnBank[i]->battleData.ability;
             if ((abilities[ability].on_flinch) && (ACTIVE_BANK(i)))
-                add_callback(CB_ON_FLINCH, 0, 0, i, (u32)abilities[ability].on_flinch);
+                AddCallback(CB_ON_FLINCH, 0, 0, i, (u32)abilities[ability].on_flinch);
         }
         // run callbacks
-        build_execution_order(CB_ON_FLINCH);
+        BuildCallbackExecutionBuffer(CB_ON_FLINCH);
         bool temp_status = gBattleMaster->executing;
         gBattleMaster->executing = true;
         while (gBattleMaster->executing) {
-            pop_callback(bank_index, move);
+            PopCallback(bank_index, move);
         }
         gBattleMaster->executing = temp_status;
         return;

@@ -53,7 +53,7 @@ void perish_song_on_after_move(u8 user, u8 src, u16 move, struct anonymous_callb
     u8 id = get_callback_src((u32)perish_song_before_move, src);
     if (CB_MASTER[id].data_ptr == true) {
         QueueMessage(0, user, STRING_PERISH_START, 0);
-        add_callback(CB_ON_RESIDUAL, 0, 3, user, (u32)perish_song_on_residual);
+        AddCallback(CB_ON_RESIDUAL, 0, 3, user, (u32)perish_song_on_residual);
     } else {
         QueueMessage(0, user, STRING_FAILED, 0);
     }
@@ -74,7 +74,7 @@ void destiny_bond_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback
     if (HAS_VOLATILE(src, VOLATILE_DESTINY_BOND)) {
         u16 dmg = B_MOVE_DMG(user);
         if (dmg > B_CURRENT_HP(src)) {
-            u8 id = add_callback(CB_ON_FAINT_CHECK, 0, 0, src, (u32)destiny_bond_on_faint);
+            u8 id = AddCallback(CB_ON_FAINT_CHECK, 0, 0, src, (u32)destiny_bond_on_faint);
             CB_MASTER[id].data_ptr = user;
             B_FAINTED(user) = true;
         }
@@ -94,8 +94,8 @@ u8 destiny_bond_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* 
     if (has_callback_src((u32)destiny_bond_before_move, user)) return false;
     ADD_VOLATILE(user, VOLATILE_DESTINY_BOND);
     QueueMessage(0, user, STRING_TRYING_TO_TAKE, 0);
-    add_callback(CB_ON_DAMAGE_MOVE, 0, 1, user, (u32)destiny_bond_on_damage);
-    add_callback(CB_ON_BEFORE_MOVE, 0, 1, user, (u32)destiny_bond_before_move);
+    AddCallback(CB_ON_DAMAGE_MOVE, 0, 1, user, (u32)destiny_bond_on_damage);
+    AddCallback(CB_ON_BEFORE_MOVE, 0, 1, user, (u32)destiny_bond_before_move);
     return true;
 }
 
@@ -115,7 +115,7 @@ void grudge_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     if (HAS_VOLATILE(src, VOLATILE_GRUDGE)) {
         u16 dmg = B_MOVE_DMG(user);
         if (dmg > B_CURRENT_HP(src)) {
-            u8 id = add_callback(CB_ON_FAINT_CHECK, 0, 0, src, (u32)grudge_on_faint);
+            u8 id = AddCallback(CB_ON_FAINT_CHECK, 0, 0, src, (u32)grudge_on_faint);
             CB_MASTER[id].data_ptr = user;
         }
     }
@@ -134,8 +134,8 @@ u8 grudge_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     if (has_callback_src((u32)grudge_before_move, user)) return false;
     ADD_VOLATILE(user, VOLATILE_GRUDGE);
     QueueMessage(0, user, STRING_GRUDGE_START, 0);
-    add_callback(CB_ON_DAMAGE_MOVE, 0, 1, user, (u32)grudge_on_damage);
-    add_callback(CB_ON_BEFORE_MOVE, 0, 1, user, (u32)grudge_before_move);
+    AddCallback(CB_ON_DAMAGE_MOVE, 0, 1, user, (u32)grudge_on_damage);
+    AddCallback(CB_ON_BEFORE_MOVE, 0, 1, user, (u32)grudge_before_move);
     return true;
 }
 

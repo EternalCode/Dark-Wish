@@ -5,11 +5,11 @@
 #include "../pokemon/pokemon.h"
 
 // Switch
-const static bool USE_TESTS = false; // Change to false to not execute the test environment
+const static bool USE_TESTS = true; // Change to false to not execute the test environment
 
 /* Player data */
-const static u16 playerSpecies = 15;
-const static u16 playerMove1 = MOVE_QUASH;
+const static u16 playerSpecies = SPECIES_DARKRAI;
+const static u16 playerMove1 = MOVE_HYPERBEAM;
 const static u16 playerMove2 = MOVE_RECOVER;
 const static u16 playerMove3 = MOVE_ACID;
 const static u16 playerMove4 = MOVE_DRILLPECK;
@@ -17,13 +17,13 @@ const static u8 playerLevel = 15;
 const u8 gPlayerAbility = ABILITY_COMATOSE;
 
 /* Opponent data */
-const static u16 opponentSpecies = 26;
+const static u16 opponentSpecies = SPECIES_DRAGONAIR;
 const static u16 opponentMove1 = MOVE_PURSUIT;
 const static u16 opponentMove2 = MOVE_PURSUIT;
 const static u16 opponentMove3 = MOVE_PURSUIT;
 const static u16 opponentMove4 = MOVE_PURSUIT;
-const static u8 opponentLevel = 55;
-const u8 gOpponentAbility = ABILITY_GUTS;
+const static u8 opponentLevel = 15;
+const u8 gOpponentAbility = ABILITY_COMATOSE;
 
 
 
@@ -38,7 +38,7 @@ void SideSetBattleComponents(u8 side)
 	u8 level = (side) ? (playerLevel) : (opponentLevel);
 
 	pokemon_setattr(p, REQUEST_SPECIES, &species);
-	pokemon_setattr(p, REQUEST_NICK, &pokemon_names[species]);
+	pokemon_setattr(p, REQUEST_NICK, (void*)&gSpeciesNames[species]);
 	u32 speciesExpIndex = (gBaseStats[species].growthRate * 0x194);
 	u32 *expNeeded = (u32*) (0x8253AE4 + (speciesExpIndex + (level * 4)));
 	pokemon_setattr(p, REQUEST_EXP_POINTS, expNeeded);
@@ -47,10 +47,10 @@ void SideSetBattleComponents(u8 side)
 	pokemon_setattr(p, REQUEST_MOVE2, &move2);
 	pokemon_setattr(p, REQUEST_MOVE3, &move3);
 	pokemon_setattr(p, REQUEST_MOVE4, &move4);
-	pokemon_setattr(p, REQUEST_PP1, &moves[move1].pp);
-	pokemon_setattr(p, REQUEST_PP2, &moves[move2].pp);
-	pokemon_setattr(p, REQUEST_PP3, &moves[move3].pp);
-	pokemon_setattr(p, REQUEST_PP4, &moves[move4].pp);
+	pokemon_setattr(p, REQUEST_PP1, &gBattleMoves[move1].pp);
+	pokemon_setattr(p, REQUEST_PP2, &gBattleMoves[move2].pp);
+	pokemon_setattr(p, REQUEST_PP3, &gBattleMoves[move3].pp);
+	pokemon_setattr(p, REQUEST_PP4, &gBattleMoves[move4].pp);
 }
 
 void TestBattleDataInit()

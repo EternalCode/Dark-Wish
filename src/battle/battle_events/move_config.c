@@ -87,18 +87,18 @@ void CreateActionsForActiveBanks()
         // add ability specific cbs
         u8 ability = gPkmnBank[active_banks[i]]->battleData.ability;
         if (abilities[ability].before_turn)
-            add_callback(CB_ON_BEFORE_TURN, 0, 0, active_banks[i], (u32)abilities[ability].before_turn);
+            AddCallback(CB_ON_BEFORE_TURN, 0, 0, active_banks[i], (u32)abilities[ability].before_turn);
 
         u16 move = CURRENT_MOVE(active_banks[i]);
-        if (moves[move].before_turn)
-            add_callback(CB_ON_BEFORE_TURN, 0, 0, active_banks[i], (u32)moves[move].before_turn);
+        if (gBattleMoves[move].before_turn)
+            AddCallback(CB_ON_BEFORE_TURN, 0, 0, active_banks[i], (u32)gBattleMoves[move].before_turn);
     }
-    build_execution_order(CB_ON_BEFORE_TURN);
+    BuildCallbackExecutionBuffer(CB_ON_BEFORE_TURN);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
         u8 attacker = CB_MASTER[CB_EXEC_ORDER[CB_EXEC_INDEX]].source_bank;
         u16 move = CURRENT_MOVE(CB_MASTER[CB_EXEC_ORDER[CB_EXEC_INDEX]].source_bank);
-        pop_callback(attacker, move);
+        PopCallback(attacker, move);
     }
     // before turn could've changed the priorities
     SortBanksBySpeed(&active_banks[0], index);
@@ -144,11 +144,11 @@ u16 BankInterpretSelectedMove(u8 bank)
 bool external_move_disable_callbacks(u8 bank, u16 move)
 {
     // callbacks for external move disables
-    build_execution_order(CB_ON_DISABLE_MOVE);
+    BuildCallbackExecutionBuffer(CB_ON_DISABLE_MOVE);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
         // if a move is successfully disabled, the child should return false to halt
-        if (!pop_callback(bank, move)) {
+        if (!PopCallback(bank, move)) {
             // this is to stoping moves in multi turn is left to the child callback.
             // some moves like disable stop them, but moves like torment do not
             gBattleMaster->executing = false;
@@ -274,16 +274,16 @@ void set_attack_bm_inplace(u16 moveId, u8 bank)
     gBattleMaster->b_moves[bank].power = MOVE_POWER(moveId);
     gBattleMaster->b_moves[bank].category = MOVE_CATEGORY(moveId);
     gBattleMaster->b_moves[bank].type[0] = MOVE_TYPE(moveId);
-    gBattleMaster->b_moves[bank].type[1] = MTYPE_EGG;
+    gBattleMaster->b_moves[bank].type[1] = TYPE_NONE;
     gBattleMaster->b_moves[bank].flinch = M_FLINCH(moveId);
     gBattleMaster->b_moves[bank].accuracy = MOVE_ACCURACY(moveId);
     gBattleMaster->b_moves[bank].makes_contact = (IS_CONTACT(moveId) != 0);
     gBattleMaster->b_moves[bank].ignore_abilities = false;
-    gBattleMaster->b_moves[bank].heal = moves[moveId].heal;
+    gBattleMaster->b_moves[bank].heal = gBattleMoves[moveId].heal;
     gBattleMaster->b_moves[bank].infiltrates = false;
-    if (moves[moveId].multi_hit[0]) {
+    if (gBattleMoves[moveId].multi_hit[0]) {
         u8 hit_times = 0;
-        if ((moves[moveId].multi_hit[0] == 2) && (moves[moveId].multi_hit[1] == 5)) {
+        if ((gBattleMoves[moveId].multi_hit[0] == 2) && (gBattleMoves[moveId].multi_hit[1] == 5)) {
             switch(RandRange(0, 3)) {
                 case 0:
                     hit_times = 2;
@@ -296,10 +296,10 @@ void set_attack_bm_inplace(u16 moveId, u8 bank)
                     break;
             };
         } else {
-            if (moves[moveId].multi_hit[0] == moves[moveId].multi_hit[1]) {
-                hit_times = moves[moveId].multi_hit[1];
+            if (gBattleMoves[moveId].multi_hit[0] == gBattleMoves[moveId].multi_hit[1]) {
+                hit_times = gBattleMoves[moveId].multi_hit[1];
             } else {
-                hit_times = RandRange(moves[moveId].multi_hit[0], moves[moveId].multi_hit[1]);
+                hit_times = RandRange(gBattleMoves[moveId].multi_hit[0], gBattleMoves[moveId].multi_hit[1]);
                 hit_times |= 1;
             }
         }
@@ -311,7 +311,7 @@ void set_attack_bm_inplace(u16 moveId, u8 bank)
     B_MOVE_DMG(bank) = 0;
     B_MOVE_EFFECTIVENESS(bank) = 0;
     if (!HAS_ABILITY_FLAG(BANK_ABILITY(bank), A_FLAG_SECONDARIES_PREVENT)) {
-        gBattleMaster->b_moves[bank].b_procs = *(moves[moveId].procs);
+        gBattleMaster->b_moves[bank].b_procs = *(gBattleMoves[moveId].procs);
     } else {
         gBattleMaster->b_moves[bank].flinch = 0;
 

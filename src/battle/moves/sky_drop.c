@@ -23,7 +23,7 @@ u8 skydrop_on_effectiveness(u8 user, u8 src, u16 move, struct anonymous_callback
     u8 attacker = acb->data_ptr >> 16;
     u16 effectiveness = ((acb->data_ptr << 16) >> 16);
     if (attacker != src) return effectiveness;
-    if (BankMonHasType(TARGET_OF(attacker), MTYPE_FLYING))
+    if (BankMonHasType(TARGET_OF(attacker), TYPE_FLYING))
         return 0;
     return effectiveness;
 }
@@ -49,8 +49,8 @@ u8 skydrop_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb
         ADD_VOLATILE(user, VOLATILE_SKYDROP);
         ADD_VOLATILE(TARGET_OF(user), VOLATILE_SKYDROP);
         ADD_VOLATILE(user, VOLATILE_SEMI_INVULNERABLE);
-        add_callback(CB_ON_BEFORE_MOVE, 3, 1, TARGET_OF(user), (u32)skydrop_opponent_before_move);
-        add_callback(CB_ON_EFFECTIVENESS, 0, 1, user, (u32)skydrop_on_effectiveness);
+        AddCallback(CB_ON_BEFORE_MOVE, 3, 1, TARGET_OF(user), (u32)skydrop_opponent_before_move);
+        AddCallback(CB_ON_EFFECTIVENESS, 0, 1, user, (u32)skydrop_on_effectiveness);
     }
     return true;
 }

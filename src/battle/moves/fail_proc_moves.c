@@ -13,7 +13,7 @@ extern bool BankMonHasType(u8 bank, enum PokemonType type);
 u8 powder_on_tryhit_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (TARGET_OF(src) != user) return true;
-    if (B_MOVE_HAS_TYPE(user, MTYPE_FIRE)) {
+    if (B_MOVE_HAS_TYPE(user, TYPE_FIRE)) {
         u16 dmg = MIN((TOTAL_HP(user) >> 2), B_CURRENT_HP(user));
         do_damage_residual(user, MAX(1, dmg), A_FLAG_POWDER_EFX_PREVENT);
         return false;
@@ -31,14 +31,14 @@ u8 venom_drench_on_tryhit_move(u8 user, u8 src, u16 move, struct anonymous_callb
 u8 cotton_spore_on_tryhit_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
-    return (!(BankMonHasType(TARGET_OF(src), MTYPE_GRASS)));
+    return (!(BankMonHasType(TARGET_OF(src), TYPE_GRASS)));
 }
 
 enum TryHitMoveStatus synchonoise_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return TRYHIT_USE_MOVE_NORMAL;
     for (u8 i = 0; i < sizeof(gPkmnBank[user]->battleData.type); i++) {
-        if (gPkmnBank[user]->battleData.type[i] == MTYPE_EGG)
+        if (gPkmnBank[user]->battleData.type[i] == TYPE_NONE)
             continue;
         if (BankMonHasType(TARGET_OF(user), gPkmnBank[user]->battleData.type[i])) {
             dprintf("type is shared\n");

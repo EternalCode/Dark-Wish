@@ -5,6 +5,7 @@
 #include "../battle_data/pkmn_bank.h"
 #include "../abilities/ability_override.h"
 #include "../anonymous_callbacks/anonymous_callbacks.h"
+#include "../../pokemon/types/pkmn_types.h"
 
 /* Ailment names and order:
 
@@ -44,10 +45,10 @@ struct move_procs {
     u8 ailment_target_chance;    // Chance the ailment affects the user
 };
 
-#define MOVE_AILMENT_PROCS_CHANCE_USER(move) moves[move].ailment_user_chance
-#define MOVE_AILMENT_PROCS_CHANCE_TARGET(move) moves[move].ailment_target_chance
-#define MOVE_AILMENT_PROCS_STATUS_USER(move) moves[move].ailment_user
-#define MOVE_AILMENT_PROCS_STATUS_TARGET(move) moves[move].ailment_target
+#define MOVE_AILMENT_PROCS_CHANCE_USER(move) gBattleMoves[move].ailment_user_chance
+#define MOVE_AILMENT_PROCS_CHANCE_TARGET(move) gBattleMoves[move].ailment_target_chance
+#define MOVE_AILMENT_PROCS_STATUS_USER(move) gBattleMoves[move].ailment_user
+#define MOVE_AILMENT_PROCS_STATUS_TARGET(move) gBattleMoves[move].ailment_target
 
 
 #include "../battle_data/battle_state.h"
@@ -89,78 +90,55 @@ struct move_procs {
 /*
  * Field data fetch macros
  */
-#define MOVE_PRIORITY(move) (moves[move].priority)
-#define MOVE_POWER(move) (moves[move].base_power)
-#define MOVE_CATEGORY(move) (moves[move].category)
-#define MOVE_ACCURACY(move) (moves[move].accuracy)
-#define MOVE_CRIT(move) (moves[move].crit_ratio)
-#define MOVE_RECOIL(move) (moves[move].recoil)
-#define M_FLINCH(move) (moves[move].flinch_chance)
-#define MOVE_TYPE(move) (moves[move].type)
-#define IS_MOVE_STATUS(move) (moves[move].category == MOVE_STATUS)
-#define IS_MOVE_PHYSICAL(move) (moves[move].category == MOVE_PHYSICAL)
-#define IS_MOVE_SPECIAL(move) (moves[move].category == MOVE_SPECIAL)
-#define IS_CHARGE(move) ((moves[move].m_flags) & FLAG_CHARGE)
-#define IS_CONTACT(move) ((moves[move].m_flags) & FLAG_CONTACT)
-#define IS_PUNCH(move) ((moves[move].m_flags) & FLAG_PUNCH)
-#define IS_BITE(move) ((moves[move].m_flags) & FLAG_BITE)
-#define IS_RECHARGE(move) ((moves[move].m_flags) & FLAG_RECHARGE)
-#define IS_DEFROST(move) ((moves[move].m_flags) & FLAG_DEFROST)
-#define IS_GRAVITY(move) ((moves[move].m_flags) & FLAG_GRAVITY)
-#define IS_HEAL(move) ((moves[move].m_flags) & FLAG_HEAL)
-#define IS_POWDER(move) ((moves[move].m_flags) & FLAG_POWDER)
-#define IS_MIRRORABLE(move) ((moves[move].m_flags) & FLAG_MIRROR)
-#define IS_PROTECTABLE(move) ((moves[move].m_flags) & FLAG_PROTECT)
-#define IS_REFLECTABLE(move) ((moves[move].m_flags) & FLAG_REFLECTABLE)
-#define IS_SNATCHABLE(move) ((moves[move].m_flags) & FLAG_SNATCH)
-#define IS_DANCE(move) ((moves[move].m_flags) & FLAG_DANCE)
-#define IS_TRIAGE(move) ((moves[move].m_flags) & FLAG_TRIAGE)
-#define IS_SOUND_BASE(move) ((moves[move].m_flags) & FLAG_SOUND)
-#define IS_PULSE(move) ((moves[move].m_flags) & FLAG_PULSE)
-#define IS_BULLET(move) ((moves[move].m_flags) & FLAG_BULLET)
-#define IS_SEMI_INVUL(move) ((moves[move].m_flags) & FLAG_SEMI_INVUL)
-#define IS_OHKO(move) ((moves[move].m_flags) & FLAG_OHKO)
-#define CAT_OVERRIDE(move) ((moves[move].m_flags) & FLAG_CATEGORY_OVERRIDE)
-#define STEAL_OFFENSIVE(move) ((moves[move].m_flags) & FLAG_STEAL_OFFENSIVE)
-#define STEAL_BOOSTS(move) ((moves[move].m_flags) & FLAG_STEAL_BOOSTS)
+#define MOVE_PRIORITY(move) (gBattleMoves[move].priority)
+#define MOVE_POWER(move) (gBattleMoves[move].base_power)
+#define MOVE_CATEGORY(move) (gBattleMoves[move].category)
+#define MOVE_ACCURACY(move) (gBattleMoves[move].accuracy)
+#define MOVE_CRIT(move) (gBattleMoves[move].crit_ratio)
+#define MOVE_RECOIL(move) (gBattleMoves[move].recoil)
+#define M_FLINCH(move) (gBattleMoves[move].flinch_chance)
+#define MOVE_TYPE(move) (gBattleMoves[move].type)
+#define IS_MOVE_STATUS(move) (gBattleMoves[move].category == MOVE_STATUS)
+#define IS_MOVE_PHYSICAL(move) (gBattleMoves[move].category == MOVE_PHYSICAL)
+#define IS_MOVE_SPECIAL(move) (gBattleMoves[move].category == MOVE_SPECIAL)
+#define IS_CHARGE(move) ((gBattleMoves[move].m_flags) & FLAG_CHARGE)
+#define IS_CONTACT(move) ((gBattleMoves[move].m_flags) & FLAG_CONTACT)
+#define IS_PUNCH(move) ((gBattleMoves[move].m_flags) & FLAG_PUNCH)
+#define IS_BITE(move) ((gBattleMoves[move].m_flags) & FLAG_BITE)
+#define IS_RECHARGE(move) ((gBattleMoves[move].m_flags) & FLAG_RECHARGE)
+#define IS_DEFROST(move) ((gBattleMoves[move].m_flags) & FLAG_DEFROST)
+#define IS_GRAVITY(move) ((gBattleMoves[move].m_flags) & FLAG_GRAVITY)
+#define IS_HEAL(move) ((gBattleMoves[move].m_flags) & FLAG_HEAL)
+#define IS_POWDER(move) ((gBattleMoves[move].m_flags) & FLAG_POWDER)
+#define IS_MIRRORABLE(move) ((gBattleMoves[move].m_flags) & FLAG_MIRROR)
+#define IS_PROTECTABLE(move) ((gBattleMoves[move].m_flags) & FLAG_PROTECT)
+#define IS_REFLECTABLE(move) ((gBattleMoves[move].m_flags) & FLAG_REFLECTABLE)
+#define IS_SNATCHABLE(move) ((gBattleMoves[move].m_flags) & FLAG_SNATCH)
+#define IS_DANCE(move) ((gBattleMoves[move].m_flags) & FLAG_DANCE)
+#define IS_TRIAGE(move) ((gBattleMoves[move].m_flags) & FLAG_TRIAGE)
+#define IS_SOUND_BASE(move) ((gBattleMoves[move].m_flags) & FLAG_SOUND)
+#define IS_PULSE(move) ((gBattleMoves[move].m_flags) & FLAG_PULSE)
+#define IS_BULLET(move) ((gBattleMoves[move].m_flags) & FLAG_BULLET)
+#define IS_SEMI_INVUL(move) ((gBattleMoves[move].m_flags) & FLAG_SEMI_INVUL)
+#define IS_OHKO(move) ((gBattleMoves[move].m_flags) & FLAG_OHKO)
+#define CAT_OVERRIDE(move) ((gBattleMoves[move].m_flags) & FLAG_CATEGORY_OVERRIDE)
+#define STEAL_OFFENSIVE(move) ((gBattleMoves[move].m_flags) & FLAG_STEAL_OFFENSIVE)
+#define STEAL_BOOSTS(move) ((gBattleMoves[move].m_flags) & FLAG_STEAL_BOOSTS)
 
-#define M_HITS_FOE_SIDE(move) ((moves[move].m_flags) & FLAG_HITS_FOE_SIDE)
-#define M_HITS_MY_SIDE(move) ((moves[move].m_flags) & FLAG_HITS_MY_SIDE)
-#define M_HITS_TARGET(move) ((moves[move].m_flags) & FLAG_TARGET)
-#define M_HITS_SELF(move) ((moves[move].m_flags) & FLAG_ONSELF)
-#define M_HITS_ALLY(move) ((moves[move].m_flags) & FLAG_HITS_ALLY)
-#define M_HITS_ALL(move) ((moves[move].m_flags) & FLAG_HITS_ALL)
-#define M_HITS_ADJ(move) ((moves[move].m_flags) & FLAG_HITS_ADJACENT)
-#define M_HITS_ALLY_OR_SELF(move) ((moves[move].m_flags) & FLAG_HITS_ALLY_OR_SELF)
+#define M_HITS_FOE_SIDE(move) ((gBattleMoves[move].m_flags) & FLAG_HITS_FOE_SIDE)
+#define M_HITS_MY_SIDE(move) ((gBattleMoves[move].m_flags) & FLAG_HITS_MY_SIDE)
+#define M_HITS_TARGET(move) ((gBattleMoves[move].m_flags) & FLAG_TARGET)
+#define M_HITS_SELF(move) ((gBattleMoves[move].m_flags) & FLAG_ONSELF)
+#define M_HITS_ALLY(move) ((gBattleMoves[move].m_flags) & FLAG_HITS_ALLY)
+#define M_HITS_ALL(move) ((gBattleMoves[move].m_flags) & FLAG_HITS_ALL)
+#define M_HITS_ADJ(move) ((gBattleMoves[move].m_flags) & FLAG_HITS_ADJACENT)
+#define M_HITS_ALLY_OR_SELF(move) ((gBattleMoves[move].m_flags) & FLAG_HITS_ALLY_OR_SELF)
 
 #define MAKES_CONTACT(move, bank) (IS_CONTACT(move) && (!gBattleMaster->b_moves[bank].makes_contact))
 #define DEF_CATEGORY(move) ((CAT_OVERRIDE(move)) ? ((IS_MOVE_PHYSICAL(move) ? MOVE_SPECIAL : MOVE_PHYSICAL)) : MOVE_CATEGORY(move))
-#define MOVE_SECONDARY_STATUS_CHANCE(move, bank) moves[move].procs->secondary_status_chance[SIDE_OF(bank)]
-#define MOVE_SECONDARY_STATUS(move, bank) moves[move].procs->secondary_status[SIDE_OF(bank)]
+#define MOVE_SECONDARY_STATUS_CHANCE(move, bank) gBattleMoves[move].procs->secondary_status_chance[SIDE_OF(bank)]
+#define MOVE_SECONDARY_STATUS(move, bank) gBattleMoves[move].procs->secondary_status[SIDE_OF(bank)]
 
-
-enum MoveTypes {
-    MTYPE_NORMAL = 0,
-    MTYPE_FIGHTING,
-    MTYPE_FLYING,
-    MTYPE_POISON,
-    MTYPE_GROUND,
-    MTYPE_ROCK,
-    MTYPE_BUG,
-    MTYPE_GHOST,
-    MTYPE_STEEL,
-    MTYPE_EGG,
-    MTYPE_FIRE,
-    MTYPE_WATER,
-    MTYPE_GRASS,
-    MTYPE_ELECTRIC,
-    MTYPE_PSYCHIC,
-    MTYPE_ICE,
-    MTYPE_DRAGON,
-    MTYPE_DARK,
-    MTYPE_FAIRY,
-    MTYPE_NONE,
-};
 
 enum MoveCategory {
     MOVE_PHYSICAL,
@@ -227,7 +205,7 @@ struct move_data {
     s8 priority;
     u8 crit_ratio;
     enum MoveCategory category;
-    enum MoveTypes type;
+    enum PokemonType type;
     u32 m_flags;
     u8 drain;
     u8 recoil;
@@ -252,7 +230,7 @@ struct move_data {
     MoveOnAfterMoveCallback on_after_move;
 };
 
-extern struct move_data moves[];
+extern struct move_data gBattleMoves[];
 
 
 #endif /* MOVE_TEMPLATES_H_ */

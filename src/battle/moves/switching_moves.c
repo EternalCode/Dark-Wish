@@ -157,7 +157,7 @@ u8 lunar_dance_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* a
         struct action* a = prepend_action(user, user, ActionSwitch, EventForcedSwitch);
         a->priv[0] = 1;
     }
-    add_callback(CB_ON_AFTER_MOVE, 0, 0, user, (u32)lunar_dance_on_after_move);
+    AddCallback(CB_ON_AFTER_MOVE, 0, 0, user, (u32)lunar_dance_on_after_move);
     return true;
 }
 
@@ -183,6 +183,6 @@ u8 fairy_lock_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
     if (user != src) return true;
     ADD_VOLATILE(TARGET_OF(user), VOLATILE_FAIRY_BLOCK);
     ADD_VOLATILE(TARGET_OF(user), VOLATILE_TRAPPED);
-    add_callback(CB_ON_RESIDUAL, 0, 0, user, (u32)fairy_lock_on_residual);
+    AddCallback(CB_ON_RESIDUAL, 0, 0, user, (u32)fairy_lock_on_residual);
     return true;
 }

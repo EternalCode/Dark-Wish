@@ -229,7 +229,7 @@ void switch_load_background()
     bgid_mark_for_sync(0);
 }
 
-void switch_type_update_icon(u8 objid, enum MoveTypes type)
+void switch_type_update_icon(u8 objid, enum PokemonType type)
 {
     void *vram = (void *)((0x06010000) + gSprites[objid].final_oam.tile_num * 32);
     dprintf("loading icon for type %d\n", type);
@@ -390,18 +390,18 @@ void switch_load_pokemon_data(u8 index)
             }
             continue;
         }
-        rboxid_print(SWB_MOVES, 0, 0, (4 + 14 * i), &switch_color, 0, &moves[move].name[0]);
+        rboxid_print(SWB_MOVES, 0, 0, (4 + 14 * i), &switch_color, 0, &gBattleMoves[move].name[0]);
 
-        if (moves[move].base_power)
-            str_int_padding(moves[move].base_power, 3);
+        if (gBattleMoves[move].base_power)
+            str_int_padding(gBattleMoves[move].base_power, 3);
         else
             memcpy(string_buffer, str_invalid_num, 4);
         rboxid_print(SWB_POW, 0, 1, (4 + 14 * i), &switch_color, 0, &string_buffer[0]);
 
-        if (moves[move].accuracy > 100)
+        if (gBattleMoves[move].accuracy > 100)
             memcpy(string_buffer, str_invalid_num, 4);
         else
-            str_int_padding(moves[move].accuracy, 3);
+            str_int_padding(gBattleMoves[move].accuracy, 3);
         rboxid_print(SWB_ACC, 0, 5, (4 + 14 * i), &switch_color, 0, &string_buffer[0]);
 
         str_int_padding(SWM_LOG->s_pkmn_data[index].pp[i], 2);
@@ -409,8 +409,8 @@ void switch_load_pokemon_data(u8 index)
 
 
         /*the move type icon*/
-        switch_type_icon_load(moves[move].type, 49, 84 + (14 * i), i + 2);
-        switch_cat_icon_load(moves[move].category, 226, 84 + (14 * i), i);
+        switch_type_icon_load(gBattleMoves[move].type, 49, 84 + (14 * i), i + 2);
+        switch_cat_icon_load(gBattleMoves[move].category, 226, 84 + (14 * i), i);
     }
 
     for (u32 i = SWB_ATK; i <= SWB_MAX; ++i) {
@@ -426,10 +426,10 @@ void switch_load_pokemon_data(u8 index)
 
     /* load the type icons */
     u16 species = SWM_LOG->s_pkmn_data[index].species;
-    if ((enum MoveTypes)(gBaseStats[species].type1) != MTYPE_EGG) {
+    if ((enum PokemonType)(gBaseStats[species].type1) != TYPE_NONE) {
         switch_type_icon_load(gBaseStats[species].type1, 47, 25, 0);
     }
-    if (((enum MoveTypes)(gBaseStats[species].type2) != MTYPE_EGG) &&
+    if (((enum PokemonType)(gBaseStats[species].type2) != TYPE_NONE) &&
         (gBaseStats[species].type1 != gBaseStats[species].type2)) {
         switch_type_icon_load(gBaseStats[species].type2, 83, 25, 1);
     } else if (gBattleMaster->switch_main.type_objid[1] != 0x3F) {

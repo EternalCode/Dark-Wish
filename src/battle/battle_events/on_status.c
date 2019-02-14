@@ -106,14 +106,14 @@ void event_set_status(struct action* current_move)
     for (u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].on_status) && (ACTIVE_BANK(i)))
-            add_callback(CB_ON_STATUS, 0, 0, i, (u32)abilities[ability].on_status);
+            AddCallback(CB_ON_STATUS, 0, 0, i, (u32)abilities[ability].on_status);
     }
 
     // execute cbs
-    build_execution_order(CB_ON_STATUS);
+    BuildCallbackExecutionBuffer(CB_ON_STATUS);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        if (!pop_callback(bank, status)) {
+        if (!PopCallback(bank, status)) {
             restore_callbacks(old_execution_array);
             CB_EXEC_INDEX = old_index;
             gBattleMaster->executing = executor;

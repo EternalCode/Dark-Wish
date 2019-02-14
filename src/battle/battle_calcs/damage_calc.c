@@ -13,20 +13,23 @@ extern bool is_grounded(u8 bank);
 
 u16 type_effectiveness_mod(u8 attacker, u8 defender, u16 move)
 {
+    dprintf("attacking bank is %d and defending bank is %d\n", attacker, defender);
     u16 percent = 100;
     // for each type of the attacker's move
     for (u8 i = 0; i < sizeof(gBattleMaster->b_moves[(attacker)].type); i++) {
         // get the type effectiveness for each type of the defender
         for (u8 j = 0; j < sizeof(gPkmnBank[defender]->battleData.type); j++) {
-            if ((B_MOVE_TYPE(attacker, i) != MTYPE_EGG) && (B_PKMN_TYPE(defender, j) != MTYPE_EGG)) {
+            if ((B_MOVE_TYPE(attacker, i) != TYPE_NONE) && (B_PKMN_TYPE(defender, j) != TYPE_NONE)) {
+                dprintf("attacker move has type %d\n", (B_MOVE_TYPE(attacker, i)));
+                dprintf("defender's defending type is %d\n",  B_PKMN_TYPE(defender, j));
                 u8 target_type = B_PKMN_TYPE(defender, j);
                 u8 move_type = B_MOVE_TYPE(attacker, i);
-				if (move_type == MTYPE_NONE)
+				if (move_type == TYPE_NONE)
 					return percent;
                 u16 move_effectiveness = MOVE_EFFECTIVENESS(target_type, move_type);
-                if (is_grounded(defender) && (move_type == MTYPE_GROUND) && (target_type == MTYPE_FLYING)) {
+                if (is_grounded(defender) && (move_type == TYPE_GROUND) && (target_type == TYPE_FLYING)) {
                     move_effectiveness = 100;
-                } else if (!is_grounded(defender) && (move_type == MTYPE_GROUND)) {
+                } else if (!is_grounded(defender) && (move_type == TYPE_GROUND)) {
                     move_effectiveness = 0;
                 }
 
@@ -34,19 +37,19 @@ u16 type_effectiveness_mod(u8 attacker, u8 defender, u16 move)
                 for (u8 z = 0; z < BANK_MAX; z++) {
                     u8 ability = gPkmnBank[z]->battleData.ability;
                     if ((abilities[ability].on_effectiveness) && (ACTIVE_BANK(z)))
-                        add_callback(CB_ON_EFFECTIVENESS, 0, 0, z, (u32)abilities[ability].on_effectiveness);
+                        AddCallback(CB_ON_EFFECTIVENESS, 0, 0, z, (u32)abilities[ability].on_effectiveness);
                 }
 
                 // back up cbs
                 u8 old_index = CB_EXEC_INDEX;
                 u32* old_execution_array = push_callbacks();
                 // callbacks for effectiveness of moves
-                build_execution_order(CB_ON_EFFECTIVENESS);
+                BuildCallbackExecutionBuffer(CB_ON_EFFECTIVENESS);
                 gBattleMaster->executing = true;
                 while (gBattleMaster->executing) {
                     u32 data = ((attacker << 16) | move_effectiveness);
                     set_data_next_acb(data);
-                    u16 effectiveness_temp = pop_callback(target_type, move_type);
+                    u16 effectiveness_temp = PopCallback(target_type, move_type);
                     if (effectiveness_temp != 1) {
                         move_effectiveness = effectiveness_temp;
                     }
@@ -73,10 +76,10 @@ u16 weather_dmg_mod(u16 damage, u8 attacker)
     // back up cbs
     u8 old_index = CB_EXEC_INDEX;
     u32* old_execution_array = push_callbacks();
-    build_execution_order(CB_ON_WEATHER_DMG);
+    BuildCallbackExecutionBuffer(CB_ON_WEATHER_DMG);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        u16 test_modifier = pop_callback(attacker, CURRENT_MOVE(attacker));
+        u16 test_modifier = PopCallback(attacker, CURRENT_MOVE(attacker));
         if (test_modifier != 1) {
             modifier = test_modifier;
         }
@@ -95,19 +98,19 @@ u16 get_base_damage(u8 attacker, u8 defender, u16 move)
     for (u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].on_base_power) && (ACTIVE_BANK(i)))
-            add_callback(CB_ON_BASE_POWER_MOVE, 0, 0, i, (u32)abilities[ability].on_base_power);
+            AddCallback(CB_ON_BASE_POWER_MOVE, 0, 0, i, (u32)abilities[ability].on_base_power);
     }
     // add base power callbacks specific to field
-    if (moves[move].on_base_power_move) {
-        add_callback(CB_ON_BASE_POWER_MOVE, 0, 0, attacker, (u32)moves[move].on_base_power_move);
+    if (gBattleMoves[move].on_base_power_move) {
+        AddCallback(CB_ON_BASE_POWER_MOVE, 0, 0, attacker, (u32)gBattleMoves[move].on_base_power_move);
     }
     // run base power callbacks
     u8 old_index = CB_EXEC_INDEX;
     u32* old_execution_array = push_callbacks();
-    build_execution_order(CB_ON_BASE_POWER_MOVE);
+    BuildCallbackExecutionBuffer(CB_ON_BASE_POWER_MOVE);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        pop_callback(attacker, move);
+        PopCallback(attacker, move);
     }
     restore_callbacks(old_execution_array);
     CB_EXEC_INDEX = old_index;
@@ -207,7 +210,7 @@ u16 modify_damage(u16 base_damage, u8 attacker, u8 defender, u16 move)
     // stab calc
     u8 i;
     for (i = 0; i < 2; i++) {
-        if ((B_MOVE_TYPE(attacker, i) != MTYPE_EGG) && (BankMonHasType(attacker, B_MOVE_TYPE(attacker, i)))) {
+        if ((B_MOVE_TYPE(attacker, i) != TYPE_NONE) && (BankMonHasType(attacker, B_MOVE_TYPE(attacker, i)))) {
             modded_base = PERCENT(modded_base, B_MOVE_STAB(attacker));
             break;
         }
@@ -278,21 +281,21 @@ s16 get_damage(u8 attacker, u8 defender, u16 move)
     for (u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].on_damage) && (ACTIVE_BANK(i)))
-            add_callback(CB_ON_DAMAGE_MOVE, 0, 0, i, (u32)abilities[ability].on_damage);
+            AddCallback(CB_ON_DAMAGE_MOVE, 0, 0, i, (u32)abilities[ability].on_damage);
     }
     // add base power callbacks specific to field
-    if (moves[move].on_damage_move) {
-        add_callback(CB_ON_DAMAGE_MOVE, 0, 0, attacker, (u32)moves[move].on_damage_move);
+    if (gBattleMoves[move].on_damage_move) {
+        AddCallback(CB_ON_DAMAGE_MOVE, 0, 0, attacker, (u32)gBattleMoves[move].on_damage_move);
     }
 
     // back up cbs
     u8 old_index = CB_EXEC_INDEX;
     u32* old_execution_array = push_callbacks();
     // run base power callbacks
-    build_execution_order(CB_ON_DAMAGE_MOVE);
+    BuildCallbackExecutionBuffer(CB_ON_DAMAGE_MOVE);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        pop_callback(attacker, move);
+        PopCallback(attacker, move);
     }
     restore_callbacks(old_execution_array);
     CB_EXEC_INDEX = old_index;

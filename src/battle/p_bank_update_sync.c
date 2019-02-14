@@ -39,13 +39,16 @@ void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
     gPkmnBank[bank]->battleData.poke_ball = 0;
     gPkmnBank[bank]->battleData.type[0] = gBaseStats[species].type1;
     gPkmnBank[bank]->battleData.type[1] = gBaseStats[species].type2;
-    gPkmnBank[bank]->battleData.type[1] = (gPkmnBank[bank]->battleData.type[1]) ? gPkmnBank[bank]->battleData.type[1] : TYPE_NONE;
+    // if the pkmn's typing is the same af the first, the second type should be none
+    if (gPkmnBank[bank]->battleData.type[1] == gPkmnBank[bank]->battleData.type[0])
+            gPkmnBank[bank]->battleData.type[1] = TYPE_NONE;
     gPkmnBank[bank]->battleData.type[2] = TYPE_NONE;
+    dprintf("Pokemon at bank %d has types: %d and %d and %d\n", bank,gPkmnBank[bank]->battleData.type[0], gPkmnBank[bank]->battleData.type[1], gPkmnBank[bank]->battleData.type[2]);
 
     // pp and moves
     for (u8 i = 0; i < 4; i++) {
-        gPkmnBank[bank]->battleData.moves[i] = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_MOVE1 + i, NULL);
-        if (gPkmnBank[bank]->battleData.moves[i])
+        gPkmnBank[bank]->battleData.bmoves[i] = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_MOVE1 + i, NULL);
+        if (gPkmnBank[bank]->battleData.bmoves[i])
             gPkmnBank[bank]->battleData.move_pp[i] = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_PP1 + i, NULL);
         else
             gPkmnBank[bank]->battleData.move_pp[i] = 0;

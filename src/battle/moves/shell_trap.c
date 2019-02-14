@@ -26,8 +26,8 @@ void shell_trap_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback* 
 void shell_trap_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    add_callback(CB_ON_DAMAGE_MOVE, 0, 0, user, (u32)shell_trap_on_damage);
-    add_callback(CB_ON_TRYHIT_MOVE, 0, 0, user, (u32)shell_trap_ontryhit);
+    AddCallback(CB_ON_DAMAGE_MOVE, 0, 0, user, (u32)shell_trap_on_damage);
+    AddCallback(CB_ON_TRYHIT_MOVE, 0, 0, user, (u32)shell_trap_ontryhit);
     QueueMessage(NULL, user, STRING_SETUP_SHELL_TRP, NULL);
 }
 
@@ -42,13 +42,13 @@ void focus_punch_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback*
 {
     if (TARGET_OF(user) != src) return;
     if (B_MOVE_DMG(user) > 0) {
-        add_callback(CB_ON_TRYHIT_MOVE, 0, 0, src, (u32)shell_trap_ontryhit);
+        AddCallback(CB_ON_TRYHIT_MOVE, 0, 0, src, (u32)shell_trap_ontryhit);
     }
 }
 
 void focus_punch_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    add_callback(CB_ON_DAMAGE_MOVE, -100, 0, user, (u32)focus_punch_on_damage);
+    AddCallback(CB_ON_DAMAGE_MOVE, -100, 0, user, (u32)focus_punch_on_damage);
     QueueMessage(NULL, user, STRING_TIGHTEN_FOCUS, NULL);
 }

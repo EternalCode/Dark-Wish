@@ -35,7 +35,7 @@ u8 bide_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     if (acb->duration > 1) {
         QueueMessage(MOVE_BIDE, user, STRING_BIDE_CHARGE, NULL);
     } else {
-        u8 id = add_callback(CB_ON_MODIFY_MOVE, 1, 0, src, (u32)bide_on_modify_move);
+        u8 id = AddCallback(CB_ON_MODIFY_MOVE, 1, 0, src, (u32)bide_on_modify_move);
         u8 id2 = get_callback_src((u32)bide_on_damage_record, user);
         CB_MASTER[id].data_ptr = (CB_MASTER[id2].data_ptr << 1);
         CB_MASTER[id2].in_use = false;
@@ -59,9 +59,9 @@ u8 bide_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     if (HAS_VOLATILE(user, VOLATILE_BIDE)) return true;
     QueueMessage(MOVE_BIDE, user, STRING_BIDE_CHARGE, NULL);
     ADD_VOLATILE(user, VOLATILE_BIDE);
-    add_callback(CB_ON_DAMAGE_MOVE, 0, 2, user, (u32)bide_on_damage_record);
-    add_callback(CB_ON_BEFORE_MOVE, 0, 3, user, (u32)bide_before_move);
-    u8 id = add_callback(CB_ON_AFTER_MOVE, 0, 2, user, (u32)bide_on_after_move);
+    AddCallback(CB_ON_DAMAGE_MOVE, 0, 2, user, (u32)bide_on_damage_record);
+    AddCallback(CB_ON_BEFORE_MOVE, 0, 3, user, (u32)bide_before_move);
+    u8 id = AddCallback(CB_ON_AFTER_MOVE, 0, 2, user, (u32)bide_on_after_move);
     CB_MASTER[id].delay_before_effect = 1;
     gPkmnBank[src]->battleData.skip_move_select = true;
     B_REDUCE_PP(src) = true;

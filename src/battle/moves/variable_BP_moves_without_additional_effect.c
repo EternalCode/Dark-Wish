@@ -178,7 +178,7 @@ void echoed_voice_on_base_power_move(u8 user, u8 src, u16 move, struct anonymous
 {
     if (user != src) return;
     if (!callback_exists((u32)echoed_voice_after_move)) {
-        u8 id = add_callback(CB_ON_AFTER_MOVE, 0, 0, user, (u32)echoed_voice_after_move);
+        u8 id = AddCallback(CB_ON_AFTER_MOVE, 0, 0, user, (u32)echoed_voice_after_move);
         CB_MASTER[id].data_ptr = 1;
     }
     u8 counter = CB_MASTER[id_by_func((u32)echoed_voice_after_move)].data_ptr;
@@ -206,7 +206,7 @@ void fury_cutter_on_base_power_move(u8 user, u8 src, u16 move, struct anonymous_
 {
     if (user != src) return;
     if (!callback_exists((u32)fury_cutter_after_move)) {
-        u8 id = add_callback(CB_ON_AFTER_MOVE, 0, 0, user, (u32)fury_cutter_after_move);
+        u8 id = AddCallback(CB_ON_AFTER_MOVE, 0, 0, user, (u32)fury_cutter_after_move);
         CB_MASTER[id].data_ptr = 1;
     }
     u8 counter = CB_MASTER[id_by_func((u32)fury_cutter_after_move)].data_ptr;

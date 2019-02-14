@@ -14,9 +14,9 @@ extern bool BankMonIsMonoType(u8 bank, enum PokemonType type);
 /* Rain */
 u16 rain_dmg_mod(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if (IS_WEATHER_STANDARD_RAIN && (B_MOVE_HAS_TYPE(user, MTYPE_WATER))) {
+    if (IS_WEATHER_STANDARD_RAIN && (B_MOVE_HAS_TYPE(user, TYPE_WATER))) {
         return 150;
-    } else if (IS_WEATHER_STANDARD_RAIN && B_MOVE_HAS_TYPE(user, MTYPE_FIRE)) {
+    } else if (IS_WEATHER_STANDARD_RAIN && B_MOVE_HAS_TYPE(user, TYPE_FIRE)) {
         return 50;
     } else {
         return 100;
@@ -43,8 +43,8 @@ u16 rain_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 void rain_init_effect()
 {
     gBattleMaster->field_state.is_raining = true;
-    add_callback(CB_ON_RESIDUAL, 1, 5, NULL, (u32)rain_on_residual);
-    add_callback(CB_ON_WEATHER_DMG, 0, 5, 0, (u32)rain_dmg_mod);
+    AddCallback(CB_ON_RESIDUAL, 1, 5, NULL, (u32)rain_on_residual);
+    AddCallback(CB_ON_WEATHER_DMG, 0, 5, 0, (u32)rain_dmg_mod);
     QueueMessage(0, 0, STRING_RAINING, MOVE_RAINDANCE);
     return true;
 }
@@ -60,9 +60,9 @@ void clear_rain()
 /* Sun */
 u16 sun_dmg_mod(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if (IS_WEATHER_STANDARD_SUN && B_MOVE_HAS_TYPE(user, MTYPE_FIRE)) {
+    if (IS_WEATHER_STANDARD_SUN && B_MOVE_HAS_TYPE(user, TYPE_FIRE)) {
         return 150;
-    } else if (IS_WEATHER_STANDARD_SUN && B_MOVE_HAS_TYPE(user, MTYPE_WATER)) {
+    } else if (IS_WEATHER_STANDARD_SUN && B_MOVE_HAS_TYPE(user, TYPE_WATER)) {
         return 50;
     } else {
         return 100;
@@ -89,8 +89,8 @@ u16 sun_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 void sun_init_effect()
 {
     gBattleMaster->field_state.is_sunny = true;
-    add_callback(CB_ON_WEATHER_DMG, 1, 5, NULL, (u32)sun_dmg_mod);
-    add_callback(CB_ON_RESIDUAL, 1, 5, NULL, (u32)sun_on_residual);
+    AddCallback(CB_ON_WEATHER_DMG, 1, 5, NULL, (u32)sun_dmg_mod);
+    AddCallback(CB_ON_RESIDUAL, 1, 5, NULL, (u32)sun_on_residual);
     QueueMessage(0, 0, STRING_SUNLIGHT_HARSH, 0);
 }
 
@@ -106,7 +106,7 @@ void clear_sun()
 u16 sandstorm_stat_mod(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
     if (stat_id != SPDEFENSE_MOD) return (u32)acb->data_ptr;
-    if (IS_WEATHER_SANDSTORM && BankMonHasType(user, MTYPE_ROCK)) {
+    if (IS_WEATHER_SANDSTORM && BankMonHasType(user, TYPE_ROCK)) {
         return PERCENT((u32)acb->data_ptr, 150);
     } else {
         return (u32)acb->data_ptr;
@@ -129,7 +129,7 @@ u16 sandstorm_on_residual_buffet(u8 user, u8 src, u16 move, struct anonymous_cal
     } else {
         if (acb->data_ptr)
             QueueMessage(NULL, NULL, STRING_SANDSTORM_RAGE, NULL);
-        if (!IS_WEATHER_SANDSTORM || BankMonHasType(user, MTYPE_ROCK) || BankMonHasType(user, MTYPE_STEEL) || BankMonHasType(user, MTYPE_GROUND))
+        if (!IS_WEATHER_SANDSTORM || BankMonHasType(user, TYPE_ROCK) || BankMonHasType(user, TYPE_STEEL) || BankMonHasType(user, TYPE_GROUND))
             return true;
         if (HAS_VOLATILE(user, VOLATILE_DIVE) || HAS_VOLATILE(user, VOLATILE_DIG))
             return true;
@@ -142,8 +142,8 @@ u16 sandstorm_on_residual_buffet(u8 user, u8 src, u16 move, struct anonymous_cal
 void sandstorm_init_effect()
 {
     gBattleMaster->field_state.is_sandstorm = true;
-    add_callback(CB_ON_RESIDUAL, 1, 5, NULL, (u32)sandstorm_on_residual_buffet);
-    add_callback(CB_ON_STAT_MOD, 10, 5, NULL, (u32)sandstorm_stat_mod);
+    AddCallback(CB_ON_RESIDUAL, 1, 5, NULL, (u32)sandstorm_on_residual_buffet);
+    AddCallback(CB_ON_STAT_MOD, 10, 5, NULL, (u32)sandstorm_stat_mod);
     QueueMessage(NULL, NULL, STRING_SANDSTORM_KICKED, NULL);
 }
 
@@ -171,7 +171,7 @@ u16 hail_on_residual_buffet(u8 user, u8 src, u16 move, struct anonymous_callback
     } else {
         if (acb->data_ptr)
             QueueMessage(NULL, NULL, STRING_RAIN_FALLING, MOVE_HAIL);
-        if (!IS_WEATHER_HAIL || BankMonHasType(user, MTYPE_ICE))
+        if (!IS_WEATHER_HAIL || BankMonHasType(user, TYPE_ICE))
             return true;
         if (HAS_VOLATILE(user, VOLATILE_DIVE) || HAS_VOLATILE(user, VOLATILE_DIG))
             return true;
@@ -185,7 +185,7 @@ u16 hail_on_residual_buffet(u8 user, u8 src, u16 move, struct anonymous_callback
 void hail_init_effect()
 {
     gBattleMaster->field_state.is_hail = true;
-    add_callback(CB_ON_RESIDUAL, 1, 5, NULL, (u32)hail_on_residual_buffet);
+    AddCallback(CB_ON_RESIDUAL, 1, 5, NULL, (u32)hail_on_residual_buffet);
     QueueMessage(0, 0, STRING_RAINING, MOVE_HAIL);
 }
 

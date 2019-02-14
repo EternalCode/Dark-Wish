@@ -18,18 +18,18 @@ void event_after_move(struct action* current_move)
     for (u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].on_after_move) && (ACTIVE_BANK(i)))
-            add_callback(CB_ON_AFTER_MOVE, 0, 0, i, (u32)abilities[ability].on_after_move);
+            AddCallback(CB_ON_AFTER_MOVE, 0, 0, i, (u32)abilities[ability].on_after_move);
     }
     // add callbacks specific to field
-    if (moves[move].on_after_move) {
-        add_callback(CB_ON_AFTER_MOVE, 0, 0, bank, (u32)moves[move].on_after_move);
+    if (gBattleMoves[move].on_after_move) {
+        AddCallback(CB_ON_AFTER_MOVE, 0, 0, bank, (u32)gBattleMoves[move].on_after_move);
     }
 
     // run callbacks
-    build_execution_order(CB_ON_AFTER_MOVE);
+    BuildCallbackExecutionBuffer(CB_ON_AFTER_MOVE);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        pop_callback(bank, move);
+        PopCallback(bank, move);
     }
     if (IS_RECHARGE(move)) {
         ADD_VOLATILE(bank, VOLATILE_RECHARGING);

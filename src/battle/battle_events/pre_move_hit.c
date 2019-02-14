@@ -18,17 +18,17 @@ bool on_modify_move(u8 attacker, u8 defender, u16 move)
     for (u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].on_modify_move) && (ACTIVE_BANK(i)))
-            add_callback(CB_ON_MODIFY_MOVE, 0, 0, i, (u32)abilities[ability].on_modify_move);
+            AddCallback(CB_ON_MODIFY_MOVE, 0, 0, i, (u32)abilities[ability].on_modify_move);
     }
     // add callbacks specific to field
-    if (moves[move].on_modify_move) {
-        add_callback(CB_ON_MODIFY_MOVE, 0, 0, attacker, (u32)moves[move].on_modify_move);
+    if (gBattleMoves[move].on_modify_move) {
+        AddCallback(CB_ON_MODIFY_MOVE, 0, 0, attacker, (u32)gBattleMoves[move].on_modify_move);
     }
     // run callbacks
-    build_execution_order(CB_ON_MODIFY_MOVE);
+    BuildCallbackExecutionBuffer(CB_ON_MODIFY_MOVE);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        if (!(pop_callback(attacker, move)))
+        if (!(PopCallback(attacker, move)))
             return false;
     }
     return true;
@@ -37,6 +37,7 @@ bool on_modify_move(u8 attacker, u8 defender, u16 move)
 
 void event_config_move_hitlist(struct action* current_action)
 {
+    dprintf("running event config move hitlist\n");
     if (!UpdateBankHitList(ACTION_BANK)) {
         // Move didn't specify a target
         QueueMessage(0, ACTION_BANK, STRING_FAILED, 0);
@@ -56,6 +57,7 @@ void event_config_move_hitlist(struct action* current_action)
 
 void event_pre_move_hit(struct action* current_action)
 {
+    dprintf("running event pre move hit\n");
     bool will_move = false;
     u8 bank_index = current_action->action_bank;
     // check if hit list has a bank to hit. Mark said bank as hit and continue

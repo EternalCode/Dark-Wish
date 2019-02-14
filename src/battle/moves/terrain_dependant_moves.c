@@ -37,15 +37,15 @@ u8 secret_power_on_modify(u8 user, u8 src, u16 move, struct anonymous_callback* 
 u8 camouflage_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
-    u8 type = MTYPE_EGG;
+    u8 type = TYPE_NONE;
     if (gBattleMaster->field_state.is_electric_terrain) {
-        type = MTYPE_ELECTRIC;
+        type = TYPE_ELECTRIC;
     } else if (gBattleMaster->field_state.is_grassy_terrain) {
-        type = MTYPE_GRASS;
+        type = TYPE_GRASS;
     } else if (gBattleMaster->field_state.is_misty_terrain) {
-        type = MTYPE_FAIRY;
+        type = TYPE_FAIRY;
     } else if (gBattleMaster->field_state.is_psychic_terrain) {
-        type = MTYPE_PSYCHIC;
+        type = TYPE_PSYCHIC;
     } else {
         type = TYPE_NORMAL;
     }

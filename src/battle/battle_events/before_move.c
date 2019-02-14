@@ -18,23 +18,23 @@ enum BeforeMoveStatus {
 };
 
 
-enum BeforeMoveStatus before_move_cb(u8 attacker)
+enum BeforeMoveStatus RunBeforeMoveCallbacks(u8 attacker)
 {
     for (u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].before_move) && (ACTIVE_BANK(i)))
-            add_callback(CB_ON_BEFORE_MOVE, 0, 0, i, (u32)abilities[ability].before_move);
+            AddCallback(CB_ON_BEFORE_MOVE, 0, 0, i, (u32)abilities[ability].before_move);
     }
     u16 move = CURRENT_MOVE(attacker);
     // add callbacks specific to field
-    if (moves[move].before_move) {
-        add_callback(CB_ON_BEFORE_MOVE, 0, 0, attacker, (u32)moves[move].before_move);
+    if (gBattleMoves[move].before_move) {
+        AddCallback(CB_ON_BEFORE_MOVE, 0, 0, attacker, (u32)gBattleMoves[move].before_move);
     }
     // run callbacks
-    build_execution_order(CB_ON_BEFORE_MOVE);
+    BuildCallbackExecutionBuffer(CB_ON_BEFORE_MOVE);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        enum BeforeMoveStatus status = pop_callback(attacker, move);
+        enum BeforeMoveStatus status = PopCallback(attacker, move);
         if (status != USE_MOVE_NORMAL)
             return status;
     }
@@ -43,6 +43,7 @@ enum BeforeMoveStatus before_move_cb(u8 attacker)
 
 void event_before_move(struct action* current_action)
 {
+    dprintf("running before move event\n");
     /* If bank is recharging, then recharge and end action. */
     if (HAS_VOLATILE(ACTION_BANK, VOLATILE_RECHARGING)) {
         CLEAR_VOLATILE(ACTION_BANK, VOLATILE_RECHARGING);
@@ -51,7 +52,7 @@ void event_before_move(struct action* current_action)
     }
     CURRENT_MOVE(ACTION_BANK) = CURRENT_ACTION->move;
     /* Resolve before move callbacks */
-    u8 result = before_move_cb(ACTION_BANK);
+    u8 result = RunBeforeMoveCallbacks(ACTION_BANK);
     switch (result) {
         case CANT_USE_MOVE:
         case TARGET_MOVE_IMMUNITY:
@@ -64,7 +65,6 @@ void event_before_move(struct action* current_action)
     };
 
     /* Before Move effects which cause turn ending */
-
     if (HAS_VOLATILE(ACTION_BANK, VOLATILE_SLEEP_TURN)) {
         QueueMessage(0, ACTION_BANK, STRING_FAST_ASLEEP, 0);
         B_MOVE_FAILED(ACTION_BANK) = true;

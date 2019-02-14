@@ -204,7 +204,7 @@ u8 insomnia_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* 
 void colorchange_on_after_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    if ((B_MOVE_DMG(user) > 0) && (!B_MOVE_HAS_TYPE(user, MTYPE_NONE))) {
+    if ((B_MOVE_DMG(user) > 0) && (!B_MOVE_HAS_TYPE(user, TYPE_NONE))) {
     	 u8 type = B_MOVE_TYPE(TARGET_OF(user), 0);
     	 BankMonSetType(TARGET_OF(user), type);
     	 QueueMessage(NULL, user, STRING_CONVERSION_TYPE, type);
@@ -240,7 +240,7 @@ enum TryHitMoveStatus flash_fire_on_tryhit(u8 user, u8 src, u16 move, struct ano
     if (!HAS_VOLATILE(VOLATILE_FLASH_FIRE, src)) {
         ADD_VOLATILE(VOLATILE_FLASH_FIRE, src);
         QueueMessage(NULL, src, STRING_FLASH_FIRE, NULL);
-        add_callback(CB_ON_STAT_MOD, 0, 0xFF, src, (u32)flash_fire_on_stat);
+        AddCallback(CB_ON_STAT_MOD, 0, 0xFF, src, (u32)flash_fire_on_stat);
         return TRYHIT_FAIL_SILENTLY;
     }
     return TRYHIT_TARGET_MOVE_IMMUNITY;
@@ -357,7 +357,7 @@ u8 serenegrace_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callba
          B_USER_STAT_MOD_CHANCE(user, i) *= 2;
          B_TARGET_STAT_MOD_CHANCE(user, i) *= 2;
     }
-    add_callback(CB_ON_MODIFY_MOVE, 0, 0, TARGET_OF(user), (u32)serenegrace_on_modify_move_opp);
+    AddCallback(CB_ON_MODIFY_MOVE, 0, 0, TARGET_OF(user), (u32)serenegrace_on_modify_move_opp);
     return true;
 }
 
@@ -484,7 +484,7 @@ u16 thick_fat_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* a
     if ((TARGET_OF(user) != src) || (CURRENT_ACTION->action_bank != user)) return acb->data_ptr;
 
     // check current move is fire or ice
-    if (B_MOVE_HAS_TYPE(user, MTYPE_FIRE) || B_MOVE_HAS_TYPE(user, MTYPE_ICE)) {
+    if (B_MOVE_HAS_TYPE(user, TYPE_FIRE) || B_MOVE_HAS_TYPE(user, TYPE_ICE)) {
         // halve atk and spa stats
         if ((stat_id == ATTACK_MOD) || (stat_id == SPATTACK_MOD))
             return acb->data_ptr >> 1;
@@ -494,7 +494,7 @@ u16 thick_fat_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* a
 
 u8 thick_fat_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    add_callback(CB_ON_STAT_MOD, 5, 0, src, (u32)thick_fat_on_stat);
+    AddCallback(CB_ON_STAT_MOD, 5, 0, src, (u32)thick_fat_on_stat);
     return true;
 }
 
@@ -823,7 +823,7 @@ u8 angerpoint_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
 void heatproof_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (TARGET_OF(user) != src) return;
-    if (B_MOVE_HAS_TYPE (user, MTYPE_FIRE)) {
+    if (B_MOVE_HAS_TYPE (user, TYPE_FIRE)) {
         B_MOVE_POWER(user) = B_MOVE_POWER(user) >> 1;
     }
 }
@@ -924,7 +924,7 @@ u8 poison_heal_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback*
 u8 poison_heal_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
-    add_callback(CB_ON_RESIDUAL, 2, 0, src, (u32)poison_heal_on_residual);
+    AddCallback(CB_ON_RESIDUAL, 2, 0, src, (u32)poison_heal_on_residual);
     return true;
 }
 
@@ -943,9 +943,9 @@ u8 skill_link_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callbac
 {
     if (user != src) return true;
     // if move is a multi hit move, then hit 5 times
-    if (moves[move].multi_hit[0] > 0) {
-        if (gBattleMaster->b_moves[user].hit_times != (moves[move].multi_hit[1] - 1)) {
-            gBattleMaster->b_moves[user].hit_times = moves[move].multi_hit[1] - 1;
+    if (gBattleMoves[move].multi_hit[0] > 0) {
+        if (gBattleMaster->b_moves[user].hit_times != (gBattleMoves[move].multi_hit[1] - 1)) {
+            gBattleMaster->b_moves[user].hit_times = gBattleMoves[move].multi_hit[1] - 1;
             gBattleMaster->b_moves[user].hit_counter = 1;
         }
     }
@@ -1006,8 +1006,8 @@ u8 normalize_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback
     for (u8 i = 0; i < (sizeof(normalize_banlist) / sizeof(u16)); i++) {
          if (normalize_banlist[i] == move) return true;
     }
-    B_MOVE_TYPE(user, 0) = MTYPE_NORMAL;
-    B_MOVE_TYPE(user, 1) = MTYPE_NONE;
+    B_MOVE_TYPE(user, 0) = TYPE_NORMAL;
+    B_MOVE_TYPE(user, 1) = TYPE_NONE;
     B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 120);
     return true;
 }
@@ -1015,7 +1015,7 @@ u8 normalize_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback
 void normalize_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    add_callback(CB_ON_MODIFY_MOVE, 1, 0, user, (u32)normalize_on_modify_move);
+    AddCallback(CB_ON_MODIFY_MOVE, 1, 0, user, (u32)normalize_on_modify_move);
 }
 
 
@@ -1134,15 +1134,15 @@ u16 slow_start_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* 
 
 void slow_start_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    add_callback(CB_ON_STAT_MOD, 5, 5, src, (u32)slow_start_on_stat);
+    AddCallback(CB_ON_STAT_MOD, 5, 5, src, (u32)slow_start_on_stat);
 }
 
 // Scrappy
 u16 scrappy_on_effectiveness(u8 target_type, u8 src, u16 move_type, struct anonymous_callback* acb) {
     // acb->data == ((attacker << 16) | move_effectiveness);
     u16 attacker = acb->data_ptr >> 16;
-    if ((attacker != src) || (target_type != MTYPE_GHOST)) return true; // use current effectiveness
-    if ((move_type == MTYPE_NORMAL) || (move_type == MTYPE_FIGHTING))
+    if ((attacker != src) || (target_type != TYPE_GHOST)) return true; // use current effectiveness
+    if ((move_type == TYPE_NORMAL) || (move_type == TYPE_FIGHTING))
         return 100; // normal attacks against ghost types have 100% effectiveness
     return true;
 }
@@ -1214,7 +1214,7 @@ void pick_pocket_on_secondary(u8 user, u8 src, u16 move, struct anonymous_callba
 void sheer_force_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    if ((moves[move].procs) != NULL || M_FLINCH(move)) {
+    if ((gBattleMoves[move].procs) != NULL || M_FLINCH(move)) {
         B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 130);
     }
 }
@@ -1264,7 +1264,7 @@ u8 cursed_body_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* a
         if (CountBankMovePP(move, user) < 1) return true;
         // fail if effect already active on target
         if (HAS_VOLATILE(user, VOLATILE_DISABLE)) return true;
-        u8 id = add_callback(CB_ON_DISABLE_MOVE, 0, 4, user, (u32)disable_on_disable_move);
+        u8 id = AddCallback(CB_ON_DISABLE_MOVE, 0, 4, user, (u32)disable_on_disable_move);
         ADD_VOLATILE(user, VOLATILE_DISABLE);
         CB_MASTER[id].data_ptr = move;
         QueueMessage(move, user, STRING_DISABLED, 0);
@@ -1408,7 +1408,7 @@ extern u8 doom_desire_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_call
 void analytic_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-	if ((gPkmnBank[TARGET_OF(user)]->battleData.will_move == false) && (moves[move].on_tryhit_move != doom_desire_on_tryhit)) {
+	if ((gPkmnBank[TARGET_OF(user)]->battleData.will_move == false) && (gBattleMoves[move].on_tryhit_move != doom_desire_on_tryhit)) {
 	    B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 130);
 	}
 }
@@ -1442,7 +1442,7 @@ u8 mummy_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     delete_callback_src((u32)abilities[BANK_ABILITY(user)].on_effect, user);
     BANK_ABILITY(user) = ABILITY_MUMMY;
     if (abilities[BANK_ABILITY(user)].on_effect) {
-        add_callback(CB_ON_EFFECT, 0, 0, user, (u32)abilities[BANK_ABILITY(user)].on_effect);
+        AddCallback(CB_ON_EFFECT, 0, 0, user, (u32)abilities[BANK_ABILITY(user)].on_effect);
     }
     return true;
 }
@@ -1459,7 +1459,7 @@ void moxie_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     if (user != src) return;
     u8 target = TARGET_OF(user);
     if ((B_CURRENT_HP(target) > 0) && ((B_CURRENT_HP(target) - B_MOVE_DMG(user)) <= 0))
-        add_callback(CB_ON_FAINT_CHECK, 0, 0, src, (u32)moxie_on_faint);
+        AddCallback(CB_ON_FAINT_CHECK, 0, 0, src, (u32)moxie_on_faint);
 }
 
 
@@ -1467,7 +1467,7 @@ void moxie_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 u8 justified_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return true;
-    if (B_MOVE_HAS_TYPE(user, MTYPE_DARK))
+    if (B_MOVE_HAS_TYPE(user, TYPE_DARK))
         stat_boost(src, ATTACK_MOD, 1, user);
     return true;
 }
@@ -1476,7 +1476,7 @@ u8 justified_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb
 u8 rattled_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return true;
-    if (B_MOVE_HAS_TYPE(user, MTYPE_DARK) || B_MOVE_HAS_TYPE(user, MTYPE_GHOST) || B_MOVE_HAS_TYPE(user, MTYPE_BUG))
+    if (B_MOVE_HAS_TYPE(user, TYPE_DARK) || B_MOVE_HAS_TYPE(user, TYPE_GHOST) || B_MOVE_HAS_TYPE(user, TYPE_BUG))
         stat_boost(src, ATTACK_MOD, 1, src);
     return true;
 }
@@ -1514,7 +1514,7 @@ enum TryHitMoveStatus prankster_on_tryhit(u8 user, u8 src, u16 move, struct anon
 {
     if ((user != src) || (TARGET_OF(user) == src)) return TRYHIT_USE_MOVE_NORMAL;
     // priority boosted moves fail against those who are dark type
-    return !(BankMonHasType(TARGET_OF(user), MTYPE_DARK) && HAS_VOLATILE(user, VOLATILE_PRANKSTERED));
+    return !(BankMonHasType(TARGET_OF(user), TYPE_DARK) && HAS_VOLATILE(user, VOLATILE_PRANKSTERED));
 }
 
 void prankster_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
@@ -1523,7 +1523,7 @@ void prankster_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback*
     if (IS_MOVE_STATUS(move)) {
         B_MOVE_PRIORITY(user) += 1;
         ADD_VOLATILE(user, VOLATILE_PRANKSTERED);
-        add_callback(CB_ON_TRYHIT_MOVE, 1, 0, user, (u32)prankster_on_tryhit);
+        AddCallback(CB_ON_TRYHIT_MOVE, 1, 0, user, (u32)prankster_on_tryhit);
     }
 }
 
@@ -1568,7 +1568,7 @@ enum TryHitMoveStatus aroma_veil_on_tryhit(u8 user, u8 src, u16 move, struct ano
 bool flower_veil_on_stat_boost(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     u8 defender = CURRENT_ACTION->target;
-    return (!((SIDE_OF(defender) == SIDE_OF(src)) && (BankMonHasType(defender, MTYPE_GRASS))));
+    return (!((SIDE_OF(defender) == SIDE_OF(src)) && (BankMonHasType(defender, TYPE_GRASS))));
 }
 
 u8 flower_veil_on_status(u8 user, u8 src, u16 ailment, struct anonymous_callback* acb)
@@ -1580,7 +1580,7 @@ u8 flower_veil_on_status(u8 user, u8 src, u16 ailment, struct anonymous_callback
         case AILMENT_INFACTUATE:
             return true;
         default:
-            if (!BankMonHasType(user, MTYPE_GRASS)) return true;
+            if (!BankMonHasType(user, TYPE_GRASS)) return true;
             return (!(SIDE_OF(user) == SIDE_OF(src)));
     }
 }
@@ -1637,12 +1637,12 @@ u8 refrigerate_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callba
 {
     if (user != src) return true;
     // status moves excempt
-    if (B_MOVE_IS_STATUS(user) || (!B_MOVE_HAS_TYPE(user, MTYPE_NORMAL))) return true;
+    if (B_MOVE_IS_STATUS(user) || (!B_MOVE_HAS_TYPE(user, TYPE_NORMAL))) return true;
     for (u8 i = 0; i < (sizeof(refrigerate_banlist) / sizeof(u16)); i++) {
          if (refrigerate_banlist[i] == move) return true;
     }
-    B_MOVE_TYPE(user, 0) = MTYPE_ICE;
-    B_MOVE_TYPE(user, 1) = MTYPE_NONE;
+    B_MOVE_TYPE(user, 0) = TYPE_ICE;
+    B_MOVE_TYPE(user, 1) = TYPE_NONE;
     B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 120);
     return true;
 }
@@ -1650,7 +1650,7 @@ u8 refrigerate_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callba
 void refrigerate_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    add_callback(CB_ON_MODIFY_MOVE, -1, 0, user, (u32)refrigerate_on_modify_move);
+    AddCallback(CB_ON_MODIFY_MOVE, -1, 0, user, (u32)refrigerate_on_modify_move);
 }
 
 // Sweet Veil
@@ -1670,7 +1670,7 @@ u8 sweet_veil_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback
 void gale_wings_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    if (((B_CURRENT_HP(user) << 1) >= TOTAL_HP(user)) && (MOVE_TYPE(move) == MTYPE_FLYING))
+    if (((B_CURRENT_HP(user) << 1) >= TOTAL_HP(user)) && (MOVE_TYPE(move) == TYPE_FLYING))
         B_MOVE_PRIORITY(user) += 1;
 }
 
@@ -1715,12 +1715,12 @@ u8 pixilate_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback*
 {
     if (user != src) return true;
     // status moves excempt
-    if (B_MOVE_IS_STATUS(user) || (!B_MOVE_HAS_TYPE(user, MTYPE_NORMAL))) return true;
+    if (B_MOVE_IS_STATUS(user) || (!B_MOVE_HAS_TYPE(user, TYPE_NORMAL))) return true;
     for (u8 i = 0; i < (sizeof(pixilate_banlist) / sizeof(u16)); i++) {
          if (pixilate_banlist[i] == move) return true;
     }
-    B_MOVE_TYPE(user, 0) = MTYPE_FAIRY;
-    B_MOVE_TYPE(user, 1) = MTYPE_NONE;
+    B_MOVE_TYPE(user, 0) = TYPE_FAIRY;
+    B_MOVE_TYPE(user, 1) = TYPE_NONE;
     B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 120);
     return true;
 }
@@ -1728,7 +1728,7 @@ u8 pixilate_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback*
 void pixilate_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    add_callback(CB_ON_MODIFY_MOVE, -1, 0, user, (u32)pixilate_on_modify_move);
+    AddCallback(CB_ON_MODIFY_MOVE, -1, 0, user, (u32)pixilate_on_modify_move);
 }
 
 // Gooey and Tangling Hair
@@ -1751,12 +1751,12 @@ u8 aerilate_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback*
 {
     if (user != src) return true;
     // status moves excempt
-    if (B_MOVE_IS_STATUS(user) || (!B_MOVE_HAS_TYPE(user, MTYPE_NORMAL))) return true;
+    if (B_MOVE_IS_STATUS(user) || (!B_MOVE_HAS_TYPE(user, TYPE_NORMAL))) return true;
     for (u8 i = 0; i < (sizeof(aerilate_banlist) / sizeof(u16)); i++) {
          if (aerilate_banlist[i] == move) return true;
     }
-    B_MOVE_TYPE(user, 0) = MTYPE_FLYING;
-    B_MOVE_TYPE(user, 1) = MTYPE_NONE;
+    B_MOVE_TYPE(user, 0) = TYPE_FLYING;
+    B_MOVE_TYPE(user, 1) = TYPE_NONE;
     B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 120);
     return true;
 }
@@ -1764,7 +1764,7 @@ u8 aerilate_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback*
 void aerilate_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    add_callback(CB_ON_MODIFY_MOVE, -1, 0, user, (u32)aerilate_on_modify_move);
+    AddCallback(CB_ON_MODIFY_MOVE, -1, 0, user, (u32)aerilate_on_modify_move);
 }
 
 // PARENTALBOND
@@ -1779,7 +1779,7 @@ void dark_aura_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callbac
             break;
         }
     }
-	if (B_MOVE_HAS_TYPE(user, MTYPE_DARK)) {
+	if (B_MOVE_HAS_TYPE(user, TYPE_DARK)) {
 	    B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), ((reverse) ? 75 : 130));
 	}
 	return;
@@ -1796,7 +1796,7 @@ void fairy_aura_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callba
         }
     }
 
-	if (B_MOVE_HAS_TYPE(user, MTYPE_FAIRY)) {
+	if (B_MOVE_HAS_TYPE(user, TYPE_FAIRY)) {
 	    B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), ((reverse) ? 75 : 130));
 	}
 	return;
@@ -1832,7 +1832,7 @@ u8 wimp_out_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 u8 water_compaction_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return true;
-    if (B_MOVE_HAS_TYPE(user, MTYPE_WATER))
+    if (B_MOVE_HAS_TYPE(user, TYPE_WATER))
         stat_boost(src, DEFENSE_MOD, 2, user);
     return true;
 }
@@ -1856,7 +1856,7 @@ u16 water_bubble_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback
     // boost water attacks
     if (user == src) {
         if (CURRENT_ACTION->action_bank != user) return acb->data_ptr;
-        if (B_MOVE_HAS_TYPE(user, MTYPE_WATER)) {
+        if (B_MOVE_HAS_TYPE(user, TYPE_WATER)) {
             // halve atk and spa stats
             if ((stat_id == ATTACK_MOD) || (stat_id == SPATTACK_MOD)) {
                 return acb->data_ptr << 1;
@@ -1865,7 +1865,7 @@ u16 water_bubble_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback
     } else {
     // deboost fire type attacks against src
         if ((TARGET_OF(user) != src) || (CURRENT_ACTION->action_bank != user)) return acb->data_ptr;
-        if (B_MOVE_HAS_TYPE(user, MTYPE_FIRE)) {
+        if (B_MOVE_HAS_TYPE(user, TYPE_FIRE)) {
             // halve atk and spa stats
             if ((stat_id == ATTACK_MOD) || (stat_id == SPATTACK_MOD)) {
                 return acb->data_ptr >> 1;
@@ -1890,7 +1890,7 @@ u8 water_bubble_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callba
 void steelworker_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-	if (B_MOVE_HAS_TYPE(user, MTYPE_STEEL)) {
+	if (B_MOVE_HAS_TYPE(user, TYPE_STEEL)) {
 	    B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 150);
 	}
 	return;
@@ -1929,8 +1929,8 @@ u8 liquid_voice_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callb
 {
     if (user != src) return true;
     if (IS_SOUND_BASE(move)) {
-        B_MOVE_TYPE(user, 0) = MTYPE_WATER;
-        B_MOVE_TYPE(user, 1) = MTYPE_NONE;
+        B_MOVE_TYPE(user, 0) = TYPE_WATER;
+        B_MOVE_TYPE(user, 1) = TYPE_NONE;
     }
     return true;
 }
@@ -1954,12 +1954,12 @@ u8 galvanize_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback
 {
     if (user != src) return true;
     // status moves excempt
-    if (B_MOVE_IS_STATUS(user) || (!B_MOVE_HAS_TYPE(user, MTYPE_NORMAL))) return true;
+    if (B_MOVE_IS_STATUS(user) || (!B_MOVE_HAS_TYPE(user, TYPE_NORMAL))) return true;
     for (u8 i = 0; i < (sizeof(galvanize_banlist) / sizeof(u16)); i++) {
          if (galvanize_banlist[i] == move) return true;
     }
-    B_MOVE_TYPE(user, 0) = MTYPE_ELECTRIC;
-    B_MOVE_TYPE(user, 1) = MTYPE_NONE;
+    B_MOVE_TYPE(user, 0) = TYPE_ELECTRIC;
+    B_MOVE_TYPE(user, 1) = TYPE_NONE;
     B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 120);
     return true;
 }
@@ -1967,7 +1967,7 @@ u8 galvanize_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback
 void galvanize_before_turn(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    add_callback(CB_ON_MODIFY_MOVE, -1, 0, user, (u32)galvanize_on_modify_move);
+    AddCallback(CB_ON_MODIFY_MOVE, -1, 0, user, (u32)galvanize_on_modify_move);
 }
 
 // SURGESURFER
@@ -2017,7 +2017,7 @@ void battery_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback*
 void fluffy_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (B_MOVE_DMG(user) < 1)) return;
-    if (B_MOVE_HAS_TYPE(user, MTYPE_FIRE))
+    if (B_MOVE_HAS_TYPE(user, TYPE_FIRE))
         B_MOVE_DMG(user) = B_MOVE_DMG(user) << 1;
     if (B_MOVE_CONTACT(user)) {
         B_MOVE_DMG(user) = B_MOVE_DMG(user) >> 1;
@@ -2093,7 +2093,7 @@ void beast_boost_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback*
     if (user != src) return;
     u8 target = TARGET_OF(user);
     if ((B_CURRENT_HP(target) > 0) && ((B_CURRENT_HP(target) - B_MOVE_DMG(user)) <= 0))
-        add_callback(CB_ON_FAINT_CHECK, 0, 0, src, (u32)beast_boost_on_faint);
+        AddCallback(CB_ON_FAINT_CHECK, 0, 0, src, (u32)beast_boost_on_faint);
 }
 
 // RKSSYSTEM

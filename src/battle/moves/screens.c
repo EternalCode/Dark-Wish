@@ -22,7 +22,7 @@ u8 reflect_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     if (user != src) return true;
     if (callback_exists((u32)reflect_on_damage_move))
         return false;
-    add_callback(CB_ON_DAMAGE_MOVE, 0, 5, user, (u32)reflect_on_damage_move);
+    AddCallback(CB_ON_DAMAGE_MOVE, 0, 5, user, (u32)reflect_on_damage_move);
     QueueMessage(0, user, STRING_REFLECT, 0);
     return true;
 }
@@ -44,7 +44,7 @@ u8 light_screen_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* 
     if (user != src) return true;
     if (callback_exists((u32)light_screen_on_damage_move))
         return false;
-    add_callback(CB_ON_DAMAGE_MOVE, 0, 5, user, (u32)light_screen_on_damage_move);
+    AddCallback(CB_ON_DAMAGE_MOVE, 0, 5, user, (u32)light_screen_on_damage_move);
     QueueMessage(0, user, STRING_LIGHTSCREEN, 0);
     return true;
 }

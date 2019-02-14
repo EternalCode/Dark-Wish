@@ -131,7 +131,7 @@ extern u16 stage_modify_stat(u16 stat, s8 mod, u8 id, u8 bank);
 #define B_LAST_MOVE_FAILED(bank) (gPkmnBank[bank]->battleData.last_move_failed)
 #define B_IS_FAINTED(bank) ((gPkmnBank[bank]->battleData.fainted) || (B_CURRENT_HP(bank) < 1))
 #define B_FAINTED(bank) (gPkmnBank[bank]->battleData.fainted)
-#define B_GET_MOVE(bank, id) (gPkmnBank[bank]->battleData.moves[id])
+#define B_GET_MOVE(bank, id) (gPkmnBank[bank]->battleData.bmoves[id])
 #define B_GET_MOVE_PP(bank, id) (gPkmnBank[bank]->battleData.move_pp[id])
 #define B_LAST_DMG(bank) (gPkmnBank[bank]->battleData.last_damage)
 #define ALLY_OF(bank) (bank ^ 1)
@@ -165,7 +165,7 @@ extern u16 stage_modify_stat(u16 stat, s8 mod, u8 id, u8 bank);
 #define ACTION_PRANKSTER (CURRENT_ACTION->prankstered)
 #define ACTION_BOUNCED (CURRENT_ACTION->has_bounced)
 
-#define MOVE_EFFECTIVENESS(target_type, dmg_type) (effectiveness_chart[((target_type * 19) + (dmg_type))])
+#define MOVE_EFFECTIVENESS(target_type, dmg_type) (TypeEffectivenessChart[((target_type * 19) + (dmg_type))])
 
 
 #endif /* PKMN_BANK_STAT_H_ */

@@ -1,12 +1,34 @@
 #include <pokeagb/pokeagb.h>
 
+const pchar PkmnTypeNames[19][13] = {
+    _("Normal"),
+    _("Fighting"),
+    _("Flying"),
+    _("Poison"),
+    _("Ground"),
+    _("Rock"),
+    _("Bug"),
+    _("Ghost"),
+    _("Steel"),
+    _("Typeless"),
+    _("Fire"),
+    _("Water"),
+    _("Grass"),
+    _("Electric"),
+    _("Psychic"),
+    _("Ice"),
+    _("Dragon"),
+    _("Dark"),
+    _("Fairy"),
+};
+
 // percentages to mod
 // 100 - Normal damage
 // 200 - Super effective damage
 // 50 - Not very effective damage
 // 0 - Immune
 
-u8 effectiveness_chart[361] = {
+const u8 TypeEffectivenessChart[361] = {
 
 /* Normal */
 	100, // Normal
@@ -406,5 +428,7 @@ u8 effectiveness_chart[361] = {
 	0, // Dragon
 	50, // Dark
 	100, // Fairy
-
 };
+
+
+extern const pchar PkmnTypeNames[19][13];

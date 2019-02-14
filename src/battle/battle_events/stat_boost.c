@@ -35,15 +35,15 @@ void event_stat_boost(struct action* current_action)
     for(u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].on_stat_boost_mod) && (ACTIVE_BANK(i))) {
-            add_callback(CB_ON_STAT_BOOST_MOD, 0, 0, i, (u32)abilities[ability].on_stat_boost_mod);
+            AddCallback(CB_ON_STAT_BOOST_MOD, 0, 0, i, (u32)abilities[ability].on_stat_boost_mod);
         }
     }
 
     // execute cbs
-    build_execution_order(CB_ON_STAT_BOOST_MOD);
+    BuildCallbackExecutionBuffer(CB_ON_STAT_BOOST_MOD);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        if (!pop_callback(bank, stat_id)) {
+        if (!PopCallback(bank, stat_id)) {
             QueueMessage(CURRENT_MOVE(bank), bank, STRING_FAILED_ALONE, NULL);
             gBattleMaster->executing = executor_backup;
             restore_callbacks(old_execution_array);
@@ -142,14 +142,14 @@ void event_stat_boost(struct action* current_action)
     for(u8 i = 0; i < BANK_MAX; i++) {
         u8 ability = gPkmnBank[i]->battleData.ability;
         if ((abilities[ability].after_stat_boost_mod) && (ACTIVE_BANK(i))) {
-            add_callback(CB_AFTER_STAT_BOOST_MOD, 0, 0, i, (u32)abilities[ability].after_stat_boost_mod);
+            AddCallback(CB_AFTER_STAT_BOOST_MOD, 0, 0, i, (u32)abilities[ability].after_stat_boost_mod);
         }
     }
 
-    build_execution_order(CB_AFTER_STAT_BOOST_MOD);
+    BuildCallbackExecutionBuffer(CB_AFTER_STAT_BOOST_MOD);
     gBattleMaster->executing = true;
     while (gBattleMaster->executing) {
-        pop_callback(bank, stat_id);
+        PopCallback(bank, stat_id);
     }
     restore_callbacks(old_execution_array);
     CB_EXEC_INDEX = old_index;

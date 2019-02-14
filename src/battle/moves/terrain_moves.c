@@ -12,7 +12,7 @@ extern void clear_terrain(void);
 // Electric Terrain
 void electric_terrain_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if (is_grounded(user) && B_MOVE_HAS_TYPE(user, MTYPE_ELECTRIC))
+    if (is_grounded(user) && B_MOVE_HAS_TYPE(user, TYPE_ELECTRIC))
         B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 150);
 }
 
@@ -40,8 +40,8 @@ u8 electric_terrain_on_effect(u8 user, u8 src, u16 move, struct anonymous_callba
     if (user != src) return true;
     if (callback_exists((u32)electric_terrain_on_status)) return false;
     clear_terrain();
-    add_callback(CB_ON_STATUS, 0, 5, src, (u32)electric_terrain_on_status);
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, src, (u32)electric_terrain_on_residual);
+    AddCallback(CB_ON_STATUS, 0, 5, src, (u32)electric_terrain_on_status);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, src, (u32)electric_terrain_on_residual);
     CB_MASTER[id].delay_before_effect = 5;
     gBattleMaster->field_state.is_electric_terrain = true;
     QueueMessage(NULL, NULL, STRING_ELECTRIC_TERRAIN_START, NULL);
@@ -64,7 +64,7 @@ void grassy_terrain_on_base_power(u8 user, u8 src, u16 move, struct anonymous_ca
             return;
         }
     }
-    if (is_grounded(user) && B_MOVE_HAS_TYPE(user, MTYPE_GRASS)) {
+    if (is_grounded(user) && B_MOVE_HAS_TYPE(user, TYPE_GRASS)) {
         B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 150);
     }
 }
@@ -91,8 +91,8 @@ u8 grassy_terrain_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback
     if (user != src) return true;
     if (callback_exists((u32)grassy_terrain_on_base_power)) return false;
     clear_terrain();
-    add_callback(CB_ON_BASE_POWER_MOVE, 0, 5, src, (u32)grassy_terrain_on_base_power);
-    add_callback(CB_ON_RESIDUAL, 0, 5, src, (u32)grassy_terrain_on_residual);
+    AddCallback(CB_ON_BASE_POWER_MOVE, 0, 5, src, (u32)grassy_terrain_on_base_power);
+    AddCallback(CB_ON_RESIDUAL, 0, 5, src, (u32)grassy_terrain_on_residual);
     gBattleMaster->field_state.is_grassy_terrain = true;
     QueueMessage(NULL, NULL, STRING_GRASSY_TERRAIN_START, NULL);
     return true;
@@ -110,7 +110,7 @@ bool misty_terrain_on_status(u8 user, u8 src, u16 status_id, struct anonymous_ca
 
 void misty_terrain_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if (is_grounded(user) && B_MOVE_HAS_TYPE(user, MTYPE_DRAGON)) {
+    if (is_grounded(user) && B_MOVE_HAS_TYPE(user, TYPE_DRAGON)) {
         B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 50);
     }
 }
@@ -130,9 +130,9 @@ u8 misty_terrain_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback*
     if (user != src) return true;
     if (callback_exists((u32)misty_terrain_on_base_power)) return false;
     clear_terrain();
-    add_callback(CB_ON_BASE_POWER_MOVE, 0, 5, src, (u32)misty_terrain_on_base_power);
-    add_callback(CB_ON_STATUS, 0, 5, src, (u32)misty_terrain_on_status);
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, src, (u32)misty_terrain_on_residual);
+    AddCallback(CB_ON_BASE_POWER_MOVE, 0, 5, src, (u32)misty_terrain_on_base_power);
+    AddCallback(CB_ON_STATUS, 0, 5, src, (u32)misty_terrain_on_status);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, src, (u32)misty_terrain_on_residual);
     CB_MASTER[id].delay_before_effect = 5;
     gBattleMaster->field_state.is_misty_terrain = true;
     QueueMessage(NULL, NULL, STRING_MISTY_TERRAIN_START, NULL);
@@ -151,7 +151,7 @@ u8 psychic_terrain_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* 
 
 void psychic_terrain_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if (is_grounded(user) && B_MOVE_HAS_TYPE(user, MTYPE_PSYCHIC)) {
+    if (is_grounded(user) && B_MOVE_HAS_TYPE(user, TYPE_PSYCHIC)) {
         B_MOVE_POWER(user) = PERCENT(B_MOVE_POWER(user), 150);
     }
 }
@@ -171,9 +171,9 @@ u8 psychic_terrain_on_effect(u8 user, u8 src, u16 move, struct anonymous_callbac
     if (user != src) return true;
     if (callback_exists((u32)psychic_terrain_on_base_power)) return false;
     clear_terrain();
-    add_callback(CB_ON_BASE_POWER_MOVE, 0, 5, src, (u32)psychic_terrain_on_base_power);
-    add_callback(CB_ON_TRYHIT_MOVE, 4, 5, src, (u32)psychic_terrain_tryhit);
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, src, (u32)psychic_terrain_on_residual);
+    AddCallback(CB_ON_BASE_POWER_MOVE, 0, 5, src, (u32)psychic_terrain_on_base_power);
+    AddCallback(CB_ON_TRYHIT_MOVE, 4, 5, src, (u32)psychic_terrain_tryhit);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, src, (u32)psychic_terrain_on_residual);
     CB_MASTER[id].delay_before_effect = 5;
     gBattleMaster->field_state.is_psychic_terrain = true;
     QueueMessage(NULL, NULL, STRING_PSYCHIC_TERRAIN_START, NULL);

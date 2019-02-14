@@ -19,7 +19,7 @@ u8 magnet_rise_on_effectiveness(u8 target_type, u8 src, u16 move_type, struct an
     u8 user = (u8)(acb->data_ptr >> 16);
     u16 effectiveness = ((acb->data_ptr << 16) >> 16);
     if (user == src) return effectiveness;
-    if ((move_type == MTYPE_GROUND)) {
+    if ((move_type == TYPE_GROUND)) {
         return 0; // straight immune to ground moves
     } else {
         return (u16)acb->data_ptr;
@@ -42,8 +42,8 @@ u8 magnet_rise_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* a
     if (HAS_VOLATILE(user, VOLATILE_MAGNET_RISE)) return false;
     if (unliftable(user)) return false;
     ADD_VOLATILE(user, VOLATILE_MAGNET_RISE);
-    add_callback(CB_ON_EFFECTIVENESS, 0, 5, user, (u32)magnet_rise_on_effectiveness);
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, user, (u32)magnet_rise_on_residual);
+    AddCallback(CB_ON_EFFECTIVENESS, 0, 5, user, (u32)magnet_rise_on_effectiveness);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, user, (u32)magnet_rise_on_residual);
     CB_MASTER[id].delay_before_effect = 5;
     QueueMessage(NULL, user, STRING_MAGNETISM_LEV, NULL);
     return true;
@@ -62,7 +62,7 @@ u8 telekinesis_on_effectiveness(u8 target_type, u8 src, u16 move_type, struct an
     u16 effectiveness = ((acb->data_ptr << 16) >> 16);
     dprintf("src is bank %d and user is bank %d\n", src, user);
     if (TARGET_OF(user) != src) return effectiveness;
-    if ((move_type == MTYPE_GROUND)) {
+    if ((move_type == TYPE_GROUND)) {
         return 0; // straight immune to ground moves
     } else {
         return (u16)acb->data_ptr;
@@ -89,8 +89,8 @@ u8 telekinesis_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* a
             return false;
     }
     ADD_VOLATILE(user, VOLATILE_TELEKINESIS);
-    add_callback(CB_ON_EFFECTIVENESS, 0, 3, TARGET_OF(user), (u32)telekinesis_on_effectiveness);
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, user, (u32)telekinesis_on_residual);
+    AddCallback(CB_ON_EFFECTIVENESS, 0, 3, TARGET_OF(user), (u32)telekinesis_on_effectiveness);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, user, (u32)telekinesis_on_residual);
     CB_MASTER[id].delay_before_effect = 3;
     QueueMessage(NULL, user, STRING_HURLED_AIR, NULL);
     return true;
@@ -118,8 +118,8 @@ u8 heal_block_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
 {
     if (user != src) return true;
     if (HAS_VOLATILE(TARGET_OF(user), VOLATILE_HEAL_BLOCK)) return false;
-    add_callback(CB_ON_DISABLE_MOVE, 0, 5, user, (u32)heal_block_on_disabled_move);
-    u8 id = add_callback(CB_ON_RESIDUAL, 0, 0, TARGET_OF(user), (u32)heal_block_on_residual);
+    AddCallback(CB_ON_DISABLE_MOVE, 0, 5, user, (u32)heal_block_on_disabled_move);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, 0, TARGET_OF(user), (u32)heal_block_on_residual);
     CB_MASTER[id].delay_before_effect = 5;
     QueueMessage(MOVE_HEALBLOCK, TARGET_OF(user), STRING_HEAL_PREVENT, NULL);
     ADD_VOLATILE(TARGET_OF(user), VOLATILE_HEAL_BLOCK);

@@ -2,13 +2,13 @@
 #define BATTLE_PKMN_BANK_H_
 
 #include <pokeagb/pokeagb.h>
+#include "../../pokemon/types/pkmn_types.h"
 
 #define OPPONENT_SINGLES_BANK 2
 #define PLAYER_SINGLES_BANK 0
 #define PARTICIPANTS_AMOUNT_WILD 2
 
 #define BANK_MAX 4
-#define MTYPES_MAX 19
 
 
 enum StatusAilments {
@@ -117,7 +117,7 @@ struct local_battler_data {
     u16 weight;
 
     // moves
-    u16 moves[4];
+    u16 bmoves[4];
     u8 move_pp[4];
 
     // raw base stats
@@ -214,7 +214,5 @@ struct pkmn_bank {
 };
 
 extern struct pkmn_bank* gPkmnBank[BANK_MAX];
-extern const pchar pkmn_type_names[MTYPES_MAX][13];
-extern u8 effectiveness_chart[342];
 
 #endif /* BATTLE_PKMN_BANK_H_ */

@@ -102,7 +102,7 @@ bool BankMonHasType(u8 bank, enum PokemonType type)
 bool BankMonIsMonoType(u8 bank, enum PokemonType type)
 {
     for (u8 i = 0; i < sizeof(gPkmnBank[bank]->battleData.type); i++) {
-        if ((gPkmnBank[bank]->battleData.type[i] != type) && (gPkmnBank[bank]->battleData.type[i] != MTYPE_EGG))
+        if ((gPkmnBank[bank]->battleData.type[i] != type) && (gPkmnBank[bank]->battleData.type[i] != TYPE_NONE))
             return false;
     }
     return true;
@@ -112,7 +112,7 @@ bool BankAddType(u8 bank, enum PokemonType type)
 {
     // cap at first two types. 3rd would be added types only
     for (u8 i = 0; i < sizeof(gPkmnBank[bank]->battleData.type); i++) {
-        if (gPkmnBank[bank]->battleData.type[i] == MTYPE_EGG) {
+        if (gPkmnBank[bank]->battleData.type[i] == TYPE_NONE) {
             gPkmnBank[bank]->battleData.type[i] = type;
             return true;
         }
@@ -123,8 +123,8 @@ bool BankAddType(u8 bank, enum PokemonType type)
 bool BankMonSetType(u8 bank, enum PokemonType type)
 {
     gPkmnBank[bank]->battleData.type[0] = type;
-    gPkmnBank[bank]->battleData.type[1] = MTYPE_EGG;
-    gPkmnBank[bank]->battleData.type[2] = MTYPE_EGG;
+    gPkmnBank[bank]->battleData.type[1] = TYPE_NONE;
+    gPkmnBank[bank]->battleData.type[2] = TYPE_NONE;
     return true;
 }
 
@@ -140,7 +140,7 @@ void BankMonReplaceType(u8 bank, enum PokemonType type, enum PokemonType typeRep
 bool BankMonUntyped(u8 bank)
 {
     for (u8 i = 0; i < sizeof(gPkmnBank[bank]->battleData.type); i++) {
-        if (gPkmnBank[bank]->battleData.type[i] != MTYPE_EGG) {
+        if (gPkmnBank[bank]->battleData.type[i] != TYPE_NONE) {
             return false;
         }
     }

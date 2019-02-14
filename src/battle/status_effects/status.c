@@ -53,8 +53,8 @@ void sleep_on_inflict(u8 bank)
 		gPkmnBank[bank]->battleData.status = AILMENT_SLEEP;
 		pokemon_setattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, &ailment);
 		QueueMessage(0, bank, STRING_AILMENT_APPLIED, AILMENT_SLEEP);
-		add_callback(CB_ON_RESIDUAL, 3, ailment, bank, (u32)sleep_on_residual);
-		add_callback(CB_ON_BEFORE_MOVE, 3, ailment, bank, (u32)sleep_on_before_move);
+		AddCallback(CB_ON_RESIDUAL, 3, ailment, bank, (u32)sleep_on_residual);
+		AddCallback(CB_ON_BEFORE_MOVE, 3, ailment, bank, (u32)sleep_on_before_move);
 	}
 }
 
@@ -78,7 +78,7 @@ void poison_on_inflict(u8 bank)
     gPkmnBank[bank]->battleData.status_turns = 0;
 	pokemon_setattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, &ailment);
     QueueMessage(0, bank, STRING_AILMENT_APPLIED, AILMENT_POISON);
-	add_callback(CB_ON_RESIDUAL, 0, 0xFF, bank, (u32)poison_on_residual);
+	AddCallback(CB_ON_RESIDUAL, 0, 0xFF, bank, (u32)poison_on_residual);
 }
 
 
@@ -106,7 +106,7 @@ void burn_on_inflict(u8 bank)
     gPkmnBank[bank]->battleData.status_turns = 0;
 	pokemon_setattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, &ailment);
     QueueMessage(0, bank, STRING_AILMENT_APPLIED, AILMENT_BURN);
-	add_callback(CB_ON_RESIDUAL, 0, 0xFF, bank, (u32)burn_on_residual);
+	AddCallback(CB_ON_RESIDUAL, 0, 0xFF, bank, (u32)burn_on_residual);
 
 }
 
@@ -135,7 +135,7 @@ void freeze_on_inflict(u8 bank)
     gPkmnBank[bank]->battleData.status_turns = 0;
 	pokemon_setattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, &ailment);
     QueueMessage(0, bank, STRING_AILMENT_APPLIED, AILMENT_FREEZE);
-	add_callback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)freeze_on_before_move);
+	AddCallback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)freeze_on_before_move);
 }
 
 
@@ -170,8 +170,8 @@ void paralyze_on_inflict(u8 bank)
     gPkmnBank[bank]->battleData.status_turns = 0;
 	pokemon_setattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, &ailment);
     QueueMessage(0, bank, STRING_AILMENT_APPLIED, AILMENT_PARALYZE);
-	add_callback(CB_ON_STAT_MOD, 0, CB_PERMA, NULL, (u32)paralyze_on_mod_stat);
-	add_callback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)paralyze_on_before_move);
+	AddCallback(CB_ON_STAT_MOD, 0, CB_PERMA, NULL, (u32)paralyze_on_mod_stat);
+	AddCallback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)paralyze_on_before_move);
 }
 
 
@@ -196,7 +196,7 @@ void toxic_on_inflict(u8 bank)
     gPkmnBank[bank]->battleData.status_turns = 0;
 	pokemon_setattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, &ailment);
     QueueMessage(0, bank, STRING_AILMENT_APPLIED, AILMENT_BAD_POISON);
-	add_callback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)toxic_on_residual);
+	AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)toxic_on_residual);
 }
 
 /* Infactuation related */
@@ -218,7 +218,7 @@ void infactuate_on_inflict(u8 bank)
 		return;
 	ADD_VOLATILE(bank, VOLATILE_INFACTUATION);
 	QueueMessage(0, bank, STRING_ATTRACT, AILMENT_INFACTUATE);
-	add_callback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)infactuated_before_move);
+	AddCallback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)infactuated_before_move);
 }
 
 
@@ -232,7 +232,7 @@ u8 confusion_on_before_move(u8 user, u8 src, u16 move, struct anonymous_callback
 		if (RandRange(0, 100) <= 33) {
 			// hurt itself in confusion
 			QueueMessage(0, user, STRING_CONFUSION_HURT, 0);
-			B_MOVE_TYPE(user, 0) = MTYPE_NONE;
+			B_MOVE_TYPE(user, 0) = TYPE_NONE;
 			B_MOVE_POWER(user) = 40;
 			B_MOVE_ACCURACY(user) = 101;
 			B_MOVE_IGNORING_ABILITIES(user) = true;
@@ -268,8 +268,8 @@ void confusion_on_inflict(u8 bank)
 	gPkmnBank[bank]->battleData.pseudo_ailment = AILMENT_CONFUSION;
 	gPkmnBank[bank]->battleData.confusion_turns = RandRange(1, 5);
 	QueueMessage(0, bank, STRING_AILMENT_APPLIED, AILMENT_CONFUSION);
-	add_callback(CB_ON_RESIDUAL, 0, gPkmnBank[bank]->battleData.confusion_turns, bank, (u32)confusion_on_residual);
-	add_callback(CB_ON_BEFORE_MOVE, 3, gPkmnBank[bank]->battleData.confusion_turns, bank, (u32)confusion_on_before_move);
+	AddCallback(CB_ON_RESIDUAL, 0, gPkmnBank[bank]->battleData.confusion_turns, bank, (u32)confusion_on_residual);
+	AddCallback(CB_ON_BEFORE_MOVE, 3, gPkmnBank[bank]->battleData.confusion_turns, bank, (u32)confusion_on_before_move);
 }
 
 
@@ -320,24 +320,24 @@ void AilmentCallbackInitExisting(u8 bank)
 	PKMNAilmentToBank(bank, pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, NULL));
 	switch (gPkmnBank[bank]->battleData.status) {
 		case AILMENT_BURN:
-			add_callback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)burn_on_residual);
+			AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)burn_on_residual);
 			break;
 		case AILMENT_SLEEP:
-			add_callback(CB_ON_RESIDUAL, 3, 3, bank, (u32)sleep_on_residual);
-			add_callback(CB_ON_BEFORE_MOVE, 3, 3, bank, (u32)sleep_on_before_move);
+			AddCallback(CB_ON_RESIDUAL, 3, 3, bank, (u32)sleep_on_residual);
+			AddCallback(CB_ON_BEFORE_MOVE, 3, 3, bank, (u32)sleep_on_before_move);
 			break;
 		case AILMENT_POISON:
-			add_callback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)poison_on_residual);
+			AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)poison_on_residual);
 			break;
 		case AILMENT_BAD_POISON:
-			add_callback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)toxic_on_residual);
+			AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)toxic_on_residual);
 			break;
 		case AILMENT_FREEZE:
-			add_callback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)freeze_on_before_move);
+			AddCallback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)freeze_on_before_move);
 			break;
 		case AILMENT_PARALYZE:
-			add_callback(CB_ON_STAT_MOD, 0, CB_PERMA, NULL, (u32)paralyze_on_mod_stat);
-			add_callback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)paralyze_on_before_move);
+			AddCallback(CB_ON_STAT_MOD, 0, CB_PERMA, NULL, (u32)paralyze_on_mod_stat);
+			AddCallback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)paralyze_on_before_move);
 			break;
 		default:
 			return;

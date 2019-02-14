@@ -252,7 +252,7 @@ enum TryHitMoveStatus magic_coat_on_tryhit(u8 user, u8 src, u16 move, struct ano
 {
 	if (user != src) return TRYHIT_USE_MOVE_NORMAL;
 	QueueMessage(CURRENT_MOVE(user), user, STRING_SHROUDED_MAGICCOAT, 0);
-	add_callback(CB_ON_TRYHIT_MOVE, 2, 0, user, (u32)(magic_coat_tryhit_anon));
+	AddCallback(CB_ON_TRYHIT_MOVE, 2, 0, user, (u32)(magic_coat_tryhit_anon));
 	return TRYHIT_USE_MOVE_NORMAL;
 }
 
@@ -294,7 +294,7 @@ enum TryHitMoveStatus me_first_on_tryhit(u8 user, u8 src, u16 move_user, struct 
 	set_attack_bm_inplace(CURRENT_MOVE(user), user);
 	LAST_MOVE(user) = MOVE_MEFIRST;
 	QueueMessage(CURRENT_MOVE(user), user, STRING_ATTACK_USED, 0);
-	add_callback(CB_ON_BASE_POWER_MOVE, 4, 0, user, (u32)me_first_on_base_power_anon);
+	AddCallback(CB_ON_BASE_POWER_MOVE, 4, 0, user, (u32)me_first_on_base_power_anon);
 	acb->in_use = false;
 	return TRYHIT_USE_MOVE_NORMAL;
 }
@@ -319,7 +319,7 @@ u8 snatch_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
 	if (user != src) return true;
 	QueueMessage(CURRENT_MOVE(user), user, STRING_SNATCH_WAITING, 0);
-	add_callback(CB_ON_TRYHIT_MOVE, 0, 0, user, (u32)(statch_tryhit_anon));
+	AddCallback(CB_ON_TRYHIT_MOVE, 0, 0, user, (u32)(statch_tryhit_anon));
 	acb->in_use = false;
 	return true;
 }

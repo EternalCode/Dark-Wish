@@ -77,7 +77,7 @@ u8 font_color_set(u8 bank, u8 i)
         return 0x2;
     u8 pp = B_GET_MOVE_PP(bank, i);
     u16 pp_total = B_GET_MOVE(bank, i);
-    pp_total = moves[pp_total].pp;
+    pp_total = gBattleMoves[pp_total].pp;
     pp_total = (100 * pp) / pp_total;
     if (pp_total > 50) {
         return 0x2;
@@ -194,7 +194,7 @@ void load_names_moves(u8 bank)
         prefix[8] = num + 1;
         p_moves[i] = B_GET_MOVE(bank, i);
         pstrcpy(string_buffer, (pchar*)prefix);
-        pstrcat(string_buffer, moves[p_moves[i]].name);
+        pstrcat(string_buffer, gBattleMoves[p_moves[i]].name);
 
         /* Make canvas object */
         struct SpritePalette text_pal = {(void*)pal_font, MOVE_NAMES_TAG};
@@ -241,8 +241,8 @@ void load_icons_moves(u8 bank)
         p_moves[i] = B_GET_MOVE(bank, i);
         s16 x = (!i || (i == 2)) ? 92 : 194;
         s16 y = (i < 2) ? 126 : 145;
-        u8 type = moves[p_moves[i]].type;
-        if (type == MTYPE_EGG || p_moves[i] == 0) {
+        u8 type = gBattleMoves[p_moves[i]].type;
+        if (type == TYPE_NONE || p_moves[i] == 0) {
             gBattleMaster->type_objid[i] = 0x3F;
             gBattleMaster->move_pp_objid[i] = 0x3F;
             gBattleMaster->move_pss_objid[i] = 0x3F;
