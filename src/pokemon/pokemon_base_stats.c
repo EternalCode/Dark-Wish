@@ -65,7 +65,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_DRAGON,
         .ability1 = ABILITY_SWIFT_SWIM,
-        .ability2 = ABILITY_NONE, //ABILITY_SNIPER
+        .ability2 = ABILITY_SNIPER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
@@ -100,7 +100,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_DRAGON,
         .ability1 = ABILITY_POISON_POINT,
-        .ability2 = ABILITY_NONE, //ABILITY_SNIPER
+        .ability2 = ABILITY_SNIPER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
@@ -135,7 +135,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_DRAGON,
         .ability1 = ABILITY_SWIFT_SWIM,
-        .ability2 = ABILITY_NONE, //ABILITY_SNIPER
+        .ability2 = ABILITY_SNIPER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
@@ -174,7 +174,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_SHEER_FORCE
+    	.hidden_ability = ABILITY_SHEER_FORCE,
 		.padding = 0,
 	},
 
@@ -209,7 +209,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_LEVITATE,
 		.padding = 0,
 	},
 
@@ -244,7 +244,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_LEVITATE,
 		.padding = 0,
 	},
 
@@ -279,7 +279,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_WHITE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_SUPER_LUCK
+    	.hidden_ability = ABILITY_SUPER_LUCK,
 		.padding = 0,
 	},
 
@@ -314,7 +314,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_WHITE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_SUPER_LUCK
+    	.hidden_ability = ABILITY_SUPER_LUCK,
 		.padding = 0,
 	},
 
@@ -349,7 +349,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_WHITE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_SUPER_LUCK
+    	.hidden_ability = ABILITY_SUPER_LUCK,
 		.padding = 0,
 	},
 
@@ -379,12 +379,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_RUN_AWAY,
-        .ability2 = ABILITY_NONE, //ABILITY_MAGIC_GUARD
+        .ability1 = ABILITY_STAKEOUT,
+        .ability2 = ABILITY_STRONG_JAW,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_FRIEND_GUARD
+    	.hidden_ability = ABILITY_ADAPTABILITY,
 		.padding = 0,
 	},
 
@@ -414,12 +414,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_RUN_AWAY,
-        .ability2 = ABILITY_NONE, //ABILITY_MAGIC_GUARD
+		.ability1 = ABILITY_STAKEOUT,
+        .ability2 = ABILITY_STRONG_JAW,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_FRIEND_GUARD
+    	.hidden_ability = ABILITY_ADAPTABILITY,
 		.padding = 0,
 	},
 
@@ -450,11 +450,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_PICKUP,
-        .ability2 = ABILITY_NONE, //ABILITY_MAGIC_GUARD
+        .ability2 = ABILITY_CHEEK_POUCH,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_HUGE_POWER, //ABILITY_UNAWARE
+    	.hidden_ability = ABILITY_HUGE_POWER,
 		.padding = 0,
 	},
 
@@ -485,11 +485,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_PICKUP,
-        .ability2 = ABILITY_NONE, //ABILITY_MAGIC_GUARD
+        .ability2 = ABILITY_CHEEK_POUCH,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_HUGE_POWER, //ABILITY_UNAWARE
+    	.hidden_ability = ABILITY_HUGE_POWER,
 		.padding = 0,
 	},
 
@@ -520,11 +520,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         .ability1 = ABILITY_OBLIVIOUS,
-        .ability2 = ABILITY_OBLIVIOUS, //ABILITY_MAGIC_GUARD
+        .ability2 = ABILITY_MAGIC_GUARD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_FRIEND_GUARD
+    	.hidden_ability = ABILITY_FRIEND_GUARD,
 		.padding = 0,
 	},
 
@@ -555,11 +555,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         .ability1 = ABILITY_OBLIVIOUS,
-        .ability2 = ABILITY_OBLIVIOUS, //ABILITY_MAGIC_GUARD
+        .ability2 = ABILITY_MAGIC_GUARD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_FRIEND_GUARD
+    	.hidden_ability = ABILITY_FRIEND_GUARD,
 		.padding = 0,
 	},
 
@@ -590,11 +590,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE, //ABILITY_MAGIC_GUARD
+        .ability2 = ABILITY_MAGIC_GUARD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_UNAWARE
+    	.hidden_ability = ABILITY_UNAWARE,
 		.padding = 0,
 	},
 
@@ -729,7 +729,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_BUG,
         .eggGroup2 = EGG_GROUP_BUG,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_HONEY_GATHER,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_YELLOW,
@@ -804,7 +804,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_SNIPER
+    	.hidden_ability = ABILITY_SNIPER,
 		.padding = 0,
 	},
 
@@ -839,7 +839,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_SNIPER
+    	.hidden_ability = ABILITY_SNIPER,
 		.padding = 0,
 	},
 
@@ -870,7 +870,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_BUG,
         .eggGroup2 = EGG_GROUP_BUG,
         .ability1 = ABILITY_COMPOUND_EYES,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_UNNERVE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_YELLOW,
         .noFlip = false,
@@ -878,7 +878,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
 		.padding = 0,
 	},
 
-	//GAVANTULA
+	//GALVANTULA
     {
         .baseHP        = 70,
         .baseAttack    = 77,
@@ -905,7 +905,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_BUG,
         .eggGroup2 = EGG_GROUP_BUG,
         .ability1 = ABILITY_COMPOUND_EYES,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_UNNERVE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_YELLOW,
         .noFlip = false,
@@ -939,7 +939,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_BUG,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_WATER_BUBBLE,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
@@ -974,7 +974,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_BUG,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_WATER_BUBBLE,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
@@ -1013,7 +1013,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
 		.safariZoneFleeRate = 0,
 		.bodyColor = POKEMON_COLOR_PURPLE,
 		.noFlip = false,
-		.hidden_ability = ABILITY_NONE, //ABILITY_INFILTRATOR
+		.hidden_ability = ABILITY_INFILTRATOR,
 		.padding = 0,
 	},
 
@@ -1048,7 +1048,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
 		.safariZoneFleeRate = 0,
 		.bodyColor = POKEMON_COLOR_PURPLE,
 		.noFlip = false,
-		.hidden_ability = ABILITY_NONE, //ABILITY_INFILTRATOR
+		.hidden_ability = ABILITY_INFILTRATOR,
 		.padding = 0,
 	},
 
@@ -1083,7 +1083,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_INFILTRATOR
+    	.hidden_ability = ABILITY_INFILTRATOR,
 		.padding = 0,
 	},
 
@@ -1118,7 +1118,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_FRISK
+    	.hidden_ability = ABILITY_FRISK,
 		.padding = 0,
 	},
 
@@ -1153,7 +1153,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_FRISK
+    	.hidden_ability = ABILITY_FRISK,
 		.padding = 0,
 	},
 
@@ -1166,7 +1166,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .baseSpAttack  = 75,
         .baseSpDefense = 15,
         .type1 = TYPE_GRASS,
-        .type2 = TYPE_GRASS,
+        .type2 = TYPE_FAIRY,
         .catchRate = 190,
         .expYield = 57,
         .evYield_HP        = 0,
@@ -1201,7 +1201,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .baseSpAttack  = 90,
         .baseSpDefense = 100,
         .type1 = TYPE_GRASS,
-        .type2 = TYPE_GRASS,
+        .type2 = TYPE_FAIRY,
         .catchRate = 75,
         .expYield = 142,
         .evYield_HP        = 0,
@@ -1328,7 +1328,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_JUSTIFIED
+    	.hidden_ability = ABILITY_JUSTIFIED,
 		.padding = 0,
 	},
 
@@ -1363,7 +1363,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_JUSTIFIED
+    	.hidden_ability = ABILITY_JUSTIFIED,
 		.padding = 0,
 	},
 
@@ -1398,7 +1398,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_OVERCOAT
+    	.hidden_ability = ABILITY_OVERCOAT,
 		.padding = 0,
 	},
 
@@ -1433,7 +1433,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_OVERCOAT
+    	.hidden_ability = ABILITY_OVERCOAT,
 		.padding = 0,
 	},
 
@@ -1503,7 +1503,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_YELLOW,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_INFILTRATOR,
 		.padding = 0,
 	},
 
@@ -1569,11 +1569,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_DRAGON,
         .ability1 = ABILITY_SWIFT_SWIM,
-        .ability2 = ABILITY_NONE, //ABILITY_OBLIVIOUS
+        .ability2 = ABILITY_OBLIVIOUS,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_ADAPTABILITY
+    	.hidden_ability = ABILITY_ADAPTABILITY,
 		.padding = 0,
 	},
 
@@ -1604,7 +1604,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_DRAGON,
         .ability1 = ABILITY_MARVEL_SCALE,
-        .ability2 = ABILITY_NONE, //ABILITY_COMPETITIVE
+        .ability2 = ABILITY_COMPETITIVE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PINK,
         .noFlip = false,
@@ -1638,11 +1638,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER3,
         .eggGroup2 = EGG_GROUP_WATER3,
         .ability1 = ABILITY_SHELL_ARMOR,
-        .ability2 = ABILITY_NONE, //ABILITY_SKILL_LINK
+        .ability2 = ABILITY_SKILL_LINK,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_OVERCOAT
+    	.hidden_ability = ABILITY_OVERCOAT,
 		.padding = 0,
 	},
 
@@ -1673,11 +1673,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER3,
         .eggGroup2 = EGG_GROUP_WATER3,
         .ability1 = ABILITY_SHELL_ARMOR,
-        .ability2 = ABILITY_NONE, //ABILITY_SKILL_LINK
+        .ability2 = ABILITY_SKILL_LINK,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_OVERCOAT
+    	.hidden_ability = ABILITY_OVERCOAT,
 		.padding = 0,
 	},
 
@@ -1712,7 +1712,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PINK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_REGENERATOR
+    	.hidden_ability = ABILITY_REGENERATOR,
 		.padding = 0,
 	},
 
@@ -1747,7 +1747,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PINK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_REGENERATOR
+    	.hidden_ability = ABILITY_REGENERATOR,
 		.padding = 0,
 	},
 
@@ -1782,7 +1782,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PINK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_REGENERATOR
+    	.hidden_ability = ABILITY_REGENERATOR,
 		.padding = 0,
 	},
 
@@ -1817,7 +1817,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_MAGIC_GUARD
+    	.hidden_ability = ABILITY_MAGIC_GUARD,
 		.padding = 0,
 	},
 
@@ -1852,7 +1852,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_MAGIC_GUARD
+    	.hidden_ability = ABILITY_MAGIC_GUARD,
 		.padding = 0,
 	},
 
@@ -1887,7 +1887,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_MAGIC_GUARD
+    	.hidden_ability = ABILITY_MAGIC_GUARD,
 		.padding = 0,
 	},
 
@@ -1918,7 +1918,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_KEEN_EYE,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_INFILTRATOR,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
@@ -1953,11 +1953,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_KEEN_EYE,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_INFILTRATOR,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_OWN_TEMPO,
+    	.hidden_ability = ABILITY_PRANKSTER,
 		.padding = 0,
 	},
 
@@ -1987,8 +1987,8 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_FAIRY,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_PRANKSTER,
+        .ability2 = ABILITY_INFILTRATOR,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
@@ -2022,8 +2022,8 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_FAIRY,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_PRANKSTER,
+        .ability2 = ABILITY_INFILTRATOR,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
@@ -2062,7 +2062,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_LEAF_GUARD,
 		.padding = 0,
 	},
 
@@ -2097,7 +2097,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_LEAF_GUARD,
 		.padding = 0,
 	},
 
@@ -2128,11 +2128,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FAIRY,
         .eggGroup2 = EGG_GROUP_GRASS,
         .ability1 = ABILITY_EFFECT_SPORE,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_POISON_HEAL,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_QUICK_FEET,
 		.padding = 0,
 	},
 
@@ -2163,11 +2163,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FAIRY,
         .eggGroup2 = EGG_GROUP_GRASS,
         .ability1 = ABILITY_EFFECT_SPORE,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_POISON_HEAL,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_TECHNICIAN,
 		.padding = 0,
 	},
 
@@ -2268,11 +2268,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FLYING,
         .eggGroup2 = EGG_GROUP_FLYING,
         .ability1 = ABILITY_INSOMNIA,
-        .ability2 = ABILITY_NONE, //ABILITY_SUPER_LUCK
+        .ability2 = ABILITY_SUPER_LUCK,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_PRANKSTER
+    	.hidden_ability = ABILITY_PRANKSTER,
 		.padding = 0,
 	},
 
@@ -2303,11 +2303,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FLYING,
         .eggGroup2 = EGG_GROUP_FLYING,
         .ability1 = ABILITY_INSOMNIA,
-        .ability2 = ABILITY_NONE, //ABILITY_SUPER_LUCK
+        .ability2 = ABILITY_SUPER_LUCK,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_PRANKSTER
+    	.hidden_ability = ABILITY_PRANKSTER,
 		.padding = 0,
 	},
 
@@ -2342,7 +2342,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
 		.safariZoneFleeRate = 0,
 		.bodyColor = POKEMON_COLOR_PINK,
 		.noFlip = false,
-		.hidden_ability = ABILITY_NONE, //ABILITY_FRIEND_GUARD
+		.hidden_ability = ABILITY_FRIEND_GUARD,
 		.padding = 0,
 	},
 
@@ -2373,11 +2373,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FAIRY,
         .eggGroup2 = EGG_GROUP_FAIRY,
         .ability1 = ABILITY_CUTE_CHARM,
-        .ability2 = ABILITY_NONE, //ABILITY_MAGIC_GUARD
+        .ability2 = ABILITY_MAGIC_GUARD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PINK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_FRIEND_GUARD
+    	.hidden_ability = ABILITY_FRIEND_GUARD,
 		.padding = 0,
 	},
 
@@ -2408,11 +2408,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FAIRY,
         .eggGroup2 = EGG_GROUP_FAIRY,
         .ability1 = ABILITY_CUTE_CHARM,
-        .ability2 = ABILITY_NONE, //ABILITY_MAGIC_GUARD
+        .ability2 = ABILITY_MAGIC_GUARD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PINK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_UNAWARE
+    	.hidden_ability = ABILITY_UNAWARE,
 		.padding = 0,
 	},
 
@@ -2442,12 +2442,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_UNDISCOVERED,
         .eggGroup2 = EGG_GROUP_UNDISCOVERED,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_STEADFAST,
         .ability2 = ABILITY_INNER_FOCUS,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_PRANKSTER,
 		.padding = 0,
 	},
 
@@ -2477,12 +2477,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_STEADFAST,
         .ability2 = ABILITY_INNER_FOCUS,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_JUSTIFIED,
 		.padding = 0,
 	},
 
@@ -2513,11 +2513,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_HUMAN_LIKE,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
         .ability1 = ABILITY_GUTS,
-        .ability2 = ABILITY_NONE, //ABILITY_NO_GUARD
+        .ability2 = ABILITY_NO_GUARD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_STEADFAST
+    	.hidden_ability = ABILITY_STEADFAST,
 		.padding = 0,
 	},
 
@@ -2548,11 +2548,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_HUMAN_LIKE,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
         .ability1 = ABILITY_GUTS,
-        .ability2 = ABILITY_NONE, //ABILITY_NO_GUARD
+        .ability2 = ABILITY_NO_GUARD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_STEADFAST
+    	.hidden_ability = ABILITY_STEADFAST,
 		.padding = 0,
 	},
 
@@ -2583,11 +2583,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_HUMAN_LIKE,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
         .ability1 = ABILITY_GUTS,
-        .ability2 = ABILITY_NONE, //ABILITY_NO_GUARD
+        .ability2 = ABILITY_NO_GUARD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_STEADFAST
+    	.hidden_ability = ABILITY_STEADFAST,
 		.padding = 0,
 	},
 
@@ -2617,8 +2617,8 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_INTIMIDATE, //ABILITY_NO_GUARD
+        .ability1 = ABILITY_RIVALRY,
+        .ability2 = ABILITY_INTIMIDATE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
@@ -2652,7 +2652,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_RIVALRY,
         .ability2 = ABILITY_INTIMIDATE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
@@ -2687,7 +2687,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_RIVALRY,
         .ability2 = ABILITY_INTIMIDATE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
@@ -2722,12 +2722,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_RIVALRY,
+        .ability2 = ABILITY_UNNERVE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_MOXIE,
 		.padding = 0,
 	},
 
@@ -2757,12 +2757,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_RIVALRY,
+        .ability2 = ABILITY_UNNERVE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_MOXIE,
 		.padding = 0,
 	},
 
@@ -2797,7 +2797,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_UNNERVE
+    	.hidden_ability = ABILITY_UNNERVE,
 		.padding = 0,
 	},
 
@@ -2832,7 +2832,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_UNNERVE
+    	.hidden_ability = ABILITY_UNNERVE,
 		.padding = 0,
 	},
 
@@ -2863,7 +2863,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_FLYING,
         .ability1 = ABILITY_KEEN_EYE,
-        .ability2 = ABILITY_NONE, //ABILITY_HYDRATION
+        .ability2 = ABILITY_HYDRATION,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_WHITE,
         .noFlip = false,
@@ -3003,11 +3003,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_WATER2,
         .ability1 = ABILITY_HUSTLE,
-        .ability2 = ABILITY_NONE, //ABILITY_SNIPER
+        .ability2 = ABILITY_SNIPER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_MOODY
+    	.hidden_ability = ABILITY_MOODY,
 		.padding = 0,
 	},
 
@@ -3038,11 +3038,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_WATER2,
         .ability1 = ABILITY_SUCTION_CUPS,
-        .ability2 = ABILITY_NONE, //ABILITY_SNIPER
+        .ability2 = ABILITY_SNIPER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_MOODY
+    	.hidden_ability = ABILITY_MOODY,
 		.padding = 0,
 	},
 
@@ -3073,11 +3073,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_WATER2,
         .ability1 = ABILITY_SUCTION_CUPS,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_CONTRARY,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_INFILTRATOR,
 		.padding = 0,
 	},
 
@@ -3108,11 +3108,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_WATER2,
         .ability1 = ABILITY_SUCTION_CUPS,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_CONTRARY,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_INFILTRATOR,
 		.padding = 0,
 	},
 
@@ -3147,7 +3147,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_WEAK_ARMOR,
 		.padding = 0,
 	},
 
@@ -3182,7 +3182,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_WEAK_ARMOR,
 		.padding = 0,
 	},
 
@@ -3212,12 +3212,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_DRAGON,
-        .ability1 = ABILITY_POISON_POINT,
-        .ability2 = ABILITY_NONE,
+		.ability1 = ABILITY_POISON_POINT,
+        .ability2 = ABILITY_POISON_TOUCH,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_ADAPTABILITY,
 		.padding = 0,
 	},
 
@@ -3248,11 +3248,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_DRAGON,
         .ability1 = ABILITY_POISON_POINT,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_POISON_TOUCH,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_ADAPTABILITY,
 		.padding = 0,
 	},
 
@@ -3282,12 +3282,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_MINERAL,
         .eggGroup2 = EGG_GROUP_MINERAL,
-        .ability1 = ABILITY_STENCH,
+		.ability1 = ABILITY_STENCH,
         .ability2 = ABILITY_STICKY_HOLD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_AFTERMATH,
 		.padding = 0,
 	},
 
@@ -3318,11 +3318,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_MINERAL,
         .eggGroup2 = EGG_GROUP_MINERAL,
         .ability1 = ABILITY_STENCH,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_WEAK_ARMOR,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_AFTERMATH,
 		.padding = 0,
 	},
 
@@ -3352,12 +3352,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_HUMAN_LIKE,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+		.ability1 = ABILITY_ANTICIPATION,
+        .ability2 = ABILITY_DRY_SKIN,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_POISON_TOUCH,
 		.padding = 0,
 	},
 
@@ -3387,12 +3387,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_HUMAN_LIKE,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_ANTICIPATION,
+        .ability2 = ABILITY_DRY_SKIN,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_POISON_TOUCH,
 		.padding = 0,
 	},
 
@@ -3422,8 +3422,8 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_SLOW,
         .eggGroup1 = EGG_GROUP_BUG,
         .eggGroup2 = EGG_GROUP_WATER3,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_BATTLE_ARMOR,
+        .ability2 = ABILITY_SNIPER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
@@ -3457,8 +3457,8 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_SLOW,
         .eggGroup1 = EGG_GROUP_BUG,
         .eggGroup2 = EGG_GROUP_WATER3,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_BATTLE_ARMOR,
+        .ability2 = ABILITY_SNIPER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
@@ -3493,7 +3493,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         .ability1 = ABILITY_LEVITATE,
-        .ability2 = ABILITY_LEVITATE,
+        .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
@@ -3527,12 +3527,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_SLOW,
         .eggGroup1 = EGG_GROUP_DRAGON,
         .eggGroup2 = EGG_GROUP_DRAGON,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+		.ability1 = ABILITY_SAP_SIPPER,
+        .ability2 = ABILITY_HYDRATION,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_GOOEY,
 		.padding = 0,
 	},
 
@@ -3562,12 +3562,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_SLOW,
         .eggGroup1 = EGG_GROUP_DRAGON,
         .eggGroup2 = EGG_GROUP_DRAGON,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+		.ability1 = ABILITY_SAP_SIPPER,
+        .ability2 = ABILITY_HYDRATION,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_GOOEY,
 		.padding = 0,
 	},
 
@@ -3597,12 +3597,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_SLOW,
         .eggGroup1 = EGG_GROUP_DRAGON,
         .eggGroup2 = EGG_GROUP_DRAGON,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_SAP_SIPPER,
+        .ability2 = ABILITY_HYDRATION,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_GOOEY,
 		.padding = 0,
 	},
 
@@ -3633,7 +3633,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_OWN_TEMPO,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_STAMINA,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
@@ -3668,7 +3668,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_OWN_TEMPO,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_STAMINA,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
@@ -3772,7 +3772,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_AMORPHOUS,
         .eggGroup2 = EGG_GROUP_AMORPHOUS,
-        .ability1 = ABILITY_LEVITATE,
+        .ability1 = ABILITY_CURSED_BODY,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
@@ -3808,11 +3808,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_AMORPHOUS,
         .eggGroup2 = EGG_GROUP_AMORPHOUS,
         .ability1 = ABILITY_LEVITATE,
-        .ability2 = ABILITY_NONE, //ABILITY_FRISK
+        .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_FRISK,
 		.padding = 0,
 	},
 
@@ -3843,11 +3843,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_AMORPHOUS,
         .eggGroup2 = EGG_GROUP_AMORPHOUS,
         .ability1 = ABILITY_PRESSURE,
-        .ability2 = ABILITY_NONE, //ABILITY_FRISK
+        .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_FRISK,
 		.padding = 0,
 	},
 
@@ -3878,11 +3878,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_AMORPHOUS,
         .eggGroup2 = EGG_GROUP_AMORPHOUS,
         .ability1 = ABILITY_PRESSURE,
-        .ability2 = ABILITY_NONE, //ABILITY_FRISK
+        .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_FRISK,
 		.padding = 0,
 	},
 
@@ -3912,12 +3912,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FLYING,
         .eggGroup2 = EGG_GROUP_DRAGON,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE, //ABILITY_FRISK
+		.ability1 = ABILITY_FRISK,
+        .ability2 = ABILITY_INFILTRATOR,
         .safariZoneFleeRate = 0,
-        .bodyColor = POKEMON_COLOR_BLACK,
+        .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_TELEPATHY,
 		.padding = 0,
 	},
 
@@ -3947,12 +3947,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FLYING,
         .eggGroup2 = EGG_GROUP_DRAGON,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_FRISK,
+        .ability2 = ABILITY_INFILTRATOR,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_TELEPATHY,
 		.padding = 0,
 	},
 
@@ -3987,7 +3987,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_YELLOW,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_RATTLED
+    	.hidden_ability = ABILITY_RATTLED,
 		.padding = 0,
 	},
 
@@ -4017,16 +4017,16 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
-        .ability1 = ABILITY_INNER_FOCUS,
-        .ability2 = ABILITY_NONE,
+		.ability1 = ABILITY_INNER_FOCUS,
+        .ability2 = ABILITY_REGENERATOR,
         .safariZoneFleeRate = 0,
-        .bodyColor = POKEMON_COLOR_YELLOW,
+        .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_RECKLESS,
 		.padding = 0,
 	},
 
-	//MEINSHAO
+	//MIENSHAO
     {
         .baseHP        = 65,
         .baseAttack    = 125,
@@ -4053,11 +4053,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
         .ability1 = ABILITY_INNER_FOCUS,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_REGENERATOR,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_RECKLESS,
 		.padding = 0,
 	},
 
@@ -4088,11 +4088,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_LIGHTNING_ROD,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_MOTOR_DRIVE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_SAP_SIPPER,
 		.padding = 0,
 	},
 
@@ -4123,11 +4123,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_LIGHTNING_ROD,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_MOTOR_DRIVE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_SAP_SIPPER,
 		.padding = 0,
 	},
 
@@ -4232,7 +4232,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 8,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_MOXIE
+    	.hidden_ability = ABILITY_MOXIE,
 		.padding = 0,
 	},
 
@@ -4263,11 +4263,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
 		.eggGroup1 = EGG_GROUP_BUG,
 		.eggGroup2 = EGG_GROUP_BUG,
 		.ability1 = ABILITY_SWARM,
-		.ability2 = ABILITY_NONE, //ABILITY_TECHNICIAN
+		.ability2 = ABILITY_TECHNICIAN,
 		.safariZoneFleeRate = 0,
 		.bodyColor = POKEMON_COLOR_GREEN,
 		.noFlip = false,
-		.hidden_ability = ABILITY_NONE, //ABILITY_STEADFAST
+		.hidden_ability = ABILITY_STEADFAST,
 		.padding = 0,
 	},
 
@@ -4298,11 +4298,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_BUG,
         .eggGroup2 = EGG_GROUP_BUG,
         .ability1 = ABILITY_SWARM,
-        .ability2 = ABILITY_NONE, //ABILITY_TECHNICIAN
+        .ability2 = ABILITY_TECHNICIAN,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_LIGHT_METAL
+    	.hidden_ability = ABILITY_LIGHT_METAL,
 		.padding = 0,
 	},
 
@@ -4333,11 +4333,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_RUN_AWAY,
-        .ability2 = ABILITY_NONE, //ABILITY_ADAPTABILITY
+        .ability2 = ABILITY_ADAPTABILITY,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_ANTICIPATION
+    	.hidden_ability = ABILITY_ANTICIPATION,
 		.padding = 0,
 	},
 
@@ -4372,7 +4372,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_HYDRATION
+    	.hidden_ability = ABILITY_HYDRATION,
 		.padding = 0,
 	},
 
@@ -4407,7 +4407,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_YELLOW,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_QUICK_FEET
+    	.hidden_ability = ABILITY_QUICK_FEET,
 		.padding = 0,
 	},
 
@@ -4477,7 +4477,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_MAGIC_BOUNCE
+    	.hidden_ability = ABILITY_MAGIC_BOUNCE,
 		.padding = 0,
 	},
 
@@ -4542,7 +4542,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_LEAF_GUARD,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
@@ -4577,12 +4577,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_SNOW_CLOAK,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_ICE_BODY,
 		.padding = 0,
 	},
 
@@ -4617,7 +4617,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PINK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_PIXILATE,
 		.padding = 0,
 	},
 
@@ -4687,7 +4687,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 4,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_STEADFAST,
 		.padding = 0,
 	},
 
@@ -4897,7 +4897,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_STORM_DRAIN
+    	.hidden_ability = ABILITY_STORM_DRAIN,
 		.padding = 0,
 	},
 
@@ -4932,7 +4932,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_STORM_DRAIN
+    	.hidden_ability = ABILITY_STORM_DRAIN,
 		.padding = 0,
 	},
 
@@ -5037,7 +5037,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_ANALYTIC
+    	.hidden_ability = ABILITY_ANALYTIC,
 		.padding = 0,
 	},
 
@@ -5072,7 +5072,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_ANALYTIC
+    	.hidden_ability = ABILITY_ANALYTIC,
 		.padding = 0,
 	},
 
@@ -5103,7 +5103,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_THICK_FAT,
-        .ability2 = ABILITY_NONE, //ABILITY_ICE_BODY
+        .ability2 = ABILITY_ICE_BODY,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
@@ -5138,7 +5138,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_THICK_FAT,
-        .ability2 = ABILITY_NONE, //ABILITY_ICE_BODY
+        .ability2 = ABILITY_ICE_BODY,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
@@ -5173,7 +5173,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_WATER1,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_THICK_FAT,
-        .ability2 = ABILITY_NONE, //ABILITY_ICE_BODY
+        .ability2 = ABILITY_ICE_BODY,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
@@ -5207,7 +5207,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_HUMAN_LIKE,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_DEFIANT,
         .ability2 = ABILITY_INNER_FOCUS,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
@@ -5242,7 +5242,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_HUMAN_LIKE,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_DEFIANT,
         .ability2 = ABILITY_INNER_FOCUS,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
@@ -5278,7 +5278,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_DRAGON,
         .ability1 = ABILITY_SHED_SKIN,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_MOXIE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_YELLOW,
         .noFlip = false,
@@ -5313,7 +5313,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_DRAGON,
         .ability1 = ABILITY_SHED_SKIN,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_MOXIE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_YELLOW,
         .noFlip = false,
@@ -5387,7 +5387,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_POISON_HEAL,
 		.padding = 0,
 	},
 
@@ -5417,12 +5417,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
+		.ability1 = ABILITY_SAP_SIPPER,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_GRASS_PELT,
 		.padding = 0,
 	},
 
@@ -5452,12 +5452,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_SAP_SIPPER,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_GRASS_PELT,
 		.padding = 0,
 	},
 
@@ -5487,8 +5487,8 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_DRAGON,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_BERSERK,
+        .ability2 = ABILITY_SAP_SIPPER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
@@ -5597,7 +5597,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_UNNERVE
+    	.hidden_ability = ABILITY_UNNERVE,
 		.padding = 0,
 	},
 
@@ -5627,7 +5627,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_DRAGON,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_CORROSION,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
@@ -5662,7 +5662,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_DRAGON,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_CORROSION,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
@@ -5697,12 +5697,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_INTIMIDATE,
-        .ability2 = ABILITY_NONE,
+		.ability1 = ABILITY_INTIMIDATE,
+        .ability2 = ABILITY_MOXIE,
         .safariZoneFleeRate = 0,
-        .bodyColor = POKEMON_COLOR_BROWN,
+        .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_ANGER_POINT,
 		.padding = 0,
 	},
 
@@ -5732,12 +5732,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_INTIMIDATE,
-        .ability2 = ABILITY_NONE,
+		.ability1 = ABILITY_INTIMIDATE,
+        .ability2 = ABILITY_MOXIE,
         .safariZoneFleeRate = 0,
-        .bodyColor = POKEMON_COLOR_BROWN,
+        .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_ANGER_POINT,
 		.padding = 0,
 	},
 
@@ -5768,11 +5768,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_INTIMIDATE,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_MOXIE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_ANGER_POINT,
 		.padding = 0,
 	},
 
@@ -5802,12 +5802,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FLYING,
         .eggGroup2 = EGG_GROUP_FLYING,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_WONDER_SKIN,
+        .ability2 = ABILITY_MAGIC_GUARD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_TINTED_LENS,
 		.padding = 0,
 	},
 
@@ -5842,7 +5842,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_STORM_DRAIN,
 		.padding = 0,
 	},
 
@@ -5943,11 +5943,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_BUG,
         .eggGroup2 = EGG_GROUP_BUG,
         .ability1 = ABILITY_STURDY,
-        .ability2 = ABILITY_NONE, //ABILITY_GLUTTONY
+        .ability2 = ABILITY_GLUTTONY,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_YELLOW,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_CONTRARY
+    	.hidden_ability = ABILITY_CONTRARY,
 		.padding = 0,
 	},
 
@@ -5982,7 +5982,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_WEAK_ARMOR
+    	.hidden_ability = ABILITY_WEAK_ARMOR,
 		.padding = 0,
 	},
 
@@ -6017,7 +6017,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_WEAK_ARMOR
+    	.hidden_ability = ABILITY_WEAK_ARMOR,
 		.padding = 0,
 	},
 
@@ -6048,11 +6048,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
 		.eggGroup1 = EGG_GROUP_FIELD,
 		.eggGroup2 = EGG_GROUP_FIELD,
 		.ability1 = ABILITY_WHITE_SMOKE,
-		.ability2 = ABILITY_NONE,
+		.ability2 = ABILITY_DROUGHT,
 		.safariZoneFleeRate = 0,
 		.bodyColor = POKEMON_COLOR_BROWN,
 		.noFlip = false,
-		.hidden_ability = ABILITY_NONE,
+		.hidden_ability = ABILITY_SHELL_ARMOR,
 		.padding = 0,
 	},
 
@@ -6187,12 +6187,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
 		.growthRate = EXP_MEDIUM_FAST,
 		.eggGroup1 = EGG_GROUP_FAIRY,
 		.eggGroup2 = EGG_GROUP_FAIRY,
-		.ability1 = ABILITY_NONE,
+		.ability1 = ABILITY_SWEET_VEIL,
 		.ability2 = ABILITY_NONE,
 		.safariZoneFleeRate = 0,
 		.bodyColor = POKEMON_COLOR_WHITE,
 		.noFlip = false,
-		.hidden_ability = ABILITY_NONE,
+		.hidden_ability = ABILITY_UNBURDEN,
 		.padding = 0,
 	},
 
@@ -6222,12 +6222,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
 		.growthRate = EXP_MEDIUM_FAST,
 		.eggGroup1 = EGG_GROUP_FAIRY,
 		.eggGroup2 = EGG_GROUP_FAIRY,
-		.ability1 = ABILITY_NONE,
+		.ability1 = ABILITY_SWEET_VEIL,
 		.ability2 = ABILITY_NONE,
 		.safariZoneFleeRate = 0,
 		.bodyColor = POKEMON_COLOR_WHITE,
 		.noFlip = false,
-		.hidden_ability = ABILITY_NONE,
+		.hidden_ability = ABILITY_UNBURDEN,
 		.padding = 0,
 	},
 
@@ -6262,6 +6262,8 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PINK,
         .noFlip = false,
+		.hidden_ability = ABILITY_RATTLED,
+		.padding = 0,
     },
 
     //GRANBULL
@@ -6291,10 +6293,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FAIRY,
         .ability1 = ABILITY_INTIMIDATE,
-        .ability2 = ABILITY_INTIMIDATE,
+        .ability2 = ABILITY_QUICK_FEET,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
+		.hidden_ability = ABILITY_RATTLED,
+		.padding = 0,
     },
 	//TYNAMO
 	{
@@ -6432,7 +6436,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_ANALYTIC
+    	.hidden_ability = ABILITY_ANALYTIC,
 		.padding = 0,
 	},
 
@@ -6467,7 +6471,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_ANALYTIC
+    	.hidden_ability = ABILITY_ANALYTIC,
 		.padding = 0,
 	},
 
@@ -6502,7 +6506,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_ANALYTIC
+    	.hidden_ability = ABILITY_ANALYTIC,
 		.padding = 0,
 	},
 
@@ -6537,7 +6541,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_STURDY, //ABILITY_ANALYTIC
+    	.hidden_ability = ABILITY_STURDY,
 		.padding = 0,
 	},
 
@@ -6602,7 +6606,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_AMORPHOUS,
         .eggGroup2 = EGG_GROUP_AMORPHOUS,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_WATER_COMPACTION,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
@@ -6637,7 +6641,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_AMORPHOUS,
         .eggGroup2 = EGG_GROUP_AMORPHOUS,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_WATER_COMPACTION,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
@@ -6677,7 +6681,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_WHITE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_INFILTRATOR,
 		.padding = 0,
 	},
 
@@ -6712,7 +6716,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_INFILTRATOR,
 		.padding = 0,
 	},
 
@@ -6747,7 +6751,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_INFILTRATOR,
 		.padding = 0,
 	},
 
@@ -6777,7 +6781,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_MINERAL,
         .eggGroup2 = EGG_GROUP_MINERAL,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_STEELWORKER,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
@@ -6812,7 +6816,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_MINERAL,
         .eggGroup2 = EGG_GROUP_MINERAL,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_NO_GUARD,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
@@ -6847,7 +6851,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_MINERAL,
         .eggGroup2 = EGG_GROUP_MINERAL,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_NO_GUARD,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
@@ -6882,7 +6886,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_MINERAL,
         .eggGroup2 = EGG_GROUP_MINERAL,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_STANCE_CHANGE,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
@@ -6922,7 +6926,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PURPLE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_INFILTRATOR,
 		.padding = 0,
 	},
 
@@ -6957,7 +6961,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_SHEER_FORCE
+    	.hidden_ability = ABILITY_SHEER_FORCE,
 		.padding = 0,
 	},
 
@@ -6992,7 +6996,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 4,
         .bodyColor = POKEMON_COLOR_YELLOW,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_SAP_SIPPER
+    	.hidden_ability = ABILITY_SAP_SIPPER,
 		.padding = 0,
 	},
 
@@ -7027,7 +7031,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_GLUTTONY
+    	.hidden_ability = ABILITY_GLUTTONY,
 		.padding = 0,
 	},
 
@@ -7062,7 +7066,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_GLUTTONY
+    	.hidden_ability = ABILITY_GLUTTONY,
 		.padding = 0,
 	},
 
@@ -7092,12 +7096,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_IRON_FIST,
+        .ability2 = ABILITY_MOLD_BREAKER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_WHITE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_SCRAPPY,
 		.padding = 0,
 	},
 
@@ -7127,12 +7131,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_IRON_FIST,
+        .ability2 = ABILITY_MOLD_BREAKER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_WHITE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_SCRAPPY,
 		.padding = 0,
 	},
 
@@ -7162,12 +7166,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_SLOW,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_RECEIVER,
+        .ability2 = ABILITY_RECEIVER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_WHITE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_DEFIANT,
 		.padding = 0,
 	},
 
@@ -7197,8 +7201,8 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_FLUFFY,
+        .ability2 = ABILITY_KLUTZ,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PINK,
         .noFlip = false,
@@ -7232,12 +7236,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_FLUFFY,
+        .ability2 = ABILITY_KLUTZ,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PINK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_UNNERVE,
 		.padding = 0,
 	},
 
@@ -7267,8 +7271,8 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_RECKLESS,
+        .ability2 = ABILITY_SAP_SIPPER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
@@ -7303,7 +7307,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_MONSTER,
         .ability1 = ABILITY_EARLY_BIRD,
-        .ability2 = ABILITY_NONE, //ABILITY_SCRAPPY
+        .ability2 = ABILITY_SCRAPPY,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
@@ -7338,11 +7342,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_HUMAN_LIKE,
         .eggGroup2 = EGG_GROUP_HUMAN_LIKE,
         .ability1 = ABILITY_LIMBER,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_UNBURDEN,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_MOLD_BREAKER,
 		.padding = 0,
 	},
 
@@ -7373,11 +7377,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_GRASS,
         .ability1 = ABILITY_CHLOROPHYLL,
-        .ability2 = ABILITY_NONE, //ABILITY_SOLAR_POWER
+        .ability2 = ABILITY_SOLAR_POWER,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_HARVEST
+    	.hidden_ability = ABILITY_HARVEST,
 		.padding = 0,
 	},
 
@@ -7412,7 +7416,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_HYDRATION
+    	.hidden_ability = ABILITY_HYDRATION,
 		.padding = 0,
 	},
 
@@ -7447,7 +7451,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_WEAK_ARMOR
+    	.hidden_ability = ABILITY_WEAK_ARMOR,
 		.padding = 0,
 	},
 
@@ -7482,7 +7486,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = true,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_PICKPOCKET
+    	.hidden_ability = ABILITY_PICKPOCKET,
 		.padding = 0,
 	},
 
@@ -7513,11 +7517,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         .ability1 = ABILITY_PRESSURE,
-        .ability2 = ABILITY_PRESSURE,
+        .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = true,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_PICKPOCKET
+    	.hidden_ability = ABILITY_PICKPOCKET,
 		.padding = 0,
 	},
 
@@ -7547,7 +7551,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_SLOW,
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_GRASS,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_SNOW_WARNING,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_WHITE,
@@ -7582,7 +7586,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_SLOW,
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_GRASS,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_SNOW_WARNING,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_WHITE,
@@ -7618,11 +7622,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FAIRY,
         .eggGroup2 = EGG_GROUP_MINERAL,
         .ability1 = ABILITY_INNER_FOCUS,
-        .ability2 = ABILITY_NONE, //ABILITY_ICE_BODY
+        .ability2 = ABILITY_ICE_BODY,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_MOODY
+    	.hidden_ability = ABILITY_MOODY,
 		.padding = 0,
 	},
 
@@ -7653,11 +7657,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_FAIRY,
         .eggGroup2 = EGG_GROUP_MINERAL,
         .ability1 = ABILITY_INNER_FOCUS,
-        .ability2 = ABILITY_NONE, //ABILITY_ICE_BODY
+        .ability2 = ABILITY_ICE_BODY,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_MOODY
+    	.hidden_ability = ABILITY_MOODY,
 		.padding = 0,
 	},
 
@@ -7687,12 +7691,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FAIRY,
         .eggGroup2 = EGG_GROUP_MINERAL,
-        .ability1 = ABILITY_NONE,
+        .ability1 = ABILITY_SNOW_CLOAK,
         .ability2 = ABILITY_NONE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_WHITE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_CURSED_BODY,
 		.padding = 0,
 	},
 
@@ -7723,7 +7727,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_MONSTER,
         .ability1 = ABILITY_OWN_TEMPO,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_ICE_BODY,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
@@ -7758,7 +7762,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_MONSTER,
         .ability1 = ABILITY_OWN_TEMPO,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_ICE_BODY,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
@@ -7828,11 +7832,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_MINERAL,
         .eggGroup2 = EGG_GROUP_MINERAL,
         .ability1 = ABILITY_TRACE,
-        .ability2 = ABILITY_NONE, //ABILITY_DOWNLOAD
+        .ability2 = ABILITY_DOWNLOAD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_PINK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_ANALYTIC
+    	.hidden_ability = ABILITY_ANALYTIC,
 		.padding = 0,
 	},
 
@@ -7863,11 +7867,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_MINERAL,
         .eggGroup2 = EGG_GROUP_MINERAL,
         .ability1 = ABILITY_TRACE,
-        .ability2 = ABILITY_NONE, //ABILITY_DOWNLOAD
+        .ability2 = ABILITY_DOWNLOAD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_ANALYTIC
+    	.hidden_ability = ABILITY_ANALYTIC,
 		.padding = 0,
 	},
 
@@ -7897,12 +7901,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_MINERAL,
         .eggGroup2 = EGG_GROUP_MINERAL,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_ADAPTABILITY,
+        .ability2 = ABILITY_DOWNLOAD,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_ANALYTIC,
 		.padding = 0,
 	},
 
@@ -7933,11 +7937,11 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .eggGroup1 = EGG_GROUP_DRAGON,
         .eggGroup2 = EGG_GROUP_MONSTER,
         .ability1 = ABILITY_ROUGH_SKIN,
-        .ability2 = ABILITY_NONE,
+        .ability2 = ABILITY_SHEER_FORCE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_RED,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_MOLD_BREAKER,
 		.padding = 0,
 	},
 
@@ -7967,12 +7971,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_MINERAL,
         .eggGroup2 = EGG_GROUP_MINERAL,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+		.ability1 = ABILITY_IRON_FIST,
+        .ability2 = ABILITY_KLUTZ,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_NO_GUARD,
 		.padding = 0,
 	},
 
@@ -8002,12 +8006,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_MINERAL,
         .eggGroup2 = EGG_GROUP_MINERAL,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_IRON_FIST,
+        .ability2 = ABILITY_KLUTZ,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GREEN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_NO_GUARD,
 		.padding = 0,
 	},
 
@@ -8037,12 +8041,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+		.ability1 = ABILITY_SAND_RUSH,
+        .ability2 = ABILITY_SAND_FORCE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_MOLD_BREAKER,
 		.padding = 0,
 	},
 
@@ -8072,12 +8076,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_SAND_RUSH,
+        .ability2 = ABILITY_SAND_FORCE,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_GRAY,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_MOLD_BREAKER,
 		.padding = 0,
 	},
 
@@ -8112,7 +8116,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_LIGHT_METAL
+    	.hidden_ability = ABILITY_LIGHT_METAL,
 		.padding = 0,
 	},
 
@@ -8147,7 +8151,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_LIGHT_METAL
+    	.hidden_ability = ABILITY_LIGHT_METAL,
 		.padding = 0,
 	},
 
@@ -8182,7 +8186,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLUE,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_LIGHT_METAL
+    	.hidden_ability = ABILITY_LIGHT_METAL,
 		.padding = 0,
 	},
 
@@ -8392,7 +8396,7 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BROWN,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE, //ABILITY_MULTISCALE
+    	.hidden_ability = ABILITY_MULTISCALE,
 		.padding = 0,
 	},
 
@@ -8597,12 +8601,12 @@ const struct PokemonBaseStatNew gBaseStats[POKEAGB_POKEMON_SLOTS] =
         .growthRate = EXP_SLOW,
         .eggGroup1 = EGG_GROUP_UNDISCOVERED,
         .eggGroup2 = EGG_GROUP_UNDISCOVERED,
-        .ability1 = ABILITY_NONE,
-        .ability2 = ABILITY_NONE,
+        .ability1 = ABILITY_BAD_DREAMS,
+        .ability2 = ABILITY_BAD_DREAMS,
         .safariZoneFleeRate = 0,
         .bodyColor = POKEMON_COLOR_BLACK,
         .noFlip = false,
-    	.hidden_ability = ABILITY_NONE,
+    	.hidden_ability = ABILITY_BAD_DREAMS,
 		.padding = 0,
 	},
 };
