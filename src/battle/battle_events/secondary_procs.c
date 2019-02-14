@@ -17,7 +17,7 @@ void event_move_boosts(struct action* current_action)
 {
     u8 bank = current_action->action_bank;
     u16 t_ability = BANK_ABILITY(TARGET_OF(bank));
-    if (abilities[t_ability].a_flags | A_FLAG_OPP_SECONDARIES_PREVENT) {
+    if (HAS_ABILITY_FLAG(t_ability, A_FLAG_OPP_SECONDARIES_PREVENT)) {
         CURRENT_ACTION->event_state++;
         return;
     }
@@ -63,7 +63,7 @@ void event_move_ailments(struct action* current_action)
 {
     u8 bank = current_action->action_bank;
     u16 t_ability = BANK_ABILITY(TARGET_OF(bank));
-    if (abilities[t_ability].a_flags | A_FLAG_OPP_SECONDARIES_PREVENT) {
+    if (HAS_ABILITY_FLAG(t_ability, A_FLAG_OPP_SECONDARIES_PREVENT)) {
         CURRENT_ACTION->event_state++;
         return;
     }

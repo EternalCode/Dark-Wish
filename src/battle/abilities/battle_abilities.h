@@ -64,6 +64,7 @@ extern const pchar ability_names[][17];
 #define A_FLAG_INDIRECT_DMG_PREVENT (1 << 6)
 #define A_FLAG_SECONDARIES_PREVENT (1 << 7)
 #define A_FLAG_OPP_SECONDARIES_PREVENT (1 << 8)
+#define A_FLAG_FORCED_SWITCHING_PREVENT (1 << 9)
 #define HAS_ABILITY_FLAG(ability, flag) (abilities[ability].a_flags & flag)
 
 /* Callback externs */
@@ -235,6 +236,6 @@ extern u8 leaf_guard_on_status(u8 user, u8 src, u16 ailment , struct anonymous_c
 extern enum TryHitMoveStatus leaf_guard_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern u8 ice_body_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern void intimidate_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
-
+extern u8 natural_cure_before_switch(u8 user, u8 source, u16 move, struct anonymous_callback* acb);
 
 #endif /* BATTLE_ABILITIES_TABLE_H_ */

@@ -24,6 +24,7 @@ extern void do_heal(u8 bank_index, u8 percent_heal);
 extern bool bank_trapped(u8 bank);
 extern void event_switch_mid_battle(struct action* current_action);
 extern void clear_other_weather(void);
+extern void silent_cure_major(u8 bank);
 
 /* Note: Illuminate and Honey Gather have no In-Battle effect so they are not present here*/
 
@@ -331,6 +332,12 @@ bool clear_body_variations_on_stat_boost(u8 user, u8 src, u16 move, struct anony
 }
 
 // NATURALCURE
+u8 natural_cure_before_switch(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
+{
+    if (user != src) return true;
+    silent_cure_major(user);
+    return true;
+}
 
 // Lightning Rod
 enum TryHitMoveStatus lightning_rod_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
