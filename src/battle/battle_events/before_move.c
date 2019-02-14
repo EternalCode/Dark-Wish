@@ -48,6 +48,7 @@ void event_before_move(struct action* current_action)
     if (HAS_VOLATILE(ACTION_BANK, VOLATILE_RECHARGING)) {
         CLEAR_VOLATILE(ACTION_BANK, VOLATILE_RECHARGING);
         QueueMessage(0, ACTION_BANK, STRING_MUST_RECHARGE, 0);
+        end_action(current_action);
         return;
     }
     CURRENT_MOVE(ACTION_BANK) = CURRENT_ACTION->move;
