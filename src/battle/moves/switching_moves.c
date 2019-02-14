@@ -39,9 +39,11 @@ bool forced_switch_effect_move(u8 target, u8 user)
 {
     // fail if trapped
     if (HAS_VOLATILE(target, VOLATILE_TRAPPED) || HAS_VOLATILE(target, VOLATILE_INGRAIN) || B_IS_TRAPPED(target))
-        return true;
+        return false;
     // continue faint event if this pokemon fainted, don't do switch logic.
-    if (B_IS_FAINTED(target)) return true;
+    if (B_IS_FAINTED(target)) return false;
+    // suction cups
+    if (BANK_ABILITY(target) == ABILITY_SUCTION_CUPS) return false;
     // end the battle in wild battles if used against wild mon
     switch (battle_type_flag) {
         case BATTLE_MODE_WILD:

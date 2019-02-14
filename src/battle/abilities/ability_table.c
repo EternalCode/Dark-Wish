@@ -121,7 +121,8 @@ struct ability_data abilities[] = {
 		.on_tryhit = wonder_guard_on_tryhit,
 	},
 	{
-		// LEVITATE TODO
+		// Levitate
+		/* Ability effect is added in as a clause to the is_grounded function. See grounded_effect.c */
 	},
 	{
 		// Effect Spore
