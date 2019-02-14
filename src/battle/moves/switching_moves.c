@@ -3,6 +3,7 @@
 #include "../battle_data/pkmn_bank_stats.h"
 #include "../battle_data/battle_state.h"
 #include "../battle_events/battle_events.h"
+#include "../abilities/battle_abilities.h"
 
 extern void dprintf(const char * str, ...);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
@@ -42,8 +43,8 @@ bool forced_switch_effect_move(u8 target, u8 user)
         return false;
     // continue faint event if this pokemon fainted, don't do switch logic.
     if (B_IS_FAINTED(target)) return false;
-    // suction cups
-    if (BANK_ABILITY(target) == ABILITY_SUCTION_CUPS) return false;
+    // ability prevents switching
+    if (HAS_ABILITY_FLAG(BANK_ABILITY(target), A_FLAG_FORCED_SWITCHING_PREVENT)) return false;
     // end the battle in wild battles if used against wild mon
     switch (battle_type_flag) {
         case BATTLE_MODE_WILD:

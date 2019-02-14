@@ -103,7 +103,7 @@ struct ability_data abilities[] = {
 	},
 	{
 		// Suction cups
-		/* Implemented in forced_switch_effect_move */
+		.a_flags = A_FLAG_FORCED_SWITCHING_PREVENT,
 	},
 	{
 		// Intimidate
@@ -137,7 +137,8 @@ struct ability_data abilities[] = {
 		.on_stat_boost_mod = clear_body_variations_on_stat_boost,
 	},
 	{
-		// NATURALCURE TODO
+		// Natural cure
+		.before_switch = natural_cure_before_switch,
 	},
 	{
 		// Lightning Rod
