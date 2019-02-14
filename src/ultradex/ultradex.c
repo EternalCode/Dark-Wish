@@ -7,7 +7,7 @@ extern void BuildGradient(u16 startColor, u16 stopColor);
 extern void BuildGradientPalette(void);
 extern void BuildMosaic(void* charbase, void* mapbase);
 extern void Setup(void);
-extern void C2DexnavGui(void);
+extern void C2SyncAll(void);
 extern void VblankSPQ(void);
 extern void HBlankCBUltraDex(void);
 extern void HBlankCBUltraDexFadeOut(void);
@@ -136,7 +136,7 @@ void UltraDexSetup()
     HideBg(2);
     HideBg(1);
     HideBg(0);
-    SetMainCallback2(C2DexnavGui);
+    SetMainCallback2(C2SyncAll);
     SetVBlankCallback(VblankSPQ);
 }
 

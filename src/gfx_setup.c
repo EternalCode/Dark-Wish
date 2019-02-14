@@ -9,9 +9,9 @@ void VblankSPQ()
 }
 
 
-void C2DexnavGui()
+void C2SyncAll()
 {
-    obj_sync_superstate();
+    BuildOAMBuffer();
     AnimateSprites();
     process_palfade();
     RunTasks();

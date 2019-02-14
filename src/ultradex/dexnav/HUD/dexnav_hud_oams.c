@@ -4,8 +4,8 @@
 #include "../../../../generated/images/dexnav/dexnav_hud/empty.h"
 
 
-const struct Frame (**nullframe)[] = (const struct Frame (**)[])0x8231CF0;
-const struct RotscaleFrame (**nullrsf)[] = (const struct RotscaleFrame (**)[])0x8231CFC;
+extern const struct Frame (**nullframe)[];
+extern const struct RotscaleFrame (**nullrsf)[];
 // 32x64 oam with highest priority
 const struct OamData font_oam = {    .y = ICONY,
                                     .affine_mode = 0,

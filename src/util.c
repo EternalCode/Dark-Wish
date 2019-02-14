@@ -3,7 +3,10 @@
 
 #define TIME_SCALE 19
 #define MINUTES_IN_A_DAY 1140
-extern u8 get_ability(u16 species, u8 abilityIndicator);
+extern u8 SpeciesGetIndexAbility(u16 species, u8 abilityIndicator);
+
+const struct Frame (**nullframe)[] = (const struct Frame (**)[])0x8231CF0;
+const struct RotscaleFrame (**nullrsf)[] = (const struct RotscaleFrame (**)[])0x8231CFC;
 
 void CpuFastSet(void* src, void* dst, u32 mode)
 {
@@ -34,7 +37,7 @@ bool PartyHasAbility(u8 ability)
     for (u8 i = 0; i < gPartyCount; i++) {
         if (pokemon_getattr(&party_player[i], REQUEST_SANITY_X6, NULL)) continue; // egg
         u16 species = pokemon_getattr(&party_player[i], REQUEST_SPECIES, NULL);
-        u8 monAbility = get_ability(species, pokemon_getattr(&party_player[i], REQUEST_ABILITY_BIT, NULL));
+        u8 monAbility = SpeciesGetIndexAbility(species, pokemon_getattr(&party_player[i], REQUEST_ABILITY_BIT, NULL));
         if (monAbility == ability) {
             return true;
         }
@@ -47,7 +50,7 @@ u8 GetPokemonAbility(struct Pokemon* p)
 {
     if (!pokemon_getattr(p, REQUEST_SANITY_X6, NULL)) {
         u16 species = pokemon_getattr(p, REQUEST_SPECIES, NULL);
-        u8 monAbility = get_ability(species, pokemon_getattr(p, REQUEST_ABILITY_BIT, NULL));
+        u8 monAbility = SpeciesGetIndexAbility(species, pokemon_getattr(p, REQUEST_ABILITY_BIT, NULL));
         return monAbility;
     }
     return ABILITY_NONE;

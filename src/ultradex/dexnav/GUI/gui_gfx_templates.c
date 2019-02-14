@@ -60,7 +60,7 @@ const struct OamData icon_oam = {
     .affine_param = 0,
 };
 
-const struct OamData cursor_oam = {
+const struct OamData DnavCursorOAM = {
     .y = 0,
     .affine_mode = 0,
     .obj_mode = 0,

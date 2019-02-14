@@ -1,10 +1,10 @@
 #include <pokeagb/pokeagb.h>
 #include "../pokemon.h"
 
-u8 get_ability(u16 species, u8 ability_index) {
+u8 SpeciesGetIndexAbility(u16 species, u8 abilityIndex) {
     u8 ability = 0;
     //struct PokemonBaseStatNew* bst = (struct PokemonBaseStatNew*)&;
-    switch (ability_index) {
+    switch (abilityIndex) {
         case 0:
             {
             // first

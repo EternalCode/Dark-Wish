@@ -8,9 +8,14 @@
 /* Util general */
 extern u16 rand_range(u16 min, u16 max);
 
+/* Pokemon sprite tables */
+extern struct CompressedSpriteSheet gMonStillFrontPicTable[246];
+extern struct SpritePalette gMonSpritePalTable[246];
+extern struct CompressedSpriteSheet gMonBackPicTable[246];
+
 /* Pokemon data fetching */
 #define TYPES_OF_SPECIES(species) (gBaseStats[species].type1 | (gBaseStats[species].type2 << 8))
-extern u8 get_ability(u16 species, u8 ability_index);
+extern u8 SpeciesGetIndexAbility(u16 species, u8 ability_index);
 extern bool PartyHasAbility(u8 ability);
 extern u8 GetPokemonAbility(struct Pokemon* p);
 extern u8 GetGenderFromSpeciesAndPersonality(u16 species, u32 personality);

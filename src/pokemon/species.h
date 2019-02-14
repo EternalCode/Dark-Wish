@@ -250,4 +250,5 @@ enum PokemonSpecies {
 	SPECIES_DARKRAI = 245,
 	SPECIES_MAX = 246,
 };
+
 #endif /*PKMN_SPECIES_H_*/

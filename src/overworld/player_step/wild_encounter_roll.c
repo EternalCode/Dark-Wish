@@ -87,7 +87,6 @@ bool GenerateWildPokemon(u8 environment, u8 index)
             // index 12
             wildIndex = 11;
         }
-        dprintf("wild index was %d\n", wildIndex);
         species = gWildMonHeaders[index].grass_encounter->wild_encounters->wild_grass[wildIndex].species;
         minLevel = gWildMonHeaders[index].grass_encounter->wild_encounters->wild_grass[wildIndex].min_level;
         maxLevel = gWildMonHeaders[index].grass_encounter->wild_encounters->wild_grass[wildIndex].max_level;
@@ -108,7 +107,6 @@ bool GenerateWildPokemon(u8 environment, u8 index)
             // index 5
             wildIndex = 4;
         }
-        dprintf("wild index was %d\n", wildIndex);
         species = gWildMonHeaders[index].water_encounter->wild_encounters->wild_water[wildIndex].species;
         minLevel = gWildMonHeaders[index].water_encounter->wild_encounters->wild_water[wildIndex].min_level;
         maxLevel = gWildMonHeaders[index].water_encounter->wild_encounters->wild_water[wildIndex].max_level;
@@ -168,11 +166,9 @@ bool GenerateWildPokemon(u8 environment, u8 index)
             }
             break;
     };
-    dprintf("level was picked to be %d\n", level);
     // generate a PID for cute charm
     u32 PID = 0;
     if (ability == ABILITY_CUTE_CHARM) {
-        dprintf("cutecharm manipulation..\n");
         // get gender of current pokemon
         u8 gender = pokemon_get_gender(party_player);
         u8 targetGender = 0;
@@ -187,7 +183,6 @@ bool GenerateWildPokemon(u8 environment, u8 index)
             PID = ((rand() << 16) | rand());
             while (GetGenderFromSpeciesAndPersonality(species, PID) != targetGender) {
                 PID = ((rand() << 16) | rand());
-                dprintf("trying a new PID...\n");
             }
         }
     }
@@ -195,8 +190,7 @@ bool GenerateWildPokemon(u8 environment, u8 index)
     if (PID) {
         pokemon_make_full(party_opponent, species, level, 0xFF, true, PID, false, 0);
     } else {
-        dprintf("species DARKRAI is index %d\n", SPECIES_DARKRAI);
-        pokemon_make_full(party_opponent, var_8000, level, 0xFF, false, 0, false, 0);
+        pokemon_make_full(party_opponent, species, level, 0xFF, false, 0, false, 0);
     }
     return true;
 }
@@ -254,7 +248,7 @@ bool DoWildEncounters(struct MapPosition* playerPos)
 
     if (!pokemon_getattr(party_player, REQUEST_SANITY_X6, NULL)) {
         u16 species = pokemon_getattr(party_player, REQUEST_SPECIES, NULL);
-        u8 monAbility = get_ability(species, pokemon_getattr(party_player, REQUEST_ABILITY_BIT, NULL));
+        u8 monAbility = SpeciesGetIndexAbility(species, pokemon_getattr(party_player, REQUEST_ABILITY_BIT, NULL));
         switch (monAbility) {
             case ABILITY_STENCH:
             case ABILITY_WHITE_SMOKE:
@@ -269,7 +263,6 @@ bool DoWildEncounters(struct MapPosition* playerPos)
                 break;
         };
     }
-    dprintf("base encounter rate is %d\n", baseEncounterRate);
     if (baseEncounterRate > 2880)
         baseEncounterRate = 2880;
     if (DoWildEncounterRateDiceRoll(baseEncounterRate)) {

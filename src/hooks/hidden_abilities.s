@@ -4,7 +4,7 @@
 
  b_copy_species_ability_new_hook:
      push {lr}
-     bl get_ability
+     bl SpeciesGetIndexAbility
      ldr r1, =(0x2023D6A)
      strb r0, [r1]
      pop {pc}
@@ -19,7 +19,7 @@
  atkE5_pickupitemcalculation_hook:
      mov r1, r0
      mov r0, r5
-     bl get_ability
+     bl SpeciesGetIndexAbility
 
  has_pickup:
      ldr r1, =(0x0802CEA2|1)
@@ -34,7 +34,7 @@
  ai_switch_blocking_ability_hook:
      mov r1, r0
      mov r0, r4
-     bl get_ability
+     bl SpeciesGetIndexAbility
      ldr r1, =(0x08039572|1)
      bx r1
 

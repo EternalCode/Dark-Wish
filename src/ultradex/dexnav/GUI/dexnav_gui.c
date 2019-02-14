@@ -4,18 +4,18 @@
 #include "../HUD/dexnav_hud.h"
 #include "../../../pokemon/pokemon.h"
 #include "../../../../generated/images/dexnav/dexnav_gui/dexnav_gui.h"
-#include "../../../../generated/images/dexnav/dexnav_hud/selection_cursor.h"
+#include "../../../../generated/images/dexnav/dexnav_hud/dexnav_selection_cursor.h"
 
 
 #define ICON_PAL_TAG 0xDAC0
 #define ICON_GFX_TAG 0xD75A
-#define SELECTION_CURSOR_TAG 0x200
+#define dexnav_selection_cursor_TAG 0x200
 
 static struct UltraDexState** UltraDexPtr = (struct UltraDexState**)(ULTRADEX_START);
 static struct DexnavHudData** DNavState = (struct DexnavHudData**)(DEXNAV_START);
 static u8* SearchLevels = (u8*)SEARCH_LEVEL_START;
 extern void VblankSPQ(void);
-extern void C2DexnavGui(void);
+extern void C2SyncAll(void);
 extern void Setup(void);
 extern u16 rand_range(u16 min, u16 max);
 
@@ -42,7 +42,7 @@ void dexnav_gui_setup() {
     CpuFastSet((void*)&set, (void*)ADDR_VRAM, CPUModeFS(0x10000, CPUFSSET));
     HideBg(1);
     HideBg(0);
-    SetMainCallback2(C2DexnavGui);
+    SetMainCallback2(C2SyncAll);
     SetVBlankCallback(VblankSPQ);
 }
 
@@ -113,10 +113,10 @@ void update_cursor_position() {
         gSprites[(*DNavState)->cursor_id].pos1.y = cursor_positions1[(*DNavState)->selected_index + 1];
     }
 }
-void spawn_pointer_arrow() {
-    struct CompressedSpriteSheet cursor_gfx = {(void*)selection_cursorTiles, 32 * 32, SELECTION_CURSOR_TAG};
-    struct SpritePalette cursor_pal = {(void*)selection_cursorPal, SELECTION_CURSOR_TAG};
-    struct Template cursor_temp = {SELECTION_CURSOR_TAG, SELECTION_CURSOR_TAG, &cursor_oam,
+void DnavSpawnPointerArrow() {
+    struct CompressedSpriteSheet cursor_gfx = {(void*)dexnav_selection_cursorTiles, 32 * 32, dexnav_selection_cursor_TAG};
+    struct SpritePalette cursor_pal = {(void*)dexnav_selection_cursorPal, dexnav_selection_cursor_TAG};
+    struct Template cursor_temp = {dexnav_selection_cursor_TAG, dexnav_selection_cursor_TAG, &DnavCursorOAM,
                                     (const struct Frame (**)[])0x8231CF0, &cursor_gfx,
                                     (const struct RotscaleFrame (**)[])0x8231CFC, (SpriteCallback)oac_nullsub};
 
@@ -287,7 +287,7 @@ void DexnavGuiHandler() {
             ShowBg(0);
             ShowBg(1);
             dexnav_load_pokemon_icons();
-            spawn_pointer_arrow();
+            DnavSpawnPointerArrow();
             (*DNavState)->selected_arr = 0;
             (*DNavState)->selected_index = 0;
             gMain.state++;

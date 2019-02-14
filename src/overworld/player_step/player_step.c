@@ -44,7 +44,6 @@ bool AttemptEggHatching()
         struct Pokemon *p = &party_player[i];
         if (!pokemon_getattr(p, REQUEST_IS_EGG, NULL)) continue;
         if (pokemon_getattr(p, REQUEST_SANITY_X4, NULL)) continue;
-        dprintf("egg in party\n");
         u16 happiness = pokemon_getattr(p, REQUEST_HAPPINESS, NULL);
         u8 amount = 0;
         // check party for flamebody or magma armor
@@ -54,7 +53,6 @@ bool AttemptEggHatching()
             amount = 1;
         }
         happiness = (amount > happiness) ? happiness : happiness - amount;
-        dprintf("current happiness is %d\n", happiness);
         pokemon_setattr(p, REQUEST_HAPPINESS, &happiness);
         if (happiness == 0) {
             // hatch egg script
