@@ -102,7 +102,8 @@ struct ability_data abilities[] = {
 		.on_status = own_tempo_on_status,
 	},
 	{
-		// SUCTIONCUPS
+		// Suction cups
+		/* Implemented in forced_switch_effect_move */
 	},
 	{
 		// Intimidate
@@ -120,7 +121,7 @@ struct ability_data abilities[] = {
 		.on_tryhit = wonder_guard_on_tryhit,
 	},
 	{
-		// LEVITATE
+		// LEVITATE TODO
 	},
 	{
 		// Effect Spore
@@ -135,7 +136,7 @@ struct ability_data abilities[] = {
 		.on_stat_boost_mod = clear_body_variations_on_stat_boost,
 	},
 	{
-		// NATURALCURE
+		// NATURALCURE TODO
 	},
 	{
 		// Lightning Rod
@@ -155,10 +156,10 @@ struct ability_data abilities[] = {
 	},
 	{
 		// Illuminate
-		/* Note: This Ability has not in battle effect */
+		/* Note: This Ability doesn't have an in battle effect */
 	},
 	{
-		// TRACE
+		// TRACE TODO
 	},
 	{
 		// Huge Power
@@ -181,7 +182,7 @@ struct ability_data abilities[] = {
 		.on_status = waterveil_on_status,
 	},
 	{
-		// MAGNETPULL
+		// MAGNETPULL TODO
 	},
 	{
 		// Soundproof
@@ -212,7 +213,7 @@ struct ability_data abilities[] = {
 		.on_effect = flamebody_on_effect,
 	},
 	{
-		// RUNAWAY
+		// RUNAWAY TODO
 	},
 	{
 		// Keen Eye
@@ -224,7 +225,7 @@ struct ability_data abilities[] = {
 		.on_stat_boost_mod = hyper_cutter_on_stat_boost,
 	},
 	{
-		// PICKUP
+		// PICKUP TODO
 	},
 	{
 		// TRUANT
@@ -250,7 +251,7 @@ struct ability_data abilities[] = {
 		// FORECAST
 	},
 	{
-		// STICKYHOLD
+		// STICKYHOLD TODO
 	},
 	{
 		// Shed Skin
@@ -293,7 +294,7 @@ struct ability_data abilities[] = {
 		.on_start = drought_on_start,
 	},
 	{
-		// ARENATRAP
+		// ARENATRAP TODO
 	},
 	{
 		// Vital Spirit
@@ -338,14 +339,14 @@ struct ability_data abilities[] = {
 		.a_flags = A_FLAG_HAIL_DMG_PREVENT,
 	},
 	{
-		// GLUTTONY
+		// GLUTTONY TODO
 	},
 	{
 		// Anger Point
 		.on_effect = angerpoint_on_effect,
 	},
 	{
-		// UNBURDEN
+		// UNBURDEN TODO
 	},
 	{
 		// Heatproof
@@ -424,10 +425,10 @@ struct ability_data abilities[] = {
 
 	},
 	{
-		// KLUTZ
+		// KLUTZ TODO
 	},
 	{
-		// MOLDBREAKER
+		// MOLDBREAKER TODO
 	},
 	{
 		// SUPERLUCK
@@ -438,13 +439,13 @@ struct ability_data abilities[] = {
 		.on_effect = aftermath_on_effect,
 	},
 	{
-		// ANTICIPATION
+		// ANTICIPATION TODO
 	},
 	{
 		// FOREWARN
 	},
 	{
-		// UNAWARE
+		// UNAWARE TODO
 	},
 	{
 		// Tinted Lens
@@ -481,10 +482,10 @@ struct ability_data abilities[] = {
 	},
 	{
 		// Honey Gather
-		/* Note: This Ability has not in battle effect */
+		/* Note: This Ability doesn't have an in battle effect */
 	},
 	{
-		// FRISK
+		// FRISK TODO
 	},
 	{
 		// Reckless
@@ -514,7 +515,7 @@ struct ability_data abilities[] = {
 		.on_stat_boost_mod = contrary_on_stat_boost_mod,
 	},
 	{
-		// UNNERVE
+		// UNNERVE TODO
 	},
 	{
 		// Defiant
@@ -544,7 +545,7 @@ struct ability_data abilities[] = {
 		// HEAVYMETAL
 	},
 	{
-		// LIGHTMETAL
+		// LIGHTMETAL TODO
 	},
 	{
 		// Multi-scale
@@ -559,7 +560,7 @@ struct ability_data abilities[] = {
 		.on_base_power = flare_boost_on_base_power,
 	},
 	{
-		// HARVEST
+		// HARVEST TODO
 	},
 	{
 		// telepathy
@@ -579,7 +580,7 @@ struct ability_data abilities[] = {
 		.on_effect = poison_touch_on_effect,
 	},
 	{
-		// REGENERATOR
+		// REGENERATOR TODO
 	},
 	{
 		// Big Pecks
@@ -591,7 +592,7 @@ struct ability_data abilities[] = {
 		.a_flags = A_FLAG_SANDSTORM_DMG_PREVENT,
 	},
 	{
-		// WONDERSKIN
+		// WONDERSKIN TODO
 	},
 	{
 		// Analytic
@@ -667,7 +668,7 @@ struct ability_data abilities[] = {
 		.on_status = flower_veil_on_status,
 	},
 	{
-		// CHEEKPOUCH
+		// CHEEKPOUCH TODO
 	},
 	{
 		// PROTEAN
@@ -700,7 +701,7 @@ struct ability_data abilities[] = {
 		.on_status = sweet_veil_on_status,
 	},
 	{
-		// STANCECHANGE
+		// STANCE CHANGE TODO
 	},
 	{
 		// Gale Wings
@@ -772,10 +773,10 @@ struct ability_data abilities[] = {
 		// SHIELDSDOWN
 	},
 	{
-		// STAKEOUT
+		// STAKEOUT TODO
 	},
 	{
-		// WATERBUBBLE
+		// water bubble
 		.on_stat = water_bubble_on_stat,
 		.on_status = water_bubble_on_status,
 	},
@@ -793,7 +794,7 @@ struct ability_data abilities[] = {
 		.a_flags = A_FLAG_HAIL_DMG_PREVENT,
 	},
 	{
-		// LONGREACH
+		// long reach
 		.on_modify_move = long_reach_on_modify_move,
 	},
 	{
@@ -808,7 +809,7 @@ struct ability_data abilities[] = {
 		.before_turn = galvanize_before_turn,
 	},
 	{
-		// SURGESURFER
+		// surge surfer
 		.on_stat = surge_surfer_on_stat,
 	},
 	{
@@ -828,7 +829,7 @@ struct ability_data abilities[] = {
 		/* Implemented in on_status.c*/
 	},
 	{
-		// COMATOSE
+		// Comatose
 		.on_status = comatose_on_status,
 	},
 	{
