@@ -65,7 +65,7 @@ extern u16 stage_modify_stat(u16 stat, s8 mod, u8 id, u8 bank);
  */
 #define B_ATTACK_STAT_UMOD(bank) (gPkmnBank[bank]->battleData.attack_raw)
 #define B_DEFENSE_STAT_UMOD(bank) (gPkmnBank[bank]->battleData.defense_raw)
-#define B_SPEED_STAT_UMOD(bank) (gPkmnBank[bank]->battleData.speed_raw)
+#define B_SPEED_STAT_RAW(bank) (gPkmnBank[bank]->battleData.speed_raw)
 #define B_SPATTACK_STAT_UMOD(bank) (gPkmnBank[bank]->battleData.sp_atk_raw)
 #define B_SPDEFENSE_STAT_UMOD(bank) (gPkmnBank[bank]->battleData.sp_def_raw)
 

@@ -71,6 +71,7 @@ void run_after_switch(u8 attacker)
 
 void event_on_start(struct action* current_action)
 {
+    dprintf("event on start running for bank %d\n", current_action->action_bank);
     for (u8 i = 0; i < BANK_MAX; i++) {
         if (ACTIVE_BANK(i)) {
             u8 ability = gPkmnBank[i]->battleData.ability;
@@ -127,14 +128,14 @@ void event_pre_switch(struct action* current_action)
 bool can_flee_by_random(u8 bank)
 {
     // TODO: How does the flee formula change in doubles?
-    gPkmnBank[bank]->battleData.flee_count++;
+    gPkmnBank[bank]->battleData.EscapeAttempts++;
 
-    u16 reference = B_SPEED_STAT_UMOD(bank) * 128;
-    reference /= B_SPEED_STAT_UMOD((bank ? 0 : 2));
-    reference += (30 * gPkmnBank[bank]->battleData.flee_count);
-    reference = reference & 0xFF;
+    u16 reference = B_SPEED_STAT_RAW(bank) << 7; // * 128
+    reference /= MAX(B_SPEED_STAT_RAW((bank ? 0 : 2)), 1);
+    reference += (30 * gPkmnBank[bank]->battleData.EscapeAttempts);
+    reference = reference % 256;
 
-    u16 random = RandRange(0,255);
+    u16 random = rand() & 0xFF;
     return random < reference;
 }
 

@@ -2073,8 +2073,8 @@ void beast_boost_on_faint(u8 user, u8 src, u16 move, struct anonymous_callback* 
         highest = B_DEFENSE_STAT_UMOD(src);
         mod = DEFENSE_MOD;
     }
-    if (B_SPEED_STAT_UMOD(src) > highest) {
-        highest = B_SPEED_STAT_UMOD(src);
+    if (B_SPEED_STAT_RAW(src) > highest) {
+        highest = B_SPEED_STAT_RAW(src);
         mod = SPEED_MOD;
     }
     if (B_SPATTACK_STAT_UMOD(src) > highest) {

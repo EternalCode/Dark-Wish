@@ -191,7 +191,7 @@ struct local_battler_data {
     u32 v_status; // enum volatile status
     u32 v_status2; // continue of above
     // counters
-    u8 flee_count;
+    u8 EscapeAttempts;
     u8 perish_song_counter;
     u8 fury_cutter_counter;
 };
