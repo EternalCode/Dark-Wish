@@ -2,9 +2,12 @@
 #include "../battle_data/pkmn_bank.h"
 #include "../battle_data/pkmn_bank_stats.h"
 #include "../battle_data/battle_state.h"
+#include "../abilities/battle_abilities.h"
+#include "../battle_events/battle_events.h"
 #include "../battle_text/battle_textbox_gfx.h"
 
 extern void validate_player_selected_move(void);
+extern void battle_loop(void);
 extern void VblankSPQ(void);
 extern void VblankMergeMoveSelect(void);
 extern void VblankMergeTextBox(void);
@@ -22,6 +25,8 @@ extern void CpuFastSet(void* src, void* dst, u32 mode);
 extern void SyncBankToParty(u8 bank);
 extern void TaskBackspriteBob(u8 task_id);
 extern void return_to_battle_bag(void);
+extern bool bank_trapped(u8 bank);
+extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 
 void (*sub_8107ECC)(u8, u8, MainCallback) = 0x8107DB5;
 
@@ -176,8 +181,32 @@ void BankSelectOption2()
         case RunOptionSelected:
         {
             // RUN selected from fight menu
-            gPkmnBank[SELECTING_BANK]->battleData.isRunning = true;
-            gMain.state = MoveSelectedExit;
+            // Check if Pokemon is trapped
+            if (!bank_trapped(SELECTING_BANK)) {
+                gPkmnBank[SELECTING_BANK]->battleData.isRunning = true;
+                gMain.state = MoveSelectedExit;
+            } else {
+                ACTION_HEAD = add_action(0xFF, 0xFF, ActionHighPriority, EventEndAction);
+                CURRENT_ACTION = ACTION_HEAD;
+                // run trap override for running bank
+                if (abilities[BANK_ABILITY(SELECTING_BANK)].on_trap_override) {
+                    if (abilities[BANK_ABILITY(SELECTING_BANK)].on_trap_override(SELECTING_BANK, SELECTING_BANK, AttemptFlee)) {
+                        // run silently, on trap override needs to create it's own message
+                        free_unused_objs();
+                        SetVBlankCallback((MainCallback)VblankMergeTextBox);
+                        SetMainCallback(battle_loop);
+                        gBattleMaster->fight_menu_content_spawned  = 0;
+                        gMain.state = 0;
+                        return;
+                    }
+                }
+                free_unused_objs();
+                QueueMessage(MOVE_NONE, SELECTING_BANK, STRING_TRAPPED_RUN, 0);
+                SetVBlankCallback((MainCallback)VblankMergeTextBox);
+                SetMainCallback(battle_loop);
+                gBattleMaster->fight_menu_content_spawned  = 0;
+                gMain.state = 0;
+            }
             break;
         }
         case MenuWaitState:

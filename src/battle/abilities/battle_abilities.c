@@ -609,7 +609,18 @@ u8 flamebody_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb
 	return true;
 }
 
-// RUNAWAY
+// Run away
+bool run_away_on_override_trap(u8 affectedMon, u8 user, u8 trapType)
+{
+    if (affectedMon == user) {
+        QueueMessage(MOVE_NONE, affectedMon, STRING_RUN_AWAY, ABILITY_RUN_AWAY);
+        prepend_action(ACTION_BANK, ACTION_BANK, ActionHighPriority, EventEndBattle);
+        end_action(CURRENT_ACTION);
+        return true;
+    }
+    return false;
+
+}
 
 // Keen Eye
 bool keen_eye_on_stat_boost(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
@@ -814,6 +825,26 @@ void drought_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 }
 
 // ARENATRAP
+bool arena_trap_on_trap(u8 affectedMon, u8 user, u8 trapType)
+{
+    // don't trap self or allies
+    if (SIDE_OF(affectedMon) == SIDE_OF(user)) return false;
+    // only works on grounded pokemon
+    if (!is_grounded(affectedMon)) return false;
+    switch (trapType) {
+        case AttemptSwitch:
+            // TODO: Shed shell immunity, if that's in the game
+            return true;
+        case AttemptForceSwitch:
+        case AttemptMoveSwitch:
+            return false; // unaffected by arena trap
+        case AttemptFlee:
+            if (BANK_ABILITY(affectedMon) == ABILITY_RUN_AWAY) return false;
+            // TODO: Check smokeball
+            return true;
+    };
+    return false;
+}
 
 // Vital Spirit
 u8 vitalspirit_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* acb)

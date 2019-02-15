@@ -28,6 +28,7 @@ typedef u16 (*AbilityOnEffectiveness)(u8 target_type, u8 src, u16 move_type, str
 typedef void(*AbilityOnFaintCallback)(u8 user, u8 source, u16 stat_id, struct anonymous_callback* acb);
 typedef void(*AbilityOnFlinchCallback)(u8 user, u8 source, u16 move, struct anonymous_callback* acb);
 typedef bool(*AbilityOnTrapCallback)(u8 user, u8 source, u8 trapType);
+typedef bool(*AbilityOnOverrideTrapCallback)(u8 user, u8 source, u8 trapType);
 
 struct ability_data {
     AbilityBeforeTurn before_turn;
@@ -51,6 +52,7 @@ struct ability_data {
     AbilityOnFaintCallback on_faint;
     AbilityOnFlinchCallback on_flinch;
     AbilityOnTrapCallback on_trap;
+    AbilityOnOverrideTrapCallback on_trap_override;
     u32 a_flags;
 };
 
@@ -241,5 +243,7 @@ extern void intimidate_on_start(u8 user, u8 src, u16 move, struct anonymous_call
 extern u8 natural_cure_before_switch(u8 user, u8 source, u16 move, struct anonymous_callback* acb);
 extern void trace_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern bool magnetpull_on_trap(u8 user, u8 affectedMon, u8 trapType);
+extern bool arena_trap_on_trap(u8 user, u8 affectedMon, u8 trapType);
+extern bool run_away_on_override_trap(u8 affectedMon, u8 user, u8 trapType);
 
 #endif /* BATTLE_ABILITIES_TABLE_H_ */

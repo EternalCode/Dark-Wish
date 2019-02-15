@@ -173,7 +173,7 @@ struct ability_data abilities[] = {
 		.on_effect = poisonpoint_on_effect,
 	},
 	{
-		// INNERFOCUS
+		// Inner Focus
 		.on_modify_move = inner_focus_on_modify_move,
 	},
 	{
@@ -201,15 +201,15 @@ struct ability_data abilities[] = {
 		.on_start = sandstream_on_start,
 	},
 	{
-		// PRESSURE
+		// Pressure
 		.on_effect = pressure_on_effect,
 	},
 	{
-		// THICKFAT
+		// Thick fat
 		.before_move = thick_fat_before_move,
 	},
 	{
-		// EARLYBIRD
+		// Early bird
 		.on_residual = early_bird_on_residual,
 	},
 	{
@@ -217,7 +217,8 @@ struct ability_data abilities[] = {
 		.on_effect = flamebody_on_effect,
 	},
 	{
-		// RUNAWAY TODO
+		// Run away
+		.on_trap_override = run_away_on_override_trap,
 	},
 	{
 		// Keen Eye
@@ -298,7 +299,8 @@ struct ability_data abilities[] = {
 		.on_start = drought_on_start,
 	},
 	{
-		// ARENATRAP TODO
+		// Arena trap
+		.on_trap = arena_trap_on_trap,
 	},
 	{
 		// Vital Spirit

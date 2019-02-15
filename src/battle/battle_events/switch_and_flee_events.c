@@ -14,7 +14,7 @@ extern u16 RandRange(u16 min, u16 max);
 extern void pkmn_recall_animation(void);
 extern void SyncBankToParty(u8 bank);
 
-bool bank_trapped(u8 bank)
+bool bank_trapped(u8 bank) //switch
 {
     dprintf("checking if bank %d is trapped\n", bank);
     if (BankMonHasType(bank, TYPE_GHOST))
@@ -138,6 +138,28 @@ void event_pre_switch(struct action* current_action)
 
 
 /* Event flee related */
+
+bool bank_trapped_run(u8 bank) //run
+{
+    dprintf("checking if bank %d is trapped running\n", bank);
+    if (BankMonHasType(bank, TYPE_GHOST))
+        return false;
+    if (HAS_VOLATILE(bank, VOLATILE_TRAPPED) || HAS_VOLATILE(bank, VOLATILE_INGRAIN)) {
+        return true;
+    }
+    for (u8 i = 0; i < BANK_MAX; i++) {
+        if (ACTIVE_BANK(i)) {
+            u8 ability = BANK_ABILITY(i);
+            if (abilities[ability].on_trap) {
+                if (abilities[ability].on_trap(bank, i, AttemptFlee)) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 bool can_flee_by_random(u8 bank)
 {
     // TODO: How does the flee formula change in doubles?
@@ -155,6 +177,14 @@ bool can_flee_by_random(u8 bank)
 
 void event_run_flee(struct action* current_action)
 {
+    // if it's opponent trying to run, always have success - AI shouldn't try to run if trapped.
+    if (SIDE_OF(ACTION_BANK) != SIDE_PLAYER) {
+        // pokemon fled
+        QueueMessage(MOVE_NONE, ACTION_BANK, STRING_FLEE, 0);
+        prepend_action(ACTION_BANK, ACTION_BANK, ActionHighPriority, EventEndBattle);
+        end_action(current_action);
+        return;
+    }
     if (!can_flee_by_random(ACTION_BANK)) {
         // we cannot flee because we failed the dice roll
         dprintf("failed to run\n");
