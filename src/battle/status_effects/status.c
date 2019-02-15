@@ -314,35 +314,55 @@ void effect_cure_on_inflict(u8 bank)
 	QueueMessage(0, bank, STRING_AILMENT_CURED, 0);
 }
 
-
-void AilmentCallbackInitExisting(u8 bank)
+u8 BankAilmentToPKMN(u8 bank)
 {
-	PKMNAilmentToBank(bank, pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, NULL));
-	switch (gPkmnBank[bank]->battleData.status) {
-		case AILMENT_BURN:
-			AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)burn_on_residual);
-			break;
-		case AILMENT_SLEEP:
-			AddCallback(CB_ON_RESIDUAL, 3, 3, bank, (u32)sleep_on_residual);
-			AddCallback(CB_ON_BEFORE_MOVE, 3, 3, bank, (u32)sleep_on_before_move);
-			break;
-		case AILMENT_POISON:
-			AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)poison_on_residual);
-			break;
-		case AILMENT_BAD_POISON:
-			AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)toxic_on_residual);
-			break;
-		case AILMENT_FREEZE:
-			AddCallback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)freeze_on_before_move);
-			break;
-		case AILMENT_PARALYZE:
-			AddCallback(CB_ON_STAT_MOD, 0, CB_PERMA, NULL, (u32)paralyze_on_mod_stat);
-			AddCallback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)paralyze_on_before_move);
-			break;
-		default:
-			return;
-	};
+    switch(gPkmnBank[bank]->battleData.status)
+    {
+        case AILMENT_SLEEP:
+            return gPkmnBank[bank]->battleData.status_turns;
+        case AILMENT_POISON:
+            return 1<<3;
+        case AILMENT_BURN:
+            return 1<<4;
+        case AILMENT_FREEZE:
+            return 1<<5;
+        case AILMENT_PARALYZE:
+            return 1<<6;
+        case AILMENT_BAD_POISON:
+            return 1<<7;
+        default:
+            return 0;
+    }
 }
+
+void PKMNAilmentToBank(u8 bank, u8 ailment)
+{
+	dprintf("pokemon ailment to bank %d\n", bank);
+    if ((ailment & 7) > 0) {
+        gPkmnBank[bank]->battleData.status = AILMENT_SLEEP;
+        gPkmnBank[bank]->battleData.status_turns = ailment & 7;
+		AddCallback(CB_ON_RESIDUAL, 3, 3, bank, (u32)sleep_on_residual);
+		AddCallback(CB_ON_BEFORE_MOVE, 3, 3, bank, (u32)sleep_on_before_move);
+    } else if (ailment & (1<<3)) {
+        gPkmnBank[bank]->battleData.status = AILMENT_POISON;
+		AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)poison_on_residual);
+    } else if (ailment & (1<<4)) {
+		dprintf("pokemon has a burn\n");
+        gPkmnBank[bank]->battleData.status = AILMENT_BURN;
+		AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)burn_on_residual);
+    } else if (ailment & (1<<5)) {
+        gPkmnBank[bank]->battleData.status = AILMENT_FREEZE;
+		AddCallback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)freeze_on_before_move);
+    } else if (ailment & (1<<6)) {
+        gPkmnBank[bank]->battleData.status = AILMENT_PARALYZE;
+		AddCallback(CB_ON_STAT_MOD, 0, CB_PERMA, NULL, (u32)paralyze_on_mod_stat);
+		AddCallback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)paralyze_on_before_move);
+    } else if (ailment & (1<<7)) {
+        gPkmnBank[bank]->battleData.status = AILMENT_BAD_POISON;
+		AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)toxic_on_residual);
+	}
+}
+
 
 
 

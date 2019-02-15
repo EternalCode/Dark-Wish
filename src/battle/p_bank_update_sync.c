@@ -9,7 +9,6 @@ extern u8 PokemonGetAbility(struct Pokemon* p);
 extern void ShowStatusAilmentGraphic(u8 bank, enum Effect status);
 extern const u8 gPlayerAbility;
 extern const u8 gOpponentAbility;
-extern void AilmentCallbackInitExisting(u8 bank);
 extern const bool USE_TESTS;
 
 void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
@@ -71,7 +70,7 @@ void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
     gPkmnBank[bank]->battleData.sp_def_iv = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_SPDEF_IV, NULL);
     gPkmnBank[bank]->battleData.will_move = true;
 
-    // status ailment
+    // stat boosts clear
     if (!flags->pass_stats) {
         gPkmnBank[bank]->battleData.attack = 0;
         gPkmnBank[bank]->battleData.defense = 0;
@@ -90,6 +89,7 @@ void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
     gPkmnBank[bank]->battleData.skip_move_select = 0;
     gPkmnBank[bank]->battleData.first_turn = 1;
 
+    // attack history clear
     if (!flags->pass_atk_history) {
         gPkmnBank[bank]->battleData.my_target = 0xFF;
         gPkmnBank[bank]->battleData.last_move = 0;
@@ -100,6 +100,7 @@ void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
         gPkmnBank[bank]->battleData.ate_berry = 0;
     }
 
+    // volatile status clear
     if (!flags->pass_status) {
         gPkmnBank[bank]->battleData.status = 0;
         gPkmnBank[bank]->battleData.confusion_turns = 0;
@@ -108,16 +109,14 @@ void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
         gPkmnBank[bank]->battleData.v_status = 0;
         gPkmnBank[bank]->battleData.v_status2 = 0;
         gPkmnBank[bank]->battleData.is_grounded = 0;
-    } else {
-        PKMNAilmentToBank(bank, pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, NULL));
-        AilmentCallbackInitExisting(bank);
-        ShowStatusAilmentGraphic(bank, gPkmnBank[bank]->battleData.status);
     }
-
+    
     if (!flags->pass_disables) {
 
     }
 
+    PKMNAilmentToBank(bank, pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, NULL));
+    ShowStatusAilmentGraphic(bank, gPkmnBank[bank]->battleData.status);
     gPkmnBank[bank]->battleData.illusion = 0;
     gPkmnBank[bank]->battleData.fainted = 0;
 
