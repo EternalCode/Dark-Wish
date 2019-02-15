@@ -590,7 +590,8 @@ struct ability_data abilities[] = {
 		.on_effect = poison_touch_on_effect,
 	},
 	{
-		// REGENERATOR TODO
+		// Regenerator
+		.before_switch = regenerator_before_switch,
 	},
 	{
 		// Big Pecks

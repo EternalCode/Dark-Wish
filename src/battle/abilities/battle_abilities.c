@@ -339,7 +339,7 @@ bool clear_body_variations_on_stat_boost(u8 user, u8 src, u16 move, struct anony
     return ((CURRENT_ACTION->action_bank == user) || (CURRENT_ACTION->priv[1] > 0));
 }
 
-// NATURALCURE
+// Natural Cure
 u8 natural_cure_before_switch(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
@@ -1581,7 +1581,17 @@ u8 poison_touch_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* 
 	return true;
 }
 
-// REGENERATOR
+// Regenerator
+u8 regenerator_before_switch(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
+{
+    if (user != src) return true;
+    if (TOTAL_HP(user) != B_CURRENT_HP(user)) {
+        // calc HP to give
+        u16 toGive = MIN(PERCENT(TOTAL_HP(user), 33), TOTAL_HP(user) - B_CURRENT_HP(user));
+        B_CURRENT_HP(user) += toGive;
+    }
+    return true;
+}
 
 // Big Pecks
 bool big_pecks_on_stat_boost(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
