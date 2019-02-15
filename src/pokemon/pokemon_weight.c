@@ -1,4 +1,6 @@
-const u8 gPokemonWeight[] =
+#include <pokeagb/pokeagb.h>
+
+const u16 gPokemonWeight[] =
 {
 	// question
 	0,

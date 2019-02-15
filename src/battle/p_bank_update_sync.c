@@ -20,7 +20,7 @@ void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
     gPkmnBank[bank]->battleData.name[11] = 0xFF;
     gPkmnBank[bank]->battleData.is_active_bank = true;
 
-    gPkmnBank[bank]->battleData.weight = pokemon_get_weight(species_to_pokedex_index(species), 1) / 10;
+    gPkmnBank[bank]->battleData.weight = gPokemonWeight[species] / 10;
     gPkmnBank[bank]->battleData.species = species;
     gPkmnBank[bank]->battleData.gender = pokemon_get_gender(gPkmnBank[bank]->this_pkmn);
     gPkmnBank[bank]->battleData.current_hp = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_CURRENT_HP, NULL);;
@@ -45,7 +45,6 @@ void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
     if (gPkmnBank[bank]->battleData.type[1] == gPkmnBank[bank]->battleData.type[0])
             gPkmnBank[bank]->battleData.type[1] = TYPE_NONE;
     gPkmnBank[bank]->battleData.type[2] = TYPE_NONE;
-    dprintf("Pokemon at bank %d has types: %d and %d and %d\n", bank,gPkmnBank[bank]->battleData.type[0], gPkmnBank[bank]->battleData.type[1], gPkmnBank[bank]->battleData.type[2]);
 
     // pp and moves
     for (u8 i = 0; i < 4; i++) {
