@@ -161,7 +161,8 @@ struct ability_data abilities[] = {
 		/* Note: This Ability doesn't have an in battle effect */
 	},
 	{
-		// TRACE TODO
+		// Trace
+		.on_start = trace_on_start,
 	},
 	{
 		// Huge Power

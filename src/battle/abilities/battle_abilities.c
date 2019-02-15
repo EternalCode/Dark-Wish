@@ -264,8 +264,15 @@ u8 own_tempo_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback*
 // Intimidate
 void intimidate_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if (user == src) return;
-    stat_boost(user, ATTACK_MOD, -1, src);
+    if (user != src) return;
+    // stat drop every bank not on side
+    if (SIDE_OF(user) == PLAYER_SIDE) {
+        stat_boost(OPPONENT_SINGLES_BANK, ATTACK_MOD, -1, src);
+        stat_boost(OPPONENT_DOUBLES_BANK, ATTACK_MOD, -1, src);
+    } else {
+        stat_boost(PLAYER_SINGLES_BANK, ATTACK_MOD, -1, src);
+        stat_boost(PLAYER_DOUBLES_BANK, ATTACK_MOD, -1, src);
+    }
 }
 
 // SHADOWTAG
@@ -389,7 +396,56 @@ u16 chlorophyll_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback*
 }
 
 
-// TRACE
+// Trace
+const u8 trace_abilities_ban_list[] = {
+    ABILITY_NONE, ABILITY_TRACE, ABILITY_STANCE_CHANGE, ABILITY_RECEIVER, ABILITY_COMATOSE,
+};
+
+bool trace_can_copy(u8 ability)
+{
+    for (u8 i = 0; i < sizeof(trace_abilities_ban_list); i++) {
+        if (trace_abilities_ban_list[i] == ability)
+            return false;
+    }
+    return true;
+}
+
+void trace_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
+{
+    dprintf("user is %d and src is %d\n", user, src);
+    if (user != src) return;
+    dprintf("RUNNING TRACE\n");
+    u8 copyingBank;
+    if (SIDE_OF(user) == PLAYER_SIDE)
+        copyingBank = OPPONENT_SINGLES_BANK;
+    else
+        copyingBank = PLAYER_SINGLES_BANK;
+    // make a pool of copyable abilities
+    u8 copyableAbilities[2] = {ABILITY_NONE, ABILITY_NONE};
+    u8 selectedAbility = ABILITY_NONE;
+    if (ACTIVE_BANK(copyingBank) && trace_can_copy(BANK_ABILITY(copyingBank)))
+        copyableAbilities[0] = BANK_ABILITY(copyingBank);
+    if (ACTIVE_BANK(copyingBank + 1) && trace_can_copy(BANK_ABILITY(copyingBank + 1)))
+        copyableAbilities[1] = BANK_ABILITY(copyingBank + 1);
+
+    // pick one of the selected abilities
+    if (copyableAbilities[0] == ABILITY_NONE && copyableAbilities[1] == ABILITY_NONE) {
+        dprintf("Nothing to trace\n");
+        return;
+    } else if (copyableAbilities[0] != ABILITY_NONE && copyableAbilities[1] == ABILITY_NONE) {
+        selectedAbility = copyableAbilities[0];
+    } else if (copyableAbilities[0] == ABILITY_NONE && copyableAbilities[1] != ABILITY_NONE) {
+        selectedAbility = copyableAbilities[1];
+    } else {
+        selectedAbility = (rand() % 2) ? copyableAbilities[0] : copyableAbilities[1];
+    }
+    // set ability
+    QueueMessage(NULL, user, STRING_TRACE_ABILITY, selectedAbility);
+    BANK_ABILITY(user) = selectedAbility;
+    // if trace copied another ability, that has on_start, that ability must resolve
+    if (abilities[selectedAbility].on_start)
+        abilities[selectedAbility].on_start(user, src, move, acb);
+}
 
 // Huge Power, Pure Power
 u16 huge_power_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
@@ -468,6 +524,7 @@ void sandstream_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* a
     if (HAS_VOLATILE(VOLATILE_SANDSTREAM, src)) return;
     ADD_VOLATILE(VOLATILE_SANDSTREAM, src);
     if (gBattleMaster->field_state.is_sandstorm) return;
+    dprintf("bank %d sandstream\n", user);
     set_weather(WEATHER_SANDSTORM);
 }
 

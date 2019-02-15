@@ -237,5 +237,7 @@ extern enum TryHitMoveStatus leaf_guard_on_tryhit(u8 user, u8 src, u16 move, str
 extern u8 ice_body_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern void intimidate_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern u8 natural_cure_before_switch(u8 user, u8 source, u16 move, struct anonymous_callback* acb);
+extern void trace_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
+
 
 #endif /* BATTLE_ABILITIES_TABLE_H_ */

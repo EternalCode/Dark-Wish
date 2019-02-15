@@ -5,7 +5,7 @@
 #include "../pokemon/pokemon.h"
 
 // Switch
-const static bool USE_TESTS = true; // Change to false to not execute the test environment
+const bool USE_TESTS = true; // Change to false to not execute the test environment
 
 /* Player data */
 const static u16 playerSpecies = SPECIES_DARKRAI;
@@ -13,17 +13,17 @@ const static u16 playerMove1 = MOVE_HYPERBEAM;
 const static u16 playerMove2 = MOVE_RECOVER;
 const static u16 playerMove3 = MOVE_ACID;
 const static u16 playerMove4 = MOVE_DRILLPECK;
-const static u8 playerLevel = 15;
-const u8 gPlayerAbility = ABILITY_COMATOSE;
+const static u8 playerLevel = 25;
+const u8 gPlayerAbility = ABILITY_TRACE;
 
 /* Opponent data */
-const static u16 opponentSpecies = SPECIES_DRAGONAIR;
-const static u16 opponentMove1 = MOVE_PURSUIT;
-const static u16 opponentMove2 = MOVE_PURSUIT;
-const static u16 opponentMove3 = MOVE_PURSUIT;
-const static u16 opponentMove4 = MOVE_PURSUIT;
-const static u8 opponentLevel = 15;
-const u8 gOpponentAbility = ABILITY_COMATOSE;
+const static u16 opponentSpecies = SPECIES_TYRANITAR;
+const static u16 opponentMove1 = MOVE_NEEDLEARM;
+const static u16 opponentMove2 = MOVE_NEEDLEARM;
+const static u16 opponentMove3 = MOVE_NEEDLEARM;
+const static u16 opponentMove4 = MOVE_NEEDLEARM;
+const static u8 opponentLevel = 20;
+const u8 gOpponentAbility = ABILITY_INTIMIDATE;
 
 
 
@@ -55,6 +55,7 @@ void SideSetBattleComponents(u8 side)
 
 void TestBattleDataInit()
 {
+	dprintf("sandstream is %d\n", ABILITY_SAND_STREAM);
 	if (USE_TESTS) {
 		SideSetBattleComponents(0);
 		SideSetBattleComponents(1);
