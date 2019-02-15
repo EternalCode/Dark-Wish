@@ -3,6 +3,8 @@ A team fan project based off of Pokemon Fire Red.
 
 ## Building
 
+Please note that this is far from playable or complete. Releases will be created as we're ready.
+
 Requirements (Windows):
 - DevkitPro/ARM (https://devkitpro.org/wiki/Getting_Started/devkitARM windows installer here)
 - Python (Atleast 3.4 https://www.python.org/downloads/)
