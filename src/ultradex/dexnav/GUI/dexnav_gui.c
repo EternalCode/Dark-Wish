@@ -3,6 +3,7 @@
 #include "../../ultradex.h"
 #include "../HUD/dexnav_hud.h"
 #include "../../../pokemon/pokemon.h"
+#include "../../../battle/abilities/battle_abilities.h"
 #include "../../../../generated/images/dexnav/dexnav_gui/dexnav_gui.h"
 #include "../../../../generated/images/dexnav/dexnav_hud/dexnav_selection_cursor.h"
 
@@ -163,7 +164,7 @@ void dexnav_load_pnames(u8 status) {
 
     // rbox commit hidden ability name
     if (gBaseStats[species].hidden_ability) {
-        rboxid_print(3, 0, 0, 4, &textBlack, 0, pokemon_ability_names[gBaseStats[species].hidden_ability]);
+        rboxid_print(3, 0, 0, 4, &textBlack, 0, ability_names[gBaseStats[species].hidden_ability]);
     } else {
         rboxid_print(3, 0, 0, 4, &textBlack, 0, &no_info[0]);
     }

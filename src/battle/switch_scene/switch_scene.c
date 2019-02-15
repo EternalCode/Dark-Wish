@@ -4,6 +4,7 @@
 #include "../battle_data/pkmn_bank.h"
 #include "../battle_data/pkmn_bank_stats.h"
 #include "../battle_text/battle_textbox_gfx.h"
+#include "../abilities/battle_abilities.h"
 #include "../../pokemon/pokemon.h"
 
 // images
@@ -368,7 +369,7 @@ void switch_load_pokemon_data(u8 index)
 
     /* print the ability */
 
-    rboxid_print(SWB_ABILITY, 0, 3, 1, &switch_color, 0, &pokemon_ability_names[SWM_LOG->s_pkmn_data[index].ability][0]);
+    rboxid_print(SWB_ABILITY, 0, 3, 1, &switch_color, 0, &ability_names[SWM_LOG->s_pkmn_data[index].ability][0]);
 
     /* print the item */
 //    u8 item = SWM_LOG->s_pkmn_data[index].item;

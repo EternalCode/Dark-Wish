@@ -135,9 +135,9 @@ void fdecoder_battle(pchar* buffer, u8 bank, u16 moveId, u16 move_effect_id)
                     break;
                 case 0x12:
                     // ability buff
-                        buffer_write_ability_name(&result[result_index], BANK_ABILITY(bank));
-                        result_index = pstrlen(result);
-                        break;
+                    buffer_write_ability_name(&result[result_index], BANK_ABILITY(bank));
+                    result_index = pstrlen(result);
+                    break;
                 case 0x13:
                     // ability arbitrary
                     {

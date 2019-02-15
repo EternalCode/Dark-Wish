@@ -1,8 +1,10 @@
 #include <pokeagb/pokeagb.h>
 #include "dexnav_hud.h"
 #include "../../../pokemon/pokemon.h"
+#include "../../../battle/abilities/battle_abilities.h"
 #include "../../../../generated/images/dexnav/dexnav_hud/dexnav_stars.h"
 #include "../../../../generated/images/dexnav/dexnav_hud/empty.h"
+
 
 void outlined_font_draw(u8 obj_id, u8 tile_num, u16 size);
 extern u16 rand_range(u16 min, u16 max);
@@ -31,7 +33,7 @@ void dexnav_draw_ability(enum PokemonAbility ability, u8* objid) {
     gSprites[obj_id].pos1.x += ((8 * (len/2)) + (4 * (len % 2)));
 
     // Copy ability string from table using state id
-    memcpy((void *)(string_buffer), (void *)&(pokemon_ability_names[ability]), POKEAGB_ABILITY_NAME_LENGTH);
+    memcpy((void *)(string_buffer), (void *)&(ability_names[ability]), POKEAGB_ABILITY_NAME_LENGTH);
 
     // format string so it's even length or if it's odd ends in two spaces
     string_buffer[POKEAGB_ABILITY_NAME_LENGTH + 1] = 0xFF;
