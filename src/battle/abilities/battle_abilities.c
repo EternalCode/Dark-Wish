@@ -1244,15 +1244,15 @@ void anticipation_on_start(u8 user, u8 src, u16 atk, struct anonymous_callback* 
     dprintf("user is %d and src is %d\n", user, src);
     if (user != src) return;
     u8 userTypes[2] = {B_PKMN_TYPE(user, 0), B_PKMN_TYPE(user, 1)};
-    u8 startBank;
+    u8 endBank;
     // Get the side whos attacks should be checked
     if (SIDE_OF(user) == PLAYER_SIDE) {
-        startBank = OPPONENT_SINGLES_BANK;
+        endBank = OPPONENT_DOUBLES_BANK;
     } else {
-        startBank = PLAYER_SINGLES_BANK;
+        endBank = PLAYER_DOUBLES_BANK;
     }
     // for each bank on that side, evaluate their moves
-    for (u8 attacker = startBank; attacker <= startBank; attacker++) {
+    for (u8 attacker = endBank - 1; attacker <= endBank; attacker++) {
         if (!ACTIVE_BANK(attacker)) continue;
         for (u8 i = 0; i < 4; i++) {
             u16 move = B_GET_MOVE(attacker, i);
@@ -1355,7 +1355,22 @@ void snowwarning_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* 
     set_weather(WEATHER_HAIL);
 }
 
-// FRISK
+// Frisk
+void frisk_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
+{
+    if (user != src) return;
+    u8 friskingBank = OPPONENT_SINGLES_BANK;
+    if (SIDE_OF(user) == PLAYER_SIDE)
+        friskingBank = OPPONENT_DOUBLES_BANK;
+    else
+        friskingBank = PLAYER_DOUBLES_BANK;
+    // loop through opponent's side and frisk their items
+    for (u8 i = friskingBank - 1; i <= friskingBank; i++) {
+        if (B_ITEM(i) && ACTIVE_BANK(i)) {
+            QueueMessage(NULL, user, STRING_FRISK, i);
+        }
+    }
+}
 
 // Reckless
 void reckless_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback* acb)

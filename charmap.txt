@@ -354,6 +354,8 @@ WEATHER = FD 18
 THE_FOE = FD 19
 FOE = FD 1A
 SLOT_MON = FD 1B
+BANK_ITEM = FD 1C
+BANK_NAME = FD 1D
 
 @ battle macros deprecated
 @UNKNOWN_STR = FD 00

@@ -372,13 +372,13 @@ void switch_load_pokemon_data(u8 index)
     rboxid_print(SWB_ABILITY, 0, 3, 1, &switch_color, 0, &ability_names[SWM_LOG->s_pkmn_data[index].ability][0]);
 
     /* print the item */
-//    u8 item = SWM_LOG->s_pkmn_data[index].item;
-    //if (item == 0) {
+    u8 item = SWM_LOG->s_pkmn_data[index].item;
+    if (item == 0) {
         rboxid_print(SWB_ITEM, 0, 1, 1, &switch_color, 0, &str_no_item[0]);
-//    } else {
+    } else {
         /* TODO Use item table */
-        //rboxid_print(SWB_ITEM, 0, 1, 1, &switch_color, 0, &items[item].name[0]);
-//    }
+        rboxid_print(SWB_ITEM, 0, 1, 1, &switch_color, 0, &items[item].name[0]);
+    }
 
     for (u32 i = 0; i < 4; ++i) {
         u16 move = SWM_LOG->s_pkmn_data[index].move[i];

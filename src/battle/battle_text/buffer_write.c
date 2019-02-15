@@ -7,6 +7,13 @@
 
 extern void dprintf(const char * str, ...);
 
+void buffer_write_bank_item(pchar* buffer, u8 bank)
+{
+    dprintf("getting item for bank %d\n", bank);
+    memcpy(buffer, items[B_ITEM(bank)].name, POKEAGB_ITEM_NAME_LENGTH);
+    buffer[POKEAGB_ITEM_NAME_LENGTH] = 0xFF;
+}
+
 void buffer_write_pkmn_nick(pchar* buffer, u8 bank)
 {
     memcpy(buffer, gPkmnBank[bank]->battleData.name, sizeof(gPkmnBank[bank]->battleData.name));
@@ -188,6 +195,7 @@ void fdecoder_battle(pchar* buffer, u8 bank, u16 moveId, u16 move_effect_id)
                     }
                 case 0x19:
                     {
+                        // the foe prefix
                         if (SIDE_OF(bank) == 0) {
                             pstrcpy(&result[result_index], (const pchar*)str_thefoe_p);
                         } else {
@@ -198,6 +206,7 @@ void fdecoder_battle(pchar* buffer, u8 bank, u16 moveId, u16 move_effect_id)
                     }
                 case 0x1A:
                     {
+                        // foe prefix
                         if (SIDE_OF(bank) == 0) break;
                         pstrcpy(&result[result_index], (const pchar*)str_nfoe);
                         result_index = pstrlen(result);
@@ -206,6 +215,20 @@ void fdecoder_battle(pchar* buffer, u8 bank, u16 moveId, u16 move_effect_id)
                 case 0x1B:
                     {
                         buffer_pkmn_nick_arbitrary(&result[result_index], bank, move_effect_id);
+                        result_index = pstrlen(result);
+                        break;
+                    }
+                case 0x1C:
+                    {
+                        dprintf("arb buffer an item\n");
+                        buffer_write_bank_item(&(result[result_index]), move_effect_id);
+                        result_index = pstrlen(result);
+                        break;
+                    }
+                case 0x1D:
+                    {
+                        dprintf("arb nick buffer for %d\n", move_effect_id);
+                        buffer_write_pkmn_nick(&(result[result_index]), move_effect_id);
                         result_index = pstrlen(result);
                         break;
                     }

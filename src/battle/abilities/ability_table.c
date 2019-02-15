@@ -493,7 +493,8 @@ struct ability_data abilities[] = {
 		/* Note: This Ability doesn't have an in battle effect */
 	},
 	{
-		// FRISK TODO
+		// Frisk
+		.on_start = frisk_on_start,
 	},
 	{
 		// Reckless

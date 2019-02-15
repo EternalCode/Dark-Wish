@@ -201,6 +201,7 @@ enum battle_string_ids {
     STRING_TRAPPED_RUN,
     STRING_RUN_AWAY,
     STRING_ANTICIPATION,
+    STRING_FRISK,
     STRINGS_TABLE_MAX = 700,
 };
 const static pchar encounter_wild_text[] = _("A wild {DEFENDING_MON} appeared!\pGo! {ATTACKING_MON}!");
@@ -414,6 +415,7 @@ static const pchar str_flash_fire[] = _("{FOE}{ATTACKING_MON} raised\n its Fire 
 static const pchar str_ability_trace[] = _("{FOE}{ATTACKING_MON} traced {ABILITY_ARBITRARY}!");
 static const pchar str_run_away[] = _("{ATTACKING_MON} fled using\n{ABILITY_ARBITRARY}!\p");
 static const pchar str_anticipation[] = _("{FOE}{ATTACKING_MON}’s {ABILITY_ARBITRARY} made\nit shudder!");
+static const pchar str_frisk[] = _("{FOE}{ATTACKING_MON} frisked {BANK_NAME}\nand found it’s {BANK_ITEM}");
 
 
 // stat names
@@ -646,6 +648,7 @@ static const pchar* battle_strings[STRINGS_TABLE_MAX] = {
    (pchar*)&str_trapped_run, //200
    (pchar*)&str_run_away, // 201
    (pchar*)&str_anticipation, // 202
+   (pchar*)&str_frisk, // 203
 
 };
 
