@@ -452,7 +452,8 @@ struct ability_data abilities[] = {
 		// FOREWARN
 	},
 	{
-		// UNAWARE TODO
+		// Unaware
+		.on_modify_move = unaware_on_modify_move,
 	},
 	{
 		// Tinted Lens

@@ -13,15 +13,12 @@ extern bool is_grounded(u8 bank);
 
 u16 type_effectiveness_mod(u8 attacker, u8 defender, u16 move)
 {
-    dprintf("attacking bank is %d and defending bank is %d\n", attacker, defender);
     u16 percent = 100;
     // for each type of the attacker's move
     for (u8 i = 0; i < sizeof(gBattleMaster->b_moves[(attacker)].type); i++) {
         // get the type effectiveness for each type of the defender
         for (u8 j = 0; j < sizeof(gPkmnBank[defender]->battleData.type); j++) {
             if ((B_MOVE_TYPE(attacker, i) != TYPE_NONE) && (B_PKMN_TYPE(defender, j) != TYPE_NONE)) {
-                dprintf("attacker move has type %d\n", (B_MOVE_TYPE(attacker, i)));
-                dprintf("defender's defending type is %d\n",  B_PKMN_TYPE(defender, j));
                 u8 target_type = B_PKMN_TYPE(defender, j);
                 u8 move_type = B_MOVE_TYPE(attacker, i);
 				if (move_type == TYPE_NONE)

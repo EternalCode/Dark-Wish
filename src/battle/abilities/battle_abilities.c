@@ -1271,6 +1271,13 @@ void anticipation_on_start(u8 user, u8 src, u16 atk, struct anonymous_callback* 
 // FOREWARN
 
 // UNAWARE
+u8 unaware_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
+{
+    if (user != src) return true;
+    B_MOVE_IGNORE_DEF(user) = true;
+    B_MOVE_IGNORE_EVASION(user) = true;
+    return true;
+}
 
 // Tinted Lens
 void tintedlens_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
