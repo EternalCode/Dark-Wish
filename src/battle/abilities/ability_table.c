@@ -129,7 +129,7 @@ struct ability_data abilities[] = {
 		.on_effect = effect_spore_effect,
 	},
 	{
-		// SYNCHRONIZE
+		// Sychonize
 		.on_status = synchronize_on_status,
 	},
 	{
@@ -336,7 +336,7 @@ struct ability_data abilities[] = {
 		.on_base_power = rivalry_on_base_power,
 	},
 	{
-		// STEADFAST
+		// Steadfast
 		.on_flinch = steadfast_on_flinch,
 	},
 	{
@@ -406,7 +406,7 @@ struct ability_data abilities[] = {
 		.before_turn = normalize_before_turn,
 	},
 	{
-		// SNIPER
+		// Sniper
 		.on_damage = sniper_on_damage,
 	},
 	{
@@ -414,7 +414,7 @@ struct ability_data abilities[] = {
 		.a_flags = A_FLAG_INDIRECT_DMG_PREVENT,
 	},
 	{
-		// NOGUARD
+		// Noguard
 		.on_tryhit = noguard_on_tryhit,
 	},
 	{
@@ -464,7 +464,7 @@ struct ability_data abilities[] = {
 		.on_damage = filter_variations_on_damage,
 	},
 	{
-		// SLOWSTART
+		// Slow start
 		.on_start = slow_start_on_start,
 	},
 	{
@@ -603,7 +603,8 @@ struct ability_data abilities[] = {
 		.a_flags = A_FLAG_SANDSTORM_DMG_PREVENT,
 	},
 	{
-		// WONDERSKIN TODO
+		// Wonder Skin
+		.on_tryhit = wonder_skin_on_tryhit,
 	},
 	{
 		// Analytic
@@ -636,7 +637,7 @@ struct ability_data abilities[] = {
 		.on_effect = rattled_on_effect,
 	},
 	{
-		// MAGICBOUNCE
+		// Magic bounce
 		.on_tryhit = magic_bounce_on_tryhit,
 	},
 	{
@@ -761,6 +762,15 @@ struct ability_data abilities[] = {
 		/* Handled within Dark aura and Fairy aura abilities */
 	},
 	{
+		// PRIMORDIALSEA
+	},
+	{
+		// DESOLATELAND
+	},
+	{
+		// DELTASTREAM
+	},
+	{
 		// Stamina
 		.on_effect = stamina_on_effect,
 	},
@@ -784,7 +794,8 @@ struct ability_data abilities[] = {
 		// SHIELDSDOWN
 	},
 	{
-		// STAKEOUT TODO
+		// Stakeout
+		.on_modify_move = stakeout_on_modify_move,
 	},
 	{
 		// water bubble

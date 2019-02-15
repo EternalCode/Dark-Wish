@@ -250,6 +250,8 @@ extern u8 unaware_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_cal
 extern void frisk_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern void light_metal_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern u8 regenerator_before_switch(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
+extern enum TryHitMoveStatus wonder_skin_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
+extern u8 stakeout_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 
 
 #endif /* BATTLE_ABILITIES_TABLE_H_ */

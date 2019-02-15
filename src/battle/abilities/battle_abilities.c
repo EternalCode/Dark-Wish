@@ -1611,7 +1611,18 @@ u16 sand_rush_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* a
     return acb->data_ptr;
 }
 
-// WONDERSKIN
+// Wonder skin
+enum TryHitMoveStatus wonder_skin_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
+{
+    if ((TARGET_OF(user) == src) && (user != src)) {
+        // if move is a status move, reduce accuracy
+        if (B_MOVE_IS_STATUS(user)) {
+            B_MOVE_ACCURACY(user) = B_MOVE_ACCURACY(user) >> 1;
+        }
+    }
+    return TRYHIT_USE_MOVE_NORMAL;
+}
+
 
 // Analytic
 extern u8 doom_desire_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
@@ -1691,8 +1702,7 @@ u8 rattled_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     return true;
 }
 
-// MAGICBOUNCE
-
+// Magic bounce
 enum TryHitMoveStatus magic_bounce_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) == src) && (!ACTION_BOUNCED) && (IS_REFLECTABLE(move))) {
@@ -2058,7 +2068,14 @@ u8 merciless_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback
 
 // SHIELDSDOWN
 
-// STAKEOUT
+// Stakeout
+u8 stakeout_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
+{
+    if (user != src) return true;
+    if (gPkmnBank[TARGET_OF(user)]->battleData.justSwitched)
+        B_MOVE_POWER(user) *= 2;
+    return true;
+}
 
 // Water Bubble
 u16 water_bubble_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)

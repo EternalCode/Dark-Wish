@@ -78,6 +78,7 @@ void battle_loop()
         for (u8 i = 0; i < BANK_MAX; i++) {
             if (!ACTIVE_BANK(i)) continue;
             gPkmnBank[i]->battleData.first_turn = false;
+            gPkmnBank[i]->battleData.justSwitched = false;            
             ResetBankTurnBits(i);
         }
         update_callbacks();

@@ -257,6 +257,7 @@ void ResetBankTurnBits(u8 bank)
     gPkmnBank[bank]->battleData.isRunning = false;
     gPkmnBank[bank]->battleData.isSwitching = false;
     gPkmnBank[bank]->battleData.first_turn = false;
+    gPkmnBank[bank]->battleData.justSwitched = false;
     memset((void*)(&gBattleMaster->b_moves[(bank)]), 0x0, sizeof(struct move_used));
     gPkmnBank[bank]->battleData.last_damage = 0;
     B_LAST_MOVE_FAILED(bank) = B_MOVE_FAILED(bank);

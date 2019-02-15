@@ -63,6 +63,7 @@ void move_on_switch_cb(u8 attacker)
 void event_after_switch(struct action* current_action)
 {
     u8 switchedInBank = current_action->priv[0];
+    gPkmnBank[switchedInBank]->battleData.justSwitched = true;
     for (u8 i = 0; i < BANK_MAX; i++) {
         if (ACTIVE_BANK(i)) {
             u16 move = CURRENT_MOVE(i);
