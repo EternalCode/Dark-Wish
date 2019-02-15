@@ -171,7 +171,7 @@ u8 hidden_power_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callb
     correlated_sum  += gPkmnBank[user]->battleData.speed_iv << 3;
     correlated_sum  += gPkmnBank[user]->battleData.sp_atk_iv << 4;
     correlated_sum  += gPkmnBank[user]->battleData.sp_def_iv << 5;
-    B_MOVE_TYPE(user, 0) = (correlated_sum *15)/63;
+    B_MOVE_TYPE(user, 0) = (correlated_sum *15) / 63;
     return true;
 }
 

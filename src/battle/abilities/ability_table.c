@@ -445,7 +445,8 @@ struct ability_data abilities[] = {
 		.on_effect = aftermath_on_effect,
 	},
 	{
-		// ANTICIPATION TODO
+		// Anticipation
+		.on_start = anticipation_on_start,
 	},
 	{
 		// FOREWARN

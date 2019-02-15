@@ -245,5 +245,6 @@ extern void trace_on_start(u8 user, u8 src, u16 move, struct anonymous_callback*
 extern bool magnetpull_on_trap(u8 user, u8 affectedMon, u8 trapType);
 extern bool arena_trap_on_trap(u8 user, u8 affectedMon, u8 trapType);
 extern bool run_away_on_override_trap(u8 affectedMon, u8 user, u8 trapType);
+extern void anticipation_on_start(u8 user, u8 src, u16 atk, struct anonymous_callback* acb);
 
 #endif /* BATTLE_ABILITIES_TABLE_H_ */

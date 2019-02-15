@@ -25,6 +25,7 @@ extern bool bank_trapped(u8 bank);
 extern void event_switch_mid_battle(struct action* current_action);
 extern void clear_other_weather(void);
 extern void silent_cure_major(u8 bank);
+extern bool is_grounded(u8 bank);
 
 /* Note: Illuminate and Honey Gather have no In-Battle effect so they are not present here*/
 
@@ -1208,7 +1209,64 @@ u8 aftermath_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb
 	return true;
 }
 
-// ANTICIPATION
+// Anticipation
+u8 anticipation_get_move_type(u8 user, u16 move)
+{
+    switch (move) {
+        case MOVE_HIDDENPOWER:
+        // expand hidden power
+            {
+                u8 correlated_sum = 0;
+                correlated_sum  += gPkmnBank[user]->battleData.hp_iv;
+                correlated_sum  += gPkmnBank[user]->battleData.attack_iv << 1;
+                correlated_sum  += gPkmnBank[user]->battleData.defense_iv << 2;
+                correlated_sum  += gPkmnBank[user]->battleData.speed_iv << 3;
+                correlated_sum  += gPkmnBank[user]->battleData.sp_atk_iv << 4;
+                correlated_sum  += gPkmnBank[user]->battleData.sp_def_iv << 5;
+                return (correlated_sum *15) / 63;
+            }
+        case MOVE_COUNTER:
+        case MOVE_METALBURST:
+        case MOVE_MIRRORCOAT:
+        // Counter, Metal Burst, and Mirror Coat considered attacking moves
+            return gBattleMoves[move].type;
+        default:
+            break;
+    };
+    // Status category moves ignored typing
+    if (gBattleMoves[move].category == MOVE_STATUS)
+        return TYPE_NONE;
+    return gBattleMoves[move].type;
+}
+
+void anticipation_on_start(u8 user, u8 src, u16 atk, struct anonymous_callback* acb)
+{
+    dprintf("user is %d and src is %d\n", user, src);
+    if (user != src) return;
+    u8 userTypes[2] = {B_PKMN_TYPE(user, 0), B_PKMN_TYPE(user, 1)};
+    u8 startBank;
+    // Get the side whos attacks should be checked
+    if (SIDE_OF(user) == PLAYER_SIDE) {
+        startBank = OPPONENT_SINGLES_BANK;
+    } else {
+        startBank = PLAYER_SINGLES_BANK;
+    }
+    // for each bank on that side, evaluate their moves
+    for (u8 attacker = startBank; attacker <= startBank; attacker++) {
+        if (!ACTIVE_BANK(attacker)) continue;
+        for (u8 i = 0; i < 4; i++) {
+            u16 move = B_GET_MOVE(attacker, i);
+            u8 moveType = anticipation_get_move_type(attacker, move);
+            u16 moveEffectiveness = MOVE_EFFECTIVENESS(userTypes[0], moveType);
+            moveEffectiveness += MOVE_EFFECTIVENESS(userTypes[1], moveType);
+            if ((moveEffectiveness > 200) || (gBattleMoves[move].m_flags & FLAG_OHKO)) {
+                // shudder
+                QueueMessage(NULL, user, STRING_ANTICIPATION, ABILITY_ANTICIPATION);
+                return;
+            }
+        }
+    }
+}
 
 // FOREWARN
 
