@@ -9,39 +9,42 @@ enum EventStatesWildBattle {
     EventFlee, // 0
     EventPreSwitch, // 1
     EventSwitch, // 1
-    EventBeforeMove, // 2
-    EventMoveTargetConfig, // 3
-    EventPreMoveHit, // 4
-    EventMoveTryHit, // 5
-    EventMoveDamage, // 6
-    EventMoveHeal, // 7
-    EventMoveEffect, // 8
-    EventMoveRecoil, // 9
-    EventMoveDrain, // 10
-    EventMoveBoosts, // 11
-    EventMoveAilments, // 12
-    EventMoveMultiHitResolve, // 13
-    EventMoveAfterMove, // 14
-    EventDoFaints, // 15
-    EventMoveFailed, // 16
-    EventPeekMessage, // 17
-    EventDamageAnim, // 18
-    EventHealAnim, // 19
-    EventStatBoost, //20
-    EventDrain,
-    EventSetStatus,
-    EventFaint, // 21
-    EventEndAction, // 22
-    EventInactive, // 23
-    EventResidualEffects, // 24
-    EventWildBattleOver, // 25
-    EventForcedSwitch, //26
-    EventEndBattle, // 27
+    EventPostSwitch, // 2
+    EventBeforeMove, // 3
+    EventMoveTargetConfig, // 4
+    EventPreMoveHit, // 5
+    EventMoveTryHit, // 6
+    EventMoveDamage, // 7
+    EventMoveHeal, // 8
+    EventMoveEffect, // 9
+    EventMoveRecoil, // 10
+    EventMoveDrain, // 11
+    EventMoveBoosts, // 12
+    EventMoveAilments, // 13
+    EventMoveMultiHitResolve, // 14
+    EventMoveAfterMove, // 15
+    EventDoFaints, // 16
+    EventMoveFailed, // 17
+    EventPeekMessage, // 18
+    EventDamageAnim, // 19
+    EventHealAnim, // 20
+    EventStatBoost, //21
+    EventDrain, // 22
+    EventSetStatus, // 23
+    EventFaint, // 24
+    EventEndAction, // 25
+    EventInactive, // 26
+    EventResidualEffects, // 27
+    EventWildBattleOver, // 28
+    EventForcedSwitch, //29
+    EventEndBattle, // 30
 };
 
 extern void event_run_flee(struct action* a);
 extern void event_pre_switch(struct action* a);
 extern void event_switch(struct action* a);
+extern void event_after_switch(struct action* a);
+
 extern void event_on_start(struct action* a);
 extern void event_before_move(struct action* a);
 extern void event_pre_move_hit(struct action* a);

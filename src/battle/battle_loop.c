@@ -23,6 +23,7 @@ EventCallback gWildBattleEvents[] = {
     event_run_flee,
     event_pre_switch,
     event_switch,
+    event_after_switch,
 
     /* Run Move */
     event_before_move,

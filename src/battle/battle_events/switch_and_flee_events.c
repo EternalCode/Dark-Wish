@@ -47,31 +47,33 @@ void move_on_switch_cb(u8 attacker)
     }
 }
 
-void run_after_switch(u8 attacker)
+void event_after_switch(struct action* current_action)
 {
-    // update the bank data structure with the new Pokemon's stats
-
+    dprintf("the action is to be run now\n");
+    u8 switchedInBank = current_action->priv[0];
     for (u8 i = 0; i < BANK_MAX; i++) {
         if (ACTIVE_BANK(i)) {
-            u8 ability = gPkmnBank[i]->battleData.ability;
-            if (abilities[ability].on_start)
-                AddCallback(CB_ON_START, 0, 0, i, (u32)abilities[ability].on_start);
             u16 move = CURRENT_MOVE(i);
-            if (gBattleMoves[move].on_start)
+            if (gBattleMoves[move].on_start && move)
                 AddCallback(CB_ON_START, 0, 0, i, (u32)gBattleMoves[move].on_start);
         }
     }
-    // run on start callbacks
-    BuildCallbackExecutionBuffer(CB_ON_START);
-    gBattleMaster->executing = true;
-    while (gBattleMaster->executing)
-        PopCallback(0xFF, NULL);
+    delete_callback_src((u32)abilities[BANK_ABILITY(switchedInBank)].on_start, switchedInBank);
+    AddCallback(CB_ON_START, 0, 0, switchedInBank, (u32)abilities[BANK_ABILITY(switchedInBank)].on_start);
+    // run on start callbacks for each bank
+    for (u8 i = 0; i < BANK_MAX; i++) {
+        if (!ACTIVE_BANK(i)) continue;
+        BuildCallbackExecutionBuffer(CB_ON_START);
+        gBattleMaster->executing = true;
+        while (gBattleMaster->executing)
+        PopCallback(i, NULL);
+    }
+    end_action(current_action);
 }
 
 
 void event_on_start(struct action* current_action)
 {
-    dprintf("event on start running for bank %d\n", current_action->action_bank);
     for (u8 i = 0; i < BANK_MAX; i++) {
         if (ACTIVE_BANK(i)) {
             u8 ability = gPkmnBank[i]->battleData.ability;
@@ -87,7 +89,7 @@ void event_on_start(struct action* current_action)
     gBattleMaster->executing = true;
     while (gBattleMaster->executing)
         PopCallback(0xFF, NULL);
-    end_action(CURRENT_ACTION);
+    end_action(current_action);
 }
 
 void event_switch(struct action* current_action)
@@ -119,8 +121,8 @@ void event_pre_switch(struct action* current_action)
     } else {
         move_on_switch_cb(ACTION_BANK);
         QueueMessage(MOVE_NONE, ACTION_BANK, STRING_RETREAT_MON, 0);
-        CURRENT_ACTION->event_state++;
     }
+    current_action->event_state++;
 }
 
 

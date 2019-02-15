@@ -3,6 +3,7 @@
 #include "battle_data/pkmn_bank_stats.h"
 #include "battle_slide_in_data/battle_obj_sliding.h"
 #include "battle_data/battle_state.h"
+#include "battle_events/battle_events.h"
 #include "battle_text/battle_textbox_gfx.h"
 #include "abilities/battle_abilities.h"
 
@@ -74,18 +75,22 @@ void StartWildBattle()
                 }
             }
             SortBanksBySpeed(&activeBanks[0], index);
-
+            ACTION_HEAD = add_action(0xFF, 0xFF, ActionHighPriority, EventEndAction);
+            CURRENT_ACTION = ACTION_HEAD;
             for (u8 i = 0; i < index; i++) {
                 if (ACTIVE_BANK(activeBanks[i])) {
-                    u8 ability = gPkmnBank[i]->battleData.ability;
+                    u8 ability = gPkmnBank[activeBanks[i]]->battleData.ability;
                     if (abilities[ability].on_start) {
-						dprintf("on start for %d\n", i);
-                        abilities[ability].on_start(i, i, NULL, NULL);
+                        abilities[ability].on_start(activeBanks[i], activeBanks[i], NULL, NULL);
                     }
                 }
             }
+            extern void debug_print_action_banks(void);
+            debug_print_action_banks();
+            extern void battle_loop(void);
+            SetMainCallback(battle_loop);
             gMain.state = 0;
-            BankSelectOption(PLAYER_SINGLES_BANK);
+            //BankSelectOption(PLAYER_SINGLES_BANK);
             break;
         }
         default:

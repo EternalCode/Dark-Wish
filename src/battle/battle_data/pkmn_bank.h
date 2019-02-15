@@ -4,8 +4,11 @@
 #include <pokeagb/pokeagb.h>
 #include "../../pokemon/types/pkmn_types.h"
 
-#define OPPONENT_SINGLES_BANK 2
 #define PLAYER_SINGLES_BANK 0
+#define PLAYER_DOUBLES_BANK 1
+#define OPPONENT_SINGLES_BANK 2
+#define OPPONENT_DOUBLES_BANK 3
+
 #define PARTICIPANTS_AMOUNT_WILD 2
 
 #define BANK_MAX 4

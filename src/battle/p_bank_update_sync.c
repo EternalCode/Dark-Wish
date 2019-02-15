@@ -10,7 +10,7 @@ extern void ShowStatusAilmentGraphic(u8 bank, enum Effect status);
 extern const u8 gPlayerAbility;
 extern const u8 gOpponentAbility;
 extern void AilmentCallbackInitExisting(u8 bank);
-extern const static bool USE_TESTS;
+extern const bool USE_TESTS;
 
 void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
 {

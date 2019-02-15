@@ -134,10 +134,11 @@ void pkmn_player_normal_switch()
             break;
         case 6:
             if (!gPaletteFade.active) {
-                run_after_switch(CURRENT_ACTION->action_bank);
                 gPkmnBank[CURRENT_ACTION->action_bank]->battleData.isSwitching = false;
                 u8 taskId = task_add(TaskBackspriteBob, 1);
                 tasks[taskId].priv[0] = CURRENT_ACTION->action_bank;
+                struct action* a = next_action(ACTION_BANK, NULL, ActionSwitch, EventPostSwitch);
+                a->priv[0] = ACTION_BANK;
                 end_action(CURRENT_ACTION);
                 gMain.state = 0;
                 SetMainCallback(battle_loop);
