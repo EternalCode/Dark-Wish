@@ -34,6 +34,16 @@ extern u16 stage_modify_stat(u16 stat, s8 mod, u8 id, u8 bank);
 #define CRIT_CHANCE_MOD 7
 
 /*
+ * When a Pokemon attempts to check if it's trapped, this controls what the pokemon is trying to do.
+ */
+ enum TrapMonAttempting {
+     AttemptSwitch = 0, // standard switch
+     AttemptForceSwitch = 1, // Force switch by opponent
+     AttemptFlee = 2, // attempting to flee
+     AttemptMoveSwitch = 3, // attempting to switch via moves like baton pass
+ };
+
+/*
  * Get Pokemon's current battle stats based on stage changes to stat
  *
  */

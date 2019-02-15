@@ -498,7 +498,27 @@ u8 waterveil_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback*
     return true;
 }
 
-// MAGNETPULL
+// Magnet pull
+bool magnetpull_on_trap(u8 affectedMon, u8 user, u8 trapType)
+{
+    // ghost check is handled in bank_trapped
+    if (SIDE_OF(affectedMon) == SIDE_OF(user)) return false;
+    // not steel type means not affected
+    if (!BankMonHasType(affectedMon, TYPE_STEEL)) return false;
+    switch (trapType) {
+        case AttemptSwitch:
+            // TODO: Shed shell immunity, if that's in the game
+            return true;
+        case AttemptForceSwitch:
+        case AttemptMoveSwitch:
+            return false; // unaffected by magnet pull
+        case AttemptFlee:
+            if (BANK_ABILITY(affectedMon) == ABILITY_RUN_AWAY) return false;
+            // TODO: Check smokeball
+            return true;
+    };
+    return false;
+}
 
 // Soundproof
 enum TryHitMoveStatus soundproof_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)

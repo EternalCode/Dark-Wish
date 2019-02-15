@@ -3,6 +3,7 @@
 #include "../battle_data/pkmn_bank.h"
 #include "../battle_data/pkmn_bank_stats.h"
 #include "../battle_data/battle_state.h"
+#include "../battle_events/battle_events.h"
 #include "../battle_text/battle_textbox_gfx.h"
 #include "../hpboxes/hpbox_positional_data.h"
 
@@ -19,6 +20,9 @@ extern void ResetAndHideBGs(void);
 extern void validate_player_selected_move(void);
 extern void TaskBackspriteBob(u8 tid);
 extern void free_unused_objs(void);
+extern bool bank_trapped(u8 bank);
+extern struct action* QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
+
 
 void return_to_battle()
 {
@@ -66,9 +70,25 @@ void return_to_battle()
             switch (gBattleMaster->switch_main.reason) {
                 case ViewPokemon:
                     tasks[task_add(TaskBackspriteBob, 1)].priv[0] = gBattleMaster->option_selecting_bank;
-                    BankSelectOption(PLAYER_SINGLES_BANK);
+                    BankSelectOption(gBattleMaster->option_selecting_bank);
                     return;
                 case NormalSwitch:
+                    // is the Pokemon trapped ?
+                    if (bank_trapped(gBattleMaster->option_selecting_bank)) {
+                        tasks[task_add(TaskBackspriteBob, 1)].priv[0] = gBattleMaster->option_selecting_bank;
+                        if (ACTION_HEAD == NULL) {
+                            // build actions
+                            ACTION_HEAD = add_action(0xFF, 0xFF, ActionHighPriority, EventEndAction);
+                            CURRENT_ACTION = ACTION_HEAD;
+                            QueueMessage(MOVE_NONE, gBattleMaster->option_selecting_bank, STRING_TRAPPED, 0);
+                            SetMainCallback(battle_loop);
+                            return;
+                        } else {
+                            QueueMessage(MOVE_NONE, gBattleMaster->option_selecting_bank, STRING_TRAPPED, 0);
+                            BankSelectOption(gBattleMaster->option_selecting_bank);
+                        }
+                        return;
+                    }
                     tasks[task_add(TaskBackspriteBob, 1)].priv[0] = gBattleMaster->option_selecting_bank;
                     gPkmnBank[PLAYER_SINGLES_BANK]->battleData.isSwitching = true;
                     gPkmnBank[PLAYER_SINGLES_BANK]->this_pkmn = &party_player[gBattleMaster->switch_main.position];

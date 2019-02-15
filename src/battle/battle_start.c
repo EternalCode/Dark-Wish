@@ -7,6 +7,7 @@
 #include "battle_text/battle_textbox_gfx.h"
 #include "abilities/battle_abilities.h"
 
+extern void battle_loop(void);
 extern void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags);
 extern void PlayerThrowBallAndMoveScene(struct Sprite*);
 extern void TaskPlayerHPBoxSlideIn(u8 taskId);
@@ -85,9 +86,6 @@ void StartWildBattle()
                     }
                 }
             }
-            extern void debug_print_action_banks(void);
-            debug_print_action_banks();
-            extern void battle_loop(void);
             SetMainCallback(battle_loop);
             gMain.state = 0;
             //BankSelectOption(PLAYER_SINGLES_BANK);

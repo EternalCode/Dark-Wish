@@ -185,7 +185,8 @@ struct ability_data abilities[] = {
 		.on_status = waterveil_on_status,
 	},
 	{
-		// MAGNETPULL TODO
+		// Magnetpull
+		.on_trap = magnetpull_on_trap,
 	},
 	{
 		// Soundproof

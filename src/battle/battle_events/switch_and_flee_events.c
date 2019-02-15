@@ -16,10 +16,21 @@ extern void SyncBankToParty(u8 bank);
 
 bool bank_trapped(u8 bank)
 {
+    dprintf("checking if bank %d is trapped\n", bank);
     if (BankMonHasType(bank, TYPE_GHOST))
         return false;
     if (HAS_VOLATILE(bank, VOLATILE_TRAPPED) || HAS_VOLATILE(bank, VOLATILE_INGRAIN)) {
         return true;
+    }
+    for (u8 i = 0; i < BANK_MAX; i++) {
+        if (ACTIVE_BANK(i)) {
+            u8 ability = BANK_ABILITY(i);
+            if (abilities[ability].on_trap) {
+                if (abilities[ability].on_trap(bank, i, AttemptSwitch)) {
+                    return true;
+                }
+            }
+        }
     }
     return false;
 }
