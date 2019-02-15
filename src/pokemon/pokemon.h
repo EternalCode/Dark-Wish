@@ -39,7 +39,7 @@ extern const struct MonCoords gMonBackPicCoords[];
 extern const struct MonCoords gMonBackPicCoords[];
 extern const struct MonCoords gMonFrontPicCoords[];
 extern const u8 gEnemyMonElevation[];
-
+extern const u8 gPokemonWeight[];
 
 
 
