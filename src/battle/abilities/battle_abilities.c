@@ -1497,7 +1497,12 @@ u8 weak_armor_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
 
 // HEAVYMETAL
 
-// LIGHTMETAL
+// Light metal
+void light_metal_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
+{
+    if (user != src) return;
+    B_WEIGHT(user) = B_WEIGHT(user) >> 1;
+}
 
 // Toxic Boost
 void toxic_boost_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback* acb)

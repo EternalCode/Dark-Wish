@@ -248,6 +248,6 @@ extern bool run_away_on_override_trap(u8 affectedMon, u8 user, u8 trapType);
 extern void anticipation_on_start(u8 user, u8 src, u16 atk, struct anonymous_callback* acb);
 extern u8 unaware_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern void frisk_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
-
+extern void light_metal_on_start(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 
 #endif /* BATTLE_ABILITIES_TABLE_H_ */

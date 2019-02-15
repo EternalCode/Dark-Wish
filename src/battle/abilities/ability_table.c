@@ -554,7 +554,8 @@ struct ability_data abilities[] = {
 		// HEAVYMETAL
 	},
 	{
-		// LIGHTMETAL TODO
+		// Light Metal
+		.on_start = light_metal_on_start,
 	},
 	{
 		// Multi-scale
