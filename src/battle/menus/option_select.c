@@ -170,7 +170,13 @@ void BankSelectOption2()
             jump_switch_menu(ViewPokemon);
             break;
         case BagOptionSelected:
+        {
             // BAG selected from fight menu
+            for (u8 i = 0; i < BANK_MAX; i++) {
+                if (ACTIVE_BANK(i)) {
+                    SyncBankToParty(i);
+                }
+            }
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
             task_del(task_find_id_by_functpr(TaskBackspriteBob));
             free_unused_objs();
@@ -178,6 +184,7 @@ void BankSelectOption2()
             gMain.state = 0;
             SetMainCallback(bag_prep);
             break;
+        }
         case RunOptionSelected:
         {
             // RUN selected from fight menu
