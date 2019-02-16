@@ -119,7 +119,6 @@ void return_to_battle()
 
 }
 
-void (*dp12_8087EA4)(void) = 0x8087EA4|1;
 extern void ResetPals(void);
 extern u8 spawn_hpbox_opponent(u16 tag, s16 x, s16 y, u8 bank);
 extern u8 spawn_hpbox_player(u16 tag, s16 x, s16 y, u8 bank);
@@ -147,16 +146,11 @@ void return_to_battle_bag()
             bg_vram_setup(0, (struct BgConfig *)&bg_config_data, 4);
             // BGs
             pick_and_load_battle_bgs_no_entry(battle_textbox_action_selectMap);
+
             HideBg(0);
             HideBg(1);
             HideBg(2);
             HideBg(3);
-            // bag clear something
-            u8* bag_something = (u8*)0x2023FE5;
-            u8* bag_something2 = (u8*)0x2023FE6;
-            *bag_something = 0;
-            *bag_something2 = 0;
-            dp12_8087EA4();
             gMain.state++;
             break;
         case 1:
@@ -184,6 +178,7 @@ void return_to_battle_bag()
                 // continue game callbacks
                 // init textbox
                 rbox_init_from_templates((struct TextboxTemplate*)0x8248330);
+                gpu_pal_apply((void*)stdpal_get(0), 16 * rboxes[0x18].pal_id, 32);
                 gMain.state++;
             }
             break;
