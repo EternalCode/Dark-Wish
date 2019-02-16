@@ -67,8 +67,8 @@ u8 spawn_pkmn_obj_slot(u8 bank, u16 tag)
     struct CompressedSpriteSheet pkmn_sprite_gfx = {pkmn_gfx, 2048, tag};
     struct Template pkmn_temp = {tag, tag, &opp_oam, nullframe, &pkmn_sprite_gfx, nullrsf, (SpriteCallback)oac_nullsub};
 
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&pkmn_sprite_gfx);
-    gpu_pal_decompress_alloc_tag_and_upload(&pkmn_sprite_pal);
+    LoadCompressedSpriteSheetUsingHeap(&pkmn_sprite_gfx);
+    LoadCompressedSpritePaletteUsingHeap(&pkmn_sprite_pal);
     return template_instanciate_forward_search(&pkmn_temp, OPP1_X_POS_SLIDE, 54, 0);
 }
 
@@ -84,8 +84,8 @@ u8 spawn_pkmn_backsprite_obj_slot(u8 bank, u16 tag)
     struct CompressedSpriteSheet pkmn_sprite_gfx = {pkmn_gfx, 2048, tag};
     struct Template pkmn_temp = {tag, tag, &opp_oam, nullframe, &pkmn_sprite_gfx, nullrsf, (SpriteCallback)oac_nullsub};
 
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&pkmn_sprite_gfx);
-    gpu_pal_decompress_alloc_tag_and_upload(&pkmn_sprite_pal);
+    LoadCompressedSpriteSheetUsingHeap(&pkmn_sprite_gfx);
+    LoadCompressedSpritePaletteUsingHeap(&pkmn_sprite_pal);
     u8 species_y = gMonBackPicCoords[species].y_offset;
     return template_instanciate_forward_search(&pkmn_temp, 64, 80 + species_y, 0);
 }
@@ -157,8 +157,8 @@ u8 spawn_backsprite_npc(u8 sprite_id, u16 tag)
     struct CompressedSpriteSheet player_sprite_gfx = {player_gfx, 2048 * 5, tag};
     struct Template player_temp = {tag, tag, &opp_oam, trainer_frame_table, &player_sprite_gfx, nullrsf, (SpriteCallback)oac_nullsub};
 
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&player_sprite_gfx);
-    gpu_pal_decompress_alloc_tag_and_upload(&player_sprite_pal);
+    LoadCompressedSpriteSheetUsingHeap(&player_sprite_gfx);
+    LoadCompressedSpritePaletteUsingHeap(&player_sprite_pal);
     u8 objid = template_instanciate_forward_search(&player_temp, PLAYER_X_POS_SLIDE, 81, 0);
     gSprites[objid].final_oam.obj_mode = 1;
     return objid;

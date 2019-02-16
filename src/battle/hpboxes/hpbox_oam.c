@@ -121,8 +121,8 @@ u8 hpbar_build_full(struct Pokemon* pkmn, s16 x, s16 y, u16 tag)
     struct SpritePalette hpbar_sprite_pal = {(void*)hpbar_piecesPal, tag};
     struct CompressedSpriteSheet hpbar_sprite_gfx = {(void*)empty_barTiles, 1024, tag};
     struct Template hpbar_temp = {tag, tag, &hpbar_oam, nullframe, &hpbar_sprite_gfx, nullrsf, (SpriteCallback)oac_nullsub};
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&hpbar_sprite_gfx);
-    gpu_pal_decompress_alloc_tag_and_upload(&hpbar_sprite_pal);
+    LoadCompressedSpriteSheetUsingHeap(&hpbar_sprite_gfx);
+    LoadCompressedSpritePaletteUsingHeap(&hpbar_sprite_pal);
     u8 objid_main = template_instanciate_forward_search(&hpbar_temp, x, y, 0);
 
     // update hp
@@ -136,8 +136,8 @@ u8 hpbar_build_transparent(struct Pokemon* pkmn, s16 x, s16 y, u16 tag)
     struct SpritePalette hpbar_sprite_pal = {(void*)hpbar_pieces_switchPal, tag};
     struct CompressedSpriteSheet hpbar_sprite_gfx = {(void*)empty_barTiles, 1024, tag};
     struct Template hpbar_temp = {tag, tag, &hpbar_oam, nullframe, &hpbar_sprite_gfx, nullrsf, (SpriteCallback)oac_nullsub};
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&hpbar_sprite_gfx);
-    gpu_pal_decompress_alloc_tag_and_upload(&hpbar_sprite_pal);
+    LoadCompressedSpriteSheetUsingHeap(&hpbar_sprite_gfx);
+    LoadCompressedSpritePaletteUsingHeap(&hpbar_sprite_pal);
     u8 objid_main = template_instanciate_forward_search(&hpbar_temp, x, y, 0);
     gSprites[objid_main].final_oam.priority = 0;
     // update hp
@@ -319,8 +319,8 @@ u8 spawn_hpbox_opponent(u16 tag, s16 x, s16 y, u8 bank)
     struct CompressedSpriteSheet hpbox_sprite_gfx = {(void*)hpbox_opponent_singlesTiles, 4096, tag};
     struct Template hpbox_temp = {tag, tag, &hpbox_oam, nullframe, &hpbox_sprite_gfx, nullrsf, (SpriteCallback)oac_nullsub};
 
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&hpbox_sprite_gfx);
-    gpu_pal_decompress_alloc_tag_and_upload(&hpbox_sprite_pal);
+    LoadCompressedSpriteSheetUsingHeap(&hpbox_sprite_gfx);
+    LoadCompressedSpritePaletteUsingHeap(&hpbox_sprite_pal);
     u8 objid_main = template_instanciate_forward_search(&hpbox_temp, x, y, 0);
     u8 objid = template_instanciate_forward_search(&hpbox_temp, x + 64, y, 0);
     gSprites[objid].final_oam.tile_num += 64;
@@ -337,7 +337,7 @@ u8 spawn_hpbox_opponent(u16 tag, s16 x, s16 y, u8 bank)
     u16 s_x = HPBOX_STATUS_OPP_SINGLE_X;
     u16 s_y = HPBOX_STATUS_OPP_SINGLE_Y;
     struct CompressedSpriteSheet status_tiles = {(void*)hpbar_piecesTiles, 128, s_tag};
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&status_tiles);
+    LoadCompressedSpriteSheetUsingHeap(&status_tiles);
     struct Template status_temp = {s_tag, HPBAR_OS_TAG, &hpbar_status_oam, nullframe, &status_tiles, nullrsf, (SpriteCallback)oac_nullsub};
     gPkmnBank[bank]->objid_hpbox[3] = template_instanciate_forward_search(&status_temp, s_x, s_y, 0);
 
@@ -370,8 +370,8 @@ u8 spawn_hpbox_player(u16 tag, s16 x, s16 y, u8 bank)
     struct Template hpbox_temp = {tag, tag, &hpbox_oam, nullframe, &hpbox_sprite_gfx, nullrsf, (SpriteCallback)oac_nullsub};
 
     // init structs. HP box is 2 Objects put together
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&hpbox_sprite_gfx);
-    gpu_pal_decompress_alloc_tag_and_upload(&hpbox_sprite_pal);
+    LoadCompressedSpriteSheetUsingHeap(&hpbox_sprite_gfx);
+    LoadCompressedSpritePaletteUsingHeap(&hpbox_sprite_pal);
     u8 objid_main = template_instanciate_forward_search(&hpbox_temp, x, y, 0);
     u8 objid = template_instanciate_forward_search(&hpbox_temp, x + 64, y, 0);
     gSprites[objid].final_oam.tile_num += 64;
@@ -418,7 +418,7 @@ void opp_hpbar_slidin_slow(u8 taskId)
 {
     tasks[taskId].priv[0] += 4;
     if (tasks[taskId].priv[0] > 128) {
-        task_del(taskId);
+        DestroyTask(taskId);
         return;
     }
 
@@ -432,7 +432,7 @@ void TaskPlayerHPBoxSlideIn(u8 taskId)
 {
     tasks[taskId].priv[0] += 4;
     if (tasks[taskId].priv[0] > 128) {
-        task_del(taskId);
+        DestroyTask(taskId);
         gBattleAnimationStatus = 0;
         return;
     }
@@ -478,7 +478,7 @@ void hpbar_apply_dmg(u8 task_id)
         if (bank == PLAYER_SINGLES_BANK)
             draw_hp(gPkmnBank[bank]->this_pkmn, HPNUM_PS_OFFSET, gPkmnBank[bank]->objid_hpbox[0], 1, bank);
     } else {
-        task_del(task_id);
+        DestroyTask(task_id);
     }
 }
 

@@ -99,7 +99,7 @@ void Task_WildBattleStart(u8 taskId)
         // wait transition to finish
         if (IsBattleTransitionDone()) {
             gWildEncounterImmunitySteps = 0;
-            task_del(taskId);
+            DestroyTask(taskId);
             BattleEngineStartup();
         }
     } else {

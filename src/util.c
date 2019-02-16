@@ -80,3 +80,33 @@ u8 CountEggMoves(u16 species)
         i++;
     return i;
 }
+
+#define PCBOX_COUNT 13
+#define PCBOX_COMPACITY 30
+bool SpaceAvailableInPC()
+{
+
+    for (u8 box = 0; box < PCBOX_COUNT; box++) {
+        for (u8 i = 0; i < PCBOX_COMPACITY; i++) {
+            if (!pokemon_getattr(&saveblock3->bills_pc[(box * PCBOX_COMPACITY) + i], REQUEST_SPECIES, NULL))
+                return true;
+        }
+    }
+    return false;
+}
+
+bool SpaceAvailableInPartyPlayer()
+{
+    for (u8 i = 0; i < 6; i++) {
+        if (!pokemon_getattr(&party_player[i], REQUEST_SPECIES, NULL))
+            return true;
+    }
+    return false;
+}
+
+bool SpaceAvailableForPKMN()
+{
+    return (SpaceAvailableInPC() || SpaceAvailableInPartyPlayer());
+}
+#undef PCBOX_COUNT
+#undef PCBOX_COMPACITY

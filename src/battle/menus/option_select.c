@@ -66,7 +66,7 @@ void BankSelectOption(u8 bank)
 void jump_switch_menu(enum switch_reason reason)
 {
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
-    task_del(task_find_id_by_functpr(TaskBackspriteBob));
+    DestroyTask(task_find_id_by_functpr(TaskBackspriteBob));
     free_unused_objs();
     gBattleMaster->switch_main.position = 0;
     gBattleMaster->fight_menu_content_spawned  = 0;
@@ -178,7 +178,7 @@ void BankSelectOption2()
                 }
             }
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
-            task_del(task_find_id_by_functpr(TaskBackspriteBob));
+            DestroyTask(task_find_id_by_functpr(TaskBackspriteBob));
             free_unused_objs();
             gBattleMaster->fight_menu_content_spawned  = 0;
             gMain.state = 0;

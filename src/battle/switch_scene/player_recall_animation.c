@@ -78,7 +78,7 @@ void pkmn_player_normal_switch()
             }
         case 1:
             {
-                task_del(task_find_id_by_functpr(TaskBackspriteBob));
+                DestroyTask(task_find_id_by_functpr(TaskBackspriteBob));
                 gMain.state++;
                 break;
             }

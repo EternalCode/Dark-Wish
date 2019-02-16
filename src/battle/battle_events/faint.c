@@ -73,7 +73,7 @@ void do_faint()
         case 0:
             // terminate the task that makes the player bob up and down
             if (!SIDE_OF(bank)) {
-                task_del(task_find_id_by_functpr(TaskBackspriteBob));
+                DestroyTask(task_find_id_by_functpr(TaskBackspriteBob));
                 gSprites[gPkmnBank[bank]->objid].data[6] = false;
             } else {
                 gSprites[gPkmnBank[bank]->objid].data[6] = ACTIVE_BANK(0) || ACTIVE_BANK(1);

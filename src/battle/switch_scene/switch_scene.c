@@ -325,10 +325,10 @@ void switch_load_scroll_box()
     struct Template top_template = {SLIDER_GFX_TAG, SLIDER_PAL_TAG, &slider_oam, nullframe, &top_gfx, nullrsf, oac_nullsub};
     struct Template mid_template = {SLIDER_GFX_TAG + 1, SLIDER_PAL_TAG, &slider_oam, nullframe, &mid_gfx, nullrsf, oac_nullsub};
     struct Template bot_template = {SLIDER_GFX_TAG + 2, SLIDER_PAL_TAG, &slider_oam, nullframe, &bot_gfx, nullrsf, oac_nullsub};
-    gpu_pal_decompress_alloc_tag_and_upload(&scroll_pal);
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&top_gfx);
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&mid_gfx);
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&bot_gfx);
+    LoadCompressedSpritePaletteUsingHeap(&scroll_pal);
+    LoadCompressedSpriteSheetUsingHeap(&top_gfx);
+    LoadCompressedSpriteSheetUsingHeap(&mid_gfx);
+    LoadCompressedSpriteSheetUsingHeap(&bot_gfx);
     gBattleMaster->switch_main.slider_objid[0] = template_instanciate_forward_search(&top_template, 17, 17, 1);
     gBattleMaster->switch_main.slider_objid[1] = template_instanciate_forward_search(&mid_template, 17, 40, 1);
     gBattleMaster->switch_main.slider_objid[2] = template_instanciate_forward_search(&bot_template, 17, 128, 1);
@@ -645,8 +645,8 @@ void spawn_confirm_box()
     u16 pal_tag = CONFIRM_BOX_TAG;
     struct CompressedSpriteSheet menu_tiles = {shift_menuTiles, 8 * 8 * 32, gfx_tag};
     struct SpritePalette menu_pal = {(void *)shift_menuPal, pal_tag};
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&menu_tiles);
-    gpu_pal_decompress_alloc_tag_and_upload(&menu_pal);
+    LoadCompressedSpriteSheetUsingHeap(&menu_tiles);
+    LoadCompressedSpritePaletteUsingHeap(&menu_pal);
     struct Template confirm_template = {
                                     .tiles_tag = gfx_tag,
                                     .pal_tag = pal_tag,

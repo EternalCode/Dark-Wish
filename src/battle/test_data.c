@@ -9,21 +9,23 @@ const bool USE_TESTS = true; // Change to false to not execute the test environm
 
 /* Player data */
 const static u16 playerSpecies = SPECIES_JIRACHI;
-const static u16 playerMove1 = MOVE_HYPERBEAM;
+const static u16 playerMove1 = MOVE_GRASSKNOT;
 const static u16 playerMove2 = MOVE_RECOVER;
 const static u16 playerMove3 = MOVE_ACID;
 const static u16 playerMove4 = MOVE_DRILLPECK;
-const static u8 playerLevel = 25;
-const u8 gPlayerAbility = ABILITY_COMATOSE;
+const static u8 playerLevel = 5;
+const static u16 playerItem = ITEM_ORANBERRY;
+const u8 gPlayerAbility = ABILITY_STATIC;
 
 /* Opponent data */
 const static u16 opponentSpecies = SPECIES_TYRANITAR;
-const static u16 opponentMove1 = MOVE_LEER;
-const static u16 opponentMove2 = MOVE_LEER;
-const static u16 opponentMove3 = MOVE_LEER;
-const static u16 opponentMove4 = MOVE_LEER;
-const static u8 opponentLevel = 20;
-const u8 gOpponentAbility = ABILITY_ARENA_TRAP;
+const static u16 opponentMove1 = MOVE_WILLOWISP;
+const static u16 opponentMove2 = MOVE_WILLOWISP;
+const static u16 opponentMove3 = MOVE_WILLOWISP;
+const static u16 opponentMove4 = MOVE_WILLOWISP;
+const static u8 opponentLevel = 5;
+const static u16 opponentItem = ITEM_SITRUSBERRY;
+const u8 gOpponentAbility = ABILITY_STAKEOUT;
 
 
 
@@ -36,6 +38,7 @@ void SideSetBattleComponents(u8 side)
 	u16 move3 = (side) ? (playerMove3) : (opponentMove3);
 	u16 move4 = (side) ? (playerMove4) : (opponentMove4);
 	u8 level = (side) ? (playerLevel) : (opponentLevel);
+	u16 item = (side) ? (playerItem) : (opponentItem);
 
 	pokemon_setattr(p, REQUEST_SPECIES, &species);
 	pokemon_setattr(p, REQUEST_NICK, (void*)&gSpeciesNames[species]);
@@ -51,6 +54,7 @@ void SideSetBattleComponents(u8 side)
 	pokemon_setattr(p, REQUEST_PP2, &gBattleMoves[move2].pp);
 	pokemon_setattr(p, REQUEST_PP3, &gBattleMoves[move3].pp);
 	pokemon_setattr(p, REQUEST_PP4, &gBattleMoves[move4].pp);
+	pokemon_setattr(p, REQUEST_HELD_ITEM, &item);
 }
 
 void TestBattleDataInit()

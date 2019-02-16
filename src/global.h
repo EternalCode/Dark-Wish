@@ -21,6 +21,9 @@ extern u8 GetPokemonAbility(struct Pokemon* p);
 extern u8 GetGenderFromSpeciesAndPersonality(u16 species, u32 personality);
 extern u16* GetEggMoves(u16 species);
 extern u8 CountEggMoves(u16 species);
+extern bool SpaceAvailableInPC(void);
+extern bool SpaceAvailableInPartyPlayer(void);
+extern bool SpaceAvailableForPKMN(void);
 
 /* EventObjects fetch macros */
 #define EVENTID_DIR(i) (gEventObjects[i].direction & 0xF)

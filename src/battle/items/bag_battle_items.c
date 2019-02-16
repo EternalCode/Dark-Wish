@@ -1,4 +1,5 @@
 #include <pokeagb/pokeagb.h>
+#include "../../global.h"
 
 extern void return_to_battle_bag(void);
 
@@ -12,7 +13,6 @@ struct TextboxTemplate BagErrMsgText = {
     .charbase = 0x2A2,
 };
 
-const pchar Pokeball_error[] = _("Error text checking\ncan go new line?");
 
 // write some text to the main bag error message box
 void WriteTextBag(u8 taskId, pchar* toPrint, bool keepOpen)
@@ -38,8 +38,12 @@ void ReturnToBattleScene(u8 taskId)
 // TODO
 
 
+const pchar Pokeball_error[] = _("Error text checking\ncan go new line?");
 void PokeballTask(u8 taskId)
 {
-    ReturnToBattleScene(taskId);
-    //WriteTextBag(taskId, Pokeball_error, true);
+    if (SpaceAvailableForPKMN()) {
+        ReturnToBattleScene(taskId);
+    } else {
+        WriteTextBag(taskId, Pokeball_error, true);
+    }
 }

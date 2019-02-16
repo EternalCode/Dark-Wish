@@ -107,8 +107,8 @@ void make_spinning_pokeball(s16 x, s16 y, u8 bank)
     struct Pokemon* p = gPkmnBank[bank]->this_pkmn;
     u16 ball_id = pokemon_getattr(p, REQUEST_POKEBALL, NULL);
     ball_id = ball_number_to_ball_processing_index(ball_id);
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&ball_tiles[ball_id]);
-    gpu_pal_decompress_alloc_tag_and_upload(&ball_palettes[ball_id]);
+    LoadCompressedSpriteSheetUsingHeap(&ball_tiles[ball_id]);
+    LoadCompressedSpritePaletteUsingHeap(&ball_palettes[ball_id]);
     u8 objid = template_instanciate_forward_search((struct Template*)0x82606F4, x, y, 0);
     gSprites[objid].callback = pokeball_player_throw_arc;
     gSprites[objid].data[0] = bank;

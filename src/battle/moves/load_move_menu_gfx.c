@@ -155,7 +155,7 @@ u8 draw_pp(u8 bank, u8 index)
     struct SpritePalette text_pal = {(void*)pal_font, MOVE_PP_TAG};
     struct CompressedSpriteSheet text_gfx = {(void*)empty_barTiles, 1024, MOVE_PP_TAG + index};
     struct Template text_temp = {MOVE_PP_TAG + index, MOVE_PP_TAG, &text_oam, nullframe, &text_gfx, nullrsf, (SpriteCallback)oac_nullsub};
-    gpu_tile_obj_decompress_alloc_tag_and_upload(&text_gfx);
+    LoadCompressedSpriteSheetUsingHeap(&text_gfx);
     gPkmnBank[PLAYER_SINGLES_BANK]->pp_pal = gpu_pal_obj_alloc_tag_and_apply(&text_pal);
 
     void* vram_addr;
@@ -200,7 +200,7 @@ void load_names_moves(u8 bank)
         struct SpritePalette text_pal = {(void*)pal_font, MOVE_NAMES_TAG};
         struct CompressedSpriteSheet text_gfx = {(void*)empty_barTiles, 1024, MOVE_NAMES_TAG + i};
         struct Template text_temp = {MOVE_NAMES_TAG + i, MOVE_NAMES_TAG, &text_oam, nullframe, &text_gfx, nullrsf, (SpriteCallback)oac_nullsub};
-        gpu_tile_obj_decompress_alloc_tag_and_upload(&text_gfx);
+        LoadCompressedSpriteSheetUsingHeap(&text_gfx);
         gPkmnBank[bank]->move_pal = gpu_pal_obj_alloc_tag_and_apply(&text_pal);
 
         void* vram_addr;

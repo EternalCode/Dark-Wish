@@ -144,15 +144,15 @@ void dexnav_hud_free() {
     obj_free(&gSprites[(*DNavState)->obj_id_potential[2]]);
     obj_delete(&gSprites[(*DNavState)->obj_id_potential[2]]);
 
-    gpu_tile_obj_free_by_tag(0x4736);
-    gpu_tile_obj_free_by_tag(0x61);
-    gpu_tile_obj_free_by_tag(0x2613);
-    gpu_tile_obj_free_by_tag(0x5424);
-    gpu_tile_obj_free_by_tag(0x8472);
-    gpu_tile_obj_free_by_tag(0x3039);
-    gpu_tile_obj_free_by_tag(0x1EE7);
-    gpu_pal_free_by_tag(0x8472);
-    gpu_pal_free_by_tag(0x3039);
+    FreeSpriteTilesByTag(0x4736);
+    FreeSpriteTilesByTag(0x61);
+    FreeSpriteTilesByTag(0x2613);
+    FreeSpriteTilesByTag(0x5424);
+    FreeSpriteTilesByTag(0x8472);
+    FreeSpriteTilesByTag(0x3039);
+    FreeSpriteTilesByTag(0x1EE7);
+    FreeSpritePaletteByTag(0x8472);
+    FreeSpritePaletteByTag(0x3039);
 
     free((void *)*DNavState);
     interrupts_disable(2);
@@ -169,7 +169,7 @@ void dexnav_hud_free() {
 void dexnav_hud_manage(u8 task_id) {
     // check for out of range
     if ((*DNavState)->proximity > 20) {
-        task_del(task_id);
+        DestroyTask(task_id);
         dexnav_hud_free();
         dexnav_message_show(1);
         return;
@@ -178,7 +178,7 @@ void dexnav_hud_manage(u8 task_id) {
     // check for timeout.
     tasks[task_id].priv[1]++;
     if (tasks[task_id].priv[1] > (0x384)) {
-        task_del(task_id);
+        DestroyTask(task_id);
         dexnav_hud_free();
         dexnav_message_show(0);
         return;
@@ -186,7 +186,7 @@ void dexnav_hud_manage(u8 task_id) {
 
     // check if script just executed
     if (script_env_2_is_enabled()) {
-        task_del(task_id);
+        DestroyTask(task_id);
         dexnav_hud_free();
         return;
     }
@@ -216,7 +216,7 @@ void dexnav_hud_manage(u8 task_id) {
         extern void dexnav_gen_pkmnn(u16 species, u8 potential, u8 level, u8 ability, u16* moves);
         dexnav_gen_pkmnn((*DNavState)->species, (*DNavState)->potential, (*DNavState)->pokemon_level,
         (*DNavState)->ability, (*DNavState)->move_id);
-        task_del(task_id);
+        DestroyTask(task_id);
 
         // increment the search level
         if (SearchLevels[(*DNavState)->species] < 100) {

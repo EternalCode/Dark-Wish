@@ -52,7 +52,7 @@ void update_cursor_action_select(u8 taskId)
             break;
         case KEY_A:
             // pick selected move
-            task_del(taskId);
+            DestroyTask(taskId);
             gBattleMaster->selected_option = gBattleMaster->battle_cursor.cursor_pos;
             obj_free(&gSprites[gBattleMaster->battle_cursor.objid]);
             gBattleAnimationStatus = 0;
@@ -83,7 +83,7 @@ void update_cursor_move_select(u8 taskId)
         case KEY_B:
         {
             // return to previous fight menu
-            task_del(taskId);
+            DestroyTask(taskId);
             obj_free(&gSprites[gBattleMaster->battle_cursor.objid_mv_crsr[0]]);
             obj_free(&gSprites[gBattleMaster->battle_cursor.objid_mv_crsr[1]]);
             obj_free(&gSprites[gBattleMaster->battle_cursor.objid]);
@@ -115,7 +115,7 @@ void update_cursor_move_select(u8 taskId)
                 obj_free(&gSprites[gBattleMaster->move_name_objid[i]]);
             }
             gBattleAnimationStatus = 0;
-            task_del(taskId);
+            DestroyTask(taskId);
             gMain.state = 8;
             break;
         case KEY_LEFT:

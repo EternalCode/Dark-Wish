@@ -181,6 +181,6 @@ void task_lightup_objs(u8 taskId)
         // player side remove blending
         gSprites[BattleEntryWindows->player_trainer_objid].final_oam.obj_mode = 0;
         gSprites[BattleEntryWindows->partner_trainer_objid].final_oam.obj_mode = 0;
-        task_del(taskId);
+        DestroyTask(taskId);
     }
 }

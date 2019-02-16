@@ -50,7 +50,7 @@ void simple_delete_player_mon(struct Sprite* spr)
 void forced_switch(u8 bank, u8 switch_method)
 {
     gBattleMaster->switch_main.reason = ForcedSwitch;
-    task_del(task_find_id_by_functpr(TaskBackspriteBob));
+    DestroyTask(task_find_id_by_functpr(TaskBackspriteBob));
     if (switch_method == 1) {
         gSprites[gPkmnBank[bank]->objid].callback = simple_delete_player_mon;
         gSprites[gPkmnBank[bank]->objid].data[0] = bank;

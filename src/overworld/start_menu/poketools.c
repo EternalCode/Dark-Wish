@@ -27,7 +27,7 @@ void ToolSelection(u8 task_id) {
         break;
 		case 1:
 			script_env_enable();
-			task_del(task_id);
+			DestroyTask(task_id);
 			LaunchUltraDex();
 			break;
     /*    case 1:
@@ -49,18 +49,18 @@ void ToolSelection(u8 task_id) {
                 //pokedex
 				ExecPokedex();
                 // sm_pokedex();
-                // task_del(task_id);
+                // DestroyTask(task_id);
 				// BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
             } else if (choice == 1) {
                 // dexnav
                 exec_dexnav();
-                task_del(task_id);
+                DestroyTask(task_id);
             } else if (choice == -1) {
                 // b pressed, exit
                 rboxid_clean(tasks[task_id].priv[1], 1);
                 rboxid_free(tasks[task_id].priv[1]);
                 script_env_disable();
-                task_del(task_id);
+                DestroyTask(task_id);
             }
             return;
         }*/

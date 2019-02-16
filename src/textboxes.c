@@ -4,7 +4,7 @@
 void TaskDeleteCompletedTextbox(u8 t_id) {
     if (!box_status_and_type) {
         textbox_close();
-        task_del(t_id);
+        DestroyTask(t_id);
         script_env_disable();
     }
 }
