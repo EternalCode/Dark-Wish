@@ -14,7 +14,7 @@ export LD := $(PREFIX)ld
 export PREPROC := deps/preproc
 export CHARMAP := charmap.txt
 export ASFLAGS := -mthumb
-export PAGB_INCLUDE := deps/g3headers/build
+export PAGB_INCLUDE := deps/DarkwishPokeAGB/build
 
 export INCLUDE := -I $(PAGB_INCLUDE)/include -I $(SRC) -I .
 export LDFLAGS := -T layout.ld -T $(PAGB_INCLUDE)/linker/$(ROM_CODE).ld -r

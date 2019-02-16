@@ -1,0 +1,6 @@
+[submodule "deps/DarkwishPokeAGB"]
+	path = deps/DarkwishPokeAGB
+	url = https://github.com/EternalCode/DarkwishPokeAGB
+[submodule "deps/armips"]
+	path = deps/armips
+	url = https://github.com/Kingcom/armips
