@@ -12,6 +12,21 @@ extern void AllocateBattleStructs(void);
 extern void TransitionWildBattle(void);
 
 
+const u8 WildBattleTransitionIds[] = {
+    8, // indoors maybe, player level > opp level
+    9, // indoors maybe, player level < opp level
+
+    5, // outdoors on path maybe. player level > opp level
+    10, // outdoors on path maybe, player level > opp level
+
+    0, // Flash used on map, player higher level
+    10, // flash used on map, opponent higher level
+
+    7, // Grass transition Player is higher level
+    6, // Grass transition Player is lower level
+};
+
+
 /* Battle Entry point */
 void BattleEngineStartup()
 {
@@ -76,8 +91,9 @@ void AllocateBattleStructs()
 }
 
 
-void Task_BattleStart(u8 taskId)
+void Task_WildBattleStart(u8 taskId)
 {
+
     struct Task* t = &tasks[taskId];
     if (t->priv[3]) {
         // wait transition to finish
@@ -87,7 +103,47 @@ void Task_BattleStart(u8 taskId)
             BattleEngineStartup();
         }
     } else {
+        // check if map is indoors
         t->priv[3] = true;
         BattleTransition_StartOnField(tasks->priv[1]);
     }
+}
+
+
+void StartWildBattleTransition(u8 environment)
+{
+    // get opponent's level
+    u8 oppLevel = pokemon_getattr(party_opponent, REQUEST_LEVEL, NULL);
+    u8 playerLevel = 0;
+    u8 battleTransitionId = 0xFF;
+    // get player leading mon level
+    for (u8 i = 0; i < 6; i++) {
+        if (pokemon_getattr(&party_player[i], REQUEST_SPECIES2, NULL)) {
+            if (pokemon_getattr(&party_player[i], REQUEST_CURRENT_HP, NULL)) {
+                playerLevel = pokemon_getattr(&party_player[i], REQUEST_LEVEL, NULL);
+                break;
+            }
+        }
+    }
+    if (gSaveBlock1Ptr->flashLevel) {
+        // flash used on map
+        battleTransitionId = WildBattleTransitionIds[4 + (oppLevel > playerLevel)];
+    } else if (environment != 1) {
+        if (currentmap_header.light == 4) {
+            // outside path maybe?
+            battleTransitionId = WildBattleTransitionIds[2 + (oppLevel > playerLevel)];
+        }
+        if (currentmap_header.light != 5) {
+            // inside probably
+            battleTransitionId = WildBattleTransitionIds[0 + (oppLevel > playerLevel)];
+        }
+    }
+    if (battleTransitionId == 0xFF) {
+        // grass
+        battleTransitionId = WildBattleTransitionIds[6 + (oppLevel > playerLevel)];
+    }
+    battle_type_flag = BATTLE_MODE_WILD_DOUBLE;
+    u8 taskId = task_add(Task_WildBattleStart, 0);
+    tasks[taskId].priv[1] = battleTransitionId;
+    PlayMapChosenOrBattleBGM(0);
 }

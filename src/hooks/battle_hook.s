@@ -4,7 +4,7 @@
 .global battle_hook
 battle_hook:
     mov r0, #0x0
-    ldr r3, =current_map_music_set__default_for_battle
+    ldr r3, =PlayMapChosenOrBattleBGM
     bl linker
     mov r0, #0x7
     ldr r3, =(0x8054E90|1)

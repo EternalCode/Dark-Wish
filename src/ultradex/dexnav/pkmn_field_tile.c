@@ -49,7 +49,7 @@ u8 pick_tile_screen(u8 target_behaviour, u8 area_x, u8 area_y, s16 *x_buff, s16 
                     // water
                     u8 scale = 320 - (small_scan * 200) - (get_distance_player(top_x, top_y) / 2);
                     weight = (((rand() % scale) <= 1) && (cur_mapdata_height_mismatch(gEventObjects[gPlayerAvatar.spriteId].elevation, top_x, top_y))) ;
-                } else if (!is_light_level_1_2_3_or_6__opensky(currentmap_header.light)) {
+                } else if (!MapOutside(currentmap_header.light)) {
                     // cave basically needs another check to see if the tile is passable
                     u8 scale = 440 - (small_scan * 200) - (get_distance_player(top_x, top_y) / 2)  - (2 * (top_x + top_y));
                     var_8002= scale;
@@ -107,7 +107,7 @@ u8 shaking_grass(u8 environment, u8 x_size, u8 y_size, bool small_scan) {
         switch (environment) {
             case 0:
                 {
-                if (!is_light_level_1_2_3_or_6__opensky(currentmap_header.light)) {
+                if (!MapOutside(currentmap_header.light)) {
                     oe_exec(0x1A); // 1a
                 } else {
                     oe_exec(0x13);

@@ -3,6 +3,8 @@
 #include "../../pokemon/pokemon.h"
 #include "../../pokemon/types/pkmn_types.h"
 
+extern void StartWildBattleTransition(u8 environment);
+
 u16 TryPickTypedSpecies(u8 env, u8 index, u8 type, u8* min, u8* max)
 {
     u8 wildCount;
@@ -269,7 +271,7 @@ bool DoWildEncounters(struct MapPosition* playerPos)
     if (DoWildEncounterRateDiceRoll(baseEncounterRate)) {
         if (GenerateWildPokemon(environment, index)) {
             // setup the battle
-            StartWildBattleNormal();
+            StartWildBattleTransition(environment);
             return true;
         }
     }

@@ -108,7 +108,7 @@ void dexnav_hud_free() {
     switch ((*DNavState)->environment) {
         case 0:
             {
-            if (!is_light_level_1_2_3_or_6__opensky(currentmap_header.light)) {
+            if (!MapOutside(currentmap_header.light)) {
                 // cave
                 oe_stop(&gSprites[(*DNavState)->obj_id_shaking_grass], 0x1A); //1a
             } else {
@@ -192,7 +192,7 @@ void dexnav_hud_manage(u8 task_id) {
     }
 
     // caves and water the pokemon moves around
-    if ((((*DNavState)->environment == 1) || (!is_light_level_1_2_3_or_6__opensky(currentmap_header.light)))
+    if ((((*DNavState)->environment == 1) || (!MapOutside(currentmap_header.light)))
     && ((*DNavState)->proximity < 2) && ((*DNavState)->movement_times < 2)) {
         switch((*DNavState)->environment) {
             case 0:
