@@ -12,7 +12,11 @@ gPkmnBank3 = 0x03004F90;
 /* During slide in, holds pointer to positional data */
 BattleEntryWindows = 0x03004F94;
 
+/* The type of the current battle. Currently only wild is supported */
+battle_type_flag = 0x02022B4C;
+
+/* Animation status for the battle UI */
 gBattleAnimationStatus = 0x03004FA3;
 
-
-battle_type_flag = 0x02022B4C;
+/* Animation script core struct pointer */
+gAnimationCore = 0x03004FA4;
