@@ -314,13 +314,13 @@ void switch_load_pokemon_icons() {
     }
 }
 
+struct SpritePalette scroll_pal = {(void *)slider_topPal, SLIDER_PAL_TAG};
+struct CompressedSpriteSheet top_gfx = {(void *)slider_topTiles, 512, SLIDER_GFX_TAG};
+struct CompressedSpriteSheet mid_gfx = {(void *)slider_midTiles, 512, SLIDER_GFX_TAG + 1};
+struct CompressedSpriteSheet bot_gfx = {(void *)slider_botTiles, 512, SLIDER_GFX_TAG + 2};
 
 void switch_load_scroll_box()
 {
-    struct SpritePalette scroll_pal = {(void *)slider_topPal, SLIDER_PAL_TAG};
-    struct CompressedSpriteSheet top_gfx = {(void *)slider_topTiles, 512, SLIDER_GFX_TAG};
-    struct CompressedSpriteSheet mid_gfx = {(void *)slider_midTiles, 512, SLIDER_GFX_TAG + 1};
-    struct CompressedSpriteSheet bot_gfx = {(void *)slider_botTiles, 512, SLIDER_GFX_TAG + 2};
 
     struct Template top_template = {SLIDER_GFX_TAG, SLIDER_PAL_TAG, &slider_oam, nullframe, &top_gfx, nullrsf, oac_nullsub};
     struct Template mid_template = {SLIDER_GFX_TAG + 1, SLIDER_PAL_TAG, &slider_oam, nullframe, &mid_gfx, nullrsf, oac_nullsub};
@@ -643,7 +643,7 @@ void spawn_confirm_box()
     /* Box Object */
     u16 gfx_tag = CONFIRM_BOX_TAG;
     u16 pal_tag = CONFIRM_BOX_TAG;
-    struct CompressedSpriteSheet menu_tiles = {shift_menuTiles, 8 * 8 * 32, gfx_tag};
+    struct CompressedSpriteSheet menu_tiles = {(void*)shift_menuTiles, 8 * 8 * 32, gfx_tag};
     struct SpritePalette menu_pal = {(void *)shift_menuPal, pal_tag};
     LoadCompressedSpriteSheetUsingHeap(&menu_tiles);
     LoadCompressedSpritePaletteUsingHeap(&menu_pal);
@@ -660,7 +660,7 @@ void spawn_confirm_box()
 
     /* Box cursor */
     gfx_tag = CONFIRM_BOX_TAG + 1;
-    struct CompressedSpriteSheet cursor_tiles = {shift_cursorTiles, 2 * 2 * 32, gfx_tag};
+    struct CompressedSpriteSheet cursor_tiles = {(void*)shift_cursorTiles, 2 * 2 * 32, gfx_tag};
     gpu_tile_obj_alloc_tag_and_upload(&cursor_tiles);
     struct Template cursor_template = {
                                     .tiles_tag = gfx_tag,

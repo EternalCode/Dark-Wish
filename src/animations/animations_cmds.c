@@ -16,14 +16,30 @@
 #include "../../generated/images/switch/shift_cursor.h"
 
 void ScriptCmd_loadsprite(void);
-void ScriptCmd_freespritetag(void);
-
+void ScriptCmd_deletesprite(void);
+void ScriptCmd_rendersprite(void);
+void ScriptCmd_copyvar(void);
+void ScriptCmd_setvar(void);
+void ScriptCmd_addvar(void);
+void ScriptCmd_subvar(void);
+void ScriptCmd_mulvar(void);
+void ScriptCmd_divvar(void);
+void ScriptCmd_goto(void);
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
 
 const AnimScriptFunc gAnimTable[] = {
-    ScriptCmd_loadsprite,
-    ScriptCmd_freespritetag,
+    ScriptCmd_loadsprite, // 0
+    ScriptCmd_deletesprite, // 1
+    ScriptCmd_rendersprite, // 2
+    ScriptCmd_copyvar, // 3
+    ScriptCmd_setvar, // 4
+    ScriptCmd_addvar, // 5
+    ScriptCmd_subvar, // 6
+    ScriptCmd_mulvar, // 7
+    ScriptCmd_divvar, // 8
+    ScriptCmd_goto, // 9
+    //ScriptCmd_movesprite, // 10
 };
 
 
@@ -31,9 +47,7 @@ void InitializeAnimationCore(u8* scr1, u8* scr2, u8* scr3, u8* scr4)
 {
     // Allocate and assign script pointers to each thread
     gAnimationCore = (struct AnimationCore*)malloc_and_clear(sizeof(struct AnimationCore));
-	dprintf("allocated %d space at %x\n", sizeof(struct AnimationCore), gAnimationCore);
     gAnimationCore->animScriptPtr[0] = scr1;
-	dprintf("scr1 is %d\n", scr1);
     gAnimationCore->animScriptPtr[1] = scr2;
     gAnimationCore->animScriptPtr[2] = scr3;
     gAnimationCore->animScriptPtr[3] = scr4;
@@ -61,7 +75,6 @@ void RunCurrentCommand()
     gAnimTable[cmd]();
 }
 
-
 /* this will only load the graphics themselves. Later must be initialized as objects */
 void ScriptCmd_loadsprite()
 {
@@ -70,47 +83,128 @@ void ScriptCmd_loadsprite()
     // read pal and gfx from script pointer
     struct CompressedSpriteSheet* gfx = (struct CompressedSpriteSheet*)ANIMSCR_READ_WORD;
     struct SpritePalette* pal = (struct SpritePalette*)ANIMSCR_READ_WORD;
+    struct OamData* oam = (struct OamData*)ANIMSCR_READ_WORD;
+    struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, nullrsf, (SpriteCallback)oac_nullsub};
     LoadCompressedSpriteSheetUsingHeap(gfx);
     LoadCompressedSpritePaletteUsingHeap(pal);
+    u8 spriteId = template_instanciate_forward_search(&spriteTemp, 0, 0, 0);
+    gSprites[spriteId].invisible = true;
+    var_800D = spriteId;
+    dprintf("loaded sprite id is %d\n", var_800D);
     ANIMSCR_CMD_NEXT;
 }
 
 /* Deletes a sprite from the gfx tag */
-void ScriptCmd_freespritetag()
+void ScriptCmd_deletesprite()
 {
     // alignment for read
     ANIMSCR_MOVE(1);
     // read tag
-    u16 tag = ANIMSCR_READ_HWORD;
-    for (u8 i = 0; i < 64; i++) {
-        if (tag == gSprites[i].gfx_table->tag)
-            obj_free(&gSprites[i]);
-    }
+    u16 var = ANIMSCR_READ_HWORD;
+    obj_free(&gSprites[VarGet(var)]);
     ANIMSCR_CMD_NEXT;
 }
 
-/* Draw a loaded sprite using it's tag */
-void ScriptCmd_initspritetag()
+/* show a loaded sprite using it's tag */
+void ScriptCmd_rendersprite()
 {
-
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    // read tag
+    u16 var = ANIMSCR_READ_HWORD;
+    var = VarGet(var);
+    // read positional arguements
+    s8 x = (s8)ANIMSCR_READ_HWORD;
+    s8 y = (s8)ANIMSCR_READ_HWORD;
+    // read animation data
+    ANIMSCR_MOVE(2);
+    struct RotscaleFrame (**rotscale_table)[] = (void*)ANIMSCR_READ_WORD;
+    struct Sprite* s = &gSprites[var];
+    s->pos1.x = x;
+    s->pos1.y = y;
+    s->rotscale_table = rotscale_table;
+    s->invisible = false;
+    ANIMSCR_CMD_NEXT;
 }
 
+/* Var related script commands */
+void ScriptCmd_copyvar()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    u16 dst = ANIMSCR_READ_HWORD;
+    u16 src = ANIMSCR_READ_HWORD;
+    VarSet(dst, VarGet(src));
+    ANIMSCR_CMD_NEXT;
+}
+
+void ScriptCmd_setvar()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    u16 var = ANIMSCR_READ_HWORD;
+    u16 value = ANIMSCR_READ_HWORD;
+    VarSet(var, value);
+    ANIMSCR_CMD_NEXT;
+}
+
+void ScriptCmd_addvar()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    u16 var = ANIMSCR_READ_HWORD;
+    u16 value = ANIMSCR_READ_HWORD;
+    VarSet(var, VarGet(var) + value);
+    ANIMSCR_CMD_NEXT;
+}
+
+void ScriptCmd_subvar()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    u16 var = ANIMSCR_READ_HWORD;
+    u16 value = ANIMSCR_READ_HWORD;
+    VarSet(var, VarGet(var) - value);
+    ANIMSCR_CMD_NEXT;
+}
+
+void ScriptCmd_mulvar()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    u16 var = ANIMSCR_READ_HWORD;
+    u16 value = ANIMSCR_READ_HWORD;
+    VarSet(var, VarGet(var) * value);
+    ANIMSCR_CMD_NEXT;
+}
+
+void ScriptCmd_divvar()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    u16 var = ANIMSCR_READ_HWORD;
+    u16 value = ANIMSCR_READ_HWORD;
+    VarSet(var, VarGet(var) / value);
+    ANIMSCR_CMD_NEXT;
+}
+
+void ScriptCmd_goto()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    u32 scriptPtr = ANIMSCR_READ_WORD;
+    ANIMSCR_SCRIPT = (void*)scriptPtr;
+    ANIMSCR_CMD_NEXT;
+}
 
 /* Move a sprite with a tag by a certain delta X in F frames */
-
-
-
-const struct SpritePalette scroll_pal1 = {(void *)slider_topPal, SLIDER_PAL_TAG};
-const struct CompressedSpriteSheet top_gfx1 = {(void *)slider_topTiles, 512, SLIDER_GFX_TAG};
 void AnimationMain()
 {
     if (gAnimationCore->waitAll) {
-        dprintf("wait all\n");
         return;
     }
 
     if (ANIMSCR_WAITING) {
-        dprintf("current command is waiting, move on\n");
         ANIMSCR_CMD_NEXT;
 		return;
     }
@@ -118,7 +212,7 @@ void AnimationMain()
         ANIMSCR_CMD_NEXT;
 		return;
 	}
-	dprintf("running animation for thread %d because it was %x\n", ANIMSCR_THREAD, ANIMSCR_SCRIPT);
+	dprintf("running animation for thread %d\n", ANIMSCR_THREAD);
     RunCurrentCommand();
 }
 

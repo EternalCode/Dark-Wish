@@ -4,6 +4,7 @@
 #define TIME_SCALE 19
 #define MINUTES_IN_A_DAY 1140
 extern u8 SpeciesGetIndexAbility(u16 species, u8 abilityIndicator);
+extern void dprintf(const char * str, ...);
 
 const struct Frame (**nullframe)[] = (const struct Frame (**)[])0x8231CF0;
 const struct RotscaleFrame (**nullrsf)[] = (const struct RotscaleFrame (**)[])0x8231CFC;
@@ -110,3 +111,10 @@ bool SpaceAvailableForPKMN()
 }
 #undef PCBOX_COUNT
 #undef PCBOX_COMPACITY
+
+
+struct Sprite* GetSpriteFromGfxTag(u16 tag)
+{
+    /* This doesn't see reliable at all... Currently objid is the best way to get a sprite */
+    return NULL;
+}

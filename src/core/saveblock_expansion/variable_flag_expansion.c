@@ -36,8 +36,8 @@ u16 *GetVarPointer(u16 id)
         u16 trueVarId = (id - 0x5000) << 1;
         return  (u16*)(EXPANDED_VARS_START + trueVarId);
     } else if (id >= 0x8000 && id <= 0x8016) {
-        // temp vars, doesn't rely on table now...
-        return (u16*)(0x20370B8 + ((id - 0x8000) >> 1));
+        id -= 0x8000;
+        return var_80xx[id];
     } else {
         return NULL;
     }

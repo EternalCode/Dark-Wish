@@ -25,9 +25,11 @@ extern bool SpaceAvailableInPC(void);
 extern bool SpaceAvailableInPartyPlayer(void);
 extern bool SpaceAvailableForPKMN(void);
 
-/* EventObjects fetch macros */
+/* EventObjects and sprite fetching */
 #define EVENTID_DIR(i) (gEventObjects[i].direction & 0xF)
 #define EVENTOBJ_DIR(n) (n->direction & 0xF)
+struct Sprite* GetSpriteFromGfxTag(u16 tag);
+
 
 /* var access funcs */
 extern u8 *GetFlagPointer(u16 id);
