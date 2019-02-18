@@ -15,9 +15,16 @@ void ScriptCmd_divvar(void);
 void ScriptCmd_goto(void);
 void ScriptCmd_movesprite(void);
 void ScriptCmd_waitthread(void);
+void ScriptCmd_RunAnimAvailableThread(void);
+void ScriptCmd_waitframes(void);
+void ScriptCmd_animatesprite(void);
+void ScriptCmd_spriteshow(void);
+void ScriptCmd_spritehide(void);
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
 extern void TaskMoveSprite(u8 taskId);
+extern void TaskWaitFrames(u8 taskId);
+
 
 const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_loadsprite, // 0
@@ -32,6 +39,11 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_goto, // 9
     ScriptCmd_movesprite, // 10
     ScriptCmd_waitthread, // 11
+    ScriptCmd_RunAnimAvailableThread, //12
+    ScriptCmd_waitframes, //13
+    ScriptCmd_animatesprite, //14
+    ScriptCmd_spriteshow, // 15
+    ScriptCmd_spritehide, // 16
 };
 
 
@@ -45,16 +57,6 @@ void InitializeAnimationCore(u8* scr1, u8* scr2, u8* scr3, u8* scr4)
     gAnimationCore->animScriptPtr[3] = scr4;
 }
 
-void RunAnimAvailableThread(u8* src)
-{
-    // find an unused script pointer and assign animation script to it
-    for (u8 i = 0; i < ANIM_SCR_COUNT; i++) {
-        if (gAnimationCore->animScriptPtr[i] == NULL) {
-            gAnimationCore->animScriptPtr[i] = src;
-            return;
-        }
-    }
-}
 
 void RunCurrentCommand()
 {
@@ -219,7 +221,71 @@ void ScriptCmd_waitthread()
     ANIMSCR_CMD_NEXT;
 }
 
-/* Move a sprite with a tag by a certain delta X in F frames */
+/* start a script on an available thread */
+void ScriptCmd_RunAnimAvailableThread()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    u8* scriptPtr = (u8*)ANIMSCR_READ_WORD;
+    // find an unused script pointer and assign animation script to it
+    for (u8 i = 0; i < ANIM_SCR_COUNT; i++) {
+        if (gAnimationCore->animScriptPtr[i] == NULL) {
+            gAnimationCore->animScriptPtr[i] = scriptPtr;
+            break;
+        }
+    }
+    dprintf("no thread available for script insertion\n");
+    ANIMSCR_CMD_NEXT;
+}
+
+/* sets a thread on a waiting state for X amount of frames */
+void ScriptCmd_waitframes()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u16 waitTime = ANIMSCR_READ_HWORD;
+    u8 taskId = task_add(TaskWaitFrames, 0);
+    tasks[taskId].priv[0] = waitTime;
+    tasks[taskId].priv[1] = ANIMSCR_THREAD;
+    ANIMSCR_CMD_NEXT;
+}
+
+/* writes an animation struct to a sprite and starts the animation */
+void ScriptCmd_animatesprite()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct RotscaleFrame (**rotscale_table)[] = (void*)ANIMSCR_READ_WORD;
+    gSprites[spriteId].rotscale_table = rotscale_table;
+    gSprites[spriteId].final_oam.affine_mode = 1;
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Sprite show and hide commands */
+void ScriptCmd_spriteshow()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    gSprites[spriteId].invisible = false;
+    ANIMSCR_CMD_NEXT;
+}
+
+void ScriptCmd_spritehide()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    gSprites[spriteId].invisible = true;
+    ANIMSCR_CMD_NEXT;
+}
+
+
+
 void AnimationMain()
 {
     if (gAnimationCore->waitAll) {

@@ -1,5 +1,6 @@
 #include <pokeagb/pokeagb.h>
-
+#include "animation_core.h"
+#include "../global.h"
 
 #define id t->priv[0]
 #define xOff t->priv[1]
@@ -71,3 +72,15 @@ void TaskMoveSprite(u8 taskId)
 #undef thread
 #undef originalX
 #undef originalY
+
+// wait X frames before deleting task and undoing wait state
+void TaskWaitFrames(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    if (t->priv[0] < t->priv[2]) {
+        t->priv[2]++;
+    } else {
+        gAnimationCore->wait[t->priv[1]] = false;
+        DestroyTask(taskId);
+    }
+}

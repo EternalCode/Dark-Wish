@@ -139,9 +139,7 @@ void battle_scene_intialize_sprites()
             memcpy(gPkmnBank[OPPONENT_SINGLES_BANK]->battleData.name, gPkmnBank[OPPONENT_SINGLES_BANK]->this_pkmn->box.nick, sizeof(party_player[0].box.nick));
             gPkmnBank[OPPONENT_SINGLES_BANK]->battleData.name[11] = 0xFF;
             gPkmnBank[OPPONENT_SINGLES_BANK]->battleData.is_active_bank = true;
-            dprintf("battle scene initialize sprites right before creating sprites wild battlers\n");
             create_sprites_wild_battlers();
-            dprintf("battle scene initialize after\n");
             break;
         case BATTLE_MODE_WILD_DOUBLE:
         case BATTLE_MODE_TRAINER:
@@ -181,6 +179,9 @@ extern void PlayerThrowBallAndMoveScene(struct Sprite*);
 void player_sendout_animation_singles()
 {
     gSprites[BattleEntryWindows->player_trainer_objid].animNum++;
+    gSprites[BattleEntryWindows->player_trainer_objid].animCmdIndex = 0;
+    gSprites[BattleEntryWindows->player_trainer_objid].animPaused = false;
+    gSprites[BattleEntryWindows->player_trainer_objid].affineAnimPaused = false;
     gSprites[BattleEntryWindows->player_trainer_objid].callback = PlayerThrowBallAndMoveScene;
     gSprites[BattleEntryWindows->player_trainer_objid].data[2] = PLAYER_SINGLES_BANK;
     gBattleAnimationStatus = 1;

@@ -44,6 +44,6 @@ void PokeballTask(u8 taskId)
     if (SpaceAvailableForPKMN()) {
         ReturnToBattleScene(taskId);
     } else {
-        WriteTextBag(taskId, Pokeball_error, true);
+        WriteTextBag(taskId, (pchar*)Pokeball_error, true);
     }
 }

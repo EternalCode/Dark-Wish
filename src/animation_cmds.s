@@ -104,3 +104,36 @@
 .byte 0
 .byte 0
 .endm
+
+.macro startscript script
+.byte 12
+.byte 0
+.byte 0
+.byte 0
+.word \script
+.endm
+
+.macro pauseframes frames
+.byte 13
+.byte 0
+.hword \frames
+.endm
+
+.macro animatesprite var rotscaletable
+.byte 14
+.byte 0
+.hword \var
+.word \rotscaletable
+.endm
+
+.macro showsprite var
+.byte 15
+.byte 0
+.hword \var
+.endm
+
+.macro hideprite var
+.byte 16
+.byte 0
+.hword \var
+.endm
