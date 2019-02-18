@@ -2,18 +2,6 @@
 #include "animation_core.h"
 #include "../global.h"
 
-#include "../battle/switch_scene/switch_scene.h"
-// images
-#include "../../generated/images/switch/slider_bot.h"
-#include "../../generated/images/switch/slider_mid.h"
-#include "../../generated/images/switch/slider_top.h"
-#include "../../generated/images/PSS_icons1.h"
-#include "../../generated/images/battle_terrains/grass/grass_bg.h"
-#include "../../generated/images/switch/switch_bg.h"
-#include "../../generated/images/type_icons.h"
-#include "../../generated/images/hpbox/hpbar_pieces_switch.h"
-#include "../../generated/images/switch/shift_menu.h"
-#include "../../generated/images/switch/shift_cursor.h"
 
 void ScriptCmd_loadsprite(void);
 void ScriptCmd_deletesprite(void);
@@ -25,8 +13,11 @@ void ScriptCmd_subvar(void);
 void ScriptCmd_mulvar(void);
 void ScriptCmd_divvar(void);
 void ScriptCmd_goto(void);
+void ScriptCmd_movesprite(void);
+void ScriptCmd_waitthread(void);
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
+extern void TaskMoveSprite(u8 taskId);
 
 const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_loadsprite, // 0
@@ -39,7 +30,8 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_mulvar, // 7
     ScriptCmd_divvar, // 8
     ScriptCmd_goto, // 9
-    //ScriptCmd_movesprite, // 10
+    ScriptCmd_movesprite, // 10
+    ScriptCmd_waitthread, // 11
 };
 
 
@@ -90,7 +82,6 @@ void ScriptCmd_loadsprite()
     u8 spriteId = template_instanciate_forward_search(&spriteTemp, 0, 0, 0);
     gSprites[spriteId].invisible = true;
     var_800D = spriteId;
-    dprintf("loaded sprite id is %d\n", var_800D);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -117,7 +108,6 @@ void ScriptCmd_rendersprite()
     s8 x = (s8)ANIMSCR_READ_HWORD;
     s8 y = (s8)ANIMSCR_READ_HWORD;
     // read animation data
-    ANIMSCR_MOVE(2);
     struct RotscaleFrame (**rotscale_table)[] = (void*)ANIMSCR_READ_WORD;
     struct Sprite* s = &gSprites[var];
     s->pos1.x = x;
@@ -197,6 +187,38 @@ void ScriptCmd_goto()
     ANIMSCR_CMD_NEXT;
 }
 
+
+/* Moves a sprite to a position by an amount per frame */
+void ScriptCmd_movesprite()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u8 taskId = task_add(TaskMoveSprite, 0);
+    struct Task* t = &tasks[taskId];
+
+    // set passed args to task
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    t->priv[0] = VarGet(spriteId);
+    t->priv[1] = ANIMSCR_READ_HWORD; // xOff
+    t->priv[2] = ANIMSCR_READ_HWORD; // yOff
+    t->priv[3] = ANIMSCR_READ_HWORD; // speed
+    t->priv[4] = ANIMSCR_THREAD; // execution thread
+    t->priv[5] = gSprites[t->priv[0]].pos1.x; // original x
+    t->priv[6] = gSprites[t->priv[0]].pos1.y; // original y
+    // to wait for finish, make sure to put use a waitanim command as the next command.
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+/* sets the thread to a waiting state */
+void ScriptCmd_waitthread()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    ANIMSCR_WAITING = true;
+    ANIMSCR_CMD_NEXT;
+}
+
 /* Move a sprite with a tag by a certain delta X in F frames */
 void AnimationMain()
 {
@@ -212,7 +234,6 @@ void AnimationMain()
         ANIMSCR_CMD_NEXT;
 		return;
 	}
-	dprintf("running animation for thread %d\n", ANIMSCR_THREAD);
     RunCurrentCommand();
 }
 

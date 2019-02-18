@@ -22,8 +22,6 @@
 .hword \var
 .hword \x
 .hword \y
-.byte 0
-.byte 0
 .word \anim
 .endm
 
@@ -81,11 +79,28 @@
 .hword \value
 .endm
 
-.macro gotovar var value
+.macro goto addr
 .byte 9
 .byte 0
 .byte 0
 .byte 0
+.word \addr
+.endm
+
+.macro movesprite var xoff yoff frames
+.byte 10
+.byte 0
 .hword \var
-.hword \value
+.hword \xoff
+.hword \yoff
+.hword \frames
+.byte 0
+.byte 0
+.endm
+
+.macro wait
+.byte 11
+.byte 0
+.byte 0
+.byte 0
 .endm

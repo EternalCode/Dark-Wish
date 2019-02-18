@@ -37,7 +37,7 @@ u16 *GetVarPointer(u16 id)
         return  (u16*)(EXPANDED_VARS_START + trueVarId);
     } else if (id >= 0x8000 && id <= 0x8016) {
         id -= 0x8000;
-        return var_80xx[id];
+        return (u16*)var_80xx[id];
     } else {
         return NULL;
     }
