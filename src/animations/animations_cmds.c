@@ -20,6 +20,7 @@ void ScriptCmd_waitframes(void);
 void ScriptCmd_animatesprite(void);
 void ScriptCmd_spriteshow(void);
 void ScriptCmd_spritehide(void);
+void ScriptCmd_setspritepal(void);
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
 extern void TaskMoveSprite(u8 taskId);
@@ -44,6 +45,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_animatesprite, //14
     ScriptCmd_spriteshow, // 15
     ScriptCmd_spritehide, // 16
+    ScriptCmd_setspritepal, // 17
 };
 
 
@@ -284,6 +286,20 @@ void ScriptCmd_spritehide()
     ANIMSCR_CMD_NEXT;
 }
 
+/* Given a sprite ID, change it's palette */
+void ScriptCmd_setspritepal()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    void* palette = (void*)ANIMSCR_READ_WORD;
+    // figure out palette number and apply new palette to it
+    u8 palSlot = gSprites[spriteId].final_oam.palette_num;
+    gpu_pal_apply(palette, 16 * (16 + palSlot), 32);
+    ANIMSCR_CMD_NEXT;
+}
+
 
 
 void AnimationMain()
@@ -291,23 +307,22 @@ void AnimationMain()
     if (gAnimationCore->waitAll) {
         return;
     }
-
     if (ANIMSCR_WAITING) {
         ANIMSCR_CMD_NEXT;
-		return;
+        return;
     }
     if (!ANIMSCR_SCRIPT) {
         ANIMSCR_CMD_NEXT;
-		return;
-	}
+        return;
+    }
     RunCurrentCommand();
 }
 
 
 void TestAnimation()
 {
-	extern u8 scrAnimTesting;
+    extern u8 scrAnimTesting;
     dprintf("running tests on script %x\n", (u32)&scrAnimTesting);
-	InitializeAnimationCore(&scrAnimTesting, NULL, NULL, NULL);
-	SetMainCallback(AnimationMain);
+    InitializeAnimationCore(&scrAnimTesting, NULL, NULL, NULL);
+    SetMainCallback(AnimationMain);
 }

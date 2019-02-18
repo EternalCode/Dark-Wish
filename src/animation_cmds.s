@@ -137,3 +137,10 @@
 .byte 0
 .hword \var
 .endm
+
+.macro setspritepal var palette
+.byte 17
+.byte 0
+.hword \var
+.word \palette
+.endm
