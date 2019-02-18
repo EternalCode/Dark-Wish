@@ -14,6 +14,13 @@ void CpuFastSet(void* src, void* dst, u32 mode)
     __asm__("swi 0xC");
 }
 
+s32	Div(s32 num, s32 divisor)
+{
+    __asm__("swi 0x6");
+    __asm__("bx lr");
+    return 0;
+}
+
 u16 rand_range(u16 min, u16 max)
 {
     if (min == max) return min;
