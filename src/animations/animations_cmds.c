@@ -21,6 +21,12 @@ void ScriptCmd_animatesprite(void);
 void ScriptCmd_spriteshow(void);
 void ScriptCmd_spritehide(void);
 void ScriptCmd_setspritepal(void);
+void ScriptCmd_spritetobg(void);
+void ScriptCmd_spritesblend(void);
+void ScriptCmd_spritebgclear(void);
+void ScriptCmd_spriteblend(void);
+void ScriptCmd_excludeblend(void);
+
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
 extern void TaskMoveSprite(u8 taskId);
@@ -46,6 +52,10 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_spriteshow, // 15
     ScriptCmd_spritehide, // 16
     ScriptCmd_setspritepal, // 17
+    ScriptCmd_spritetobg, // 18
+    ScriptCmd_spritebgclear, // 19
+    ScriptCmd_spritesblend, // 20
+    ScriptCmd_excludeblend, // 21
 };
 
 
@@ -197,18 +207,16 @@ void ScriptCmd_movesprite()
 {
     // alignment for read
     ANIMSCR_MOVE(1);
-    u8 taskId = task_add(TaskMoveSprite, 0);
+    u8 taskId = CreateTask(TaskMoveSprite, 0);
     struct Task* t = &tasks[taskId];
 
     // set passed args to task
     u16 spriteId = ANIMSCR_READ_HWORD;
     t->priv[0] = VarGet(spriteId);
-    t->priv[1] = ANIMSCR_READ_HWORD; // xOff
-    t->priv[2] = ANIMSCR_READ_HWORD; // yOff
-    t->priv[3] = ANIMSCR_READ_HWORD; // speed
+    t->priv[1] = ANIMSCR_READ_HWORD; // Delta X
+    t->priv[2] = ANIMSCR_READ_HWORD; // Delta Y
+    t->priv[3] = ANIMSCR_READ_HWORD; // Amount of frames to do animation for
     t->priv[4] = ANIMSCR_THREAD; // execution thread
-    t->priv[5] = gSprites[t->priv[0]].pos1.x; // original x
-    t->priv[6] = gSprites[t->priv[0]].pos1.y; // original y
     // to wait for finish, make sure to put use a waitanim command as the next command.
     ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
@@ -246,7 +254,7 @@ void ScriptCmd_waitframes()
     // alignment for read
     ANIMSCR_MOVE(1);
     u16 waitTime = ANIMSCR_READ_HWORD;
-    u8 taskId = task_add(TaskWaitFrames, 0);
+    u8 taskId = CreateTask(TaskWaitFrames, 0);
     tasks[taskId].priv[0] = waitTime;
     tasks[taskId].priv[1] = ANIMSCR_THREAD;
     ANIMSCR_CMD_NEXT;
@@ -296,26 +304,116 @@ void ScriptCmd_setspritepal()
     void* palette = (void*)ANIMSCR_READ_WORD;
     // figure out palette number and apply new palette to it
     u8 palSlot = gSprites[spriteId].final_oam.palette_num;
-    gpu_pal_apply(palette, 16 * (16 + palSlot), 32);
+    LoadPalette(palette, 16 * (16 + palSlot), 32);
+    ANIMSCR_CMD_NEXT;
+}
+
+void DrawSpriteToBG1(u8 spriteId, u8 palslotBG, u8 width, u8 height)
+{
+    // turn on BG 1 display
+    REG_DISPCNT |= DISPCNT_BG1;
+
+    // zerofill tilemap and tileset for BG1
+    void* charBase = (void *)0x6008000;
+    u16* mapBase = (void*)0x600F000;
+    u32 set = 0;
+    CpuFastSet((void*)&set, (void*)charBase, CPUModeFS(4096, CPUFSSET));
+    CpuFastSet((void*)&set, (void*)mapBase, CPUModeFS(2048, CPUFSSET));
+
+    // copy into BG1 tileset, tiles from the OAM. Note the first tile on the tileset is left empty
+    // this is so that the 0filled tiles don't display as the first tile of the image
+    u32 tileOffset = gSprites[spriteId].final_oam.tile_num * 32;
+    CpuFastSet((void*)(0x6010000 + tileOffset), charBase + 32, CPUModeFS(32 * width * height, CPUFSCPY));
+
+    // create tilemap
+    u8 offset = 1; // this is 1 because the first tile in the tileset is 0 filled
+    for (u8 xTile = 0; xTile < width; xTile++) {
+        for (u8 yTile = 0; yTile < height; yTile++) {
+            mapBase[xTile * 32 + yTile] = offset | (palslotBG << 12);
+            offset++;
+        }
+    }
+
+    // write sprite palette to BG
+    u8 spritePalSlot = gSprites[spriteId].final_oam.palette_num;
+    void* spritepal = (void*)(ADDR_OAMPALRAM + (spritePalSlot * 32));
+    void* bgpal = (void*)(ADDR_PALRAM + (32 * palslotBG));
+    CpuFastSet(spritepal, bgpal, CPUModeFS(32, CPUFSCPY));
+    LoadPalette(spritepal, 16 * palslotBG, 32);
+
+    // BG position to sprite position
+    REG_BG1HOFS = -gSprites[spriteId].pos1.x + (4 * width);
+    REG_BG1VOFS = -gSprites[spriteId].pos1.y + (4 * height);
+    gSprites[spriteId].invisible = true;
+}
+
+
+/* Copy Sprite to BG layer (typically done for blending) */
+void ScriptCmd_spritetobg()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    u16 tilewidth = ANIMSCR_READ_HWORD;
+    u16 tileheight = ANIMSCR_READ_HWORD;
+    DrawSpriteToBG1(spriteId, 4, tilewidth, tileheight);
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Clears bg1, the bg which sprites are mirrored to */
+void ScriptCmd_spritebgclear()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    void* charBase = (void *)0x6008000;
+    u16* mapBase = (void*)0x600F000;
+    u32 set = 0;
+    CpuFastSet((void*)&set, (void*)charBase, CPUModeFS(4096, CPUFSSET));
+    CpuFastSet((void*)&set, (void*)mapBase, CPUModeFS(2048, CPUFSSET));
+    gSprites[spriteId].invisible = false;
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Given a coefficient for the amount of blending for the sprites and BG 0. Apply blending */
+void ScriptCmd_spritesblend()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u8 coefficientA = ANIMSCR_READ_BYTE;
+    u8 coefficientB = ANIMSCR_READ_BYTE;
+    REG_BLDCNT = (BLDCNT_BG1_SRC |  BLDCNT_SPRITES_DST | BLDCNT_ALPHA_BLEND);
+    REG_BLDALPHA = BLDALPHA_BUILD(coefficientA, coefficientB);
+
+    // set blending move for the sprite
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Exclude a sprite from blending */
+void ScriptCmd_excludeblend()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    gSprites[spriteId].final_oam.obj_mode = 1; // semi-transparent
     ANIMSCR_CMD_NEXT;
 }
 
 
-
 void AnimationMain()
 {
-    if (gAnimationCore->waitAll) {
+    if (gAnimationCore->waitAll)
         return;
-    }
-    if (ANIMSCR_WAITING) {
-        ANIMSCR_CMD_NEXT;
-        return;
-    }
-    if (!ANIMSCR_SCRIPT) {
-        ANIMSCR_CMD_NEXT;
-        return;
-    }
-    RunCurrentCommand();
+
+    for (u8 i = 0; i < ANIM_SCR_COUNT; i++) {
+        if (ANIMSCR_WAITING || !ANIMSCR_SCRIPT) {
+            ANIMSCR_CMD_NEXT;
+        } else {
+            RunCurrentCommand();
+        }
 }
 
 

@@ -144,3 +144,31 @@
 .hword \var
 .word \palette
 .endm
+
+.macro spritetobg var tilesw tilesh
+.byte 18
+.byte 0
+.hword \var
+.hword \tilesw
+.hword \tilesh
+.endm
+
+.macro spritebgclear var
+.byte 19
+.byte 0
+.hword \var
+.endm
+
+@Coefficient A and Coefficient B.
+.macro spriteblend coa cob
+.byte 20
+.byte 0
+.byte \coa
+.byte \cob
+.endm
+
+.macro excludeblend var
+.byte 21
+.byte 0
+.hword \var
+.endm
