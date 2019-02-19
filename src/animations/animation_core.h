@@ -28,7 +28,7 @@ struct AnimationCore {
     u8 waitAll;
 
     /* global vars for all commands split into each script */
-    u32 global[ANIM_SCR_COUNT][ANIM_CMD_GLOBAL_COUNT];
+    u32 palbuffer[ANIM_SCR_COUNT];
 };
 
 
@@ -38,6 +38,7 @@ struct AnimationCore* gAnimationCore;
 #define ANIMSCR_SCRIPT gAnimationCore->animScriptPtr[ANIMSCR_THREAD]
 #define ANIMSCR_WAITING gAnimationCore->wait[ANIMSCR_THREAD]
 #define ANIMSCR_ARGS gAnimationCore->args
+#define ANIMSCR_PALBUFF gAnimationCore->palbuffer[ANIMSCR_THREAD]
 #define ANIMSCR_CMD_NEXT ANIMSCR_THREAD = (ANIMSCR_THREAD == (ANIM_CMD_GLOBAL_COUNT - 1)) ? \
                                             0 : ANIMSCR_THREAD + 1
 
