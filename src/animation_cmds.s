@@ -172,3 +172,17 @@
 .byte 0
 .hword \var
 .endm
+
+.macro darken factor
+.byte 22
+.byte \factor
+.byte 0
+.byte 0
+.endm
+
+.macro lighten factor
+.byte 23
+.byte \factor
+.byte 0
+.byte 0
+.endm

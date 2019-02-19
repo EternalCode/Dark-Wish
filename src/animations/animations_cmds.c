@@ -26,6 +26,8 @@ void ScriptCmd_spritesblend(void);
 void ScriptCmd_spritebgclear(void);
 void ScriptCmd_spriteblend(void);
 void ScriptCmd_excludeblend(void);
+void SpriteCmd_darkensprites(void);
+void SpriteCmd_lightensprites(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -56,6 +58,8 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_spritebgclear, // 19
     ScriptCmd_spritesblend, // 20
     ScriptCmd_excludeblend, // 21
+    SpriteCmd_darkensprites, // 22
+    SpriteCmd_lightensprites, // 23
 };
 
 
@@ -403,15 +407,42 @@ void ScriptCmd_excludeblend()
 }
 
 /* Sprite Darken */
+void SpriteCmd_darkensprites()
+{
+    u8 factor = ANIMSCR_READ_BYTE;
+    REG_BLDCNT = (BLDCNT_SPRITES_SRC |  BLDCNT_BG3_DST | BLDCNT_DARKEN);
+    // darken factor
+    REG_BLDY = factor;
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
 
+/* Sprite Lighten */
+void SpriteCmd_lightensprites()
+{
+    u8 factor = ANIMSCR_READ_BYTE;
+    REG_BLDCNT = (BLDCNT_SPRITES_SRC |  BLDCNT_BG3_DST | BLDCNT_LIGHTEN);
+    // lighten factor
+    REG_BLDY = factor;
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Pal fading sprites */
+
+
+/* move sprite in a wave with amplitude and slope */
+void SpriteCmd_movewave()
+{
+
+}
 
 
 void AnimationMain()
 {
-    if (gAnimationCore->waitAll)
-        return;
-
     for (u8 i = 0; i < ANIM_SCR_COUNT; i++) {
+        if (gAnimationCore->waitAll)
+            return;
         if (ANIMSCR_WAITING || !ANIMSCR_SCRIPT) {
             ANIMSCR_CMD_NEXT;
         } else {
