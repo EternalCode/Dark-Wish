@@ -41,3 +41,14 @@ void TaskWaitFrames(u8 taskId)
         DestroyTask(taskId);
     }
 }
+
+
+// Undo thread waiting after palfade has finished
+void TaskWaitFade(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    if (!gPaletteFade.active) {
+        gAnimationCore->wait[t->priv[0]] = false;
+        DestroyTask(taskId);
+    }
+}

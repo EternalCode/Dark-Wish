@@ -1,8 +1,6 @@
-@defines
-.equ INBG0, (1 << 0)
-.equ INBG1, (1 << 1)
-.equ INBG2, (1 << 2)
-.equ INBG3, (1 << 3)
+@ General Defines
+.equ true, 1
+.equ false, 0
 
 
 @Loads the sprite Id into var_800D
@@ -180,6 +178,14 @@
 .hword \var
 .endm
 
+@ -----------------------------------------------
+@ Defines so Darken and Lighten BG inclusion
+.equ INBG0, (1 << 0)
+.equ INBG1, (1 << 1)
+.equ INBG2, (1 << 2)
+.equ INBG3, (1 << 3)
+@ -----------------------------------------------
+
 .macro darken factor incbgs
 .byte 22
 .byte \factor
@@ -191,5 +197,34 @@
 .byte 23
 .byte \factor
 .byte \incbgs
+.byte 0
+.endm
+
+.macro clearpalbuffer
+.byte 24
+.byte 0
+.byte 0
+.byte 0
+.endm
+
+.macro addpalbuffer var boolincbgs
+.byte 25
+.byte \boolincbgs
+.hword \var
+.endm
+
+@ -----------------------------------------------
+@ Defines for pal fading
+.equ FADETO, 0
+.equ FADEFROM, 1
+@ -----------------------------------------------
+
+.macro beginfade transitionspeed blendcolor fadedirection boolwaitfade
+.byte 26
+.byte \transitionspeed
+.hword \blendcolor
+.byte \fadedirection
+.byte \boolwaitfade
+.byte 0
 .byte 0
 .endm

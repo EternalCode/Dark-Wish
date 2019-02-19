@@ -17,8 +17,10 @@ scrAnimTesting:
     spriteblend 8 8
     movesprite 0x8000 1 0 50
     wait
-    lighten 0xA INBG0|INBG3
-    goto scrTestVars
+    addpalbuffer 0x8000 0
+    addpalbuffer 0x800D 0
+    beginfade 5 0x1CF8 FADETO true
+    beginfade 5 0x1CF8 FADEFROM true
     .byte 0xFF
 
 scrTestVars:

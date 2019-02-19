@@ -28,11 +28,15 @@ void ScriptCmd_spriteblend(void);
 void ScriptCmd_excludeblend(void);
 void SpriteCmd_darkensprites(void);
 void SpriteCmd_lightensprites(void);
+void ScripCmd_clearpalbuff(void);
+void ScriptCmd_palbufferspriteandbgs(void);
+void ScriptCmd_palfade(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
 extern void TaskMoveSprite(u8 taskId);
 extern void TaskWaitFrames(u8 taskId);
+extern void TaskWaitFade(u8 taskId);
 
 
 const AnimScriptFunc gAnimTable[] = {
@@ -60,6 +64,9 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_excludeblend, // 21
     SpriteCmd_darkensprites, // 22
     SpriteCmd_lightensprites, // 23
+    ScripCmd_clearpalbuff, // 24
+    ScriptCmd_palbufferspriteandbgs, // 25
+    ScriptCmd_palfade, // 26
 };
 
 
@@ -454,18 +461,51 @@ void SpriteCmd_lightensprites()
     ANIMSCR_CMD_NEXT;
 }
 
-/* Pal fading sprites */
-void ScriptCmd_palfade()
+/* clears the current thread's palette buffer */
+void ScripCmd_clearpalbuff()
 {
-    // dst color
-    // sprites to fade
-    // bgs to fade
+    ANIMSCR_MOVE(3);
+    ANIMSCR_PALBUFF = 0;
+    ANIMSCR_CMD_NEXT;
 }
 
-/* Undo fading from scrcmd_palfade */
-void ScriptCmd_palunfade()
+/* add a sprite to the current thread's palette buffer. */
+void ScriptCmd_palbufferspriteandbgs()
 {
+    u8 incBgs = ANIMSCR_READ_BYTE;
+    u32 palbuff = ANIMSCR_PALBUFF;
+    if (incBgs != 0)
+        palbuff |= 0xFFFF;
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    u8 palSlot = gSprites[spriteId].final_oam.palette_num;
+    ANIMSCR_PALBUFF |= ((1 << (palSlot + 16)));
+    ANIMSCR_CMD_NEXT;
+}
 
+/* Pal fading on buffered sprites and BGs */
+void ScriptCmd_palfade()
+{
+    // time between color transitions
+    u8 delay = ANIMSCR_READ_BYTE;
+    // dst color
+    u16 blendColor = ANIMSCR_READ_HWORD;
+    // fade direction
+    u8 dir = ANIMSCR_READ_BYTE;
+    if (dir == 0) {
+        BeginNormalPaletteFade(ANIMSCR_PALBUFF , delay, 0x0, 0x10, blendColor);
+    } else {
+        BeginNormalPaletteFade(ANIMSCR_PALBUFF , delay, 0x10, 0x0, blendColor);
+    }
+    // apply delay task or not
+    u8 wait = ANIMSCR_READ_BYTE;
+    if (wait != 0) {
+        ANIMSCR_WAITING = true;
+        u8 taskId = CreateTask(TaskWaitFade, 0);
+        tasks[taskId].priv[0] = ANIMSCR_THREAD;
+    }
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
 }
 
 /* move sprite in a wave with amplitude and slope */
