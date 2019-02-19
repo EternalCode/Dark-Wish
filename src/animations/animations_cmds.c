@@ -402,6 +402,9 @@ void ScriptCmd_excludeblend()
     ANIMSCR_CMD_NEXT;
 }
 
+/* Sprite Darken */
+
+
 
 void AnimationMain()
 {
@@ -414,6 +417,7 @@ void AnimationMain()
         } else {
             RunCurrentCommand();
         }
+    }
 }
 
 
