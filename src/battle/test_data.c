@@ -18,7 +18,7 @@ const static u16 playerItem = ITEM_ORANBERRY;
 const u8 gPlayerAbility = ABILITY_STATIC;
 
 /* Opponent data */
-const static u16 opponentSpecies = SPECIES_TYRANITAR;
+const static u16 opponentSpecies = SPECIES_LANTURN;
 const static u16 opponentMove1 = MOVE_WILLOWISP;
 const static u16 opponentMove2 = MOVE_WILLOWISP;
 const static u16 opponentMove3 = MOVE_WILLOWISP;

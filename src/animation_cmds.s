@@ -1,3 +1,10 @@
+@defines
+.equ INBG0, (1 << 0)
+.equ INBG1, (1 << 1)
+.equ INBG2, (1 << 2)
+.equ INBG3, (1 << 3)
+
+
 @Loads the sprite Id into var_800D
 .macro loadsprite graphics palette oam
 .byte 0
@@ -173,16 +180,16 @@
 .hword \var
 .endm
 
-.macro darken factor
+.macro darken factor incbgs
 .byte 22
 .byte \factor
-.byte 0
+.byte \incbgs
 .byte 0
 .endm
 
-.macro lighten factor
+.macro lighten factor incbgs
 .byte 23
 .byte \factor
-.byte 0
+.byte \incbgs
 .byte 0
 .endm

@@ -17,7 +17,7 @@ scrAnimTesting:
     spriteblend 8 8
     movesprite 0x8000 1 0 50
     wait
-    darken 0xA
+    lighten 0xA INBG0|INBG3
     goto scrTestVars
     .byte 0xFF
 

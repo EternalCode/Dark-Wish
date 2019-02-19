@@ -410,10 +410,24 @@ void ScriptCmd_excludeblend()
 void SpriteCmd_darkensprites()
 {
     u8 factor = ANIMSCR_READ_BYTE;
-    REG_BLDCNT = (BLDCNT_SPRITES_SRC |  BLDCNT_BG3_DST | BLDCNT_DARKEN);
+    u8 incBgs = ANIMSCR_READ_BYTE;
+    dprintf("incbgs is %d\n", incBgs);
+    u16 blendTargets = (BLDCNT_DARKEN | BLDCNT_SPRITES_SRC);
+    if (incBgs & 1)
+        blendTargets |= (BLDCNT_BG0_SRC);
+    if (incBgs & 2)
+        blendTargets |= (BLDCNT_BG1_SRC);
+    if (incBgs & 4)
+        blendTargets |= (BLDCNT_BG2_SRC);
+    if (incBgs & 8)
+        blendTargets |= (BLDCNT_BG3_SRC);
+    if (incBgs == 0)
+        blendTargets |= (BLDCNT_BACKDROP_SRC);
+
+    REG_BLDCNT = blendTargets;
     // darken factor
     REG_BLDY = factor;
-    ANIMSCR_MOVE(2);
+    ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -421,15 +435,38 @@ void SpriteCmd_darkensprites()
 void SpriteCmd_lightensprites()
 {
     u8 factor = ANIMSCR_READ_BYTE;
-    REG_BLDCNT = (BLDCNT_SPRITES_SRC |  BLDCNT_BG3_DST | BLDCNT_LIGHTEN);
+    u8 incBgs = ANIMSCR_READ_BYTE;
+    u16 blendTargets = (BLDCNT_SPRITES_SRC | BLDCNT_LIGHTEN);
+    if (incBgs & 1)
+        blendTargets |= (BLDCNT_BG0_SRC);
+    if (incBgs & 2)
+        blendTargets |= (BLDCNT_BG1_SRC);
+    if (incBgs & 4)
+        blendTargets |= (BLDCNT_BG2_SRC);
+    if (incBgs & 8)
+        blendTargets |= (BLDCNT_BG3_SRC);
+    if (incBgs & 16)
+        blendTargets |= (BLDCNT_BACKDROP_SRC);
+    REG_BLDCNT = blendTargets;
     // lighten factor
     REG_BLDY = factor;
-    ANIMSCR_MOVE(2);
+    ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }
 
 /* Pal fading sprites */
+void ScriptCmd_palfade()
+{
+    // dst color
+    // sprites to fade
+    // bgs to fade
+}
 
+/* Undo fading from scrcmd_palfade */
+void ScriptCmd_palunfade()
+{
+
+}
 
 /* move sprite in a wave with amplitude and slope */
 void SpriteCmd_movewave()
