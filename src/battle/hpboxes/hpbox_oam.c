@@ -449,7 +449,7 @@ void spawn_hpboxes_wild(void)
     gSprites[gPkmnBank[OPPONENT_SINGLES_BANK]->objid_hpbox[1]].pos1.x -= 128;
     gSprites[gPkmnBank[OPPONENT_SINGLES_BANK]->objid_hpbox[2]].pos1.x -= 128;
     gSprites[gPkmnBank[OPPONENT_SINGLES_BANK]->objid_hpbox[3]].pos1.x -= 128;
-    task_add(opp_hpbar_slidin_slow, 1);
+    CreateTask(opp_hpbar_slidin_slow, 1);
     spawn_hpbox_player(HPBOX_TAG_PLAYER_SINGLE, HPBOX_PLAYER_SINGLE_X, HPBOX_PLAYER_SINGLE_Y, PLAYER_SINGLES_BANK);
     gSprites[gPkmnBank[PLAYER_SINGLES_BANK]->objid_hpbox[0]].pos1.x += 128;
     gSprites[gPkmnBank[PLAYER_SINGLES_BANK]->objid_hpbox[1]].pos1.x += 128;
@@ -487,7 +487,7 @@ void hp_anim_change(u8 bank, s16 delta)
 {
     if(delta == B_CURRENT_HP(bank))
         return;
-    u8 taskId = task_add(hpbar_apply_dmg, 0x10);
+    u8 taskId = CreateTask(hpbar_apply_dmg, 0x10);
     if(delta > B_CURRENT_HP(bank))
         tasks[taskId].priv[2] = 1; //heal
     else

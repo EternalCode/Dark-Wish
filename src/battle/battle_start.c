@@ -21,7 +21,7 @@ void StartWildBattle()
 {
     switch (gMain.state) {
         case 0:
-            gpu_pal_apply((void*)stdpal_get(0), 16*rboxes[0x18 & 0x3F].pal_id, 32);
+            LoadPalette((void*)stdpal_get(0), 16*rboxes[0x18 & 0x3F].pal_id, 32);
             PickBattleTypeEncounterMsg(battle_type_flag);
             ShowBattleMessage((u8*)string_buffer, 0x18);
             gMain.state++;
@@ -39,7 +39,7 @@ void StartWildBattle()
             if (gBattleAnimationStatus)
                 return;
             // create and slide into place HPbox
-            task_add(TaskPlayerHPBoxSlideIn, 1);
+            CreateTask(TaskPlayerHPBoxSlideIn, 1);
             gBattleAnimationStatus = 1;
             gMain.state++;
             break;
@@ -50,7 +50,7 @@ void StartWildBattle()
                 return;
 
             // up and down movement of the active moving Pokemon
-            u8 taskId = task_add(TaskBackspriteBob, 1);
+            u8 taskId = CreateTask(TaskBackspriteBob, 1);
             tasks[taskId].priv[0] = PLAYER_SINGLES_BANK;
 
             // build gPkmnBank data once animation is finished

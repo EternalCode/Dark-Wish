@@ -53,7 +53,6 @@ void TransitionWildBattle()
 {
     switch (gMain.state) {
         case 0:
-            dprintf("CASE 0\n");
             // set callbacks and vblank interrupt
             SetVBlankCallback((MainCallback)VblankMergeTextBoxSliding);
             SetMainCallback2((MainCallback)C2SyncAll);
@@ -64,14 +63,12 @@ void TransitionWildBattle()
             gMain.state++;
             break;
         case 1:
-            dprintf("CASE 1\n");
             bg_vram_setup(0, (struct BgConfig *)&bg_config_data, 4);
             // init textbox
             rbox_init_from_templates((struct TextboxTemplate*)0x8248330);
             gMain.state++;
             break;
         case 2:
-            dprintf("CASE 2\n");
             pick_and_load_battle_bgs();
             gMain.state++;
             break;
@@ -82,24 +79,17 @@ void TransitionWildBattle()
             mode activated will not be effected by the darken, since the lowest BG layer is lower in
             priority, thus the transparency will take place instead.
             */
-            dprintf("CASE 3\n");
-            dprintf("callback is %x\n", gMain.callback1);
             REG_BLDCNT = (BLDCNT_SPRITES_SRC |  BLDCNT_BG3_DST | BLDCNT_DARKEN);
             // darken factor of 7
             REG_BLDY = 0x7;
             battle_scene_intialize_sprites();
-            dprintf("does it come back?\n");
             gMain.state++;
-            dprintf("the state handler is %d\n", gMain.state);
-            dprintf("callback is %x\n", gMain.callback1);
             break;
         case 4:
             // show bgs for background and entry image
-            dprintf("CASE 4\n");
             ShowBg(3);
             ShowBg(1);
             ShowBg(0);
-            dprintf("CASE 4 show bgs\n");
             // enable wraparound for BG3 and BG1 (platform and entry image)
             REG_BG3CNT |= 0x2000;
             REG_BG1CNT |= 0x2000;
@@ -150,7 +140,7 @@ void TransitionWildBattle()
             SetHBlankCallback(NULL);
             SetVBlankCallback((MainCallback)VblankMergeTextBox);
             // light up opponents gradually and disable entry image
-            u8 taskId = task_add(task_lightup_objs, 0x1);
+            u8 taskId = CreateTask(task_lightup_objs, 0x1);
             tasks[taskId].priv[0] = 0x7;
             HideBg(1);
 

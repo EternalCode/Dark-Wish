@@ -69,13 +69,13 @@ void return_to_battle()
         case 3:
             switch (gBattleMaster->switch_main.reason) {
                 case ViewPokemon:
-                    tasks[task_add(TaskBackspriteBob, 1)].priv[0] = gBattleMaster->option_selecting_bank;
+                    tasks[CreateTask(TaskBackspriteBob, 1)].priv[0] = gBattleMaster->option_selecting_bank;
                     BankSelectOption(gBattleMaster->option_selecting_bank);
                     return;
                 case NormalSwitch:
                     // is the Pokemon trapped ?
                     if (bank_trapped(gBattleMaster->option_selecting_bank)) {
-                        tasks[task_add(TaskBackspriteBob, 1)].priv[0] = gBattleMaster->option_selecting_bank;
+                        tasks[CreateTask(TaskBackspriteBob, 1)].priv[0] = gBattleMaster->option_selecting_bank;
                         if (ACTION_HEAD == NULL) {
                             // build actions
                             ACTION_HEAD = add_action(0xFF, 0xFF, ActionHighPriority, EventEndAction);
@@ -89,7 +89,7 @@ void return_to_battle()
                         }
                         return;
                     }
-                    tasks[task_add(TaskBackspriteBob, 1)].priv[0] = gBattleMaster->option_selecting_bank;
+                    tasks[CreateTask(TaskBackspriteBob, 1)].priv[0] = gBattleMaster->option_selecting_bank;
                     gPkmnBank[PLAYER_SINGLES_BANK]->battleData.isSwitching = true;
                     gPkmnBank[PLAYER_SINGLES_BANK]->this_pkmn = &party_player[gBattleMaster->switch_main.position];
                     gMain.state = 0;
@@ -178,13 +178,13 @@ void return_to_battle_bag()
                 // continue game callbacks
                 // init textbox
                 rbox_init_from_templates((struct TextboxTemplate*)0x8248330);
-                gpu_pal_apply((void*)stdpal_get(0), 16 * rboxes[0x18].pal_id, 32);
+                LoadPalette((void*)stdpal_get(0), 16 * rboxes[0x18].pal_id, 32);
                 gMain.state++;
             }
             break;
         default:
             // set active movements
-            tasks[task_add(TaskBackspriteBob, 1)].priv[0] = PLAYER_SINGLES_BANK;
+            tasks[CreateTask(TaskBackspriteBob, 1)].priv[0] = PLAYER_SINGLES_BANK;
             BankSelectOption(PLAYER_SINGLES_BANK);
             break;
     };

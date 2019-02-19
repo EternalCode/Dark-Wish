@@ -262,8 +262,8 @@ void DexnavGuiHandler() {
                 // load BG assets
                 void *dexnav_gbackbuffer = malloc(0x800);
                 (*DNavState)->backbuffer = dexnav_gbackbuffer;
-                gpu_pal_apply((void *)(&GenericTextPal), 15 * 16, 32);
-                gpu_pal_apply_compressed((void *)dexnav_guiPal, 0, 32);
+                LoadPalette((void *)(&GenericTextPal), 15 * 16, 32);
+                LoadPalette_compressed((void *)dexnav_guiPal, 0, 32);
                 LZ77UnCompWram((void *)dexnav_guiMap, (void *)dexnav_gbackbuffer);
                 lz77UnCompVram((void *)dexnav_guiTiles, (void *)0x06000000);
                 bgid_set_tilemap(1, dexnav_gbackbuffer);

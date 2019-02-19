@@ -257,7 +257,7 @@ void C1UltraDexBoot()
         case 4:
             BuildGradient(0x71ED, 0x6791);
             BuildGradientPalette();
-            gpu_pal_apply(gUltraDex->sharedGfx->gradient_palette, 0, 32);
+            LoadPalette(gUltraDex->sharedGfx->gradient_palette, 0, 32);
             memset(gUltraDex->sharedGfx->gradient_palette, 0, 32 * 20);
             SetHBlankCallback(HBlankCBUltraDex);
             interrupts_enable(INTERRUPT_VBLANK | INTERRUPT_HBLANK);

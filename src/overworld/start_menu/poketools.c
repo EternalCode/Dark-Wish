@@ -71,6 +71,6 @@ void ToolSelection(u8 task_id) {
 
 u8 sm_poketools() {
     CloseStartmenu();
-    task_add(ToolSelection, 0);
+    CreateTask(ToolSelection, 0);
     return 1;
 }

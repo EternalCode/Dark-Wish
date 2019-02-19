@@ -143,7 +143,7 @@ void StartWildBattleTransition(u8 environment)
         battleTransitionId = WildBattleTransitionIds[6 + (oppLevel > playerLevel)];
     }
     battle_type_flag = BATTLE_MODE_WILD_DOUBLE;
-    u8 taskId = task_add(Task_WildBattleStart, 0);
+    u8 taskId = CreateTask(Task_WildBattleStart, 0);
     tasks[taskId].priv[1] = battleTransitionId;
     PlayMapChosenOrBattleBGM(0);
 }

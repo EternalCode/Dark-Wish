@@ -160,7 +160,7 @@ void BankSelectOption2()
                 //memcpy(map_base, battle_textbox_move_selectMap, sizeof(battle_textbox_action_selectMap));
                 CpuFastSet((void*)&battle_textbox_move_selectMap, (void*)map_base, CPUModeFS(0x800, CPUFSCPY));
                 show_move_data();
-                tasks[task_add(update_cursor_move_select, 1)].priv[0] = 0;
+                tasks[CreateTask(update_cursor_move_select, 1)].priv[0] = 0;
                 gBattleAnimationStatus = 1;
                 gMain.state = MenuWaitState;
                 break;

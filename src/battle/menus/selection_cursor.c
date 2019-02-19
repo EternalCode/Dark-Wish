@@ -283,7 +283,7 @@ void init_selection_cursor(u8 mode, u8 bank)
         gBattleMaster->battle_cursor.cursor_y[1] = 136;
         gBattleMaster->battle_cursor.cursor_y[2] = 136;
         gBattleMaster->battle_cursor.cursor_y[3] = 136;
-        task_add(update_cursor_action_select, 1);
+        CreateTask(update_cursor_action_select, 1);
         spawn_pointer_arrow(0);
 
     } else {
@@ -301,7 +301,7 @@ void init_selection_cursor(u8 mode, u8 bank)
         gBattleMaster->battle_cursor.cursor_y[3] = 151;
         gBattleMaster->battle_cursor.cursor_y[4] = 136;
         gBattleMaster->battle_cursor.cursor_y[5] = 136;
-        u8 taskId = task_add(update_cursor_move_select, 1);
+        u8 taskId = CreateTask(update_cursor_move_select, 1);
         tasks[taskId].priv[0] = bank;
 
         spawn_square_pointer(5);

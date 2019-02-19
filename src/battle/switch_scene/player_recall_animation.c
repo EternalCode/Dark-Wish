@@ -117,7 +117,7 @@ void pkmn_player_normal_switch()
             break;
         case 4:
             if ((gPaletteFade.active) || (gBattleAnimationStatus)) return;
-            task_add(TaskPlayerHPBoxSlideIn, 1);
+            CreateTask(TaskPlayerHPBoxSlideIn, 1);
             gBattleAnimationStatus = 1;
             gMain.state++;
             break;
@@ -135,7 +135,7 @@ void pkmn_player_normal_switch()
         case 6:
             if (!gPaletteFade.active) {
                 gPkmnBank[CURRENT_ACTION->action_bank]->battleData.isSwitching = false;
-                u8 taskId = task_add(TaskBackspriteBob, 1);
+                u8 taskId = CreateTask(TaskBackspriteBob, 1);
                 tasks[taskId].priv[0] = CURRENT_ACTION->action_bank;
                 struct action* a = next_action(ACTION_BANK, NULL, ActionSwitch, EventPostSwitch);
                 a->priv[0] = ACTION_BANK;

@@ -12,7 +12,7 @@ void TaskDeleteCompletedTextbox(u8 t_id) {
 void MsgNormal(pchar *str){
    textbox_fdecode_auto_and_task_add(str);
    box_status_and_type = 1;
-   task_add((TaskCallback)TaskDeleteCompletedTextbox, 0x1);
+   CreateTask((TaskCallback)TaskDeleteCompletedTextbox, 0x1);
    script_env_enable();
    return;
 }

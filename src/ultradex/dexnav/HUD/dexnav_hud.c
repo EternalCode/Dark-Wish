@@ -50,7 +50,7 @@ void init_dexnav_hud(u16 species, u8 environment) {
     SetHBlankCallback((MainCallback)dexhud_hblank);
 
     // task update HUD
-    u8 t_id = task_add((TaskCallback)dexnav_hud_manage, 0x1);
+    u8 t_id = CreateTask((TaskCallback)dexnav_hud_manage, 0x1);
     tasks[t_id].priv[0] = gSprites[gPlayerAvatar.spriteId].pos1.x;
 
 }

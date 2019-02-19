@@ -33,7 +33,7 @@ struct Template objt_cave = { .tiles_tag = 0xFFFF,
 void oei_1A_cave() {
     struct SpritePalette cave_smoke = {(const u8*)&cave_smokePal, 0x1005};
     gpu_pal_obj_alloc_tag_and_apply(&cave_smoke);
-    gpu_pal_apply((u8 *)&cave_smokePal, 29 * 16, 32);
+    LoadPalette((u8 *)&cave_smokePal, 29 * 16, 32);
     log_coords_relative_camera(&oe_state.effect_pos.x, &oe_state.effect_pos.y, 8, 8);
     u8 obj_id = template_instanciate_reverse_search(&objt_cave, oe_state.effect_pos.x, oe_state.effect_pos.y, 0xFF);
     if (obj_id != 64) {

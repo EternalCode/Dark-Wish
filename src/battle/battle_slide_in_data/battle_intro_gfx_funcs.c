@@ -77,9 +77,9 @@ void pick_and_load_battle_bgs()
     DMA3COPY(battle_textboxMap, map_base, sizeof(battle_textboxMap));
 
     // write palettes
-    gpu_pal_apply_compressed((void *)grass_bgPal, 0, 64);
-    gpu_pal_apply((void*)grass_entryPal, 16 * 4, 32);
-    gpu_pal_apply((void*)bboxPal, 16 * 5, 32);
+    LoadPalette_compressed((void *)grass_bgPal, 0, 64);
+    LoadPalette((void*)grass_entryPal, 16 * 4, 32);
+    LoadPalette((void*)bboxPal, 16 * 5, 32);
 }
 
 void pick_and_load_battle_bgs_no_entry(const void* textbox_map)
@@ -98,8 +98,8 @@ void pick_and_load_battle_bgs_no_entry(const void* textbox_map)
     CpuFastSet((void*)textbox_map, (void*)map_base, CPUModeFS(0x800, CPUFSCPY));
 
     // write palettes
-    gpu_pal_apply_compressed((void *)grass_bgPal, 0, 64);
-    gpu_pal_apply((void*)bboxPal, 16 * 5, 32);
+    LoadPalette_compressed((void *)grass_bgPal, 0, 64);
+    LoadPalette((void*)bboxPal, 16 * 5, 32);
 }
 
 struct Pokemon* pick_first_usable_pokemon(struct Pokemon* p, u8 party_size)

@@ -221,8 +221,8 @@ void switch_load_background()
     /* load menu */
     void *sw_bgbackbuffer = malloc(0x800);
     gBattleMaster->switch_main.back_buffer = sw_bgbackbuffer;
-    gpu_pal_apply_compressed((void *)switch_bgPal, 0, 32);
-    gpu_pal_apply((void *)(&switch_text_pal), 15 * 16, 32);
+    LoadPalette_compressed((void *)switch_bgPal, 0, 32);
+    LoadPalette((void *)(&switch_text_pal), 15 * 16, 32);
     LZ77UnCompWram((void *)switch_bgMap, (void *)sw_bgbackbuffer);
     lz77UnCompVram((void *)switch_bgTiles, (void *)0x06000000);
     bgid_set_tilemap(1, sw_bgbackbuffer);
