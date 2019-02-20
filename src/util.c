@@ -21,6 +21,13 @@ s32	Div(s32 num, s32 divisor)
     return 0;
 }
 
+u32	Sqrt(u32 num)
+{
+    __asm__("swi 0x8");
+    __asm__("bx lr");
+    return 0;
+}
+
 u16 rand_range(u16 min, u16 max)
 {
     if (min == max) return min;

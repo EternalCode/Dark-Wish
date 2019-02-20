@@ -45,12 +45,13 @@ extern struct TextColor textWhite;
 extern struct TextColor textRed;
 extern struct TextColor textGreen;
 
-/* CPUset */
+/* Software interrupts */
 #define CPUFSCPY 0
 #define CPUFSSET 1
 #define CPUModeFS(size, mode) ((size >> 2) | (mode << 24))
 extern void CpuFastSet(void* src, void* dst, u32 mode);
 extern s32	Div(s32 num, s32 divisor);
+extern u32	Sqrt(u32 num);
 
 /* Game clock */
 // we'll say 60 minutes is 1 day. So 1140 mins is 1 day,
