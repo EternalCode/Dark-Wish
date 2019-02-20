@@ -34,7 +34,7 @@ const struct BgConfig bg_config_data[4] = {
     {
         .padding = 0,
         .b_padding = 0,
-        .priority = 2,
+        .priority = 3,
         .palette = 0,
         .size = 0,
         .map_base = 29,

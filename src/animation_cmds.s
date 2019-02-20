@@ -1,7 +1,8 @@
+@ -----------------------------------------------
 @ General Defines
 .equ true, 1
 .equ false, 0
-
+@ -----------------------------------------------
 
 @Loads the sprite Id into var_800D
 .macro loadsprite graphics palette oam
@@ -178,6 +179,12 @@
 .hword \var
 .endm
 
+.macro includeblend var
+.byte 31
+.byte 0
+.hword \var
+.endm
+
 @ -----------------------------------------------
 @ Defines so Darken and Lighten BG inclusion
 .equ INBG0, (1 << 0)
@@ -243,6 +250,30 @@
 .byte \frequency
 .byte \wavetype
 .byte 0
+.byte 0
+.byte 0
+.endm
+
+.macro loadbg2 palsize tileset tilemap palette
+.byte 28
+.byte 0
+.hword \palsize
+.word \tileset
+.word \tilemap
+.word \palette
+.endm
+
+.macro showbg bgid
+.byte 29
+.byte \bgid
+.byte 0
+.byte 0
+.endm
+
+
+.macro hidebg bgid
+.byte 30
+.byte \bgid
 .byte 0
 .byte 0
 .endm

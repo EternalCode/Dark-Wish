@@ -143,7 +143,10 @@ void TransitionWildBattle()
             u8 taskId = CreateTask(task_lightup_objs, 0x1);
             tasks[taskId].priv[0] = 0x7;
             HideBg(1);
-
+            HideBg(2);
+            REG_BG3CNT = BGCNT_PRIORITY3 | BGCNT_TILESTART0 | BGCNT_MAPSTART(28) | BGCNT_TILEMAPSIZE0;//0x1C03;
+            REG_BG2CNT = BGCNT_PRIORITY3 | BGCNT_TILESTART1 | BGCNT_MAPSTART(29) | BGCNT_TILEMAPSIZE0;//0x1D06;
+            lcd_io_set(REG_ID_DISPCNT, DISPCNT_OAM_1D | DISPCNT_BG0 | DISPCNT_BG3 | DISPCNT_OBJ);
             // spawn HP boxes
             spawn_hpboxes_wild();
             gMain.state = 0;

@@ -24,14 +24,17 @@ void ScriptCmd_setspritepal(void);
 void ScriptCmd_spritetobg(void);
 void ScriptCmd_spritesblend(void);
 void ScriptCmd_spritebgclear(void);
-void ScriptCmd_spriteblend(void);
 void ScriptCmd_excludeblend(void);
+void ScriptCmd_includeblend(void);
 void SpriteCmd_darkensprites(void);
 void SpriteCmd_lightensprites(void);
 void ScripCmd_clearpalbuff(void);
 void ScriptCmd_palbufferspriteandbgs(void);
 void ScriptCmd_palfade(void);
 void SpriteCmd_movewave(void);
+void ScriptCmd_uploadbg(void);
+void ScriptCmd_showbg(void);
+void ScriptCmd_hidebg(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -69,6 +72,10 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_palbufferspriteandbgs, // 25
     ScriptCmd_palfade, // 26
     SpriteCmd_movewave, // 27
+    ScriptCmd_uploadbg, // 28
+    ScriptCmd_showbg, // 29
+    ScriptCmd_hidebg, // 30
+    ScriptCmd_includeblend, // 31
 };
 
 
@@ -357,6 +364,7 @@ void DrawSpriteToBG1(u8 spriteId, u8 palslotBG, u8 width, u8 height)
     // BG position to sprite position
     REG_BG1HOFS = -gSprites[spriteId].pos1.x + (4 * width);
     REG_BG1VOFS = -gSprites[spriteId].pos1.y + (4 * height);
+    REG_BG1CNT = BGCNT_PRIORITY1 | BGCNT_TILESTART2 | BGCNT_MAPSTART(30) | BGCNT_TILEMAPSIZE0;
     gSprites[spriteId].invisible = true;
 }
 
@@ -397,7 +405,7 @@ void ScriptCmd_spritesblend()
     ANIMSCR_MOVE(1);
     u8 coefficientA = ANIMSCR_READ_BYTE;
     u8 coefficientB = ANIMSCR_READ_BYTE;
-    REG_BLDCNT = (BLDCNT_BG1_SRC |  BLDCNT_SPRITES_DST | BLDCNT_ALPHA_BLEND);
+    REG_BLDCNT = (BLDCNT_BG1_SRC | BLDCNT_SPRITES_DST | BLDCNT_ALPHA_BLEND);
     REG_BLDALPHA = BLDALPHA_BUILD(coefficientA, coefficientB);
 
     // set blending move for the sprite
@@ -415,12 +423,24 @@ void ScriptCmd_excludeblend()
     ANIMSCR_CMD_NEXT;
 }
 
+/* Include a sprite to blend
+   typically only used after a sprite has been excluded
+*/
+void ScriptCmd_includeblend()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    gSprites[spriteId].final_oam.obj_mode = 0; // semi-transparent
+    ANIMSCR_CMD_NEXT;
+}
+
 /* Sprite Darken */
 void SpriteCmd_darkensprites()
 {
     u8 factor = ANIMSCR_READ_BYTE;
     u8 incBgs = ANIMSCR_READ_BYTE;
-    dprintf("incbgs is %d\n", incBgs);
     u16 blendTargets = (BLDCNT_DARKEN | BLDCNT_SPRITES_SRC);
     if (incBgs & 1)
         blendTargets |= (BLDCNT_BG0_SRC);
@@ -570,6 +590,58 @@ void SpriteCmd_movewave()
 #undef X
 #undef amplitude
 #undef waveOrBounce
+
+/* Upload a BG to BG2.. */
+void ScriptCmd_uploadbg()
+{
+    // alignment purposes
+    ANIMSCR_MOVE(1);
+    HideBg(2);
+    void* charBase = (void*)0x6004000;
+    void* mapBase = (void*)0x600E800;
+    // load graphical assets tileset
+    u16 palSize = ANIMSCR_READ_HWORD;
+    void* tileset = (void*)ANIMSCR_READ_WORD;
+    void* tilemap = (void*)ANIMSCR_READ_WORD;
+    u16* palette = (void*)ANIMSCR_READ_WORD;
+    // commit assets to BG
+    lz77UnCompVram(tileset, charBase);
+    lz77UnCompVram(tilemap, mapBase);
+    LoadPalette_compressed(palette, 16 * 9, palSize);
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Show and hide BGs */
+void ScriptCmd_showbg()
+{
+    u8 bgid = ANIMSCR_READ_BYTE;
+    ShowBg(bgid);
+    // switch (bgid) {
+    //     case 0:
+    //         REG_DISPCNT |= DISPCNT_BG0;
+    //         break;
+    //     case 1:
+    //         REG_DISPCNT |= DISPCNT_BG0;
+    //         break;
+    //     case 2:
+    //         REG_DISPCNT |= DISPCNT_BG0;
+    //         break;
+    //     case 3:
+    //         REG_DISPCNT |= DISPCNT_BG0;
+    //         break;
+    // };
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+void ScriptCmd_hidebg()
+{
+    u8 bgid = ANIMSCR_READ_BYTE;
+    HideBg(bgid);
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
 
 void AnimationMain()
 {
