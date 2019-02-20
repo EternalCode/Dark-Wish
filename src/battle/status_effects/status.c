@@ -337,7 +337,6 @@ u8 BankAilmentToPKMN(u8 bank)
 
 void PKMNAilmentToBank(u8 bank, u8 ailment)
 {
-	dprintf("pokemon ailment to bank %d\n", bank);
     if ((ailment & 7) > 0) {
         gPkmnBank[bank]->battleData.status = AILMENT_SLEEP;
         gPkmnBank[bank]->battleData.status_turns = ailment & 7;
@@ -347,7 +346,6 @@ void PKMNAilmentToBank(u8 bank, u8 ailment)
         gPkmnBank[bank]->battleData.status = AILMENT_POISON;
 		AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)poison_on_residual);
     } else if (ailment & (1<<4)) {
-		dprintf("pokemon has a burn\n");
         gPkmnBank[bank]->battleData.status = AILMENT_BURN;
 		AddCallback(CB_ON_RESIDUAL, 0, CB_PERMA, bank, (u32)burn_on_residual);
     } else if (ailment & (1<<5)) {

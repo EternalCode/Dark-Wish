@@ -108,9 +108,6 @@ struct Pokemon* pick_first_usable_pokemon(struct Pokemon* p, u8 party_size)
         u16 species = pokemon_getattr(&p[i], REQUEST_SPECIES, NULL);
         bool is_egg = pokemon_getattr(&p[i], REQUEST_IS_EGG, NULL);
         u16 current_hp = pokemon_getattr(&p[i], REQUEST_CURRENT_HP, NULL);
-        dprintf("SELECTING SPECIES. SPECIES ID IS %d\n", species);
-        dprintf("SELECTING SPECIES. SPECIES IS EGG? %d\n", is_egg);
-        dprintf("SELECTING SPECIES. CURRENTHP? %d\n", current_hp);
         // valid if it's a valid species, isn't an egg, and is alive.
         if ((species < SPECIES_MAX) && (species > 0) &&
          (!is_egg) && (current_hp > 0)) {
