@@ -228,3 +228,21 @@
 .byte 0
 .byte 0
 .endm
+
+@ -----------------------------------------------
+@ Defines for the sin wave effect
+.equ BOUNCE, 0xF
+.equ SINWAVE, 0xFF
+@ -----------------------------------------------
+.macro movewave spritea spriteb amplitude frequency wavetype
+.byte 27
+.byte 0
+.hword \spritea
+.hword \spriteb
+.byte \amplitude
+.byte \frequency
+.byte \wavetype
+.byte 0
+.byte 0
+.byte 0
+.endm

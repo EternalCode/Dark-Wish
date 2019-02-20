@@ -37,7 +37,7 @@ struct AnimationCore* gAnimationCore;
 #define ANIMSCR_THREAD gAnimationCore->currentAnimationScript
 #define ANIMSCR_SCRIPT gAnimationCore->animScriptPtr[ANIMSCR_THREAD]
 #define ANIMSCR_WAITING gAnimationCore->wait[ANIMSCR_THREAD]
-#define ANIMSCR_ARGS gAnimationCore->args
+#define ANIMSCR_ARGS gAnimationCore->retArg[ANIMSCR_THREAD]
 #define ANIMSCR_PALBUFF gAnimationCore->palbuffer[ANIMSCR_THREAD]
 #define ANIMSCR_CMD_NEXT ANIMSCR_THREAD = (ANIMSCR_THREAD == (ANIM_CMD_GLOBAL_COUNT - 1)) ? \
                                             0 : ANIMSCR_THREAD + 1

@@ -31,6 +31,7 @@ void SpriteCmd_lightensprites(void);
 void ScripCmd_clearpalbuff(void);
 void ScriptCmd_palbufferspriteandbgs(void);
 void ScriptCmd_palfade(void);
+void SpriteCmd_movewave(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -67,6 +68,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScripCmd_clearpalbuff, // 24
     ScriptCmd_palbufferspriteandbgs, // 25
     ScriptCmd_palfade, // 26
+    SpriteCmd_movewave, // 27
 };
 
 
@@ -509,11 +511,65 @@ void ScriptCmd_palfade()
 }
 
 /* move sprite in a wave with amplitude and slope */
-void SpriteCmd_movewave()
+#define bounces sprite->data[0]
+#define bouncesPast sprite->data[3]
+#define xDelta sprite->data[1]
+#define yDelta sprite->data[2]
+#define X sprite->data[4]
+#define amplitude sprite->data[5]
+#define waveOrBounce sprite->data[6]
+#define frequency sprite->data[7]
+void SCBWaveMovement(struct Sprite* sprite)
 {
-
+    sprite->pos1.x += Div(xDelta, 256);
+    sprite->pos1.y += Div(yDelta, 256);
+    bouncesPast += 1;
+    if (bouncesPast > bounces)
+        sprite->callback = oac_nullsub;
+    // apply sin curve to Y position
+    if (yDelta < 0)
+        sprite->pos1.y -= get_pingpong(X, amplitude);
+    else
+        sprite->pos1.y += get_pingpong(X, amplitude);
+    // update wave frequency
+    X = (X + frequency) & waveOrBounce;
 }
 
+void SpriteCmd_movewave()
+{
+    // alignment
+    ANIMSCR_MOVE(1);
+    // get sprites
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    u16 destSpriteId = ANIMSCR_READ_HWORD;
+    destSpriteId = VarGet(destSpriteId);
+    struct Sprite* sprite = &gSprites[spriteId];
+    struct Sprite* s2 = &gSprites[destSpriteId];
+    // set bounce properties
+    X = 0; // starts sin(x) on X = 0. Can phase shift forward, not backwards
+    bounces = 30;
+    amplitude = ANIMSCR_READ_BYTE;
+    bouncesPast = 0;
+    frequency = ANIMSCR_READ_BYTE;
+    waveOrBounce = ANIMSCR_READ_BYTE;
+    // calculate delta distances per bounce
+    s32 x = s2->pos1.x - sprite->pos1.x;
+    s32 y = s2->pos1.y - sprite->pos1.y;
+    xDelta = Div((x * 256), bounces);
+    yDelta = Div((y * 256), bounces);
+    // Animate sprite bounce given parameters
+    sprite->callback = SCBWaveMovement;
+    ANIMSCR_MOVE(3);
+    ANIMSCR_CMD_NEXT;
+}
+#undef bounces
+#undef bouncesPast
+#undef xDelta
+#undef yDelta
+#undef X
+#undef amplitude
+#undef waveOrBounce
 
 void AnimationMain()
 {
