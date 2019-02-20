@@ -528,9 +528,9 @@ void SCBWaveMovement(struct Sprite* sprite)
         sprite->callback = oac_nullsub;
     // apply sin curve to Y position
     if (yDelta < 0)
-        sprite->pos1.y -= get_pingpong(X, amplitude);
+        sprite->pos1.y -= Sin(X, amplitude);
     else
-        sprite->pos1.y += get_pingpong(X, amplitude);
+        sprite->pos1.y += Sin(X, amplitude);
     // update wave frequency
     X = (X + frequency) & waveOrBounce;
 }

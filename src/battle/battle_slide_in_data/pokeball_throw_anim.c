@@ -78,17 +78,17 @@ void pokeball_player_throw_arc(struct Sprite* spr)
             spr->data[6] += 2;
             if (spr->data[6] % 3)
                 spr->pos1.x += 1;
-            spr->pos1.y = (get_pingpong(spr->data[6], -30)) + 100;
+            spr->pos1.y = (Sin(spr->data[6], -30)) + 100;
         } else if (spr->data[6] < 130) {
             spr->data[6] += 3;
             if (spr->data[6] % 2)
                 spr->pos1.x += 1;
-            spr->pos1.y = (get_pingpong(spr->data[6], -30)) + 100;
+            spr->pos1.y = (Sin(spr->data[6], -30)) + 100;
         } else {
             if (spr->data[6] % 2)
                 spr->pos1.x += 1;
             spr->data[6] += 5;
-            spr->pos1.y = (get_pingpong(spr->data[6], -30)) + 100;
+            spr->pos1.y = (Sin(spr->data[6], -30)) + 100;
 
         }
 
