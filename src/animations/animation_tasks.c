@@ -1,6 +1,9 @@
 #include <pokeagb/pokeagb.h>
 #include "animation_core.h"
 #include "../global.h"
+#include "../battle/battle_actions/actions.h"
+#include "../battle/battle_data/battle_state.h"
+#include "../battle/battle_data/pkmn_bank_stats.h"
 
 #define id t->priv[0]
 #define deltaX t->priv[1]
@@ -8,7 +11,6 @@
 #define framesCount t->priv[3]
 #define thread t->priv[4]
 #define framesPast t->priv[5]
-
 void TaskMoveSprite(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
@@ -179,3 +181,24 @@ void TaskQuakeBg(u8 taskId)
 #undef waitcounter
 #undef dirRight
 #undef dirUp
+
+
+void TaskHPBoxBobFast(u8 taskId) {
+    struct Task* t = &tasks[taskId];
+    if (t->priv[3] == 20) {
+        DestroyTask(taskId);
+        return;
+    }
+
+    // calculate bank and delta
+    u8 bank = t->priv[0];
+    s8 amount = (t->priv[1]) ? -2 : 2;
+    t->priv[3]++;
+    // apply delta
+    gSprites[gPkmnBank[bank]->objid_hpbox[0]].pos1.y += amount;
+    gSprites[gPkmnBank[bank]->objid_hpbox[1]].pos1.y += amount;
+    gSprites[gPkmnBank[bank]->objid_hpbox[2]].pos1.y += amount;
+    gSprites[gPkmnBank[bank]->objid_hpbox[3]].pos1.y += amount;
+    // adjust direction of delta next time
+    t->priv[1] = !(t->priv[1]);
+}

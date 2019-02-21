@@ -138,7 +138,7 @@
 .hword \var
 .endm
 
-.macro hideprite var
+.macro hidesprite var
 .byte 16
 .byte 0
 .hword \var
@@ -394,6 +394,12 @@
 .byte 0
 .byte 0
 .byte 0
+.endm
+
+.macro shakehpbox var
+.byte 45
+.byte 0
+.hword \var
 .endm
 
 .macro end

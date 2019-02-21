@@ -51,6 +51,7 @@ void ScriptCmd_compare(void);
 void ScriptCmd_comparevars(void);
 void ScriptCmd_sideofsprite(void);
 void ScriptCmd_fastsetbattlers(void);
+void ScripCmd_shakehpbox(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -59,6 +60,7 @@ extern void TaskWaitFrames(u8 taskId);
 extern void TaskWaitFade(u8 taskId);
 extern void TaskFlashSprite(u8 taskId);
 extern void TaskQuakeBg(u8 taskId);
+extern void TaskHPBoxBobFast(u8 taskId);
 extern void battle_loop(void);
 
 const AnimScriptFunc gAnimTable[] = {
@@ -107,6 +109,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_comparevars, // 42
     ScriptCmd_sideofsprite, // 43
     ScriptCmd_fastsetbattlers, // 44
+    ScripCmd_shakehpbox, // 45
 };
 
 
@@ -850,6 +853,22 @@ void ScriptCmd_fastsetbattlers()
 #undef targety
 #undef attacker
 #undef attackery
+
+/* Shake HP box of a sprite */
+void ScripCmd_shakehpbox()
+{
+    ANIMSCR_MOVE(1);
+    u16 shakehpof = ANIMSCR_READ_HWORD;
+    shakehpof = VarGet(shakehpof);
+    u8 bank;
+    if (gPkmnBank[ACTION_BANK]->objid == shakehpof) {
+        bank = ACTION_BANK;
+    } else {
+        bank = ACTION_TARGET;
+    }
+    u8 taskId = CreateTask(TaskHPBoxBobFast, 0);
+    tasks[taskId].priv[0] = bank;
+}
 
 void AnimationMain()
 {

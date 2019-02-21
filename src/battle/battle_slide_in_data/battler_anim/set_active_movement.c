@@ -25,5 +25,4 @@ void TaskBackspriteBob(u8 taskId) {
         t->priv[2]++;
         return;
     }
-
 }

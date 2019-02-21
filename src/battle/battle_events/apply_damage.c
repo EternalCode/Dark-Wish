@@ -50,7 +50,10 @@ void init_damage(struct action* a)
 
 void do_damage(u8 bank_index, u16 dmg)
 {
-    struct action* a = prepend_action(bank_index, NULL, ActionDamage, EventDamageAnim);
+    extern u8* ReceiveDamage;
+    struct action* a = prepend_action(bank_index, bank_index, ActionAnimation, EventPlayAnimation);
+    a->script = (u32)&ReceiveDamage;
+    a = prepend_action(bank_index, NULL, ActionDamage, EventDamageAnim);
     a->priv[0] = bank_index;
     a->priv[1] = dmg;
 }
@@ -90,7 +93,7 @@ void event_move_damage(struct action* current_action)
     if (gBattleMoves[CURRENT_MOVE(bank_index)].animation) {
         struct action* a = prepend_action(bank_index, TARGET_OF(bank_index), ActionAnimation, EventPlayAnimation);
         a->move = CURRENT_MOVE(bank_index);
-        a->script = gBattleMoves[CURRENT_MOVE(bank_index)].animation;
+        a->script = (u32)gBattleMoves[CURRENT_MOVE(bank_index)].animation;
     }
 
     // HP bar damage
