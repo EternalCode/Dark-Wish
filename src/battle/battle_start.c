@@ -11,7 +11,6 @@ extern void battle_loop(void);
 extern void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags);
 extern void PlayerThrowBallAndMoveScene(struct Sprite*);
 extern void TaskPlayerHPBoxSlideIn(u8 taskId);
-extern void TaskBackspriteBob(u8 task_id);
 extern void BankSelectOption(u8 bank);
 extern void PickBattleTypeEncounterMsg(enum BattleTypes);
 extern void SortBanksBySpeed(u8* activeBanks, u8 index);
@@ -48,10 +47,6 @@ void StartWildBattle()
             // wait for hp sliding animations to finish
             if (gBattleAnimationStatus)
                 return;
-
-            // up and down movement of the active moving Pokemon
-            u8 taskId = CreateTask(TaskBackspriteBob, 1);
-            tasks[taskId].priv[0] = PLAYER_SINGLES_BANK;
 
             // build gPkmnBank data once animation is finished
             struct SwitchingFlagsToPass* flags = (struct SwitchingFlagsToPass*)malloc_and_clear(sizeof(struct SwitchingFlagsToPass));

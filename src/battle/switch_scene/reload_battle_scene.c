@@ -18,7 +18,6 @@ extern void BankSelectOption(u8 bank);
 extern void HandlersClear(void);
 extern void ResetAndHideBGs(void);
 extern void validate_player_selected_move(void);
-extern void TaskBackspriteBob(u8 tid);
 extern void free_unused_objs(void);
 extern bool bank_trapped(u8 bank);
 extern struct action* QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
@@ -69,13 +68,11 @@ void return_to_battle()
         case 3:
             switch (gBattleMaster->switch_main.reason) {
                 case ViewPokemon:
-                    tasks[CreateTask(TaskBackspriteBob, 1)].priv[0] = gBattleMaster->option_selecting_bank;
                     BankSelectOption(gBattleMaster->option_selecting_bank);
                     return;
                 case NormalSwitch:
                     // is the Pokemon trapped ?
                     if (bank_trapped(gBattleMaster->option_selecting_bank)) {
-                        tasks[CreateTask(TaskBackspriteBob, 1)].priv[0] = gBattleMaster->option_selecting_bank;
                         if (ACTION_HEAD == NULL) {
                             // build actions
                             ACTION_HEAD = add_action(0xFF, 0xFF, ActionHighPriority, EventEndAction);
@@ -89,7 +86,6 @@ void return_to_battle()
                         }
                         return;
                     }
-                    tasks[CreateTask(TaskBackspriteBob, 1)].priv[0] = gBattleMaster->option_selecting_bank;
                     gPkmnBank[PLAYER_SINGLES_BANK]->battleData.isSwitching = true;
                     gPkmnBank[PLAYER_SINGLES_BANK]->this_pkmn = &party_player[gBattleMaster->switch_main.position];
                     gMain.state = 0;
@@ -184,7 +180,6 @@ void return_to_battle_bag()
             break;
         default:
             // set active movements
-            tasks[CreateTask(TaskBackspriteBob, 1)].priv[0] = PLAYER_SINGLES_BANK;
             BankSelectOption(PLAYER_SINGLES_BANK);
             break;
     };

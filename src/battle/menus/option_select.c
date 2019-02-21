@@ -104,7 +104,8 @@ void BankSelectOption2()
             //memcpy(map_base, battle_textbox_action_selectMap, sizeof(battle_textbox_action_selectMap));
             CpuFastSet((void*)&battle_textbox_action_selectMap, (void*)map_base, CPUModeFS(0x800, CPUFSCPY));
             init_selection_cursor(1, 0);
-
+            u8 taskId = CreateTask(TaskBackspriteBob, 1);
+            tasks[taskId].priv[0] = PLAYER_SINGLES_BANK;
             // next state
             gBattleAnimationStatus = 1;
             gMain.state = BaseMenuInputInterpret;

@@ -14,6 +14,7 @@ extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effec
 extern void WildBattleAIPickMove(u8 bank);
 extern bool ValidateBankMove(u8 bank);
 extern void CreateActionsForActiveBanks(void);
+extern void TaskBackspriteBob(u8 taskid);
 extern u16 BankInterpretSelectedMove(u16);
 
 
@@ -100,6 +101,7 @@ void validate_player_selected_move()
         return;
     }
     WildBattleAIPickMove(OPPONENT_SINGLES_BANK);
+    DestroyTask(task_find_id_by_functpr(TaskBackspriteBob));
     CreateActionsForActiveBanks();
     SetMainCallback(battle_loop);
 }
