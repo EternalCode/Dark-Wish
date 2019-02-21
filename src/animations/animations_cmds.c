@@ -38,6 +38,8 @@ void ScriptCmd_uploadbg(void);
 void ScriptCmd_showbg(void);
 void ScriptCmd_hidebg(void);
 void ScriptCmd_flashsprite(void);
+void ScriptCmd_getattacker(void);
+void ScriptCmd_getdefender(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -81,6 +83,8 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_hidebg, // 30
     ScriptCmd_includeblend, // 31
     ScriptCmd_flashsprite, // 32
+    ScriptCmd_getattacker, // 33
+    ScriptCmd_getdefender, // 34
 };
 
 
@@ -656,18 +660,19 @@ void ScriptCmd_flashsprite()
 }
 
 /* Set attacker to var */
-
+void ScriptCmd_getattacker()
+{
+    ANIMSCR_MOVE(3);
+    VarSet(0x800D, ACTION_BANK);
+    ANIMSCR_CMD_NEXT;
+}
 /* Set defender to var */
-
-/* Hide HP bar attacker */
-
-/* Hide HP bar of defender */
-
-/* Show all HP bars */
-
-/* Flash HP bars */
-
-
+void ScriptCmd_getdefender()
+{
+    ANIMSCR_MOVE(3);
+    VarSet(0x800D, ACTION_TARGET);
+    ANIMSCR_CMD_NEXT;
+}
 
 void AnimationMain()
 {
@@ -683,10 +688,8 @@ void AnimationMain()
             RunCurrentCommand();
         }
     }
-    dprintf("counter is %d\n", counter);
     if (counter == ANIM_SCR_COUNT) {
         // all threads complete. Return
-        dprintf("done running for now\n");
         free(gAnimationCore);
         end_action(CURRENT_ACTION);
         SetMainCallback(battle_loop);

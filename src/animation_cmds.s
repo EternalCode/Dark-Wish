@@ -289,3 +289,17 @@
 .byte 0
 .byte 0
 .endm
+
+.macro getattacker
+.byte 33
+.byte 0
+.byte 0
+.byte 0
+.endm
+
+.macro getdefender
+.byte 34
+.byte 0
+.byte 0
+.byte 0
+.endm
