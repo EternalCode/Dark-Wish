@@ -3,6 +3,7 @@
 #include "../global.h"
 #include "../battle/battle_actions/actions.h"
 #include "../battle/battle_data/battle_state.h"
+#include "../battle/battle_data/pkmn_bank_stats.h"
 
 
 void ScriptCmd_loadsprite(void);
@@ -40,6 +41,16 @@ void ScriptCmd_hidebg(void);
 void ScriptCmd_flashsprite(void);
 void ScriptCmd_getattacker(void);
 void ScriptCmd_getdefender(void);
+void ScriptCmd_getattackercoords(void);
+void ScriptCmd_getdefendercoords(void);
+void ScriptCmd_quakebg(void);
+void ScriptCmd_call(void);
+void ScriptCmd_return(void);
+void ScriptCmd_if(void);
+void ScriptCmd_compare(void);
+void ScriptCmd_comparevars(void);
+void ScriptCmd_sideofsprite(void);
+void ScriptCmd_fastsetbattlers(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -47,6 +58,7 @@ extern void TaskMoveSprite(u8 taskId);
 extern void TaskWaitFrames(u8 taskId);
 extern void TaskWaitFade(u8 taskId);
 extern void TaskFlashSprite(u8 taskId);
+extern void TaskQuakeBg(u8 taskId);
 extern void battle_loop(void);
 
 const AnimScriptFunc gAnimTable[] = {
@@ -85,6 +97,16 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_flashsprite, // 32
     ScriptCmd_getattacker, // 33
     ScriptCmd_getdefender, // 34
+    ScriptCmd_getattackercoords, // 35
+    ScriptCmd_getdefendercoords, // 36
+    ScriptCmd_quakebg, // 37
+    ScriptCmd_call, // 38
+    ScriptCmd_return, // 39
+    ScriptCmd_if, // 40
+    ScriptCmd_compare, // 41
+    ScriptCmd_comparevars, // 42
+    ScriptCmd_sideofsprite, // 43
+    ScriptCmd_fastsetbattlers, // 44
 };
 
 
@@ -149,8 +171,10 @@ void ScriptCmd_rendersprite()
     u16 var = ANIMSCR_READ_HWORD;
     var = VarGet(var);
     // read positional arguements
-    s8 x = (s8)ANIMSCR_READ_HWORD;
-    s8 y = (s8)ANIMSCR_READ_HWORD;
+    u16 xcontainer = ANIMSCR_READ_HWORD;
+    s16 x = VarGet(xcontainer);
+    u16 ycontainer = ANIMSCR_READ_HWORD;
+    s16 y = VarGet(ycontainer);
     // read animation data
     struct RotscaleFrame (**rotscale_table)[] = (void*)ANIMSCR_READ_WORD;
     struct Sprite* s = &gSprites[var];
@@ -274,7 +298,6 @@ void ScriptCmd_RunAnimAvailableThread()
             break;
         }
     }
-    dprintf("no thread available for script insertion\n");
     ANIMSCR_CMD_NEXT;
 }
 
@@ -342,7 +365,6 @@ void DrawSpriteToBG1(u8 spriteId, u8 palslotBG, u8 width, u8 height)
 {
     // turn on BG 1 display
     REG_DISPCNT |= DISPCNT_BG1;
-
     // zerofill tilemap and tileset for BG1
     void* charBase = (void *)0x6008000;
     u16* mapBase = (void*)0x600F000;
@@ -374,6 +396,8 @@ void DrawSpriteToBG1(u8 spriteId, u8 palslotBG, u8 width, u8 height)
     // BG position to sprite position
     REG_BG1HOFS = -gSprites[spriteId].pos1.x + (4 * width);
     REG_BG1VOFS = -gSprites[spriteId].pos1.y + (4 * height);
+    ChangeBgX(1, (-gSprites[spriteId].pos1.x + (4 * width)) * 256, 0);
+    ChangeBgY(1, (-gSprites[spriteId].pos1.y + (4 * height)) * 256, 0);
     REG_BG1CNT = BGCNT_PRIORITY1 | BGCNT_TILESTART2 | BGCNT_MAPSTART(30) | BGCNT_TILEMAPSIZE0;
     gSprites[spriteId].invisible = true;
 }
@@ -663,16 +687,169 @@ void ScriptCmd_flashsprite()
 void ScriptCmd_getattacker()
 {
     ANIMSCR_MOVE(3);
-    VarSet(0x800D, ACTION_BANK);
+    VarSet(0x800D, gPkmnBank[ACTION_BANK]->objid);
     ANIMSCR_CMD_NEXT;
 }
+
 /* Set defender to var */
 void ScriptCmd_getdefender()
 {
     ANIMSCR_MOVE(3);
-    VarSet(0x800D, ACTION_TARGET);
+    VarSet(0x800D, gPkmnBank[ACTION_TARGET]->objid);
     ANIMSCR_CMD_NEXT;
 }
+
+/* Set attacker coords */
+void ScriptCmd_getattackercoords()
+{
+    ANIMSCR_MOVE(3);
+    struct Sprite* sprite = &gSprites[gPkmnBank[ACTION_BANK]->objid];
+    VarSet(0x8000, sprite->pos1.x);
+    VarSet(0x8001, sprite->pos1.y);
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Set defender coords */
+void ScriptCmd_getdefendercoords()
+{
+    ANIMSCR_MOVE(3);
+    struct Sprite* sprite = &gSprites[gPkmnBank[ACTION_TARGET]->objid];
+    VarSet(0x8000, sprite->pos1.x);
+    VarSet(0x8001, sprite->pos1.y);
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Side of a mon given it's sprite Id */
+void ScriptCmd_sideofsprite()
+{
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId) & 0xFF;
+    if (gPkmnBank[ACTION_BANK]->objid == spriteId) {
+        ANIMSCR_CONDITION = SIDE_OF(ACTION_BANK);
+    } else {
+        ANIMSCR_CONDITION = SIDE_OF(ACTION_TARGET);
+    }
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Quake BG */
+void ScriptCmd_quakebg()
+{
+    u8 taskId = CreateTask(TaskQuakeBg, 0);
+    tasks[taskId].priv[0] = ANIMSCR_READ_BYTE; // bgid
+    tasks[taskId].priv[1] = ANIMSCR_READ_BYTE; // xquake
+    tasks[taskId].priv[2] = ANIMSCR_READ_BYTE; // yquake
+    tasks[taskId].priv[3] = ANIMSCR_READ_BYTE; // times
+    tasks[taskId].priv[4] = ANIMSCR_READ_BYTE; // speed
+    tasks[taskId].priv[10] = ANIMSCR_READ_BYTE; // wait bool
+    tasks[taskId].priv[11] = ANIMSCR_THREAD; // thread
+    ANIMSCR_MOVE(1);
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Call */
+void ScriptCmd_call()
+{
+    ANIMSCR_MOVE(3);
+    u8* callLocation = (u8*)ANIMSCR_READ_WORD;
+    gAnimationCore->callStack[ANIMSCR_THREAD][ANIMSCR_STACKDEPTH] = ANIMSCR_SCRIPT;
+    ANIMSCR_STACKDEPTH++;
+    ANIMSCR_SCRIPT = callLocation;
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Return */
+void ScriptCmd_return()
+{
+    ANIMSCR_SCRIPT = gAnimationCore->callStack[ANIMSCR_THREAD][ANIMSCR_STACKDEPTH - 1];
+    ANIMSCR_STACKDEPTH--;
+    ANIMSCR_CMD_NEXT;
+}
+
+/* if */
+void ScriptCmd_if()
+{
+    bool condition = ANIMSCR_READ_BYTE;
+    ANIMSCR_MOVE(2);
+    if (ANIMSCR_CONDITION != condition) {
+        // skip the condition true clause. This is 1 command and a script arg - 8 bytes including the padding
+        ANIMSCR_MOVE(8);
+    }
+    ANIMSCR_CMD_NEXT;
+}
+
+/* compare var to value */
+void ScriptCmd_compare()
+{
+    ANIMSCR_MOVE(1);
+    u16 var = ANIMSCR_READ_HWORD;
+    u16 value = ANIMSCR_READ_HWORD;
+    ANIMSCR_MOVE(2);
+    var = VarGet(var);
+    if (var < value) {
+        ANIMSCR_CONDITION = 0;
+    } else if (var == value) {
+        ANIMSCR_CONDITION = 1;
+    } else if (var > value) {
+        ANIMSCR_CONDITION = 2;
+    } else if (var <= value) {
+        ANIMSCR_CONDITION = 3;
+    } else if (var >= value) {
+        ANIMSCR_CONDITION = 4;
+    }
+    ANIMSCR_CMD_NEXT;
+}
+
+/* compare var to var */
+void ScriptCmd_comparevars()
+{
+    ANIMSCR_MOVE(1);
+    u16 varA = ANIMSCR_READ_HWORD;
+    u16 varB = ANIMSCR_READ_HWORD;
+    ANIMSCR_MOVE(2);
+    varA = VarGet(varA);
+    varB = VarGet(varB);
+    if (varA < varB) {
+        ANIMSCR_CONDITION = 0;
+    } else if (varA == varB) {
+        ANIMSCR_CONDITION = 1;
+    } else if (varA > varB) {
+        ANIMSCR_CONDITION = 2;
+    } else if (varA <= varB) {
+        ANIMSCR_CONDITION = 3;
+    } else if (varA >= varB) {
+        ANIMSCR_CONDITION = 4;
+    }
+    ANIMSCR_CMD_NEXT;
+}
+
+/* fast get all battlers into predetermined vars */
+#define attacker 0x8004
+#define defender 0x8005
+#define targetx 0x8006
+#define targety 0x8007
+#define attackerx 0x8008
+#define attackery 0x8009
+void ScriptCmd_fastsetbattlers()
+{
+    ANIMSCR_MOVE(3);
+    u8 sprattacker = gPkmnBank[ACTION_BANK]->objid;
+    u8 sprtarget = gPkmnBank[ACTION_TARGET]->objid;
+    VarSet(attacker, sprattacker);
+    VarSet(defender, sprtarget);
+    VarSet(targetx, gSprites[sprtarget].pos1.x);
+    VarSet(targety, gSprites[sprtarget].pos1.y);
+    VarSet(attackerx, gSprites[sprattacker].pos1.x);
+    VarSet(attackery, gSprites[sprattacker].pos1.y);
+    ANIMSCR_CMD_NEXT;
+}
+#undef attacker
+#undef defender
+#undef targetx
+#undef targety
+#undef attacker
+#undef attackery
 
 void AnimationMain()
 {

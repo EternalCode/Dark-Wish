@@ -27,8 +27,12 @@ struct AnimationCore {
     u8 wait[ANIM_SCR_COUNT];
     u8 waitAll;
 
+    /* Call stack */
+    u8* callStack[ANIM_SCR_COUNT][ANIM_STACK_DEPTH];
+    u8 stacks[ANIM_SCR_COUNT];
     /* global vars for all commands split into each script */
     u32 palbuffer[ANIM_SCR_COUNT];
+    u8 conditionResult[ANIM_SCR_COUNT];
 };
 
 
@@ -39,6 +43,8 @@ struct AnimationCore* gAnimationCore;
 #define ANIMSCR_WAITING gAnimationCore->wait[ANIMSCR_THREAD]
 #define ANIMSCR_ARGS gAnimationCore->retArg[ANIMSCR_THREAD]
 #define ANIMSCR_PALBUFF gAnimationCore->palbuffer[ANIMSCR_THREAD]
+#define ANIMSCR_STACKDEPTH gAnimationCore->stacks[ANIMSCR_THREAD]
+#define ANIMSCR_CONDITION gAnimationCore->conditionResult[ANIMSCR_THREAD]
 #define ANIMSCR_CMD_NEXT ANIMSCR_THREAD = (ANIMSCR_THREAD == (ANIM_CMD_GLOBAL_COUNT - 1)) ? \
                                             0 : ANIMSCR_THREAD + 1
 

@@ -22,12 +22,12 @@
 .hword \var
 .endm
 
-.macro rendersprite var x y anim
+.macro rendersprite var varx vary anim
 .byte 2
 .byte 0
 .hword \var
-.hword \x
-.hword \y
+.hword \varx
+.hword \vary
 .word \anim
 .endm
 
@@ -302,4 +302,100 @@
 .byte 0
 .byte 0
 .byte 0
+.endm
+
+.macro getattackercoords
+.byte 35
+.byte 0
+.byte 0
+.byte 0
+.endm
+
+.macro getdefendercoords
+.byte 36
+.byte 0
+.byte 0
+.byte 0
+.endm
+
+.macro quakebg bgid xquake yquake times delay boolwait
+.byte 37
+.byte \bgid
+.byte \xquake
+.byte \yquake
+.byte \times
+.byte \delay
+.byte \boolwait
+.byte 0
+.endm
+
+.macro call script
+.byte 38
+.byte 0
+.byte 0
+.byte 0
+.word \script
+.endm
+
+.macro return
+.byte 39
+.endm
+
+.macro if2 condition btype script
+.byte 40
+.byte \condition
+.byte 0
+.byte 0
+.byte 38
+.byte 0
+.byte 0
+.byte 0
+.word script
+.endm
+
+.macro if1 condition btype script
+.byte 40
+.byte \condition
+.byte 0
+.byte 0
+.byte 9
+.byte 0
+.byte 0
+.byte 0
+.word \script
+.endm
+
+.macro compare var value
+.byte 41
+.byte 0
+.hword \var
+.hword \value
+.byte 0
+.byte 0
+.endm
+
+.macro comparevars varA varB
+.byte 42
+.byte 0
+.hword \varA
+.hword \varB
+.byte 0
+.byte 0
+.endm
+
+.macro sideof var
+.byte 43
+.byte 0
+.hword \var
+.endm
+
+.macro fastsetbattlers
+.byte 44
+.byte 0
+.byte 0
+.byte 0
+.endm
+
+.macro end
+.byte 0xFF
 .endm

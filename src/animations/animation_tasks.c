@@ -109,7 +109,73 @@ void TaskFlashSprite(u8 taskId)
 #undef flashDuration
 #undef timesToFlash
 #undef thread
-#undef wait
+#undef towait
 #undef state
 #undef counter
 #undef timesFlashed
+
+#define bgid t->priv[0]
+#define xquake t->priv[1]
+#define yquake t->priv[2]
+#define times t->priv[3]
+#define speed t->priv[4]
+#define dirX t->priv[5]
+#define dirY t->priv[6]
+#define quakeCount t->priv[9]
+#define towait t->priv[10]
+#define thread t->priv[11]
+#define waitcounter t->priv[12]
+#define dirRight 0
+#define dirUp 1
+void TaskQuakeBg(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    // check anim finished
+    if ((quakeCount >> 2) == times) {
+        DestroyTask(taskId);
+        if (towait)
+            gAnimationCore->wait[thread] = false;
+        return;
+    }
+    // wait for delay
+    if (waitcounter < speed) {
+        waitcounter++;
+        return;
+    }
+    waitcounter = 0;
+    // quake X
+
+    if (dirX == dirRight) {
+        ChangeBgX(bgid, xquake << 8, 1);
+        dirX = !dirRight;
+        quakeCount++;
+    } else {
+        ChangeBgX(bgid, xquake << 8, 2);
+        dirX = dirRight;
+        quakeCount++;
+    }
+    // quake Y
+    if (dirY == dirUp) {
+        ChangeBgY(bgid, yquake << 8, 1);
+        dirY = !dirUp;
+        quakeCount++;
+    } else {
+        ChangeBgY(bgid, yquake << 8, 2);
+        dirY = dirUp;
+        quakeCount++;
+    }
+
+}
+#undef bgid
+#undef xquake
+#undef yquake
+#undef times
+#undef speed
+#undef dirX
+#undef dirY
+#undef quakeCount
+#undef towait
+#undef thread
+#undef waitcounter
+#undef dirRight
+#undef dirUp
