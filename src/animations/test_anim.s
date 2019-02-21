@@ -13,18 +13,18 @@ scrAnimTesting:
     //wait
     copyvar 0x8000 0x800D
     setvar 0x800D 0x0
-    spritetobg 0x800D 8 8
-    showbg 1
-    spriteblend 8 8
+    //spritetobg 0x800D 8 8
+    //showbg 1
+    //spriteblend 8 8
     //movesprite 0x8000 1 0 50
     //wait
-    addpalbuffer 0x8000 0
-    addpalbuffer 0x800D 0
+    addpalbuffer 0xFFFF true
     loadbg2 32 switch_bgTiles switch_bgMap switch_bgPal
     showbg 2
     beginfade 0 0x1CF8 FADETO true
     beginfade 0 0x1CF8 FADEFROM true
     movewave 0x8000 0x800D 2 32 SINWAVE
+    flashsprite 0x800D 5 20 true 0
     .byte 0xFF
 
 scrTestVars:

@@ -270,10 +270,22 @@
 .byte 0
 .endm
 
-
 .macro hidebg bgid
 .byte 30
 .byte \bgid
+.byte 0
+.byte 0
+.endm
+
+.macro flashsprite var flashdur timestoflash boolwait color
+.byte 32
+.byte 0
+.byte \flashdur
+.byte \timestoflash
+.hword \var
+.byte \boolwait
+.hword \color
+.byte 0
 .byte 0
 .byte 0
 .endm

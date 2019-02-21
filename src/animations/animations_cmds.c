@@ -35,12 +35,14 @@ void SpriteCmd_movewave(void);
 void ScriptCmd_uploadbg(void);
 void ScriptCmd_showbg(void);
 void ScriptCmd_hidebg(void);
+void ScriptCmd_flashsprite(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
 extern void TaskMoveSprite(u8 taskId);
 extern void TaskWaitFrames(u8 taskId);
 extern void TaskWaitFade(u8 taskId);
+extern void TaskFlashSprite(u8 taskId);
 
 
 const AnimScriptFunc gAnimTable[] = {
@@ -76,6 +78,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_showbg, // 29
     ScriptCmd_hidebg, // 30
     ScriptCmd_includeblend, // 31
+    ScriptCmd_flashsprite, // 32
 };
 
 
@@ -616,20 +619,6 @@ void ScriptCmd_showbg()
 {
     u8 bgid = ANIMSCR_READ_BYTE;
     ShowBg(bgid);
-    // switch (bgid) {
-    //     case 0:
-    //         REG_DISPCNT |= DISPCNT_BG0;
-    //         break;
-    //     case 1:
-    //         REG_DISPCNT |= DISPCNT_BG0;
-    //         break;
-    //     case 2:
-    //         REG_DISPCNT |= DISPCNT_BG0;
-    //         break;
-    //     case 3:
-    //         REG_DISPCNT |= DISPCNT_BG0;
-    //         break;
-    // };
     ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
 }
@@ -641,6 +630,40 @@ void ScriptCmd_hidebg()
     ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
 }
+
+/* Flash BG */
+
+/* Flash sprite */
+void ScriptCmd_flashsprite()
+{
+    ANIMSCR_MOVE(1);
+    u8 flashDuration = ANIMSCR_READ_BYTE;
+    u8 timesToFlash = ANIMSCR_READ_BYTE;
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    u8 taskId = CreateTask(TaskFlashSprite, 0);
+    tasks[taskId].priv[0] = spriteId;
+    tasks[taskId].priv[1] = flashDuration;
+    tasks[taskId].priv[2] = timesToFlash;
+    tasks[taskId].priv[3] = ANIMSCR_THREAD;
+    tasks[taskId].priv[4] = ANIMSCR_READ_BYTE;
+    tasks[taskId].priv[5] = ANIMSCR_READ_HWORD;
+    ANIMSCR_MOVE(3);
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Set attacker to var */
+
+/* Set defender to var */
+
+/* Hide HP bar attacker */
+
+/* Hide HP bar of defender */
+
+/* Show all HP bars */
+
+/* Flash HP bars */
+
 
 
 void AnimationMain()
