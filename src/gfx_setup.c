@@ -43,14 +43,14 @@ void ResetBgs()
 {
 	overworld_free_bgmaps();
 	gpu_tile_bg_drop_all_sets(0);
-	bgid_mod_x_offset(0, 0, 0);
-    bgid_mod_y_offset(0, 0, 0);
-	bgid_mod_x_offset(1, 0, 0);
-    bgid_mod_y_offset(1, 0, 0);
-	bgid_mod_x_offset(2, 0, 0);
-    bgid_mod_y_offset(2, 0, 0);
-	bgid_mod_x_offset(3, 0, 0);
-    bgid_mod_y_offset(3, 0, 0);
+	ChangeBgX(0, 0, 0);
+    ChangeBgY(0, 0, 0);
+	ChangeBgX(1, 0, 0);
+    ChangeBgY(1, 0, 0);
+	ChangeBgX(2, 0, 0);
+    ChangeBgY(2, 0, 0);
+	ChangeBgX(3, 0, 0);
+    ChangeBgY(3, 0, 0);
 }
 
 

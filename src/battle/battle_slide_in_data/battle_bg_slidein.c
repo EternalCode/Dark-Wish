@@ -111,7 +111,7 @@ void TransitionWildBattle()
             break;
         case 6:
             // there is a window in which the entry image and BG are moving
-            bgid_mod_x_offset(1, 3 << 8, 1);
+            ChangeBgX(1, 3 << 8, 1);
             BattleEntryWindows->wintop -= 1;
             BattleEntryWindows->winbot += 1;
             if (BattleEntryWindows->wintop < 20)
@@ -119,8 +119,8 @@ void TransitionWildBattle()
             break;
         case 7:
         {
-            bgid_mod_x_offset(1, 4 << 8, 1);
-            bgid_mod_y_offset(1, 1 << 7, 2);
+            ChangeBgX(1, 4 << 8, 1);
+            ChangeBgY(1, 1 << 7, 2);
 
             // slide in battlers for each side
             battlers_move_into_scene();

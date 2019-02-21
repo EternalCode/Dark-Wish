@@ -33,10 +33,10 @@ u8 exec_dexnav() {
 void dexnav_gui_setup() {
     Setup();
     rboxes_free();
-    bgid_mod_x_offset(0, 0, 0);
-    bgid_mod_y_offset(0, 0, 0);
-    bgid_mod_x_offset(1, 0, 0);
-    bgid_mod_y_offset(1, 0, 0);
+    ChangeBgX(0, 0, 0);
+    ChangeBgY(0, 0, 0);
+    ChangeBgX(1, 0, 0);
+    ChangeBgY(1, 0, 0);
     gpu_tile_bg_drop_all_sets(0);
     bg_vram_setup(0, (struct BgConfig *)&bg_config_dexnav_gui, 4);
     u32 set = 0;
