@@ -283,8 +283,8 @@ extern u8 lunar_dance_on_effect(u8 user, u8 src, u16 move, struct anonymous_call
 extern u8 block_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern u8 fairy_lock_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 
-/* Move scripts */
-extern u8* scrAnimTesting;
+/* Move Animation scripts */
+extern const u8* TackleAnimation;
 
 /* User stats */
 extern struct move_procs user_lower_atk_1;

@@ -1,31 +1,61 @@
 .text
 .thumb
 .align 2
-
 .include "src/animation_cmds.s"
-.equ target, 0x8000
-.equ attacker, 0x8001
 
-.global scrAnimTesting
+.equ attacker, 0x8004
+.equ target, 0x8005
+.equ targetx, 0x8006
+.equ targety, 0x8007
+.equ attackerx, 0x8008
+.equ attackery, 0x8009
+.equ LASTRESULT, 0x800D
+.equ impactParticle, 0x8003
 
-scrAnimTesting:
-    loadsprite top_gfx scroll_pal slider_oam
-    rendersprite 0x800D 50 100 nullrsf
-    copyvar 0x8002 0x800D
-    loadbg2 32 switch_bgTiles switch_bgMap switch_bgPal
-    showbg 2
-    beginfade 0 0x1CF8 FADETO true
-    beginfade 0 0x1CF8 FADEFROM true
-    getdefender
-    movewave target 0x8002 2 32 SINWAVE
-    flashsprite 0x8002 5 20 true 0
+.global TackleAnimation
+TackleAnimation:
+    // Always load assets and data before starting an animation
+    // this will not burn frames on fetching data during the animation
+    loadsprite impact1Sprite impact1Palette impact1Oam
+    copyvar impactParticle 0x800D
+    fastsetbattlers
+
+blendingPrep:
+    spriteblend 8 8
+    spritetobg target 8 8
+    sideof attacker
+    if1 0x1 goto animationOpponent
+
+animationPlayer:
+    movesprite attacker 8 0 5
     wait
-    .byte 0xFF
+    rendersprite impactParticle targetx targety nullrsf
+    startscript scrQuakeSprite
+    movesprite attacker 0xFFFC 0 10 // -4 xoffset
+    wait
+    pauseframes 30
+    end
 
-scrTestVars:
-    copyvar 0x8000 0x800D
-    setvar 0x8001 0x1919
-    copyvar 0x8003 0x8001
-    subvar 0x8003 0x18
-    .byte 0xFF
+animationOpponent:
+    movesprite attacker 0xFFF8 0 5
+    wait
+    rendersprite impactParticle targetx targety nullrsf
+    startscript scrQuakeSprite
+    movesprite attacker 4 0 10
+    wait
+    pauseframes 30
+    end
+
+.pool
+
+
+.align 2
+.global scrQuakeSprite
+scrQuakeSprite:
+    quakebg 1 2 0 2 2 true
+    wait
+    deletesprite impactParticle
+    showsprite target
+    spritebgclear target
+    end
 .pool

@@ -616,7 +616,6 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    .animation = &scrAnimTesting,
     },
 
     {
@@ -1048,6 +1047,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&TackleAnimation,
     },
 
     {
