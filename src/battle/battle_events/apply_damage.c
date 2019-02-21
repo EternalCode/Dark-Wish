@@ -86,6 +86,13 @@ void event_move_damage(struct action* current_action)
     gPkmnBank[TARGET_OF(bank_index)]->battleData.last_damage = dmg;
     gPkmnBank[TARGET_OF(bank_index)]->battleData.last_attacked_by = bank_index;
 
+    // play move animation
+    if (gBattleMoves[CURRENT_MOVE(bank_index)].animation) {
+        struct action* a = prepend_action(bank_index, TARGET_OF(bank_index), ActionAnimation, EventPlayAnimation);
+        a->move = CURRENT_MOVE(bank_index);
+        a->script = gBattleMoves[CURRENT_MOVE(bank_index)].animation;
+    }
+
     // HP bar damage
     do_damage(TARGET_OF(bank_index), dmg);
     damage_result_msg(bank_index);

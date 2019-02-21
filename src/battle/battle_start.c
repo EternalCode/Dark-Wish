@@ -87,8 +87,6 @@ void StartWildBattle()
                 }
             }
             SetMainCallback(battle_loop);
-			extern void TestAnimation(void);
-			TestAnimation();
             gMain.state = 0;
             //BankSelectOption(PLAYER_SINGLES_BANK);
             break;

@@ -213,7 +213,7 @@ struct move_data {
     u8 multi_hit[2];
     u8 recoil_struggle : 1;
     u8 flinch_chance : 7;
-
+    u8* animation; // animation script pointer
     struct move_procs* procs;
 
     MoveBeforeTurnCallback before_turn;

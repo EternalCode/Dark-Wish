@@ -1,6 +1,8 @@
 #include <pokeagb/pokeagb.h>
 #include "animation_core.h"
 #include "../global.h"
+#include "../battle/battle_actions/actions.h"
+#include "../battle/battle_data/battle_state.h"
 
 
 void ScriptCmd_loadsprite(void);
@@ -43,7 +45,7 @@ extern void TaskMoveSprite(u8 taskId);
 extern void TaskWaitFrames(u8 taskId);
 extern void TaskWaitFade(u8 taskId);
 extern void TaskFlashSprite(u8 taskId);
-
+extern void battle_loop(void);
 
 const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_loadsprite, // 0
@@ -98,7 +100,8 @@ void RunCurrentCommand()
     u8 cmd = ANIMSCR_READ_BYTE;
     dprintf("running command id %d for script %x\n", cmd, (u32)ANIMSCR_SCRIPT);
     if (cmd == 0xFF) {
-        gAnimationCore->waitAll = true;
+        ANIMSCR_SCRIPT = NULL;
+        //gAnimationCore->waitAll = true;
         return;
     }
     gAnimTable[cmd]();
@@ -668,22 +671,32 @@ void ScriptCmd_flashsprite()
 
 void AnimationMain()
 {
+    u8 counter = 0;
     for (u8 i = 0; i < ANIM_SCR_COUNT; i++) {
         if (gAnimationCore->waitAll)
             return;
         if (ANIMSCR_WAITING || !ANIMSCR_SCRIPT) {
             ANIMSCR_CMD_NEXT;
+            if (!ANIMSCR_SCRIPT)
+                counter++;
         } else {
             RunCurrentCommand();
         }
     }
+    dprintf("counter is %d\n", counter);
+    if (counter == ANIM_SCR_COUNT) {
+        // all threads complete. Return
+        dprintf("done running for now\n");
+        free(gAnimationCore);
+        end_action(CURRENT_ACTION);
+        SetMainCallback(battle_loop);
+    }
 }
 
 
-void TestAnimation()
+void event_play_animation(struct action* current_action)
 {
-    extern u8 scrAnimTesting;
-    dprintf("running tests on script %x\n", (u32)&scrAnimTesting);
-    InitializeAnimationCore(&scrAnimTesting, NULL, NULL, NULL);
+    dprintf("running tests on script %x\n", (u32)current_action->script);
+    InitializeAnimationCore((u8*)current_action->script, NULL, NULL, NULL);
     SetMainCallback(AnimationMain);
 }

@@ -25,6 +25,7 @@ scrAnimTesting:
     beginfade 0 0x1CF8 FADEFROM true
     movewave 0x8000 0x800D 2 32 SINWAVE
     flashsprite 0x800D 5 20 true 0
+    wait
     .byte 0xFF
 
 scrTestVars:

@@ -55,6 +55,7 @@ EventCallback gWildBattleEvents[] = {
     event_set_inactive,
     event_residual_effects,
     wild_battle_status_update,
+    event_play_animation,
     event_forced_switch,
     end_battle,
 };
@@ -78,7 +79,7 @@ void battle_loop()
         for (u8 i = 0; i < BANK_MAX; i++) {
             if (!ACTIVE_BANK(i)) continue;
             gPkmnBank[i]->battleData.first_turn = false;
-            gPkmnBank[i]->battleData.justSwitched = false;            
+            gPkmnBank[i]->battleData.justSwitched = false;
             ResetBankTurnBits(i);
         }
         update_callbacks();

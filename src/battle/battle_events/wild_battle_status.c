@@ -16,6 +16,7 @@ extern u8 SideCountUsablePkmn(u8 side);
 void wild_battle_status_update(struct action* current_action)
 {
     // if the player side has fainted and there are no switch-ins, end the battle (port PC)
+    SyncBankToParty(PLAYER_SINGLES_BANK);
     if (B_IS_FAINTED(PLAYER_SINGLES_BANK)) {
         u8 count = SideCountUsablePkmn(SIDE_OF(PLAYER_SINGLES_BANK));
         if (count > 0) {
@@ -28,7 +29,6 @@ void wild_battle_status_update(struct action* current_action)
         } else {
             // pokemon not found to switch
             CURRENT_ACTION->event_state = EventEndBattle;
-            SyncBankToParty(PLAYER_SINGLES_BANK);
             return;
         }
     }
