@@ -117,6 +117,7 @@ void TaskFlashSprite(u8 taskId)
 #undef timesFlashed
 
 #define bgid t->priv[0]
+#define spriteId t->priv[0]
 #define xquake t->priv[1]
 #define yquake t->priv[2]
 #define times t->priv[3]
@@ -166,7 +167,45 @@ void TaskQuakeBg(u8 taskId)
         dirY = dirUp;
         quakeCount++;
     }
+}
 
+void TaskQuakeSprite(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    // check anim finished
+    if ((quakeCount >> 2) == times) {
+        DestroyTask(taskId);
+        if (towait)
+            gAnimationCore->wait[thread] = false;
+        return;
+    }
+    // wait for delay
+    if (waitcounter < speed) {
+        waitcounter++;
+        return;
+    }
+    waitcounter = 0;
+    // quake X
+
+    if (dirX == dirRight) {
+        gSprites[spriteId].pos1.x += xquake;
+        dirX = !dirRight;
+        quakeCount++;
+    } else {
+        gSprites[spriteId].pos1.x -= xquake;
+        dirX = dirRight;
+        quakeCount++;
+    }
+    // quake Y
+    if (dirY == dirUp) {
+        gSprites[spriteId].pos1.y -= yquake;
+        dirY = !dirUp;
+        quakeCount++;
+    } else {
+        gSprites[spriteId].pos1.y -= yquake;
+        dirY = dirUp;
+        quakeCount++;
+    }
 }
 #undef bgid
 #undef xquake
@@ -182,8 +221,8 @@ void TaskQuakeBg(u8 taskId)
 #undef dirRight
 #undef dirUp
 
-
-void TaskHPBoxBobFast(u8 taskId) {
+void TaskHPBoxBobFast(u8 taskId)
+{
     struct Task* t = &tasks[taskId];
     if (t->priv[3] == 20) {
         DestroyTask(taskId);
@@ -202,3 +241,75 @@ void TaskHPBoxBobFast(u8 taskId) {
     // adjust direction of delta next time
     t->priv[1] = !(t->priv[1]);
 }
+
+#define state t->priv[0]
+#define spriteId t->priv[1]
+void TaskBurnEffect(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    s16 randFactor = 0;
+    switch (state) {
+        case 0:
+            // pick sprite's position
+            randFactor = rand_range(0, 20) - rand_range(0, 40);
+            dprintf("random factor is %d\n", randFactor);
+            gSprites[spriteId].pos1.x = VarGet(0x8006) + 16 + randFactor;
+            gSprites[spriteId].pos1.y = VarGet(0x8007) + 16;
+            gSprites[spriteId].invisible = false;
+            t->priv[5] = gSprites[spriteId].pos1.y;
+            state++;
+            break;
+        case 1:
+            // move the sprite up
+            gSprites[spriteId].pos1.y -=2;
+            if (gSprites[spriteId].pos1.y + 30 < t->priv[5]) {
+                state++;
+            }
+            break;
+        case 2:
+            // delete the sprite
+            obj_free(&gSprites[spriteId]);
+            DestroyTask(taskId);
+            break;
+    };
+}
+
+#define amplitude t->priv[2]
+#define frequency t->priv[3]
+void TaskMoveSinLeftAndRight(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    s16 randFactor = 0;
+    switch (state) {
+        case 0:
+            // pick sprite's position
+            randFactor = rand_range(0, 10) - rand_range(0, 30);
+            gSprites[spriteId].pos1.x = VarGet(0x8006) + 16 + randFactor;
+            gSprites[spriteId].pos1.y = VarGet(0x8007) + 16;
+            gSprites[spriteId].invisible = false;
+            t->priv[5] = gSprites[spriteId].pos1.y;
+            t->priv[4] = 0;
+            state++;
+            break;
+        case 1:
+            // move the sprite up
+            gSprites[spriteId].pos1.y -=2;
+            if (gSprites[spriteId].pos1.y + 30 < t->priv[5]) {
+                state++;
+            }
+            // move X influenced by sin wave
+            gSprites[spriteId].pos1.x += Sin(t->priv[4], amplitude);
+            // update wave frequency
+            t->priv[4] = (t->priv[4] + frequency) & 0xFF;
+            break;
+        case 2:
+            // delete the sprite
+            obj_free(&gSprites[spriteId]);
+            DestroyTask(taskId);
+            break;
+    };
+}
+#undef state
+#undef spriteId
+#undef amplitude
+#undef frequency

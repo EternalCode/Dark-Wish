@@ -51,7 +51,13 @@ void ScriptCmd_compare(void);
 void ScriptCmd_comparevars(void);
 void ScriptCmd_sideofsprite(void);
 void ScriptCmd_fastsetbattlers(void);
-void ScripCmd_shakehpbox(void);
+void ScriptCmd_shakehpbox(void);
+void ScriptCmd_randrange(void);
+void ScriptCmd_addvars(void);
+void ScriptCmd_subvars(void);
+void ScriptCmd_runtask(void);
+void ScriptCmd_quakesprite(void);
+void ScriptCmd_setframessprite(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -60,6 +66,7 @@ extern void TaskWaitFrames(u8 taskId);
 extern void TaskWaitFade(u8 taskId);
 extern void TaskFlashSprite(u8 taskId);
 extern void TaskQuakeBg(u8 taskId);
+extern void TaskQuakeSprite(u8 taskId);
 extern void TaskHPBoxBobFast(u8 taskId);
 extern void battle_loop(void);
 
@@ -109,7 +116,13 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_comparevars, // 42
     ScriptCmd_sideofsprite, // 43
     ScriptCmd_fastsetbattlers, // 44
-    ScripCmd_shakehpbox, // 45
+    ScriptCmd_shakehpbox, // 45
+    ScriptCmd_randrange, // 46
+    ScriptCmd_addvars, // 47
+    ScriptCmd_subvars, // 48
+    ScriptCmd_runtask, // 49
+    ScriptCmd_quakesprite, // 50
+    ScriptCmd_setframessprite, // 51
 };
 
 
@@ -219,6 +232,16 @@ void ScriptCmd_addvar()
     ANIMSCR_CMD_NEXT;
 }
 
+void ScriptCmd_addvars()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    u16 varA = ANIMSCR_READ_HWORD;
+    u16 varB = ANIMSCR_READ_HWORD;
+    VarSet(varA, VarGet(varA) + VarGet(varB));
+    ANIMSCR_CMD_NEXT;
+}
+
 void ScriptCmd_subvar()
 {
     // alignment for read
@@ -226,6 +249,16 @@ void ScriptCmd_subvar()
     u16 var = ANIMSCR_READ_HWORD;
     u16 value = ANIMSCR_READ_HWORD;
     VarSet(var, VarGet(var) - value);
+    ANIMSCR_CMD_NEXT;
+}
+
+void ScriptCmd_subvars()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    u16 varA = ANIMSCR_READ_HWORD;
+    u16 varB = ANIMSCR_READ_HWORD;
+    VarSet(varA, VarGet(varA) - VarGet(varB));
     ANIMSCR_CMD_NEXT;
 }
 
@@ -551,19 +584,21 @@ void ScriptCmd_palfade()
     u16 blendColor = ANIMSCR_READ_HWORD;
     // fade direction
     u8 dir = ANIMSCR_READ_BYTE;
-    if (dir == 0) {
-        BeginNormalPaletteFade(ANIMSCR_PALBUFF , delay, 0x0, 0x10, blendColor);
-    } else {
-        BeginNormalPaletteFade(ANIMSCR_PALBUFF , delay, 0x10, 0x0, blendColor);
-    }
     // apply delay task or not
     u8 wait = ANIMSCR_READ_BYTE;
+    // amount of fade
+    u8 amount = ANIMSCR_READ_BYTE;
+    if (dir == 0) {
+        BeginNormalPaletteFade(ANIMSCR_PALBUFF , delay, 0x0, amount, blendColor);
+    } else {
+        BeginNormalPaletteFade(ANIMSCR_PALBUFF , delay, amount, 0x0, blendColor);
+    }
     if (wait != 0) {
         ANIMSCR_WAITING = true;
         u8 taskId = CreateTask(TaskWaitFade, 0);
         tasks[taskId].priv[0] = ANIMSCR_THREAD;
     }
-    ANIMSCR_MOVE(2);
+    ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -620,6 +655,44 @@ void SpriteCmd_movewave()
     ANIMSCR_MOVE(3);
     ANIMSCR_CMD_NEXT;
 }
+
+#define thread sprite->data[1]
+#define waiting sprite->data[2]
+void SCHorizontalWaveMovement(struct Sprite* sprite)
+{
+
+    if (bouncesPast > bounces) {
+        sprite->callback = oac_nullsub;
+        if (waiting)
+            gAnimationCore->wait[thread] = false;
+        return;
+    }
+    sprite->pos1.x += Sin(X, amplitude);
+    X = (X + frequency) & 0xFF;
+    if (X == 0)
+        bouncesPast += 1;
+}
+
+void ScriptCmd_movewavehorizontal()
+{
+    // alignment
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct Sprite* sprite = &gSprites[spriteId];
+    amplitude = ANIMSCR_READ_BYTE;
+    frequency = ANIMSCR_READ_BYTE;
+    bounces = ANIMSCR_READ_BYTE;
+    sprite->callback = SCHorizontalWaveMovement;
+    bool wait = ANIMSCR_READ_BYTE;
+    if (wait == true) {
+        thread = ANIMSCR_THREAD;
+        waiting = true;
+    }
+    ANIMSCR_CMD_NEXT;
+}
+
+
 #undef bounces
 #undef bouncesPast
 #undef xDelta
@@ -627,6 +700,8 @@ void SpriteCmd_movewave()
 #undef X
 #undef amplitude
 #undef waveOrBounce
+#undef waiting
+#undef thread
 
 /* Upload a BG to BG2.. */
 void ScriptCmd_uploadbg()
@@ -744,10 +819,28 @@ void ScriptCmd_quakebg()
     tasks[taskId].priv[1] = ANIMSCR_READ_BYTE; // xquake
     tasks[taskId].priv[2] = ANIMSCR_READ_BYTE; // yquake
     tasks[taskId].priv[3] = ANIMSCR_READ_BYTE; // times
-    tasks[taskId].priv[4] = ANIMSCR_READ_BYTE; // speed
+    tasks[taskId].priv[4] = ANIMSCR_READ_BYTE; // delay
     tasks[taskId].priv[10] = ANIMSCR_READ_BYTE; // wait bool
     tasks[taskId].priv[11] = ANIMSCR_THREAD; // thread
     ANIMSCR_MOVE(1);
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Quake Sprite */
+void ScriptCmd_quakesprite()
+{
+    ANIMSCR_MOVE(1);
+    u8 taskId = CreateTask(TaskQuakeSprite, 0);
+    u16 var = ANIMSCR_READ_HWORD;
+    var = VarGet(var);
+    tasks[taskId].priv[0] = var; // spriteid
+    tasks[taskId].priv[1] = ANIMSCR_READ_BYTE; // xquake
+    tasks[taskId].priv[2] = ANIMSCR_READ_BYTE; // yquake
+    tasks[taskId].priv[3] = ANIMSCR_READ_BYTE; // times
+    tasks[taskId].priv[4] = ANIMSCR_READ_BYTE; // delay
+    tasks[taskId].priv[10] = ANIMSCR_READ_BYTE; // wait bool
+    tasks[taskId].priv[11] = ANIMSCR_THREAD; // thread
+    ANIMSCR_MOVE(3);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -855,7 +948,7 @@ void ScriptCmd_fastsetbattlers()
 #undef attackery
 
 /* Shake HP box of a sprite */
-void ScripCmd_shakehpbox()
+void ScriptCmd_shakehpbox()
 {
     ANIMSCR_MOVE(1);
     u16 shakehpof = ANIMSCR_READ_HWORD;
@@ -868,7 +961,54 @@ void ScripCmd_shakehpbox()
     }
     u8 taskId = CreateTask(TaskHPBoxBobFast, 0);
     tasks[taskId].priv[0] = bank;
+    ANIMSCR_CMD_NEXT;
 }
+
+/* random range */
+void ScriptCmd_randrange()
+{
+    ANIMSCR_MOVE(1);
+    u16 min = ANIMSCR_READ_HWORD;
+    u16 max = ANIMSCR_READ_HWORD;
+    var_800D = rand_range(min, max);
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Run task */
+void ScriptCmd_runtask()
+{
+    u8 arg = ANIMSCR_READ_BYTE;
+    u16 arg2 = ANIMSCR_READ_HWORD;
+    u16 arg3 = ANIMSCR_READ_HWORD;
+    u16 vararg = ANIMSCR_READ_HWORD;
+    TaskCallback t = (TaskCallback)ANIMSCR_READ_WORD;
+    u8 taskId = CreateTask(t, 0);
+    tasks[taskId].priv[1] = VarGet(vararg);
+    tasks[taskId].priv[2] = arg;
+    tasks[taskId].priv[3] = arg2;
+    tasks[taskId].priv[4] = arg3;
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Set frames */
+void ScriptCmd_setframessprite()
+{
+    u8 frame = ANIMSCR_READ_BYTE;
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    void* frames = (void*)ANIMSCR_READ_WORD;
+    dprintf("frames is at %x\n", (u32)frames);
+    gSprites[spriteId].animation_table = (void*)frames;
+    // gSprites[spriteId].animNum++;
+    gSprites[spriteId].animCmdIndex = frame;
+    SpriteCallback exec = (SpriteCallback)0x8007825;
+    exec(&gSprites[spriteId]);
+    // gSprites[spriteId].animPaused = false;
+    // gSprites[spriteId].affineAnimPaused = false;
+    ANIMSCR_CMD_NEXT;
+}
+
 
 void AnimationMain()
 {

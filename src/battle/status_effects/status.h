@@ -15,8 +15,10 @@ struct status_ailments {
 	StatusOnInflict on_inflict;
 };
 
-
 extern struct status_ailments statuses[];
-
+extern u8* animBurnEffect;
+extern u8* animPoisonEffect;
+extern u8* animBadlyPoisoned;
+extern u8* animParalyzed;
 
 #endif /* STATUS_DATA_H_ */

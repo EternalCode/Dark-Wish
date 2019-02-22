@@ -2,6 +2,8 @@
 #include "../battle_data/pkmn_bank.h"
 #include "../battle_data/pkmn_bank_stats.h"
 #include "../battle_data/battle_state.h"
+#include "../battle_actions/actions.h"
+#include "../battle_events/battle_events.h"
 #include "../moves/moves.h"
 #include "status.h"
 
@@ -65,8 +67,12 @@ u8 poison_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 	if (user != src) return true;
 	// do dmg
     u16 dmg = TOTAL_HP(user) / 8;
-    if (do_damage_residual(user, MAX(1, dmg), NULL))
+    if (do_damage_residual(user, MAX(1, dmg), NULL)) {
+		struct action* a = prepend_action(user, user, ActionAnimation, EventPlayAnimation);
+        a->script = (u32)&animPoisonEffect;
+		do_damage(user, MAX(1, dmg));
         QueueMessage(0, user, STRING_RESIDUAL_STATUS_DMG, AILMENT_POISON);
+	}
     gPkmnBank[user]->battleData.status_turns++;
 	return true;
 }
@@ -93,8 +99,12 @@ u8 burn_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 		dmg = MAX(1, TOTAL_HP(user) / 16);
 	else
 		dmg = MAX(1, TOTAL_HP(user) >> 3);
-    if (do_damage_residual(user, dmg, NULL))
+    if (do_damage_residual(user, dmg, NULL)) {
+		struct action* a = prepend_action(user, user, ActionAnimation, EventPlayAnimation);
+        a->script = (u32)&animBurnEffect;
+		do_damage(user, dmg);
         QueueMessage(0, user, STRING_RESIDUAL_STATUS_DMG, AILMENT_BURN);
+	}
     gPkmnBank[user]->battleData.status_turns++;
 	return true;
 }
@@ -144,6 +154,8 @@ u8 paralyze_on_before_move(u8 user, u8 src, u16 stat_id, struct anonymous_callba
 {
 	if (user != src) return true;
     if (RandRange(0, 100) < 25) {
+		struct action* a = prepend_action(user, user, ActionAnimation, EventPlayAnimation);
+        a->script = (u32)&animParalyzed;
         ADD_VOLATILE(user, VOLATILE_ATK_SKIP_TURN);
         QueueMessage(0, user, STRING_FULL_PARA, 0);
     }
@@ -184,8 +196,12 @@ u8 toxic_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
         gPkmnBank[user]->battleData.status_turns++;
     }
     u16 dmg = ((MAX(1, (TOTAL_HP(user) / 16))) * gPkmnBank[user]->battleData.status_turns);
-    if (do_damage_residual(user, MAX(1, dmg), NULL))
+    if (do_damage_residual(user, 1, NULL)) {
+		struct action* a = prepend_action(user, user, ActionAnimation, EventPlayAnimation);
+        a->script = (u32)&animBadlyPoisoned;
+		do_damage(user, MAX(1, dmg));
         QueueMessage(0, user, STRING_RESIDUAL_STATUS_DMG, AILMENT_POISON);
+	}
 	return true;
 }
 

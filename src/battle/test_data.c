@@ -8,21 +8,21 @@
 const bool USE_TESTS = true; // Change to false to not execute the test environment
 
 /* Player data */
-const static u16 playerSpecies = SPECIES_JIRACHI;
-const static u16 playerMove1 = MOVE_GRASSKNOT;
-const static u16 playerMove2 = MOVE_RECOVER;
+const static u16 playerSpecies = SPECIES_SEADRA;
+const static u16 playerMove1 = MOVE_POISONGAS;
+const static u16 playerMove2 = MOVE_WILLOWISP;
 const static u16 playerMove3 = MOVE_TACKLE;
-const static u16 playerMove4 = MOVE_DRILLPECK;
+const static u16 playerMove4 = MOVE_THUNDERWAVE;
 const static u8 playerLevel = 5;
 const static u16 playerItem = ITEM_ORANBERRY;
 const u8 gPlayerAbility = ABILITY_STATIC;
 
 /* Opponent data */
-const static u16 opponentSpecies = SPECIES_LANTURN;
-const static u16 opponentMove1 = MOVE_TACKLE;
-const static u16 opponentMove2 = MOVE_TACKLE;
-const static u16 opponentMove3 = MOVE_TACKLE;
-const static u16 opponentMove4 = MOVE_TACKLE;
+const static u16 opponentSpecies = SPECIES_BUNNELBY;
+const static u16 opponentMove1 = MOVE_TOXIC;
+const static u16 opponentMove2 = MOVE_TOXIC;
+const static u16 opponentMove3 = MOVE_TOXIC;
+const static u16 opponentMove4 = MOVE_TOXIC;
 const static u8 opponentLevel = 5;
 const static u16 opponentItem = ITEM_SITRUSBERRY;
 const u8 gOpponentAbility = ABILITY_STAKEOUT;

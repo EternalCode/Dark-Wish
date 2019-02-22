@@ -226,13 +226,13 @@
 .equ FADEFROM, 1
 @ -----------------------------------------------
 
-.macro beginfade transitionspeed blendcolor fadedirection boolwaitfade
+.macro beginfade transitionspeed blendcolor fadedirection boolwaitfade amount
 .byte 26
 .byte \transitionspeed
 .hword \blendcolor
 .byte \fadedirection
 .byte \boolwaitfade
-.byte 0
+.byte \amount
 .byte 0
 .endm
 
@@ -400,6 +400,63 @@
 .byte 45
 .byte 0
 .hword \var
+.endm
+
+.macro random min max
+.byte 46
+.byte 0
+.hword \min
+.hword \max
+.byte 0
+.byte 0
+.endm
+
+.macro addvars vara varb
+.byte 47
+.byte 0
+.byte 0
+.byte 0
+.hword \vara
+.hword \varb
+.endm
+
+.macro subvars vara varb
+.byte 48
+.byte 0
+.byte 0
+.byte 0
+.hword \vara
+.hword \varb
+.endm
+
+.macro runtask task vararg arg arg2 arg3
+.byte 49
+.byte \arg
+.hword \arg2
+.hword \arg3
+.hword \vararg
+.word \task
+.endm
+
+.macro quakesprite var xquake yquake times delay boolwait
+.byte 50
+.byte 0
+.hword \var
+.byte \xquake
+.byte \yquake
+.byte \times
+.byte \delay
+.byte \boolwait
+.byte 0
+.byte 0
+.byte 0
+.endm
+
+.macro setframessprite framenum var frames
+.byte 51
+.byte \framenum
+.hword \var
+.word \frames
 .endm
 
 .macro end
