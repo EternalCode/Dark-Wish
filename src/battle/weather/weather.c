@@ -10,6 +10,7 @@ extern void dprintf(const char * str, ...);
 extern bool BankMonHasType(u8 bank, enum PokemonType type);
 extern bool do_damage_residual(u8 bank_index, u16 dmg, u32 ability_flags);
 extern bool BankMonIsMonoType(u8 bank, enum PokemonType type);
+extern void do_damage(u8 bank_index, u16 dmg);
 
 /* Rain */
 u16 rain_dmg_mod(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
@@ -133,8 +134,10 @@ u16 sandstorm_on_residual_buffet(u8 user, u8 src, u16 move, struct anonymous_cal
             return true;
         if (HAS_VOLATILE(user, VOLATILE_DIVE) || HAS_VOLATILE(user, VOLATILE_DIG))
             return true;
-        if (do_damage_residual(user, MAX(1, (TOTAL_HP(user) / 16)), A_FLAG_SANDSTORM_DMG_PREVENT))
+        if (do_damage_residual(user, 1, A_FLAG_SANDSTORM_DMG_PREVENT)) {
+            do_damage(user, MAX(1, (TOTAL_HP(user) / 16)));
             QueueMessage(NULL, user, STRING_SANDSTORM_BUFFET, MOVE_SANDSTORM);
+        }
     }
     return true;
 }

@@ -24,7 +24,8 @@ void event_move_recoil(struct action* current_action) {
         QueueMessage(move, bank, STRING_RECOIL, 0);
     } else if (B_MOVE_DMG(bank) != 0 && gBattleMoves[move].recoil > 0) {
         // normal recoil based on move damage
-        if(do_damage_residual(bank, MAX(PERCENT(B_MOVE_DMG(bank), gBattleMoves[move].recoil), 1), A_FLAG_RECOIL_DMG_PREVENT)) {
+        if(do_damage_residual(bank, 1, A_FLAG_RECOIL_DMG_PREVENT)) {
+            do_damage(bank, MAX(PERCENT(B_MOVE_DMG(bank), gBattleMoves[move].recoil), 1));
             QueueMessage(move, bank, STRING_RECOIL, 0);
         }
     }

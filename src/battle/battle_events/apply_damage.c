@@ -62,7 +62,6 @@ bool do_damage_residual(u8 bank_index, u16 dmg, u32 ability_flags)
 {
     u8 ability = BANK_ABILITY(bank_index);
     if (dmg && !HAS_ABILITY_FLAG(ability, (A_FLAG_INDIRECT_DMG_PREVENT | ability_flags))) {
-        do_damage(bank_index, dmg);
         return true;
     }
     return false;

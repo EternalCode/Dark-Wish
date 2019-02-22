@@ -283,7 +283,9 @@ u8 rough_skin_variations_on_effect(u8 user, u8 src, u16 move, struct anonymous_c
 {
     if ((TARGET_OF(user) != src) || (user == src)) return true;
 	if (!B_MOVE_CONTACT(user)) return true;
-	do_damage_residual(user, TOTAL_HP(user) >> 3, NULL);
+	if (do_damage_residual(user, 1, NULL)) {
+        do_damage(user, TOTAL_HP(user) >> 3);
+    }
 	return true;
 }
 
@@ -1205,7 +1207,9 @@ u8 aftermath_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb
     if ((TARGET_OF(user) != src) || (user == src)) return true;
 	if (!B_MOVE_CONTACT(user)) return true;
         if (B_CURRENT_HP(src) < 1)
-            do_damage_residual(user, TOTAL_HP(user) >> 2, A_FLAG_AFTERMATH_DMG_PREVENT);
+            if (do_damage_residual(user, TOTAL_HP(user) >> 2, A_FLAG_AFTERMATH_DMG_PREVENT)) {
+                do_damage(user, TOTAL_HP(user) >> 2);
+            }
 	return true;
 }
 

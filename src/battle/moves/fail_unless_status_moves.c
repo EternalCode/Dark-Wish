@@ -8,6 +8,7 @@ extern bool QueueMessage(u16 move, u8 user, enum battle_string_ids id, u16 effec
 extern u8 GetMoveIndexBank(u16 moveId, u8 bank);
 extern u16 RandRange(u16 min, u16 max);
 extern bool do_damage_residual(u8 bank_index, u16 dmg, u32 ability_flags);
+extern void do_damage(u8 bank_index, u16 dmg);
 
 
 enum TryHitMoveStatus snore_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
@@ -52,8 +53,10 @@ u8 nightmare_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* a
     if (user != src) return true;
     u8 status = B_STATUS(user);
     if ((status == AILMENT_SLEEP) || (BANK_ABILITY(TARGET_OF(user)) == ABILITY_COMATOSE)) {
-        if (do_damage_residual(user, MAX(1, (TOTAL_HP(user) / 4)), NULL))
+        if (do_damage_residual(user, 1, NULL)) {
+            do_damage(user, MAX(1, (TOTAL_HP(user) / 4)));
             QueueMessage(MOVE_NIGHTMARE, user, STRING_CURSE_RESIDUAL, MOVE_NIGHTMARE);
+        }
     } else {
         delete_callback_src((u32)nightmare_on_status, user);
         delete_callback_src((u32)nightmare_on_modify_move, user);

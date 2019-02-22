@@ -6,7 +6,6 @@
 
 extern void dprintf(const char * str, ...);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
-extern bool do_damage_residual(u8 bank_index, u16 dmg, u32 ability_flags);
 
 /* Miracle eye */
 u16 miracle_eye_on_effectiveness(u8 target_type, u8 defender, u16 move_type, struct anonymous_callback* acb)

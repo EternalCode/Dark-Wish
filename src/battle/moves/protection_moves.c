@@ -82,9 +82,11 @@ u8 spiky_shield_on_tryhit_anon(u8 user, u8 source, u16 move, struct anonymous_ca
     if (TARGET_OF(user) != source) return true;
     if (IS_PROTECTABLE(move)) {
         QueueMessage(0, TARGET_OF(user), STRING_PROTECTED_SELF, 0);
-        if(IS_CONTACT(move)) {
-            if(do_damage_residual(user, TOTAL_HP(TARGET_OF(user)) / 8, NULL))
+        if (IS_CONTACT(move)) {
+            if (do_damage_residual(user, TOTAL_HP(TARGET_OF(user)) / 8, NULL)) {
+                do_damage(user, TOTAL_HP(TARGET_OF(user)) / 8);
                 QueueMessage(MOVE_SPIKYSHIELD, user, STRING_RESIDUAL_DMG, MOVE_SPIKYSHIELD);
+            }
         }
         return 3; // fail the move silently
     }
