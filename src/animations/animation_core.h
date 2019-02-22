@@ -1,6 +1,7 @@
 #include <pokeagb/pokeagb.h>
 
 #define ANIM_STACK_DEPTH 20
+#define ANIM_SPRITES_COUNT 30
 #define ANIM_SCR_COUNT 4
 #define ANIM_ARGC_MAX 8
 #define ANIM_CMD_GLOBAL_COUNT 4
@@ -40,6 +41,7 @@ struct AnimationCore* gAnimationCore;
 
 #define ANIMSCR_THREAD gAnimationCore->currentAnimationScript
 #define ANIMSCR_SCRIPT gAnimationCore->animScriptPtr[ANIMSCR_THREAD]
+#define ANIMSCR_SPRITES gAnimationCore->animationSprites[ANIMSCR_THREAD]
 #define ANIMSCR_WAITING gAnimationCore->wait[ANIMSCR_THREAD]
 #define ANIMSCR_ARGS gAnimationCore->retArg[ANIMSCR_THREAD]
 #define ANIMSCR_PALBUFF gAnimationCore->palbuffer[ANIMSCR_THREAD]

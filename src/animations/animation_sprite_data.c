@@ -37,7 +37,7 @@ const u32 burnAffinePtr = (u32)&burnAffineTable;
 
 
 // poison ailment sprite
-const struct CompressedSpriteSheet poisonSprite = {(void*)&poisonTiles, 32 * 2 * 6, 402};
+const struct CompressedSpriteSheet poisonSprite = {(void*)&poisonTiles, 32 * 2 * 2, 402};
 const struct SpritePalette poisonPalette = {&poisonPal, 402};
 
 const struct OamData poisonOam = {

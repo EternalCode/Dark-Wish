@@ -123,7 +123,10 @@ void event_fainted(struct action* current_action)
         if (B_IS_FAINTED(i)) {
             // faint this bank
             B_FAINTED(i) = true;
-            do_damage(i, B_CURRENT_HP(i));
+            if (B_CURRENT_HP(i) > 0) {
+                dprintf("Current HP was %d\n", B_CURRENT_HP(i));
+                do_damage(i, B_CURRENT_HP(i));
+            }
             prepend_action(i, NULL, ActionFaint, EventFaint);
         }
     }

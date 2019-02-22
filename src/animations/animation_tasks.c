@@ -208,6 +208,7 @@ void TaskQuakeSprite(u8 taskId)
     }
 }
 #undef bgid
+#undef spriteId
 #undef xquake
 #undef yquake
 #undef times
@@ -251,9 +252,8 @@ void TaskBurnEffect(u8 taskId)
     switch (state) {
         case 0:
             // pick sprite's position
-            randFactor = rand_range(0, 20) - rand_range(0, 40);
-            dprintf("random factor is %d\n", randFactor);
-            gSprites[spriteId].pos1.x = VarGet(0x8006) + 16 + randFactor;
+            randFactor = (rand() % 2) ? -(rand_range(0, 20)) : rand_range(0, 20);
+            gSprites[spriteId].pos1.x = VarGet(0x8006) + randFactor;
             gSprites[spriteId].pos1.y = VarGet(0x8007) + 16;
             gSprites[spriteId].invisible = false;
             t->priv[5] = gSprites[spriteId].pos1.y;
@@ -267,8 +267,9 @@ void TaskBurnEffect(u8 taskId)
             }
             break;
         case 2:
-            // delete the sprite
-            obj_free(&gSprites[spriteId]);
+            // delete sprite
+            FreeSpriteOamMatrix(&gSprites[spriteId]);
+            DestroySprite(&gSprites[spriteId]);
             DestroyTask(taskId);
             break;
     };
@@ -283,8 +284,8 @@ void TaskMoveSinLeftAndRight(u8 taskId)
     switch (state) {
         case 0:
             // pick sprite's position
-            randFactor = rand_range(0, 10) - rand_range(0, 30);
-            gSprites[spriteId].pos1.x = VarGet(0x8006) + 16 + randFactor;
+            randFactor = (rand() % 2) ? -(rand_range(0, 20)) : rand_range(0, 20);
+            gSprites[spriteId].pos1.x = VarGet(0x8006) + randFactor;
             gSprites[spriteId].pos1.y = VarGet(0x8007) + 16;
             gSprites[spriteId].invisible = false;
             t->priv[5] = gSprites[spriteId].pos1.y;
@@ -300,11 +301,11 @@ void TaskMoveSinLeftAndRight(u8 taskId)
             // move X influenced by sin wave
             gSprites[spriteId].pos1.x += Sin(t->priv[4], amplitude);
             // update wave frequency
-            t->priv[4] = (t->priv[4] + frequency) & 0xFF;
+            t->priv[4] = (t->priv[4] + frequency) & 0x1FF;
             break;
         case 2:
-            // delete the sprite
-            obj_free(&gSprites[spriteId]);
+            // delete sprite
+            DestroySprite(&gSprites[spriteId]);
             DestroyTask(taskId);
             break;
     };

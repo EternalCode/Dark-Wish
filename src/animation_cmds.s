@@ -459,6 +459,16 @@
 .word \frames
 .endm
 
+.macro copysprite graphics palette oam
+.byte 52
+.byte 0
+.byte 0
+.byte 0
+.word \graphics
+.word \palette
+.word \oam
+.endm
+
 .macro end
 .byte 0xFF
 .endm

@@ -58,6 +58,7 @@ void ScriptCmd_subvars(void);
 void ScriptCmd_runtask(void);
 void ScriptCmd_quakesprite(void);
 void ScriptCmd_setframessprite(void);
+void ScriptCmd_copysprite(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -123,6 +124,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_runtask, // 49
     ScriptCmd_quakesprite, // 50
     ScriptCmd_setframessprite, // 51
+    ScriptCmd_copysprite, // 52
 };
 
 
@@ -161,6 +163,21 @@ void ScriptCmd_loadsprite()
     struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, nullrsf, (SpriteCallback)oac_nullsub};
     LoadCompressedSpriteSheetUsingHeap(gfx);
     LoadCompressedSpritePaletteUsingHeap(pal);
+    u8 spriteId = template_instanciate_forward_search(&spriteTemp, 0, 0, 0);
+    gSprites[spriteId].invisible = true;
+    var_800D = spriteId;
+    ANIMSCR_CMD_NEXT;
+}
+
+/* load copy of a previously loaded sprite */
+void ScriptCmd_copysprite()
+{
+    // alignment for read
+	ANIMSCR_MOVE(3);
+    struct CompressedSpriteSheet* gfx = (struct CompressedSpriteSheet*)ANIMSCR_READ_WORD;
+    struct SpritePalette* pal = (struct SpritePalette*)ANIMSCR_READ_WORD;
+    struct OamData* oam = (struct OamData*)ANIMSCR_READ_WORD;
+    struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, nullrsf, (SpriteCallback)oac_nullsub};
     u8 spriteId = template_instanciate_forward_search(&spriteTemp, 0, 0, 0);
     gSprites[spriteId].invisible = true;
     var_800D = spriteId;
@@ -998,14 +1015,9 @@ void ScriptCmd_setframessprite()
     u16 spriteId = ANIMSCR_READ_HWORD;
     spriteId = VarGet(spriteId);
     void* frames = (void*)ANIMSCR_READ_WORD;
-    dprintf("frames is at %x\n", (u32)frames);
     gSprites[spriteId].animation_table = (void*)frames;
-    // gSprites[spriteId].animNum++;
     gSprites[spriteId].animCmdIndex = frame;
-    SpriteCallback exec = (SpriteCallback)0x8007825;
-    exec(&gSprites[spriteId]);
-    // gSprites[spriteId].animPaused = false;
-    // gSprites[spriteId].affineAnimPaused = false;
+    AnimateSprite(&gSprites[spriteId]);
     ANIMSCR_CMD_NEXT;
 }
 

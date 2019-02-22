@@ -165,7 +165,6 @@ u8 paralyze_on_before_move(u8 user, u8 src, u16 stat_id, struct anonymous_callba
 u16 paralyze_on_mod_stat(u8 bank, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
 	if (B_STATUS(bank) != AILMENT_NONE) {
-		dprintf("old speed = %d\tnew speed = %d\n",(u32)acb->data_ptr,  PERCENT((u32)acb->data_ptr, 50));
 		if (stat_id != SPEED_MOD) return (u32)acb->data_ptr;
 	    if (!(BANK_ABILITY(bank) == ABILITY_QUICK_FEET))
 	        return PERCENT((u32)acb->data_ptr, 50);
