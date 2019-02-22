@@ -5,7 +5,7 @@
 @ -----------------------------------------------
 
 @Loads the sprite Id into var_800D
-.macro loadsprite graphics palette oam
+.macro loadspritefull graphics palette oam
 .byte 0
 .byte 0
 .byte 0
@@ -459,7 +459,7 @@
 .word \frames
 .endm
 
-.macro copysprite graphics palette oam
+.macro loadsprite graphics palette oam
 .byte 52
 .byte 0
 .byte 0

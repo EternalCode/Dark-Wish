@@ -20,13 +20,13 @@ animBurnEffect:
 redset:
     addpalbuffer target 0
     beginfade 3 0x1CF8 FADETO 0 10
-    loadsprite burnSprite burnPalette burnOam
+    loadspritefull burnSprite burnPalette burnOam
     copyvar 0x800A LASTRESULT
 
 burnLoop:
     compare 0x8002 5
     if1 0x1 goto finishburn
-    copysprite burnSprite burnPalette burnOam
+    loadsprite burnSprite burnPalette burnOam
     copyvar burnParticle LASTRESULT
     animatesprite burnParticle burnAffinePtr
     runtask TaskBurnEffect burnParticle 0 0 0
@@ -54,13 +54,13 @@ animPoisonEffect:
 purpleset:
     addpalbuffer target 0
     beginfade 3 0x6C50 FADETO 0 10
-    loadsprite poisonSprite poisonPalette poisonOam
+    loadspritefull poisonSprite poisonPalette poisonOam
     copyvar 0x800A LASTRESULT
 
 poisonLoop:
     compare 0x8002 4
     if1 0x1 goto finishpoison
-    copysprite poisonSprite poisonPalette poisonOam
+    loadsprite poisonSprite poisonPalette poisonOam
     copyvar poisonParticle LASTRESULT
     runtask TaskMoveSinLeftAndRight poisonParticle 2 12 0
     pauseframes 10
@@ -88,7 +88,7 @@ animBadlyPoisoned:
 animParalyzed:
     fastsetbattlers
     addpalbuffer target 0
-    loadsprite paralyzeSprite paralyzePalette paralyzeOam
+    loadspritefull paralyzeSprite paralyzePalette paralyzeOam
     copyvar paralyzeParticle LASTRESULT
     rendersprite paralyzeParticle targetx targety nullrsf
     setframessprite 0 paralyzeParticle paralyzeLoopPtr

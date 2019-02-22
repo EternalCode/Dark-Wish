@@ -16,7 +16,7 @@
 TackleAnimation:
     // Always load assets and data before starting an animation
     // this will not burn frames on fetching data during the animation
-    loadsprite impact1Sprite impact1Palette impact1Oam
+    loadspritefull impact1Sprite impact1Palette impact1Oam
     copyvar impactParticle 0x800D
     fastsetbattlers
 

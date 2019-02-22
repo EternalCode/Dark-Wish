@@ -6,7 +6,7 @@
 #include "../battle/battle_data/pkmn_bank_stats.h"
 
 
-void ScriptCmd_loadsprite(void);
+void ScriptCmd_loadspritefull(void);
 void ScriptCmd_deletesprite(void);
 void ScriptCmd_rendersprite(void);
 void ScriptCmd_copyvar(void);
@@ -58,7 +58,7 @@ void ScriptCmd_subvars(void);
 void ScriptCmd_runtask(void);
 void ScriptCmd_quakesprite(void);
 void ScriptCmd_setframessprite(void);
-void ScriptCmd_copysprite(void);
+void ScriptCmd_loadsprite(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -72,7 +72,7 @@ extern void TaskHPBoxBobFast(u8 taskId);
 extern void battle_loop(void);
 
 const AnimScriptFunc gAnimTable[] = {
-    ScriptCmd_loadsprite, // 0
+    ScriptCmd_loadspritefull, // 0
     ScriptCmd_deletesprite, // 1
     ScriptCmd_rendersprite, // 2
     ScriptCmd_copyvar, // 3
@@ -124,7 +124,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_runtask, // 49
     ScriptCmd_quakesprite, // 50
     ScriptCmd_setframessprite, // 51
-    ScriptCmd_copysprite, // 52
+    ScriptCmd_loadsprite, // 52
 };
 
 
@@ -152,7 +152,7 @@ void RunCurrentCommand()
 }
 
 /* this will only load the graphics themselves. Later must be initialized as objects */
-void ScriptCmd_loadsprite()
+void ScriptCmd_loadspritefull()
 {
     // alignment for read
 	ANIMSCR_MOVE(3);
@@ -170,7 +170,7 @@ void ScriptCmd_loadsprite()
 }
 
 /* load copy of a previously loaded sprite */
-void ScriptCmd_copysprite()
+void ScriptCmd_loadsprite()
 {
     // alignment for read
 	ANIMSCR_MOVE(3);
