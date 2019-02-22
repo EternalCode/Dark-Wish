@@ -131,7 +131,10 @@ u8 freeze_on_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* a
         gPkmnBank[user]->battleData.status = AILMENT_NONE;
 		QueueMessage(0, user, STRING_FREEZE_THAWED, 0);
 		ShowStatusAilmentGraphic(user, AILMENT_NONE);
+		delete_callback_src((u32)freeze_on_before_move, user);
     } else {
+		struct action* a = prepend_action(user, user, ActionAnimation, EventPlayAnimation);
+        a->script = (u32)&animFreeze;
         ADD_VOLATILE(user, VOLATILE_ATK_SKIP_TURN);
         QueueMessage(0, user, STRING_FROZEN_SOLID, 0);
     }

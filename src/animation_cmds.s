@@ -236,6 +236,17 @@
 .byte 0
 .endm
 
+.macro fadespritebg transitionspeed blendcolor fadedirection boolwaitfade amount
+.byte 53
+.byte \transitionspeed
+.hword \blendcolor
+.byte \fadedirection
+.byte \boolwaitfade
+.byte \amount
+.byte 0
+.endm
+
+
 @ -----------------------------------------------
 @ Defines for the sin wave effect
 .equ BOUNCE, 0xF

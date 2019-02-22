@@ -275,6 +275,36 @@ void TaskBurnEffect(u8 taskId)
     };
 }
 
+void TaskFreezeEffect(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    s16 randFactorX, randFactorY = 0;
+    switch (state) {
+        case 0:
+            // pick sprite's position
+            randFactorX = (rand() % 2) ? -(rand_range(0, 20)) : rand_range(0, 20);
+            randFactorY = (rand() % 2) ? -(rand_range(0, 20)) : rand_range(5, 10);
+            gSprites[spriteId].pos1.x = VarGet(0x8006) + randFactorX;
+            gSprites[spriteId].pos1.y = VarGet(0x8007) + randFactorY;
+            gSprites[spriteId].invisible = false;
+            t->priv[5] = 0;
+            state++;
+            break;
+        case 1:
+            // move the sprite up
+            if (gSprites[spriteId].affineAnimEnded) {
+                state++;
+            }
+            break;
+        case 2:
+            // delete sprite
+            FreeSpriteOamMatrix(&gSprites[spriteId]);
+            DestroySprite(&gSprites[spriteId]);
+            DestroyTask(taskId);
+            break;
+    };
+}
+
 #define amplitude t->priv[2]
 #define frequency t->priv[3]
 void TaskMoveSinLeftAndRight(u8 taskId)

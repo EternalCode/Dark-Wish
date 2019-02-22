@@ -3,6 +3,7 @@
 #include "../../generated/images/battle_animations/burn.h"
 #include "../../generated/images/battle_animations/poison.h"
 #include "../../generated/images/battle_animations/paralyze.h"
+#include "../../generated/images/battle_animations/freeze.h"
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -64,3 +65,22 @@ const struct Frame paralyzeLoop[] = {
     {0xFFFE, 0},
 };
 const struct Frame* paralyzeLoopPtr[] = {paralyzeLoop};
+
+// freeze ailment sprite
+const struct CompressedSpriteSheet freezeSprite = {(void*)&freezeTiles, 32 * 4 * 4, 401};
+const struct SpritePalette freezePalette = {&freezePal, 401};
+
+// freeze sprite to shrink
+const struct RotscaleFrame freezeAffineTable[] = {
+    {-200, -200, 0, 1, 0},
+    {10, 10, 0, 15, 0},
+    {0, 0, 0, 10, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+
+const struct OamData freezeOam = {
+    .affine_mode = 1,
+    .size = 2,
+    .priority = 3,
+};
+const u32 freezeAffinePtr = (u32)&freezeAffineTable;

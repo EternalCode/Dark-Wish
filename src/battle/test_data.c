@@ -9,7 +9,7 @@ const bool USE_TESTS = true; // Change to false to not execute the test environm
 
 /* Player data */
 const static u16 playerSpecies = SPECIES_KINGDRA;
-const static u16 playerMove1 = MOVE_POISONGAS;
+const static u16 playerMove1 = MOVE_ICEBEAM;
 const static u16 playerMove2 = MOVE_WILLOWISP;
 const static u16 playerMove3 = MOVE_RECOVER;
 const static u16 playerMove4 = MOVE_THUNDERWAVE;
