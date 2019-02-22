@@ -59,6 +59,7 @@ void ScriptCmd_runtask(void);
 void ScriptCmd_quakesprite(void);
 void ScriptCmd_setframessprite(void);
 void ScriptCmd_loadsprite(void);
+void ScriptCmd_fadespritebg(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -125,6 +126,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_quakesprite, // 50
     ScriptCmd_setframessprite, // 51
     ScriptCmd_loadsprite, // 52
+    ScriptCmd_fadespritebg, // 53
 };
 
 
@@ -191,7 +193,9 @@ void ScriptCmd_deletesprite()
     ANIMSCR_MOVE(1);
     // read tag
     u16 var = ANIMSCR_READ_HWORD;
-    obj_free(&gSprites[VarGet(var)]);
+    var = VarGet(var);
+    FreeSpriteOamMatrix(&gSprites[var]);
+    obj_free(&gSprites[var]);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -482,6 +486,33 @@ void ScriptCmd_spritebgclear()
     CpuFastSet((void*)&set, (void*)charBase, CPUModeFS(4096, CPUFSSET));
     CpuFastSet((void*)&set, (void*)mapBase, CPUModeFS(2048, CPUFSSET));
     gSprites[spriteId].invisible = false;
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Blend sprite bg. This will work if other sprites aren't in the process of blending */
+void ScriptCmd_fadespritebg()
+{
+    // time between color transitions
+    u8 delay = ANIMSCR_READ_BYTE;
+    // dst color
+    u16 blendColor = ANIMSCR_READ_HWORD;
+    // fade direction
+    u8 dir = ANIMSCR_READ_BYTE;
+    // apply delay task or not
+    u8 wait = ANIMSCR_READ_BYTE;
+    // amount of fade
+    u8 amount = ANIMSCR_READ_BYTE;
+    if (dir == 0) {
+        BeginNormalPaletteFade((1 << 4) , delay, 0x0, amount, blendColor);
+    } else {
+        BeginNormalPaletteFade((1 << 4) , delay, amount, 0x0, blendColor);
+    }
+    if (wait != 0) {
+        ANIMSCR_WAITING = true;
+        u8 taskId = CreateTask(TaskWaitFade, 0);
+        tasks[taskId].priv[0] = ANIMSCR_THREAD;
+    }
+    ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }
 

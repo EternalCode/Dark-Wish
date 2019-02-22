@@ -99,3 +99,33 @@ animParalyzed:
     deletesprite paralyzeParticle
     end
 .pool
+
+.equ freezeParticle, 0x8003
+.global animFreeze
+animFreeze:
+    fastsetbattlers
+    loadspritefull freezeSprite freezePalette freezeOam
+    copyvar 0x800A LASTRESULT
+    spritetobg target 8 8
+    fadespritebg 3 0x6546 FADETO 0 10
+    spriteblend 8 8
+    setvar 0x8002 0x0
+
+freezeLoop:
+    compare 0x8002 8
+    if1 0x1 goto finishfreeze
+    loadsprite freezeSprite freezePalette freezeOam
+    copyvar freezeParticle LASTRESULT
+    animatesprite freezeParticle freezeAffinePtr
+    runtask TaskfreezeEffect freezeParticle 0 0 0
+    pauseframes 10
+    addvar 0x8002 1
+    goto freezeLoop
+
+finishfreeze:
+    fadespritebg 3 0x6546 FADEFROM true 10
+    showsprite target
+    spritebgclear target
+    deletesprite 0x800A
+    end
+.pool
