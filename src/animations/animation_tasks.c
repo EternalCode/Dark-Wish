@@ -36,7 +36,7 @@ void TaskMoveSprite(u8 taskId)
 void TaskWaitFrames(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
-    if (t->priv[0] < t->priv[2]) {
+    if (t->priv[0] > t->priv[2]) {
         t->priv[2]++;
     } else {
         gAnimationCore->wait[t->priv[1]] = false;
@@ -53,6 +53,19 @@ void TaskWaitFade(u8 taskId)
         gAnimationCore->wait[t->priv[0]] = false;
         DestroyTask(taskId);
     }
+}
+
+// wait for a specified task to finish
+void TaskWaitForTask(u16 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    u32* func = (u32*)&t->priv[0];
+    if (task_is_running((TaskCallback)*func))
+        return;
+    if (task_is_running((TaskCallback)(*func - 1)))
+        return;
+    gAnimationCore->wait[t->priv[3]] = false;
+    DestroyTask(taskId);
 }
 
 #define spriteId t->priv[0]
@@ -136,8 +149,9 @@ void TaskQuakeBg(u8 taskId)
     // check anim finished
     if ((quakeCount >> 2) == times) {
         DestroyTask(taskId);
-        if (towait)
+        if (towait) {
             gAnimationCore->wait[thread] = false;
+        }
         return;
     }
     // wait for delay
@@ -175,8 +189,9 @@ void TaskQuakeSprite(u8 taskId)
     // check anim finished
     if ((quakeCount >> 2) == times) {
         DestroyTask(taskId);
-        if (towait)
+        if (towait) {
             gAnimationCore->wait[thread] = false;
+        }
         return;
     }
     // wait for delay
@@ -307,7 +322,7 @@ void TaskFreezeEffect(u8 taskId)
 
 #define amplitude t->priv[2]
 #define frequency t->priv[3]
-void TaskMoveSinLeftAndRight(u8 taskId)
+void TaskMovePoisonBubble(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
     s16 randFactor = 0;
@@ -335,6 +350,53 @@ void TaskMoveSinLeftAndRight(u8 taskId)
             break;
         case 2:
             // delete sprite
+            FreeSpriteOamMatrix(&gSprites[spriteId]);
+            DestroySprite(&gSprites[spriteId]);
+            DestroyTask(taskId);
+            break;
+    };
+}
+
+#define delay t->priv[2]
+void TaskMoveSinLeftAndRight(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    u32 dist = 0;
+    switch (state) {
+        case 0:
+            // pick sprite's position
+            for (u8 i = 0; i < 180; i+= (180 / frequency))
+                dist += Sin2(t->priv[5]);
+            dist = dist >> 1;
+            gSprites[spriteId].pos1.x = VarGet(0x8006) - dist;
+            gSprites[spriteId].pos1.y = VarGet(0x8007);
+            gSprites[spriteId].invisible = false;
+            state++;
+            break;
+        case 1:
+            // check if done
+            if (t->priv[4] < t->priv[6]) {
+                state++;
+                return;
+            }
+            // check if delay
+            if (delay > t->priv[7]) {
+                t->priv[7]++;
+                return;
+            }
+            t->priv[7] = 0;
+            // move X influenced by sin wave
+            gSprites[spriteId].pos1.x += (Sin2(t->priv[5]) / 256);
+            // update wave frequency
+            t->priv[5] = (t->priv[5] + frequency);
+            if (t->priv[5] > 360) {
+                t->priv[6]++;
+                t->priv[5] = frequency;
+            }
+            break;
+        case 2:
+            // delete sprite
+            FreeSpriteOamMatrix(&gSprites[spriteId]);
             DestroySprite(&gSprites[spriteId]);
             DestroyTask(taskId);
             break;
