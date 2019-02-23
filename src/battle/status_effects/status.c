@@ -155,7 +155,7 @@ void freeze_on_inflict(u8 bank)
 u8 paralyze_on_before_move(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
 	if (user != src) return true;
-    if (RandRange(0, 100) < 125) {
+    if (RandRange(0, 100) < 25) {
 		struct action* a = prepend_action(user, user, ActionAnimation, EventPlayAnimation);
         a->script = (u32)&animParalyzed;
         ADD_VOLATILE(user, VOLATILE_ATK_SKIP_TURN);
@@ -222,6 +222,8 @@ void toxic_on_inflict(u8 bank)
 u8 infactuated_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
 	if (user != src) return true;
+	struct action* a = prepend_action(user, user, ActionAnimation, EventPlayAnimation);
+	a->script = (u32)&animInfatuation;
 	if (RandRange(0, 100) < 50) {
 		return true;
 	} else {

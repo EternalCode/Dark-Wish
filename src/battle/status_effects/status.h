@@ -22,5 +22,6 @@ extern u8* animBadlyPoisoned;
 extern u8* animParalyzed;
 extern u8* animFreeze;
 extern u8* animConfused;
+extern u8* animInfatuation;
 
 #endif /* STATUS_DATA_H_ */

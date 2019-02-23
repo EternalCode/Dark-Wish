@@ -44,7 +44,6 @@ void TaskWaitFrames(u8 taskId)
     }
 }
 
-
 // Undo thread waiting after palfade has finished
 void TaskWaitFade(u8 taskId)
 {
@@ -346,7 +345,7 @@ void TaskMovePoisonBubble(u8 taskId)
             // move X influenced by sin wave
             gSprites[spriteId].pos1.x += Sin(t->priv[4], amplitude);
             // update wave frequency
-            t->priv[4] = (t->priv[4] + frequency) & 0x1FF;
+            t->priv[4] = (t->priv[4] + frequency) & 0xFF;
             break;
         case 2:
             // delete sprite

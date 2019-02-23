@@ -217,7 +217,7 @@ static const pchar str_stat_mod_cant_go_higher_o[] = _("{FOE}{ATTACKING_MON}’s
 
 
 static const pchar str_atk_used_o[] = _("{FOE}{ATTACKING_MON} used\n{ATTACK_NAME}!");
-static const pchar str_infatuated_o[] = _("{FOE}{ATTACKING_MON} is in love\nwith {DEFENDING_MON}\p{FOE}{ATTACKING_MON}\nis immobolized by love!");
+static const pchar str_infatuated_o[] = _("{FOE}{ATTACKING_MON} is in love.\p{FOE}{ATTACKING_MON}\nis immobolized by love!");
 static const pchar str_bide_o[] = _("{FOE}{ATTACKING_MON} is\nstoring energy!");
 static const pchar str_focus_lost_o[] = _("{FOE}{ATTACKING_MON} lost its\nfocus and couldn’t move!");
 static const pchar str_cant_use_o[] = _("{ATTACKING_MON} can’t use\n{ATTACK_NAME} because of {EFFECT_NAME}!");

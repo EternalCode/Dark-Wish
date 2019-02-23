@@ -150,6 +150,7 @@ void RunCurrentCommand()
     dprintf("running command id %d for script %x in thread %d\n", cmd, (u32)ANIMSCR_SCRIPT, ANIMSCR_THREAD);
     if (cmd == 0xFF) {
         ANIMSCR_SCRIPT = NULL;
+        ANIMSCR_CMD_NEXT;
         //gAnimationCore->waitAll = true;
         return;
     }
@@ -1036,9 +1037,9 @@ void AnimationMain()
     for (u8 i = 0; i < ANIM_SCR_COUNT; i++) {
         if (gAnimationCore->waitAll)
             return;
-        if (gAnimationCore->wait[i] || !gAnimationCore->animScriptPtr[i]) {
+        if (gAnimationCore->wait[i] || (gAnimationCore->animScriptPtr[i] == 0)) {
             ANIMSCR_CMD_NEXT;
-            if (!gAnimationCore->animScriptPtr[i])
+            if ((gAnimationCore->animScriptPtr[i] == 0))
                 counter++;
         } else {
             RunCurrentCommand();

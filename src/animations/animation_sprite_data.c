@@ -5,6 +5,7 @@
 #include "../../generated/images/battle_animations/paralyze.h"
 #include "../../generated/images/battle_animations/freeze.h"
 #include "../../generated/images/battle_animations/confused.h"
+#include "../../generated/images/battle_animations/infatuation.h"
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -103,3 +104,13 @@ const struct Frame confusedLoop[] = {
     {0xFFFE, 0},
 };
 const struct Frame* confusedLoopPtr[] = {confusedLoop};
+
+
+// infactuation sprite
+const struct CompressedSpriteSheet infatuationSprite = {(void*)&infatuationTiles, 32 * 2 * 2, 406};
+const struct SpritePalette infatuationPalette = {&infatuationPal, 406};
+
+const struct OamData infatuationOam = {
+    .size = 1,
+    .priority = 1,
+};

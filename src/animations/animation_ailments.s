@@ -160,3 +160,54 @@ finishConfused:
     deletesprite 0x800A
     end
 .pool
+
+
+.equ infatuationParticle, 0x8003
+.equ infatuationX, 0x8008
+.equ infatuationY, 0x8009
+.global animInfatuation
+animInfatuation:
+    fastsetbattlers
+    loadspritefull infatuationSprite infatuationPalette infatuationOam
+    copyvar 0x800A LASTRESULT
+    setvar 0x8002 0
+
+infatuationLoop:
+    compare 0x8002 4
+    if1 0x1 goto finishInfatuation
+    random 0 1
+    compare LASTRESULT 0x1
+    random 10 30
+    copyvar infatuationX LASTRESULT
+    random 20 30
+    copyvar infatuationY LASTRESULT
+    subvars targety infatuationY
+    copyvar LASTRESULT targety
+    addvars targety infatuationY
+    copyvar infatuationY LASTRESULT
+    if1 0x1 goto infatuationLeft
+
+infatuationRight:
+    copyvar LASTRESULT targetx
+    addvars infatuationX LASTRESULT
+    goto infatuationHeartShow
+
+infatuationLeft:
+    copyvar LASTRESULT targetx
+    subvars LASTRESULT infatuationX
+    copyvar infatuationX LASTRESULT
+
+infatuationHeartShow:
+    loadsprite infatuationSprite infatuationPalette infatuationOam
+    copyvar infatuationParticle LASTRESULT
+    runtask TaskMovePoisonBubble infatuationParticle 3 12 0
+    addvar 0x8002 1
+    goto infatuationLoop
+
+
+finishInfatuation:
+    waittask TaskMovePoisonBubble
+    deletesprite 0x800A
+    end
+
+.pool
