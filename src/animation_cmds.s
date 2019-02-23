@@ -480,6 +480,14 @@
 .word \oam
 .endm
 
+.macro waittask task
+.byte 54
+.byte 0
+.byte 0
+.byte 0
+.word \task
+.endm
+
 .macro end
 .byte 0xFF
 .endm

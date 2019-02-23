@@ -4,6 +4,7 @@
 #include "../../generated/images/battle_animations/poison.h"
 #include "../../generated/images/battle_animations/paralyze.h"
 #include "../../generated/images/battle_animations/freeze.h"
+#include "../../generated/images/battle_animations/confused.h"
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -67,8 +68,8 @@ const struct Frame paralyzeLoop[] = {
 const struct Frame* paralyzeLoopPtr[] = {paralyzeLoop};
 
 // freeze ailment sprite
-const struct CompressedSpriteSheet freezeSprite = {(void*)&freezeTiles, 32 * 4 * 4, 401};
-const struct SpritePalette freezePalette = {&freezePal, 401};
+const struct CompressedSpriteSheet freezeSprite = {(void*)&freezeTiles, 32 * 4 * 4, 404};
+const struct SpritePalette freezePalette = {&freezePal, 404};
 
 // freeze sprite to shrink
 const struct RotscaleFrame freezeAffineTable[] = {
@@ -84,3 +85,21 @@ const struct OamData freezeOam = {
     .priority = 3,
 };
 const u32 freezeAffinePtr = (u32)&freezeAffineTable;
+
+
+// confused sprite
+const struct CompressedSpriteSheet confusedSprite = {(void*)&confusedTiles, 32 * 2 * 2 * 3, 405};
+const struct SpritePalette confusedPalette = {&confusedPal, 405};
+
+const struct OamData confusedOam = {
+    .size = 1,
+    .priority = 1,
+};
+
+const struct Frame confusedLoop[] = {
+    {0, 20},
+    {4, 20},
+    {8, 20},
+    {0xFFFE, 0},
+};
+const struct Frame* confusedLoopPtr[] = {confusedLoop};

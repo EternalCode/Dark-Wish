@@ -36,7 +36,7 @@ burnLoop:
 
 finishburn:
     beginfade 3 0x1CF8 FADEFROM 1 10
-    pauseframes 10
+    waittask TaskBurnEffect
     deletesprite 0x800A
     end
 .pool
@@ -62,14 +62,14 @@ poisonLoop:
     if1 0x1 goto finishpoison
     loadsprite poisonSprite poisonPalette poisonOam
     copyvar poisonParticle LASTRESULT
-    runtask TaskMoveSinLeftAndRight poisonParticle 2 12 0
+    runtask TaskMovePoisonBubble poisonParticle 2 12 0
     pauseframes 10
     addvar 0x8002 1
     goto poisonLoop
 
 finishpoison:
     beginfade 3 0x6C50 FADEFROM 1 10
-    pauseframes 10
+    waittask TaskMovePoisonBubble
     deletesprite 0x800A
     end
 .pool
@@ -117,15 +117,46 @@ freezeLoop:
     loadsprite freezeSprite freezePalette freezeOam
     copyvar freezeParticle LASTRESULT
     animatesprite freezeParticle freezeAffinePtr
-    runtask TaskfreezeEffect freezeParticle 0 0 0
+    runtask TaskFreezeEffect freezeParticle 0 0 0
     pauseframes 10
     addvar 0x8002 1
     goto freezeLoop
 
 finishfreeze:
     fadespritebg 3 0x6546 FADEFROM true 10
+    waittask TaskFreezeEffect
     showsprite target
     spritebgclear target
+    deletesprite 0x800A
+    end
+.pool
+
+
+.equ confusedParticle, 0x8003
+.global animConfused
+animConfused:
+    fastsetbattlers
+    loadspritefull confusedSprite confusedPalette confusedOam
+    copyvar 0x800A LASTRESULT
+    subvar targety 30
+    subvar targetx 30
+    setvar 0x8002 0
+
+confusedLoop:
+    compare 0x8002 3
+    if1 0x1 goto finishConfused
+    loadsprite confusedSprite confusedPalette confusedOam
+    copyvar confusedParticle LASTRESULT
+    setframessprite 0 confusedParticle confusedLoopPtr
+    rendersprite confusedParticle targetx targety nullrsf
+    runtask TaskMoveSinLeftAndRight confusedParticle 5 30 0
+    pauseframes 10
+    addvar 0x8002 0x1
+    goto confusedLoop
+
+finishConfused:
+    waittask TaskMoveSinLeftAndRight
+    pauseframes 10
     deletesprite 0x800A
     end
 .pool

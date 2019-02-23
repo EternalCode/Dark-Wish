@@ -60,6 +60,7 @@ void ScriptCmd_quakesprite(void);
 void ScriptCmd_setframessprite(void);
 void ScriptCmd_loadsprite(void);
 void ScriptCmd_fadespritebg(void);
+void ScriptCmd_waittask(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -70,6 +71,7 @@ extern void TaskFlashSprite(u8 taskId);
 extern void TaskQuakeBg(u8 taskId);
 extern void TaskQuakeSprite(u8 taskId);
 extern void TaskHPBoxBobFast(u8 taskId);
+extern void TaskWaitForTask(u8 taskId);
 extern void battle_loop(void);
 
 const AnimScriptFunc gAnimTable[] = {
@@ -127,6 +129,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_setframessprite, // 51
     ScriptCmd_loadsprite, // 52
     ScriptCmd_fadespritebg, // 53
+    ScriptCmd_waittask, // 54
 };
 
 
@@ -144,7 +147,7 @@ void InitializeAnimationCore(u8* scr1, u8* scr2, u8* scr3, u8* scr4)
 void RunCurrentCommand()
 {
     u8 cmd = ANIMSCR_READ_BYTE;
-    dprintf("running command id %d for script %x\n", cmd, (u32)ANIMSCR_SCRIPT);
+    dprintf("running command id %d for script %x in thread %d\n", cmd, (u32)ANIMSCR_SCRIPT, ANIMSCR_THREAD);
     if (cmd == 0xFF) {
         ANIMSCR_SCRIPT = NULL;
         //gAnimationCore->waitAll = true;
@@ -367,6 +370,7 @@ void ScriptCmd_waitframes()
     u8 taskId = CreateTask(TaskWaitFrames, 0);
     tasks[taskId].priv[0] = waitTime;
     tasks[taskId].priv[1] = ANIMSCR_THREAD;
+    ANIMSCR_WAITING = true;
     ANIMSCR_CMD_NEXT;
 }
 
@@ -704,43 +708,6 @@ void SpriteCmd_movewave()
     ANIMSCR_CMD_NEXT;
 }
 
-#define thread sprite->data[1]
-#define waiting sprite->data[2]
-void SCHorizontalWaveMovement(struct Sprite* sprite)
-{
-
-    if (bouncesPast > bounces) {
-        sprite->callback = oac_nullsub;
-        if (waiting)
-            gAnimationCore->wait[thread] = false;
-        return;
-    }
-    sprite->pos1.x += Sin(X, amplitude);
-    X = (X + frequency) & 0xFF;
-    if (X == 0)
-        bouncesPast += 1;
-}
-
-void ScriptCmd_movewavehorizontal()
-{
-    // alignment
-    ANIMSCR_MOVE(1);
-    u16 spriteId = ANIMSCR_READ_HWORD;
-    spriteId = VarGet(spriteId);
-    struct Sprite* sprite = &gSprites[spriteId];
-    amplitude = ANIMSCR_READ_BYTE;
-    frequency = ANIMSCR_READ_BYTE;
-    bounces = ANIMSCR_READ_BYTE;
-    sprite->callback = SCHorizontalWaveMovement;
-    bool wait = ANIMSCR_READ_BYTE;
-    if (wait == true) {
-        thread = ANIMSCR_THREAD;
-        waiting = true;
-    }
-    ANIMSCR_CMD_NEXT;
-}
-
-
 #undef bounces
 #undef bouncesPast
 #undef xDelta
@@ -748,8 +715,6 @@ void ScriptCmd_movewavehorizontal()
 #undef X
 #undef amplitude
 #undef waveOrBounce
-#undef waiting
-#undef thread
 
 /* Upload a BG to BG2.. */
 void ScriptCmd_uploadbg()
@@ -1039,6 +1004,18 @@ void ScriptCmd_runtask()
     ANIMSCR_CMD_NEXT;
 }
 
+/* wait for a running task to finish */
+void ScriptCmd_waittask()
+{
+    ANIMSCR_MOVE(3);
+    u8 taskId = CreateTask(TaskWaitForTask, 0);
+    u32* arg = (u32*)&tasks[taskId].priv[0];
+    *arg = ANIMSCR_READ_WORD;
+    tasks[taskId].priv[3] = ANIMSCR_THREAD;
+    ANIMSCR_WAITING = true;
+    ANIMSCR_CMD_NEXT;
+}
+
 /* Set frames */
 void ScriptCmd_setframessprite()
 {
@@ -1059,9 +1036,9 @@ void AnimationMain()
     for (u8 i = 0; i < ANIM_SCR_COUNT; i++) {
         if (gAnimationCore->waitAll)
             return;
-        if (ANIMSCR_WAITING || !ANIMSCR_SCRIPT) {
+        if (gAnimationCore->wait[i] || !gAnimationCore->animScriptPtr[i]) {
             ANIMSCR_CMD_NEXT;
-            if (!ANIMSCR_SCRIPT)
+            if (!gAnimationCore->animScriptPtr[i])
                 counter++;
         } else {
             RunCurrentCommand();
@@ -1078,7 +1055,7 @@ void AnimationMain()
 
 void event_play_animation(struct action* current_action)
 {
-    dprintf("running tests on script %x\n", (u32)current_action->script);
+    dprintf("event started to run script: %x\n", (u32)current_action->script);
     InitializeAnimationCore((u8*)current_action->script, NULL, NULL, NULL);
     SetMainCallback(AnimationMain);
 }
