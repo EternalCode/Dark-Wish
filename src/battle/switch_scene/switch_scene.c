@@ -116,8 +116,12 @@ void switch_fetch_all_data()
         sd->s_pkmn_data[i].PID = pokemon_getattr(&party_player[i], REQUEST_PID, NULL);
 
         /* Get effect from raw status ailment */
-        u32 status = pokemon_getattr(&party_player[i], REQUEST_STATUS_AILMENT, NULL);
-        u8 ailment = 0;
+        u32 status;
+        if (pokemon_getattr(&party_player[i], REQUEST_CURRENT_HP, NULL))
+            status = pokemon_getattr(&party_player[i], REQUEST_STATUS_AILMENT, NULL);
+        else
+            status = 0;
+       u8 ailment = 0;
         if ((status & 7) > 0) {
             ailment = EFFECT_SLEEP;
         } else if (status & (1 << 3))
