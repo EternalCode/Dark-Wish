@@ -6,6 +6,7 @@
 #include "../../generated/images/battle_animations/freeze.h"
 #include "../../generated/images/battle_animations/confused.h"
 #include "../../generated/images/battle_animations/infatuation.h"
+#include "../../generated/images/battle_animations/sleep.h"
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -72,7 +73,7 @@ const struct Frame* paralyzeLoopPtr[] = {paralyzeLoop};
 const struct CompressedSpriteSheet freezeSprite = {(void*)&freezeTiles, 32 * 4 * 4, 404};
 const struct SpritePalette freezePalette = {&freezePal, 404};
 
-// freeze sprite to shrink
+// freeze sprite to grow
 const struct RotscaleFrame freezeAffineTable[] = {
     {-200, -200, 0, 1, 0},
     {10, 10, 0, 15, 0},
@@ -112,5 +113,28 @@ const struct SpritePalette infatuationPalette = {&infatuationPal, 406};
 
 const struct OamData infatuationOam = {
     .size = 1,
+    .priority = 1,
+};
+
+
+// Sleep sprite
+const struct CompressedSpriteSheet sleepSprite = {(void*)&sleepTiles, 32 * 4 * 4, 407};
+const struct SpritePalette sleepPalette = {&sleepPal, 407};
+
+const struct RotscaleFrame sleepAffineTable[] = {
+    {-150, -150, -30, 1, 0},
+    {2, 2, 2, 5, 0},
+    {0, 0, 0, 8, 0},
+    {2, 2, 2, 5, 0},
+    {0, 0, 0, 8, 0},
+    {2, 2, 2, 5, 0},
+    {0, 0, 0, 8, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+const u32 sleepAffinePtr = (u32)&sleepAffineTable;
+
+const struct OamData sleepOam = {
+    .affine_mode = 1,
+    .size = 2,
     .priority = 1,
 };

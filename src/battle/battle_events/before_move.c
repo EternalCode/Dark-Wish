@@ -6,6 +6,7 @@
 #include "../battle_text/battle_pick_message.h"
 #include "../battle_events/battle_events.h"
 #include "../abilities/battle_abilities.h"
+#include "../status_effects/status.h"
 
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 
@@ -67,6 +68,8 @@ void event_before_move(struct action* current_action)
 
     /* Before Move effects which cause turn ending */
     if (HAS_VOLATILE(ACTION_BANK, VOLATILE_SLEEP_TURN)) {
+        struct action* a = prepend_action(ACTION_BANK, ACTION_BANK, ActionAnimation, EventPlayAnimation);
+        a->script = (u32)&animSleep;
         QueueMessage(0, ACTION_BANK, STRING_FAST_ASLEEP, 0);
         B_MOVE_FAILED(ACTION_BANK) = true;
     } else if (HAS_VOLATILE(ACTION_BANK, VOLATILE_CONFUSE_TURN) || HAS_VOLATILE(ACTION_BANK, VOLATILE_CHARGING)) {

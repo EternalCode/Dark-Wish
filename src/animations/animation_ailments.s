@@ -30,7 +30,6 @@ burnLoop:
     copyvar burnParticle LASTRESULT
     animatesprite burnParticle burnAffinePtr
     runtask TaskBurnEffect burnParticle 0 0 0
-    pauseframes 10
     addvar 0x8002 1
     goto burnLoop
 
@@ -62,8 +61,8 @@ poisonLoop:
     if1 0x1 goto finishpoison
     loadsprite poisonSprite poisonPalette poisonOam
     copyvar poisonParticle LASTRESULT
-    runtask TaskMovePoisonBubble poisonParticle 2 12 0
-    pauseframes 10
+    runtask TaskMovePoisonBubble poisonParticle 2 12 30
+    pauseframes 5
     addvar 0x8002 1
     goto poisonLoop
 
@@ -94,7 +93,6 @@ animParalyzed:
     setframessprite 0 paralyzeParticle paralyzeLoopPtr
     quakesprite target 4 0 2 5 0
     beginfade 3 0 FADETO 1 10
-    pauseframes 50
     beginfade 3 0 FADEFROM 1 10
     deletesprite paralyzeParticle
     end
@@ -118,7 +116,7 @@ freezeLoop:
     copyvar freezeParticle LASTRESULT
     animatesprite freezeParticle freezeAffinePtr
     runtask TaskFreezeEffect freezeParticle 0 0 0
-    pauseframes 10
+    pauseframes 2
     addvar 0x8002 1
     goto freezeLoop
 
@@ -149,8 +147,8 @@ confusedLoop:
     copyvar confusedParticle LASTRESULT
     setframessprite 0 confusedParticle confusedLoopPtr
     rendersprite confusedParticle targetx targety nullrsf
-    runtask TaskMoveSinLeftAndRight confusedParticle 5 30 0
-    pauseframes 10
+    runtask TaskMoveSinLeftAndRight confusedParticle 3 30 0
+    pauseframes 8
     addvar 0x8002 0x1
     goto confusedLoop
 
@@ -200,7 +198,7 @@ infatuationLeft:
 infatuationHeartShow:
     loadsprite infatuationSprite infatuationPalette infatuationOam
     copyvar infatuationParticle LASTRESULT
-    runtask TaskMovePoisonBubble infatuationParticle 3 12 0
+    runtask TaskMovePoisonBubble infatuationParticle 3 12 50
     addvar 0x8002 1
     goto infatuationLoop
 
@@ -210,4 +208,32 @@ finishInfatuation:
     deletesprite 0x800A
     end
 
+.pool
+
+
+.equ sleepParticle, 0x8003
+.global animSleep
+animSleep:
+    fastsetbattlers
+    loadspritefull sleepSprite sleepPalette sleepOam
+    subvar targety 16
+    copyvar 0x800A LASTRESULT
+    setvar 0x8002 0x0
+
+
+sleepLoop:
+    compare 0x8002 3
+    if1 0x1 goto finishsleep
+    loadsprite sleepSprite sleepPalette sleepOam
+    copyvar sleepParticle LASTRESULT
+    animatesprite sleepParticle sleepAffinePtr
+    runtask TaskMoveSleepZ sleepParticle 1 12 30
+    pauseframes 20
+    addvar 0x8002 1
+    goto sleepLoop
+
+finishsleep:
+    waittask TaskMoveSleepZ
+    deletesprite 0x800A
+    end
 .pool

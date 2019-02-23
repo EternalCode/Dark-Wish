@@ -333,19 +333,58 @@ void TaskMovePoisonBubble(u8 taskId)
             gSprites[spriteId].pos1.y = VarGet(0x8007) + 16;
             gSprites[spriteId].invisible = false;
             t->priv[5] = gSprites[spriteId].pos1.y;
-            t->priv[4] = 0;
+            t->priv[6] = 0;
             state++;
             break;
         case 1:
             // move the sprite up
             gSprites[spriteId].pos1.y -=2;
-            if (gSprites[spriteId].pos1.y + 30 < t->priv[5]) {
+            if (gSprites[spriteId].pos1.y + t->priv[4] < t->priv[5]) {
                 state++;
             }
             // move X influenced by sin wave
-            gSprites[spriteId].pos1.x += Sin(t->priv[4], amplitude);
+            gSprites[spriteId].pos1.x += Sin(t->priv[6], amplitude);
             // update wave frequency
-            t->priv[4] = (t->priv[4] + frequency) & 0xFF;
+            t->priv[6] = (t->priv[6] + frequency) & 0xFF;
+            break;
+        case 2:
+            // delete sprite
+            FreeSpriteOamMatrix(&gSprites[spriteId]);
+            DestroySprite(&gSprites[spriteId]);
+            DestroyTask(taskId);
+            break;
+    };
+}
+
+void TaskMoveSleepZ(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    switch (state) {
+        case 0:
+            // pick sprite's position
+            gSprites[spriteId].pos1.x = VarGet(0x8006);
+            gSprites[spriteId].pos1.y = VarGet(0x8007);
+            gSprites[spriteId].invisible = false;
+            t->priv[5] = gSprites[spriteId].pos1.y;
+            t->priv[6] = 0;
+            state++;
+            break;
+        case 1:
+            // delay
+            if (t->priv[7] < 1) {
+                t->priv[7]++;
+                return;
+            }
+            t->priv[7] = 0;
+            // move the sprite up
+            gSprites[spriteId].pos1.y -=1;
+            if (gSprites[spriteId].pos1.y + t->priv[4] < t->priv[5]) {
+                state++;
+            }
+            // move X influenced by sin wave
+            gSprites[spriteId].pos1.x += Sin(t->priv[6], amplitude);
+            // update wave frequency
+            t->priv[6] = (t->priv[6] + frequency) & 0xFF;
             break;
         case 2:
             // delete sprite
