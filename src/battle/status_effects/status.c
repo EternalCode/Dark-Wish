@@ -121,7 +121,6 @@ void burn_on_inflict(u8 bank)
 }
 
 
-
 /* Freeze Related */
 u8 freeze_on_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
@@ -156,11 +155,12 @@ void freeze_on_inflict(u8 bank)
 u8 paralyze_on_before_move(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
 	if (user != src) return true;
-    if (RandRange(0, 100) < 25) {
+    if (RandRange(0, 100) < 125) {
 		struct action* a = prepend_action(user, user, ActionAnimation, EventPlayAnimation);
         a->script = (u32)&animParalyzed;
         ADD_VOLATILE(user, VOLATILE_ATK_SKIP_TURN);
         QueueMessage(0, user, STRING_FULL_PARA, 0);
+		return 3; // silent_fail
     }
 	return true;
 }
@@ -246,6 +246,8 @@ u8 confusion_on_before_move(u8 user, u8 src, u16 move, struct anonymous_callback
 	if (user != src) return true;
 	ADD_VOLATILE(user, VOLATILE_CONFUSE_TURN);
 	if (gPkmnBank[user]->battleData.confusion_turns) {
+		struct action* a = prepend_action(user, user, ActionAnimation, EventPlayAnimation);
+		a->script = (u32)&animConfused;
 		QueueMessage(0, user, STRING_IS_CONFUSED, 0);
 		if (RandRange(0, 100) <= 33) {
 			// hurt itself in confusion
