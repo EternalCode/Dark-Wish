@@ -18,6 +18,7 @@ void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
     for (u8 i = 0; i < 6; i++) {
         if (gBattleMaster->participatingIDs[i] == 0) {
             gBattleMaster->participatingIDs[i] = PID;
+            break;
         } else if (gBattleMaster->participatingIDs[i] == PID) {
             break;
         }

@@ -356,6 +356,7 @@ FOE = FD 1A
 SLOT_MON = FD 1B
 BANK_ITEM = FD 1C
 BANK_NAME = FD 1D
+PSLOT_MON = FD 1E
 
 @ battle macros deprecated
 @UNKNOWN_STR = FD 00
