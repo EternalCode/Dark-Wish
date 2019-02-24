@@ -13,6 +13,15 @@ extern const bool USE_TESTS;
 
 void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
 {
+    // if pokemon is not marked as battle participated, then mark it
+    u32 PID = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_PID, NULL);
+    for (u8 i = 0; i < 6; i++) {
+        if (gBattleMaster->participatingIDs[i] == 0) {
+            gBattleMaster->participatingIDs[i] = PID;
+        } else if (gBattleMaster->participatingIDs[i] == PID) {
+            break;
+        }
+    }
     // base stats
     u16 species = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_SPECIES, NULL);
     memcpy(gPkmnBank[bank]->battleData.name, gPkmnBank[bank]->this_pkmn->box.nick, sizeof(party_player[0].box.nick));
@@ -110,7 +119,7 @@ void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
         gPkmnBank[bank]->battleData.v_status2 = 0;
         gPkmnBank[bank]->battleData.is_grounded = 0;
     }
-    
+
     if (!flags->pass_disables) {
 
     }
