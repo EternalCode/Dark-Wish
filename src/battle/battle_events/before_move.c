@@ -68,6 +68,7 @@ void event_before_move(struct action* current_action)
 
     /* Before Move effects which cause turn ending */
     if (HAS_VOLATILE(ACTION_BANK, VOLATILE_SLEEP_TURN)) {
+        QueueMessage(0, ACTION_BANK, STRING_FAST_ASLEEP, 0);
         struct action* a = prepend_action(ACTION_BANK, ACTION_BANK, ActionAnimation, EventPlayAnimation);
         a->script = (u32)&animSleep;
         QueueMessage(0, ACTION_BANK, STRING_FAST_ASLEEP, 0);

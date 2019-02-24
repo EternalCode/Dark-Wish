@@ -14,6 +14,7 @@ extern void give_exp(u8 fainted, u8 reciever);
 extern void TaskBackspriteBob(u8 tid);
 extern void do_damage(u8 bank_index, u16 dmg);
 extern void CpuFastSet(void* src, void* dst, u32 mode);
+extern void SyncBankToParty(u8 bank);
 
 bool on_faint_callbacks(u8 bank)
 {
@@ -126,6 +127,7 @@ void event_fainted(struct action* current_action)
             if (B_CURRENT_HP(i) > 0) {
                 dprintf("Current HP was %d\n", B_CURRENT_HP(i));
                 do_damage(i, B_CURRENT_HP(i));
+                SyncBankToParty(i);
             }
             prepend_action(i, NULL, ActionFaint, EventFaint);
         }

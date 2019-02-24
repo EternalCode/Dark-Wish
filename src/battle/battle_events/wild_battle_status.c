@@ -8,7 +8,7 @@
 
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 extern void dprintf(const char * str, ...);
-extern void give_exp(u8 fainted, u8 reciever);
+extern void give_exp(u8 fainted);
 extern void jump_switch_menu(enum switch_reason reason);
 extern void SyncBankToParty(u8 bank);
 extern u8 SideCountUsablePkmn(u8 side);
@@ -35,6 +35,7 @@ void wild_battle_status_update(struct action* current_action)
 
     // if foe side has fainted end the battle
     if (B_IS_FAINTED(OPPONENT_SINGLES_BANK)) {
+        give_exp(OPPONENT_SINGLES_BANK);
         CURRENT_ACTION->event_state = EventEndBattle;
     } else {
         end_action(CURRENT_ACTION);

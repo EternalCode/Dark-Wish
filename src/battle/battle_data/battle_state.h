@@ -192,6 +192,7 @@ struct battle_main {
     u8 bank_hit_list[BANK_MAX];
     u8 bankOrder[BANK_MAX];
     struct move_used b_moves[BANK_MAX];
+    u32 participatingIDs[6]; // PIDs of pokemon who entered the battle.
     u8 c1_prestate;
     struct switch_menu switch_main;
 

@@ -202,8 +202,10 @@ enum battle_string_ids {
     STRING_RUN_AWAY,
     STRING_ANTICIPATION,
     STRING_FRISK,
+    STRING_EMPTY,
     STRINGS_TABLE_MAX = 700,
 };
+const static pchar empty_text[] = _("");
 const static pchar encounter_wild_text[] = _("A wild {DEFENDING_MON} appeared!\pGo! {ATTACKING_MON}!");
 
 static const pchar str_stat_mod_severely_fell_p[] = _("{ATTACKING_MON}’s {STAT_NAME}\nseverely fell!");
@@ -268,8 +270,8 @@ static const pchar str_move_se[] = _("It was super effective!");
 static const pchar str_recoil[] =_("{ATTACKING_MON} was hurt by recoil!");
 static const pchar str_drain[] = _("{DEFENDING_MON}’s energy was drained!");
 static const pchar str_fainted_o[] = _("{FOE}{ATTACKING_MON}\nfainted!\p");
-static const pchar str_give_exp[] = _("{ATTACKING_MON} gained {STR_VAR_1} exp!\p");
-static const pchar str_level_up[] = _("{ATTACKING_MON} leveled up!\p");
+static const pchar str_give_exp[] = _("{SLOT_MON} gained {STR_VAR_1} exp!\p");
+static const pchar str_level_up[] = _("{SLOT_MON} leveled up!\p");
 static const pchar str_healed_o[] = _("{FOE}{ATTACKING_MON} restored some HP!");
 static const pchar str_flinched_o[] = _("{FOE}{ATTACKING_MON} flinched\nand couldn’t move!");
 static const pchar str_multi_hit[] = _("Hit {STR_VAR_1} time(s)!");
@@ -649,6 +651,7 @@ static const pchar* battle_strings[STRINGS_TABLE_MAX] = {
    (pchar*)&str_run_away, // 201
    (pchar*)&str_anticipation, // 202
    (pchar*)&str_frisk, // 203
+   (pchar*)&empty_text, // 200
 
 };
 
