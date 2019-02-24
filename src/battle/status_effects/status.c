@@ -18,6 +18,7 @@ extern void hpbar_apply_dmg(u8 task_id);
 extern void PKMNAilmentToBank(u8 bank, u8 ailment);
 
 /* Sleep Related */
+u8 sleep_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 u8 sleep_on_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
 	if (user != src) return true;
@@ -29,6 +30,8 @@ u8 sleep_on_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* ac
 			QueueMessage(0, user, STRING_WOKE_UP, 0);
 			ShowStatusAilmentGraphic(user, AILMENT_NONE);
 			CLEAR_VOLATILE(user, VOLATILE_SLEEP_TURN);
+			delete_callback_src((u32)sleep_on_before_move, user);
+			delete_callback_src((u32)sleep_on_residual, user);
 		}
 	}
 	return true;
