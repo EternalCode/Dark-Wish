@@ -5,6 +5,8 @@
 #include "moves/moves.h"
 #include "battle_text/battle_pick_message.h"
 #include "battle_events/battle_events.h"
+#include "../pokemon/pokemon.h"
+#include "hpboxes/hpbox_positional_data.h"
 
 extern void dprintf(const char * str, ...);
 extern void ResetBankTurnBits(u8 bank);
@@ -102,6 +104,17 @@ void validate_player_selected_move()
     }
     WildBattleAIPickMove(OPPONENT_SINGLES_BANK);
     DestroyTask(task_find_id_by_functpr(TaskBackspriteBob));
+    u8 objid = gPkmnBank[PLAYER_SINGLES_BANK]->objid;
+    u8 species_y = gMonBackPicCoords[B_SPECIES(PLAYER_SINGLES_BANK)].y_offset;
+    gSprites[objid].pos1.y = 80 + species_y;
+    objid = gPkmnBank[PLAYER_SINGLES_BANK]->objid_hpbox[0];
+    gSprites[objid].pos1.y = HPBOX_PLAYER_SINGLE_Y;
+    objid = gPkmnBank[PLAYER_SINGLES_BANK]->objid_hpbox[1];
+    gSprites[objid].pos1.y = HPBOX_PLAYER_SINGLE_Y;
+    objid = gPkmnBank[PLAYER_SINGLES_BANK]->objid_hpbox[2];
+    gSprites[objid].pos1.y = HPBAR_PS_Y;
+    objid = gPkmnBank[PLAYER_SINGLES_BANK]->objid_hpbox[3];
+    gSprites[objid].pos1.y = HPBOX_STATUS_PLAYER_SINGLE_X;
     CreateActionsForActiveBanks();
     SetMainCallback(battle_loop);
 }

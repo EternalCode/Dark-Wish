@@ -11,7 +11,6 @@ extern void battle_loop(void);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 extern void dprintf(const char * str, ...);
 extern void give_exp(u8 fainted, u8 reciever);
-extern void TaskBackspriteBob(u8 tid);
 extern void do_damage(u8 bank_index, u16 dmg);
 extern void CpuFastSet(void* src, void* dst, u32 mode);
 extern void SyncBankToParty(u8 bank);
@@ -72,9 +71,7 @@ void do_faint()
     u8 bank = CURRENT_ACTION->action_bank;
     switch (gMain.state) {
         case 0:
-            // terminate the task that makes the player bob up and down
             if (!SIDE_OF(bank)) {
-                DestroyTask(task_find_id_by_functpr(TaskBackspriteBob));
                 gSprites[gPkmnBank[bank]->objid].data[6] = false;
             } else {
                 gSprites[gPkmnBank[bank]->objid].data[6] = ACTIVE_BANK(0) || ACTIVE_BANK(1);

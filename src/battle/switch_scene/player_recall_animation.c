@@ -6,6 +6,8 @@
 #include "../battle_text/battle_pick_message.h"
 #include "../battle_events/battle_events.h"
 #include "../battle_slide_in_data/battle_obj_sliding.h"
+#include "../../pokemon/pokemon.h"
+#include "../hpboxes/hpbox_positional_data.h"
 
 extern void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags);
 extern void buffer_write_pkmn_nick(pchar* buff, u8 bank);
@@ -79,6 +81,17 @@ void pkmn_player_normal_switch()
         case 1:
             {
                 DestroyTask(task_find_id_by_functpr(TaskBackspriteBob));
+                u8 objid = gPkmnBank[CURRENT_ACTION->action_bank]->objid;
+                u8 species_y = gMonBackPicCoords[B_SPECIES(CURRENT_ACTION->action_bank)].y_offset;
+                gSprites[objid].pos1.y = 80 + species_y;
+                objid = gPkmnBank[CURRENT_ACTION->action_bank]->objid_hpbox[0];
+                gSprites[objid].pos1.y = HPBOX_PLAYER_SINGLE_Y;
+                objid = gPkmnBank[CURRENT_ACTION->action_bank]->objid_hpbox[1];
+                gSprites[objid].pos1.y = HPBOX_PLAYER_SINGLE_Y;
+                objid = gPkmnBank[CURRENT_ACTION->action_bank]->objid_hpbox[2];
+                gSprites[objid].pos1.y = HPBAR_PS_Y;
+                objid = gPkmnBank[CURRENT_ACTION->action_bank]->objid_hpbox[3];
+                gSprites[objid].pos1.y = HPBOX_STATUS_PLAYER_SINGLE_X;
                 gMain.state++;
                 break;
             }
