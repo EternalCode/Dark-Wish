@@ -999,9 +999,13 @@ void ScriptCmd_runtask()
     TaskCallback t = (TaskCallback)ANIMSCR_READ_WORD;
     u8 taskId = CreateTask(t, 0);
     tasks[taskId].priv[1] = VarGet(vararg);
+    dprintf("priv1 sprite id %d\n", tasks[taskId].priv[1]);
     tasks[taskId].priv[2] = arg;
+    dprintf("priv2 arg %d\n", tasks[taskId].priv[2]);
     tasks[taskId].priv[3] = arg2;
+    dprintf("priv3 arg2 %d\n", tasks[taskId].priv[3]);
     tasks[taskId].priv[4] = arg3;
+    dprintf("priv3 arg3 %d\n", tasks[taskId].priv[4]);
     ANIMSCR_CMD_NEXT;
 }
 

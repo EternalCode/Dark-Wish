@@ -7,6 +7,8 @@
 #include "../../generated/images/battle_animations/confused.h"
 #include "../../generated/images/battle_animations/infatuation.h"
 #include "../../generated/images/battle_animations/sleep.h"
+#include "../../generated/images/battle_animations/smoke.h"
+#include "../../generated/images/battle_animations/glowball.h"
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -138,3 +140,37 @@ const struct OamData sleepOam = {
     .size = 2,
     .priority = 1,
 };
+
+// Smoke sprite
+const struct CompressedSpriteSheet smokeSprite = {(void*)&smokeTiles, 32 * 4 * 4 * 3, 407};
+const struct SpritePalette smokePalette = {&smokePal, 407};
+
+const struct OamData smokeOam = {
+    .size = 2,
+    .priority = 1,
+};
+
+const struct Frame smokeLoop[] = {
+    {0, 5},
+    {16, 5},
+    {32, 5},
+    {0xFFFF, 0},
+};
+const struct Frame* smokeLoopPtr[] = {smokeLoop};
+
+// glowball sprite
+const struct CompressedSpriteSheet glowballSprite = {(void*)&glowballTiles, 32 * 2 * 2, 408};
+const struct SpritePalette glowballPalette = {&glowballPal, 408};
+
+const struct OamData glowballOam = {
+    .affine_mode = 1,
+    .size = 1,
+    .priority = 1,
+};
+
+const struct RotscaleFrame glowballAffineTable[] = {
+    {0, 0, 0, 1, 0},
+    {-10, -10, 0, 30, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+const u32 glowballAffinePtr = (u32)&glowballAffineTable;

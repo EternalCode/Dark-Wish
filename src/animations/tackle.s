@@ -30,6 +30,7 @@ animationPlayer:
     movesprite attacker 8 0 5
     wait
     rendersprite impactParticle targetx targety nullrsf
+    startscript FireworkAnimation
     startscript scrQuakeSprite
     movesprite attacker 0xFFFC 0 10 // -4 xoffset
     wait
@@ -40,6 +41,7 @@ animationOpponent:
     movesprite attacker 0xFFF8 0 5
     wait
     rendersprite impactParticle targetx targety nullrsf
+    startscript FireworkAnimation
     startscript scrQuakeSprite
     movesprite attacker 4 0 10
     wait
