@@ -44,7 +44,7 @@ void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type,
             case STRING_SETUP_STOCKPILE:
             case STRING_MAGNITUDE_AMOUNT:
                 fmt_int_10(fcode_buffer2, move_effect_id, 0, 8);
-                fdecoder_battle(battle_strings[id], user_bank, 0, 0);
+                fdecoder_battle(battle_strings[id], user_bank, moveId, move_effect_id);
                 break;
             case STRING_TRAPPED:
             case STRING_INFATUATED:

@@ -30,6 +30,12 @@ void buffer_pkmn_nick_arbitrary(pchar* buffer, u8 bank, u8 slot)
     }
 }
 
+void buffer_player_pkmn_nick_arbitrary(pchar* buffer, u8 slot)
+{
+    memcpy(buffer, party_player[slot].box.nick, sizeof(party_player[slot].box.nick));
+    buffer[sizeof(party_player[slot].box.nick)] = 0xFF;
+}
+
 void buffer_write_player_name(pchar* buffer)
 {
     pstrcpy(buffer, gSaveBlock2Ptr->playerName);
@@ -220,18 +226,20 @@ void fdecoder_battle(pchar* buffer, u8 bank, u16 moveId, u16 move_effect_id)
                     }
                 case 0x1C:
                     {
-                        dprintf("arb buffer an item\n");
                         buffer_write_bank_item(&(result[result_index]), move_effect_id);
                         result_index = pstrlen(result);
                         break;
                     }
                 case 0x1D:
                     {
-                        dprintf("arb nick buffer for %d\n", move_effect_id);
                         buffer_write_pkmn_nick(&(result[result_index]), move_effect_id);
                         result_index = pstrlen(result);
                         break;
                     }
+                case 0x1E:
+                    buffer_player_pkmn_nick_arbitrary(&result[result_index], moveId);
+                    result_index = pstrlen(result);
+                    break;
                 default:
                     {
 
