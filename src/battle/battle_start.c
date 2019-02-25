@@ -14,19 +14,19 @@ extern void TaskPlayerHPBoxSlideIn(u8 taskId);
 extern void BankSelectOption(u8 bank);
 extern void PickBattleTypeEncounterMsg(enum BattleTypes);
 extern void SortBanksBySpeed(u8* activeBanks, u8 index);
-
+extern void ShowBattleMessage2(pchar* str, u8 rboxid);
 
 void StartWildBattle()
 {
     switch (gMain.state) {
         case 0:
-            LoadPalette((void*)stdpal_get(0), 16*rboxes[0x18 & 0x3F].pal_id, 32);
+            LoadPalette((void*)stdpal_get(0), 16 * 7, 32);
             PickBattleTypeEncounterMsg(battle_type_flag);
-            ShowBattleMessage((u8*)string_buffer, 0x18);
+            ShowBattleMessage2((u8*)string_buffer, 0x1);
             gMain.state++;
             break;
         case 1:
-            if (!dialogid_was_acknowledged(0x18 & 0x3F)) {
+            if (!dialogid_was_acknowledged(0x1)) {
                 gSprites[BattleEntryWindows->player_trainer_objid].animNum++;
                 gSprites[BattleEntryWindows->player_trainer_objid].callback = PlayerThrowBallAndMoveScene;
                 gSprites[BattleEntryWindows->player_trainer_objid].data[2] = PLAYER_SINGLES_BANK;

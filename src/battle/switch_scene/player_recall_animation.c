@@ -18,6 +18,7 @@ extern u8 spawn_hpbox_player(u16 tag, s16 x, s16 y, u8 bank);
 extern void battle_loop(void);
 extern void run_after_switch(u8 bank);
 extern void jump_switch_menu(enum switch_reason reason);
+extern void ShowBattleMessage2(pchar* str, u8 rboxid);
 
 static const struct RotscaleFrame shrink[] = {
     {-10, -10, 0, 10, 0},
@@ -103,12 +104,12 @@ void pkmn_player_normal_switch()
                 fcode_buffer3[sizeof(party_player[0].box.nick)] = 0xFF;
                 fdecoder(string_buffer, text);
                 remo_reset_acknowledgement_flags();
-                ShowBattleMessage((u8*)string_buffer, 0x18);
+                ShowBattleMessage2((u8*)string_buffer, 0x1);
                 gMain.state++;
                 break;
             }
        case 3:
-            if (!dialogid_was_acknowledged(0x18 & 0x3F)) {
+            if (!dialogid_was_acknowledged(0x1)) {
                 u8 bank = CURRENT_ACTION->action_bank;
                 make_spinning_pokeball(53, 64, bank);
                 gBattleAnimationStatus = 1;

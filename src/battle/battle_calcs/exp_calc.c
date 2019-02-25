@@ -167,7 +167,7 @@ void TaskStatScreen(u8 taskId)
             CpuFastSet((void*)battle_textbox_statMap, (void*)map_base, CPUModeFS(0x800, CPUFSCPY));
             // write palettes
             LoadPalette((void*)bboxPal, 16 * 5, 32);
-            SetVBlankCallback(VblankMergeStatsBox);
+            //SetVBlankCallback(VblankMergeStatsBox);
             ChangeBgX(1, 0, 0);
             ChangeBgY(1, 0, 0);
             ShowBg(1);

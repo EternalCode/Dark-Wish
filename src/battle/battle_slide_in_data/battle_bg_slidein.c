@@ -13,6 +13,7 @@ extern void pick_and_load_battle_bgs(void);
 extern void battle_scene_intialize_sprites(void);
 extern void battlers_move_into_scene(void);
 extern void task_lightup_objs(u8);
+extern struct TextboxTemplate BattleTextBoxes[];
 
 void hblank_battle_bgsslide_win_open(void)
 {
@@ -65,7 +66,8 @@ void TransitionWildBattle()
         case 1:
             bg_vram_setup(0, (struct BgConfig *)&bg_config_data, 4);
             // init textbox
-            rbox_init_from_templates((struct TextboxTemplate*)0x8248330);
+            rbox_init_from_templates((struct TextboxTemplate*)&BattleTextBoxes[0]);
+            //rbox_init_from_templates((struct TextboxTemplate*)0x8248330);
             gMain.state++;
             break;
         case 2:

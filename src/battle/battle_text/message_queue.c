@@ -7,7 +7,7 @@
 extern void dprintf(const char * str, ...);
 extern void battle_loop(void);
 extern void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type, enum battle_string_ids id, u16 move_effect_id);
-
+extern void ShowBattleMessage2(pchar* str, u8 rboxid);
 
 struct action* QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect)
 {
@@ -37,12 +37,12 @@ void play_bmessage()
         {
             struct action* a = CURRENT_ACTION;
             pick_battle_message(a->move, a->action_bank, battle_type_flag, a->priv[0], a->priv[1]);
-            ShowBattleMessage((u8*)string_buffer, 0x18);
+            ShowBattleMessage2((u8*)string_buffer, 0x1);
             gMain.state++;
         }
             break;
         case 1:
-            if (!dialogid_was_acknowledged(0x18)) {
+            if (!dialogid_was_acknowledged(0x1)) {
                 gMain.state++;
             }
             break;

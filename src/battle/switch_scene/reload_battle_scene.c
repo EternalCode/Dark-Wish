@@ -21,7 +21,7 @@ extern void validate_player_selected_move(void);
 extern void free_unused_objs(void);
 extern bool bank_trapped(u8 bank);
 extern struct action* QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
-
+extern struct TextboxTemplate BattleTextBoxes[];
 
 void return_to_battle()
 {
@@ -33,7 +33,7 @@ void return_to_battle()
                 SetVBlankCallback((MainCallback)VblankMergeTextBox);
                 SetMainCallback2((MainCallback)C2SyncAll);
                 bg_vram_setup(0, (struct BgConfig *)&bg_config_data, 4);
-                rbox_init_from_templates((struct TextboxTemplate*)0x8248330);
+                rbox_init_from_templates((struct TextboxTemplate*)&BattleTextBoxes[0]);
                 if (gBattleMaster->switch_main.reason == ViewPokemon)
                     pick_and_load_battle_bgs_no_entry(battle_textbox_action_selectMap);
                 else
@@ -173,8 +173,8 @@ void return_to_battle_bag()
             if (!gPaletteFade.active) {
                 // continue game callbacks
                 // init textbox
-                rbox_init_from_templates((struct TextboxTemplate*)0x8248330);
-                LoadPalette((void*)stdpal_get(0), 16 * rboxes[0x18].pal_id, 32);
+                rbox_init_from_templates((struct TextboxTemplate*)&BattleTextBoxes[0]);
+                LoadPalette((void*)stdpal_get(0), 16 * 7, 32);
                 gMain.state++;
             }
             break;
