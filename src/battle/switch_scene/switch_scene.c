@@ -35,8 +35,7 @@ extern const struct RotscaleFrame (**nullrsf)[];
 
 const struct BgConfig bg_config_switch_data[4] = {
     {
-        .padding = 0,
-        .b_padding = 0,
+        .basetile = 0,
         .priority = 2,
         .palette = 0,
         .size = 0,
@@ -45,8 +44,7 @@ const struct BgConfig bg_config_switch_data[4] = {
         .bgid = 0,
     },
     {
-        .padding = 0,
-        .b_padding = 0,
+        .basetile = 0,
         .priority = 3,
         .palette = 0,
         .size = 0,
@@ -55,8 +53,7 @@ const struct BgConfig bg_config_switch_data[4] = {
         .bgid = 1,
     },
     {
-        .padding = 0,
-        .b_padding = 0,
+        .basetile = 0,
         .priority = 3,
         .palette = 0,
         .size = 0,
@@ -65,8 +62,7 @@ const struct BgConfig bg_config_switch_data[4] = {
         .bgid = 2,
     },
     {
-        .padding = 0,
-        .b_padding = 0,
+        .basetile = 0,
         .priority = 3,
         .palette = 0,
         .size = 1,
