@@ -3,18 +3,18 @@
 
 //======================================================================
 //
-//	battle_textbox_move_select, 256x256@4, 
-//	+ regular map (flat), not compressed, 32x32 
+//	battle_textbox_move_select, 256x256@4,
+//	+ regular map (flat), not compressed, 32x32
 //	External tile file: (null).
 //	Total size: 2048 = 2048
 //
-//	Time-stamp: 2016-12-18, 19:29:32
-//	Exported by Cearn's GBA Image Transmogrifier, v0.8.12
+//	Time-stamp: 2019-02-24, 21:12:23
+//	Exported by Cearn's GBA Image Transmogrifier, v0.8.14
 //	( http://www.coranac.com/projects/#grit )
 //
 //======================================================================
 
-const unsigned char battle_textbox_move_selectMap[2048] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+const unsigned char battle_textbox_move_selectMap[2048] __attribute__((aligned(4))) =
 {
 	0x00,0x50,0x00,0x50,0x00,0x50,0x00,0x50,0x00,0x50,0x00,0x50,0x00,0x50,0x00,0x50,
 	0x00,0x50,0x00,0x50,0x00,0x50,0x00,0x50,0x00,0x50,0x00,0x50,0x00,0x50,0x00,0x50,

@@ -38,6 +38,7 @@ void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type,
     remo_reset_acknowledgement_flags();
     if (battle_type_flag == BATTLE_MODE_WILD) {
         switch (id) {
+            case STRING_LEVEL_UP:
             case STRING_EXP_GAIN:
             case STRING_MULTI_HIT:
             case STRING_COUNT_FELL:
@@ -132,7 +133,6 @@ void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type,
             case STRING_MOVE_CRIT:
             case STRING_MOVE_NVE:
             case STRING_MOVE_SE:
-            case STRING_LEVEL_UP:
             case STRING_WEATHER_GONE:
             case STRING_OHKO:
             case STRING_ATTACK_USED:

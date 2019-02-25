@@ -127,6 +127,22 @@ bool SpaceAvailableForPKMN()
 #undef PCBOX_COMPACITY
 
 
+u32 PokemonExpNeededToLevel(u8 slot)
+{
+    // get current level
+    u8 level = pokemon_getattr(&party_player[slot], REQUEST_LEVEL, NULL);
+    // get current exp
+    u32 currentExp = pokemon_getattr(&party_player[slot], REQUEST_EXP_POINTS, NULL);
+    // calc exp for next level
+    u16 species = pokemon_getattr(&party_player[slot], REQUEST_SPECIES, NULL);
+    u32 speciesExpIndex = (gBaseStats[species].growthRate * 0x194);
+	u32 *expNeeded = (u32*) (0x8253AE4 + (speciesExpIndex + ((level + 1) * 4)));
+    dprintf("exp needed is logged as %d to reach level %d\n", *expNeeded - currentExp, level + 1);
+    // substract current exp from needed exp
+    return *expNeeded - currentExp;
+}
+
+
 struct Sprite* GetSpriteFromGfxTag(u16 tag)
 {
     /* This doesn't see reliable at all... Currently objid is the best way to get a sprite */

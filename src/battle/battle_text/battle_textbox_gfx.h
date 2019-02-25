@@ -6,6 +6,7 @@
 #include "battle_textbox.h"
 #include "battle_textbox_action_select.h"
 #include "battle_textbox_move_select.h"
+#include "battle_textbox_stat.h"
 #include "bbox.h"
 
 
