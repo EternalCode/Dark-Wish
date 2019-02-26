@@ -92,7 +92,7 @@ void pkmn_player_normal_switch()
                 objid = gPkmnBank[CURRENT_ACTION->action_bank]->objid_hpbox[2];
                 gSprites[objid].pos1.y = HPBAR_PS_Y;
                 objid = gPkmnBank[CURRENT_ACTION->action_bank]->objid_hpbox[3];
-                gSprites[objid].pos1.y = HPBOX_STATUS_PLAYER_SINGLE_X;
+                gSprites[objid].pos1.y = HPBOX_STATUS_PLAYER_SINGLE_Y;
                 gMain.state++;
                 break;
             }

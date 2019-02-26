@@ -253,7 +253,6 @@ void ShowStatusAilmentGraphic(u8 bank, enum StatusAilments status)
 
     }
     void* vram_address = (void*)((gSprites[gPkmnBank[bank]->objid_hpbox[3]].final_oam.tile_num * 32) + 0x06010000);
-    dprintf("writing to address %x\n", vram_address);
     if (setflag)
         memset(vram_address, 0, 128);
     else {
