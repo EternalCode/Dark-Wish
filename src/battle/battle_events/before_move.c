@@ -59,7 +59,13 @@ void event_before_move(struct action* current_action)
         case CANT_USE_MOVE:
         case TARGET_MOVE_IMMUNITY:
             QueueMessage(0, ACTION_BANK, STRING_FAILED, 0);
+            end_action(current_action);
+            return;
         case SILENT_FAIL:
+            // Turn skip mechanics need to be skipped, as bank has paid it's dues
+            CLEAR_VOLATILE(ACTION_BANK, VOLATILE_ATK_SKIP_TURN);
+            CLEAR_VOLATILE(ACTION_BANK, VOLATILE_CONFUSE_TURN);
+            CLEAR_VOLATILE(ACTION_BANK, VOLATILE_SLEEP_TURN);
             end_action(current_action);
             return;
         case USE_MOVE_NORMAL:

@@ -28,8 +28,6 @@ extern void return_to_battle_bag(void);
 extern bool bank_trapped(u8 bank);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 
-void (*sub_8107ECC)(u8, u8, MainCallback) = 0x8107DB5;
-
 
 /* Fight menu and move menu selection. Preperation to go into battle loop*/
 
@@ -80,7 +78,7 @@ void bag_prep()
 {
     if (!gPaletteFade.active) {
         SetMainCallback(NULL);
-        sub_8107ECC(5, 3, return_to_battle_bag);
+        GoToBagMenu(5, 3, return_to_battle_bag);
         gpu_tile_bg_drop_all_sets(0);
         rboxes_free();
         free_battler_oams();
