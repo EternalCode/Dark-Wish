@@ -15,7 +15,7 @@ extern struct action *stat_boost(u8 bank, u8 stat_id, s8 amount, u8 inflicting_b
 extern u16 RandRange(u16, u16);
 extern bool disable_on_disable_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern u8 CountBankMovePP(u16 moveId, u8 bank);
-extern void set_status(u8 bank, enum Effect status, u8 inflictor);
+extern void set_status(u8 bank, enum StatusAilments status, u8 inflictor);
 extern void do_damage(u8 bank_index, u16 dmg);
 extern bool do_damage_residual(u8 bank_index, u16 dmg, u32 ability_flags);
 extern void flat_heal(u8 bank, u16 heal);
@@ -118,7 +118,7 @@ u8 static_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     if ((TARGET_OF(user) != src) || (user == src)) return true;
 	if (!B_MOVE_CONTACT(user)) return true;
 	if (RandRange(1, 100) <= 30) {
-	    set_status(user, EFFECT_PARALYZE, src);
+	    set_status(user, AILMENT_PARALYZE, src);
 	}
 	return true;
 }
@@ -166,7 +166,7 @@ enum TryHitMoveStatus oblivious_on_tryhit(u8 user, u8 src, u16 move, struct anon
 u8 oblivious_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* acb)
 {
     if (user != src) return true;
-    if (ailment == EFFECT_INFACTUATION) {
+    if (ailment == AILMENT_INFACTUATION) {
     	return false;
     }
     return true;
@@ -254,7 +254,7 @@ enum TryHitMoveStatus flash_fire_on_tryhit(u8 user, u8 src, u16 move, struct ano
 u8 own_tempo_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* acb)
 {
     if (user != src) return true;
-    if (ailment == EFFECT_CONFUSION) {
+    if (ailment == AILMENT_CONFUSION) {
     	return false;
     }
     return true;
@@ -313,11 +313,11 @@ u8 effect_spore_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb
     if (!B_MOVE_CONTACT(user)) return true;
     u16 rand_num = RandRange(0, 100);
     if (rand_num < 10) {
-        set_status(user, EFFECT_SLEEP, src);
+        set_status(user, AILMENT_SLEEP, src);
     } else if (rand_num < 20) {
-        set_status(user, EFFECT_PARALYZE, src);
+        set_status(user, AILMENT_PARALYZE, src);
     } else if (rand_num < 30) {
-        set_status(user, EFFECT_POISON, src);
+        set_status(user, AILMENT_POISON, src);
     }
     return true;
 }
@@ -466,7 +466,7 @@ u8 poisonpoint_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* a
     if ((TARGET_OF(user) != src) || (user == src)) return true;
 	if (!B_MOVE_CONTACT(user)) return true;
         if (RandRange(0, 100) <= 30)
-	    set_status(user, EFFECT_POISON, src);
+	    set_status(user, AILMENT_POISON, src);
 	return true;
 }
 
@@ -608,7 +608,7 @@ u8 flamebody_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb
     if ((TARGET_OF(user) != src) || (user == src)) return true;
 	if (!B_MOVE_CONTACT(user)) return true;
         if (RandRange(0, 100) <= 30)
-	    set_status(user, EFFECT_BURN, src);
+	    set_status(user, AILMENT_BURN, src);
 	return true;
 }
 
@@ -688,7 +688,7 @@ u8 cute_charm_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
 	if (!B_MOVE_CONTACT(user)) return true;
         if (B_GENDER(user) == B_GENDER(src)) return true;
         if (RandRange(0, 100) <= 30)
-	    set_status(user, EFFECT_INFACTUATION, src);
+	    set_status(user, AILMENT_INFACTUATION, src);
 	return true;
 }
 
@@ -728,7 +728,7 @@ u8 shed_skin_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* a
     if (user != src) return true;
     if (B_STATUS(user) != AILMENT_NONE) {
         if (RandRange(0, 100) <= 33)
-            set_status(user, EFFECT_CURE, user);
+            set_status(user, AILMENT_CURE, user);
     }
     return true;
 }
@@ -1076,7 +1076,7 @@ u8 hydration_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* a
     if (user != src) return true;
     if (IS_WEATHER_RAINING) {
         if (B_STATUS(user) != AILMENT_NONE)
-                set_status(user, EFFECT_CURE, user);
+                set_status(user, AILMENT_CURE, user);
     }
     return true;
 }
@@ -1476,7 +1476,7 @@ u8 healer_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((user == src) || (SIDE_OF(user) != SIDE_OF(src))) return true;
     if (B_STATUS(user) != AILMENT_NONE)
-            set_status(user, EFFECT_CURE, user);
+            set_status(user, AILMENT_CURE, user);
     return true;
 }
 
@@ -1581,7 +1581,7 @@ u8 poison_touch_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* 
 	if (user != src) return true;
 	if (!B_MOVE_CONTACT(user)) return true;
         if (RandRange(0, 100) <= 30)
-	    set_status(TARGET_OF(user), EFFECT_POISON, src);
+	    set_status(TARGET_OF(user), AILMENT_POISON, src);
 	return true;
 }
 
@@ -1801,7 +1801,7 @@ u8 flower_veil_on_status(u8 user, u8 src, u16 ailment, struct anonymous_callback
         case AILMENT_CURE:
         case AILMENT_CONFUSION:
         case AILMENT_NONE:
-        case AILMENT_INFACTUATE:
+        case AILMENT_INFACTUATION:
             return true;
         default:
             if (!BankMonHasType(user, TYPE_GRASS)) return true;

@@ -5,7 +5,7 @@
 #include "../status_effects/status.h"
 
 extern void dprintf(const char * str, ...);
-extern void ShowStatusAilmentGraphic(u8 bank, enum Effect status);
+extern void ShowStatusAilmentGraphic(u8 bank, enum StatusAilments status);
 
 
 u8 rest_on_tryhit_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)

@@ -8,7 +8,7 @@ extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effec
 extern void do_damage(u8 bank_index, u16 dmg);
 extern u16 get_damage(u8 attacker, u8 defender, u16 move);
 extern void do_heal(u8 bank_index, u8 percent_heal);
-extern void set_status(u8 bank, enum Effect status, u8 inflictor);
+extern void set_status(u8 bank, enum StatusAilments status, u8 inflictor);
 extern bool is_grounded(u8 bank);
 
 //Future Sight

@@ -8,7 +8,7 @@
 
 
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
-extern void set_status(u8 bank, enum Effect status, u8 inflictor);
+extern void set_status(u8 bank, enum StatusAilments status, u8 inflictor);
 extern void stat_boost(u8 bank, u8 stat_id, s8 amount, u8 inflicting_bank);
 extern u16 RandRange(u16 min, u16 max);
 

@@ -6,7 +6,7 @@
 extern u16 RandRange(u16, u16);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 extern bool do_damage_residual(u8 bank_index, u16 dmg, u32 ability_flags);
-void set_status(u8 bank, enum Effect status, u8 inflictor);
+void set_status(u8 bank, enum StatusAilments status, u8 inflictor);
 extern void stat_boost(u8 bank, u8 stat_id, s8 amount, u8 inflicting_bank);
 extern bool protection_effect_exists_side(u8 bank, u32 func);
 extern bool BankMovesLast(u8 bank);

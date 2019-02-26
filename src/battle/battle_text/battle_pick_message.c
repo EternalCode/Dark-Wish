@@ -64,7 +64,7 @@ void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type,
             case STRING_SKULL_BASH:
             case STRING_RAINING:
             case STRING_STATUS_CURED:
-            case STRING_EFFECT_ENDED:
+            case STRING_AILMENT_ENDED:
             case STRING_GAINED_TYPE:
             case STRING_CONFUSION_ENDED:
             case STRING_DRAGGED_OUT_FAILED:
@@ -231,6 +231,7 @@ void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type,
             case STRING_ANTICIPATION:
             case STRING_FRISK:
             case STRING_EMPTY:
+            case STRING_LEARN_MOVE:
                 fdecoder_battle(battle_strings[id], user_bank, moveId, move_effect_id);
                 break;
             case STRING_IMMUNE_ABILITY:

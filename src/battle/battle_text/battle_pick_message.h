@@ -26,7 +26,7 @@ enum battle_string_ids {
     STRING_STURDY_IMMUNE,
     STRING_DAMP_BLOCKED,
     STRING_STATUS_CURED,
-    STRING_EFFECT_ENDED,
+    STRING_AILMENT_ENDED,
     STRING_WEATHER_GONE,
     STRING_GAINED_TYPE,
     STRING_CONFUSION_ENDED,
@@ -203,6 +203,7 @@ enum battle_string_ids {
     STRING_ANTICIPATION,
     STRING_FRISK,
     STRING_EMPTY,
+    STRING_LEARN_MOVE,
     STRINGS_TABLE_MAX = 700,
 };
 const static pchar empty_text[] = _("");
@@ -222,7 +223,7 @@ static const pchar str_atk_used_o[] = _("{FOE}{ATTACKING_MON} used\n{ATTACK_NAME
 static const pchar str_infatuated_o[] = _("{FOE}{ATTACKING_MON} is in love.\p{FOE}{ATTACKING_MON}\nis immobolized by love!");
 static const pchar str_bide_o[] = _("{FOE}{ATTACKING_MON} is\nstoring energy!");
 static const pchar str_focus_lost_o[] = _("{FOE}{ATTACKING_MON} lost its\nfocus and couldn’t move!");
-static const pchar str_cant_use_o[] = _("{ATTACKING_MON} can’t use\n{ATTACK_NAME} because of {EFFECT_NAME}!");
+static const pchar str_cant_use_o[] = _("{ATTACKING_MON} can’t use\n{ATTACK_NAME} because of {AILMENT_NAME}!");
 static const pchar str_disabled_o[] = _("{FOE}{ATTACKING_MON}’s {ATTACK_NAME}\nwas disabled!");
 static const pchar str_failed_o[] = _("But it failed!");
 static const pchar str_curse_dmg_o[] = _("{FOE}{ATTACKING_MON} is afflicted\nby {ATTACK_NAME}");
@@ -363,7 +364,7 @@ static const pchar str_wonder_area[] = _("It created a bizzare area in which\nth
 static const pchar str_safe_guard_v[] = _("{FOE}{ATTACKING_MON}’s team became\ncloaked in a mystical veil!");
 static const pchar str_shield_team_crit[] = _("The {ATTACK_NAME} shielded {THE_FOE}\nteam from critical hits!");
 static const pchar str_grav_instense[] = _("Gravity intensified!");
-static const pchar str_exec_failed[] = _("{FOE}{ATTACKING_MON}’s move\n{ATTACK_NAME} failed due to {EFFECT_NAME}!");
+static const pchar str_exec_failed[] = _("{FOE}{ATTACKING_MON}’s move\n{ATTACK_NAME} failed due to {AILMENT_NAME}!");
 static const pchar str_was_identified[] = _("{FOE}{ATTACKING_MON} was identified!");
 static const pchar str_weaken_type[] = _("{PKMN_TYPE}’s power was weakened!");
 static const pchar str_lev_mag[] = _("{FOE}{ATTACKING_MON} levitated\nwith electromagnetism!");
@@ -375,7 +376,7 @@ static const pchar str_swap_spe[] = _("{FOE}{ATTACKING_MON} swapped its\nspeed s
 static const pchar str_enc_rec[] = _("{FOE}{ATTACKING_MON} recieved\nan encore!");
 static const pchar str_sub_torment[] = _("{FOE}{ATTACKING_MON} was subjected\nto torment!");
 static const pchar str_fell_taunt[] = _("{FOE}{ATTACKING_MON} fell\nfor the taunt!");
-static const pchar string_reason_cant[] = _("Can’t use {ATTACK_NAME}\nwhile {EFFECT_NAME} is active!");
+static const pchar string_reason_cant[] = _("Can’t use {ATTACK_NAME}\nwhile {AILMENT_NAME} is active!");
 static const pchar string_roots_plant[] = _("{FOE}{ATTACKING_MON} planted\nits roots!");
 static const pchar str_fell_down[] = _("{FOE}{ATTACKING_MON}\nfell right down!");
 static const pchar str_shell_trap_set[] = _("{FOE}{ATTACKING_MON} set\na shell trap!");
@@ -418,6 +419,7 @@ static const pchar str_ability_trace[] = _("{FOE}{ATTACKING_MON} traced {ABILITY
 static const pchar str_run_away[] = _("{ATTACKING_MON} fled using\n{ABILITY_ARBITRARY}!\p");
 static const pchar str_anticipation[] = _("{FOE}{ATTACKING_MON}’s {ABILITY_ARBITRARY} made\nit shudder!");
 static const pchar str_frisk[] = _("{FOE}{ATTACKING_MON} frisked {BANK_NAME}\nand found it’s {BANK_ITEM}");
+static const pchar str_learn_move[] = _("{PSLOT_MON} learnt {MOVE_NAME_TWO}!\p");
 
 
 // stat names
@@ -651,7 +653,8 @@ static const pchar* battle_strings[STRINGS_TABLE_MAX] = {
    (pchar*)&str_run_away, // 201
    (pchar*)&str_anticipation, // 202
    (pchar*)&str_frisk, // 203
-   (pchar*)&empty_text, // 200
+   (pchar*)&empty_text, // 204
+   (pchar*)&str_learn_move, // 205
 
 };
 

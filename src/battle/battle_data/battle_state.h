@@ -16,19 +16,6 @@ enum BattleTypes {
 };
 extern enum BattleTypes battle_type_flag;
 
-enum Effect {
-    EFFECT_NONE,
-    EFFECT_SLEEP,
-    EFFECT_POISON,
-    EFFECT_BURN,
-    EFFECT_FREEZE,
-    EFFECT_PARALYZE,
-    EFFECT_BAD_POISON,
-    EFFECT_CONFUSION,
-    EFFECT_CURE,
-    EFFECT_INFACTUATION,
-};
-
 enum WeatherTypes {
     WEATHER_CLEAR,
     WEATHER_RAIN,

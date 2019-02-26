@@ -15,7 +15,7 @@
 
 
 enum StatusAilments {
-    AILMENT_NONE,
+    AILMENT_NONE = 0,
     AILMENT_SLEEP,
     AILMENT_POISON,
     AILMENT_BURN,
@@ -24,7 +24,7 @@ enum StatusAilments {
     AILMENT_BAD_POISON,
     AILMENT_CONFUSION,
     AILMENT_CURE,
-    AILMENT_INFACTUATE,
+    AILMENT_INFACTUATION,
 };
 
 

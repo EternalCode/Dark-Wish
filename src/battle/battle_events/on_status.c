@@ -13,10 +13,10 @@ extern void dprintf(const char * str, ...);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 extern struct move_procs basic_proc;
 
-extern void ShowStatusAilmentGraphic(u8 bank, enum Effect status);
+extern void ShowStatusAilmentGraphic(u8 bank, enum StatusAilments status);
 extern bool BankMonHasType(u8 bank, enum PokemonType type);
 
-void set_status(u8 bank, enum Effect status, u8 inflictor)
+void set_status(u8 bank, enum StatusAilments status, u8 inflictor)
 {
     struct action* a =  prepend_action(inflictor, bank, ActionStatus, EventSetStatus);
     a->priv[0] = status;
@@ -26,11 +26,11 @@ void event_set_status(struct action* current_move)
 {
     u8 bank = CURRENT_ACTION->target;
     u8 attacker = CURRENT_ACTION->action_bank;
-    enum Effect status = CURRENT_ACTION->priv[0];
+    enum StatusAilments status = CURRENT_ACTION->priv[0];
     bool status_applied = false;
     // lowest priority for override are types and current status
     switch (status) {
-        case EFFECT_PARALYZE:
+        case AILMENT_PARALYZE:
             // electric types are immune. Already status'd is immune
             if ((BankMonHasType(bank, TYPE_ELECTRIC)) || (gPkmnBank[bank]->battleData.status != AILMENT_NONE)) {
                 status_applied = false;
@@ -38,7 +38,7 @@ void event_set_status(struct action* current_move)
                 status_applied = true;
             }
             break;
-        case EFFECT_BURN:
+        case AILMENT_BURN:
             // fire types are immune.  Already status'd is immune
             if ((BankMonHasType(bank, TYPE_FIRE)) || (gPkmnBank[bank]->battleData.status != AILMENT_NONE)) {
                 status_applied = false;
@@ -46,8 +46,8 @@ void event_set_status(struct action* current_move)
                 status_applied = true;
             }
             break;
-        case EFFECT_POISON:
-        case EFFECT_BAD_POISON:
+        case AILMENT_POISON:
+        case AILMENT_BAD_POISON:
             if (gPkmnBank[bank]->battleData.status != AILMENT_NONE) {
                 status_applied = false;
                 break;
@@ -64,7 +64,7 @@ void event_set_status(struct action* current_move)
                 status_applied = true;
             }
 			break;
-        case EFFECT_SLEEP:
+        case AILMENT_SLEEP:
             // sleep isn't affected by type
             if ((gPkmnBank[bank]->battleData.status != AILMENT_NONE)) {
                 status_applied = false;
@@ -72,7 +72,7 @@ void event_set_status(struct action* current_move)
                 status_applied = true;
             }
             break;
-        case EFFECT_FREEZE:
+        case AILMENT_FREEZE:
             // fire types cannot be frozen
             if ((BankMonHasType(bank, TYPE_FIRE)) || (gPkmnBank[bank]->battleData.status != AILMENT_NONE)) {
                 status_applied = false;
@@ -80,20 +80,20 @@ void event_set_status(struct action* current_move)
                 status_applied = true;
             }
 			break;
-        case EFFECT_CONFUSION:
+        case AILMENT_CONFUSION:
             // Confusion isn't affected by type
             if (gPkmnBank[bank]->battleData.pseudo_ailment != AILMENT_CONFUSION)
                 status_applied = true;
 			break;
-        case EFFECT_CURE:
+        case AILMENT_CURE:
             // cure status
 			status_applied = true;
             break;
-        case EFFECT_INFACTUATION:
-            if (gPkmnBank[bank]->battleData.pseudo_ailment != AILMENT_INFACTUATE)
+        case AILMENT_INFACTUATION:
+            if (gPkmnBank[bank]->battleData.pseudo_ailment != AILMENT_INFACTUATION)
                 status_applied = true;
             break;
-        case EFFECT_NONE:
+        case AILMENT_NONE:
         default:
             end_action(CURRENT_ACTION);
             return;

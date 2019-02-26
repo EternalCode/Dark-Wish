@@ -6,7 +6,7 @@
 extern void dprintf(const char * str, ...);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 extern void do_heal(u8 bank_index, u8 heal);
-extern void set_status(u8 bank, enum Effect status, u8 inflictor);
+extern void set_status(u8 bank, enum StatusAilments status, u8 inflictor);
 extern void flat_heal(u8 bank, u16 heal);
 extern u8 PokemonGetAbility(struct Pokemon* p);
 extern void silent_cure_major(u8 bank);

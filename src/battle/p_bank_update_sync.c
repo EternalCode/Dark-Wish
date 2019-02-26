@@ -6,7 +6,7 @@
 extern void PKMNAilmentToBank(u8 bank, u8 ailment);
 extern u8 BankAilmentToPKMN(u8 bank);
 extern u8 PokemonGetAbility(struct Pokemon* p);
-extern void ShowStatusAilmentGraphic(u8 bank, enum Effect status);
+extern void ShowStatusAilmentGraphic(u8 bank, enum StatusAilments status);
 extern const u8 gPlayerAbility;
 extern const u8 gOpponentAbility;
 extern const bool USE_TESTS;

@@ -10,7 +10,7 @@
 extern void battle_loop(void);
 extern void C2SyncAll(void);
 extern void VblankMergeTextBox(void);
-extern const struct BgConfig bg_config_data[4];
+extern const struct BgConfig configBattleReturn[4];
 extern void pick_and_load_battle_bgs_no_entry(const void* txtbox);
 extern void CpuFastSet(void*, void*, u32);
 extern void create_sprites_battle_mons_wild(void);
@@ -32,7 +32,7 @@ void return_to_battle()
                 CpuFastSet((void*)&set, (void*)ADDR_VRAM, CPUModeFS(0x10000, CPUFSSET));
                 SetVBlankCallback((MainCallback)VblankMergeTextBox);
                 SetMainCallback2((MainCallback)C2SyncAll);
-                bg_vram_setup(0, (struct BgConfig *)&bg_config_data, 4);
+                bg_vram_setup(0, (struct BgConfig *)&configBattleReturn, 4);
                 rbox_init_from_templates((struct TextboxTemplate*)&BattleTextBoxes[0]);
                 if (gBattleMaster->switch_main.reason == ViewPokemon)
                     pick_and_load_battle_bgs_no_entry(battle_textbox_action_selectMap);
@@ -139,7 +139,7 @@ void return_to_battle_bag()
             CpuFastSet((void*)&set, (void*)ADDR_VRAM, CPUModeFS(0x10000, CPUFSSET));
             ResetPals();
             gpu_tile_bg_drop_all_sets(0);
-            bg_vram_setup(0, (struct BgConfig *)&bg_config_data, 4);
+            bg_vram_setup(0, (struct BgConfig *)&configBattleReturn, 4);
             // BGs
             pick_and_load_battle_bgs_no_entry(battle_textbox_action_selectMap);
 

@@ -18,7 +18,7 @@ void electric_terrain_on_base_power(u8 user, u8 src, u16 move, struct anonymous_
 
 bool electric_terrain_on_status(u8 user, u8 src, u16 status_id, struct anonymous_callback* acb)
 {
-    if ((status_id == EFFECT_SLEEP) && is_grounded(user)) {
+    if ((status_id == AILMENT_SLEEP) && is_grounded(user)) {
         QueueMessage(MOVE_ELECTRICTERRAIN, user, STRING_AILMENT_IMMUNE, status_id);
         return false;
     }
@@ -101,7 +101,7 @@ u8 grassy_terrain_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback
 // Misty Terrain
 bool misty_terrain_on_status(u8 user, u8 src, u16 status_id, struct anonymous_callback* acb)
 {
-    if (is_grounded(user) && ((status_id != EFFECT_CURE) && (status_id != EFFECT_NONE))) {
+    if (is_grounded(user) && ((status_id != AILMENT_CURE) && (status_id != AILMENT_NONE))) {
         QueueMessage(MOVE_MISTYTERRAIN, user, STRING_AILMENT_IMMUNE, status_id);
         return false;
     }

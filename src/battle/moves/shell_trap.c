@@ -5,7 +5,7 @@
 
 extern void dprintf(const char * str, ...);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
-extern void set_status(u8 bank, enum Effect status, u8 inflictor);
+extern void set_status(u8 bank, enum StatusAilments status, u8 inflictor);
 
 
 /* Shell trap */

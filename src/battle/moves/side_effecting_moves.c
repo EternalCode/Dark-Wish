@@ -70,7 +70,7 @@ u8 trick_room_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
 bool safe_guard_on_status(u8 user, u8 src, u16 status_id, struct anonymous_callback* acb)
 {
     if (B_INFILTRATES(user)) return true;
-    if ((status_id != EFFECT_CURE) && (status_id != EFFECT_NONE)) {
+    if ((status_id != AILMENT_CURE) && (status_id != AILMENT_NONE)) {
         QueueMessage(MOVE_SAFEGUARD, user, STRING_AILMENT_IMMUNE, status_id);
         return false;
     }

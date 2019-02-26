@@ -6,7 +6,7 @@
 extern void dprintf(const char * str, ...);
 extern bool QueueMessage(u16 move, u8 user, enum battle_string_ids id, u16 effect);
 extern u8 GetMoveIndexBank(u16 moveId, u8 bank);
-void set_status(u8 bank, enum Effect status, u8 inflictor);
+void set_status(u8 bank, enum StatusAilments status, u8 inflictor);
 extern u16 RandRange(u16 min, u16 max);
 
 
@@ -285,7 +285,7 @@ u8 wake_up_slap_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* 
 {
     if (user != src) return true;
     if ((B_STATUS(TARGET_OF(user)) == AILMENT_SLEEP))
-        set_status(TARGET_OF(user), EFFECT_CURE, user);
+        set_status(TARGET_OF(user), AILMENT_CURE, user);
     return true;
 }
 
@@ -302,7 +302,7 @@ u8 smelling_salts_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback
 {
     if (user != src) return true;
     if ((B_STATUS(TARGET_OF(user)) == AILMENT_PARALYZE))
-        set_status(TARGET_OF(user), EFFECT_CURE, user);
+        set_status(TARGET_OF(user), AILMENT_CURE, user);
     return true;
 }
 

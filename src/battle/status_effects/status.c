@@ -8,7 +8,7 @@
 #include "status.h"
 
 extern u16 RandRange(u16, u16);
-extern void ShowStatusAilmentGraphic(u8 bank, enum Effect status);
+extern void ShowStatusAilmentGraphic(u8 bank, enum StatusAilments status);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 extern bool do_damage_residual(u8 bank_index, u16 dmg, u32 ability_flags);
 extern void do_damage(u8 bank_index, u16 dmg);
@@ -183,7 +183,7 @@ u16 paralyze_on_mod_stat(u8 bank, u8 src, u16 stat_id, struct anonymous_callback
 void paralyze_on_inflict(u8 bank)
 {
 	u8 ailment = AILMENTBITS_PARALYZE;
-    gPkmnBank[bank]->battleData.status = AILMENT_PARALYZE;
+    B_STATUS(bank) = AILMENT_PARALYZE;
     gPkmnBank[bank]->battleData.status_turns = 0;
 	pokemon_setattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, &ailment);
     QueueMessage(0, bank, STRING_AILMENT_APPLIED, AILMENT_PARALYZE);
@@ -240,7 +240,7 @@ void infactuate_on_inflict(u8 bank)
 	if (HAS_VOLATILE(bank, VOLATILE_INFACTUATION))
 		return;
 	ADD_VOLATILE(bank, VOLATILE_INFACTUATION);
-	QueueMessage(0, bank, STRING_ATTRACT, AILMENT_INFACTUATE);
+	QueueMessage(0, bank, STRING_ATTRACT, AILMENT_INFACTUATION);
 	AddCallback(CB_ON_BEFORE_MOVE, 3, CB_PERMA, bank, (u32)infactuated_before_move);
 }
 

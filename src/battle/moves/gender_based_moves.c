@@ -5,7 +5,7 @@
 
 extern void dprintf(const char * str, ...);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
-extern void set_status(u8 bank, enum Effect status, u8 inflictor);
+extern void set_status(u8 bank, enum StatusAilments status, u8 inflictor);
 
 u8 attract_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
@@ -15,7 +15,7 @@ u8 attract_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
     u8 user_gender = B_GENDER(user);
     if ((user_gender == target_gender) || (user_gender > 0xFE) || (target_gender > 0xFE))
         return false;
-    set_status(TARGET_OF(user), AILMENT_INFACTUATE, user);
+    set_status(TARGET_OF(user), AILMENT_INFACTUATION, user);
     return true;
 }
 

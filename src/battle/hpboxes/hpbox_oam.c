@@ -216,36 +216,36 @@ void draw_level(struct Pokemon* pkmn, u8 tile_id, u8 objid)
     return;
 }
 
-void ShowStatusAilmentGraphic(u8 bank, enum Effect status)
+void ShowStatusAilmentGraphic(u8 bank, enum StatusAilments status)
 {
     u32 image = (u32)hpbar_piecesTiles;
     bool setflag = false;
     switch(status)
     {
-        case EFFECT_CONFUSION:
-        case EFFECT_INFACTUATION:
+        case AILMENT_CONFUSION:
+        case AILMENT_INFACTUATION:
             // these two don't effect status graphically
             return;
-        case EFFECT_NONE:
-        case EFFECT_CURE:
+        case AILMENT_NONE:
+        case AILMENT_CURE:
             setflag = true;
             break;
-        case EFFECT_PARALYZE:
+        case AILMENT_PARALYZE:
             image += 1088 + 1 * 96;
             break;
-        case EFFECT_BURN:
+        case AILMENT_BURN:
             image += 1088 + 4 * 96;
             break;
-        case EFFECT_POISON:
+        case AILMENT_POISON:
             image += 1088 + 0 * 96;
             break;
-        case EFFECT_BAD_POISON:
+        case AILMENT_BAD_POISON:
             image += 1088 + 5 * 96;
             break;
-        case EFFECT_SLEEP:
+        case AILMENT_SLEEP:
             image += 1088 + 2 * 96;
             break;
-        case EFFECT_FREEZE:
+        case AILMENT_FREEZE:
             image += 1088 + 3 * 96;
             break;
         default:
@@ -253,6 +253,7 @@ void ShowStatusAilmentGraphic(u8 bank, enum Effect status)
 
     }
     void* vram_address = (void*)((gSprites[gPkmnBank[bank]->objid_hpbox[3]].final_oam.tile_num * 32) + 0x06010000);
+    dprintf("writing to address %x\n", vram_address);
     if (setflag)
         memset(vram_address, 0, 128);
     else {
@@ -345,19 +346,19 @@ u8 spawn_hpbox_opponent(u16 tag, s16 x, s16 y, u8 bank)
     u32 ailment = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, NULL);
     u8 status = 0;
     if ((ailment & 7) > 0) {
-        status = EFFECT_SLEEP;
+        status = AILMENT_SLEEP;
     } else if (ailment & (1 << 3))
-        status = EFFECT_POISON;
+        status = AILMENT_POISON;
     else if (ailment & (1 << 4))
-        status = EFFECT_BURN;
+        status = AILMENT_BURN;
     else if (ailment & (1 << 5))
-        status = EFFECT_FREEZE;
+        status = AILMENT_FREEZE;
     else if (ailment & (1 << 6))
-        status = EFFECT_PARALYZE;
+        status = AILMENT_PARALYZE;
     else if (ailment & (1 << 7))
-        status = EFFECT_BAD_POISON;
+        status = AILMENT_BAD_POISON;
     else
-        status = EFFECT_NONE;
+        status = AILMENT_NONE;
     ShowStatusAilmentGraphic(bank, status);
     return 0;
 }
@@ -397,19 +398,19 @@ u8 spawn_hpbox_player(u16 tag, s16 x, s16 y, u8 bank)
     u32 ailment = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, NULL);
     u8 status = 0;
     if ((ailment & 7) > 0) {
-        status = EFFECT_SLEEP;
+        status = AILMENT_SLEEP;
     } else if (ailment & (1 << 3))
-        status = EFFECT_POISON;
+        status = AILMENT_POISON;
     else if (ailment & (1 << 4))
-        status = EFFECT_BURN;
+        status = AILMENT_BURN;
     else if (ailment & (1 << 5))
-        status = EFFECT_FREEZE;
+        status = AILMENT_FREEZE;
     else if (ailment & (1 << 6))
-        status = EFFECT_PARALYZE;
+        status = AILMENT_PARALYZE;
     else if (ailment & (1 << 7))
-        status = EFFECT_BAD_POISON;
+        status = AILMENT_BAD_POISON;
     else
-        status = EFFECT_NONE;
+        status = AILMENT_NONE;
     ShowStatusAilmentGraphic(bank, status);
     return 0;
 }
@@ -503,26 +504,26 @@ void status_switch_menu(u8 objid, u8 ailment)
     bool setflag = false;
     switch(ailment)
     {
-        case EFFECT_PARALYZE:
+        case AILMENT_PARALYZE:
             image += 1088 + 1 * 96;
             break;
-        case EFFECT_BURN:
+        case AILMENT_BURN:
             image += 1088 + 4 * 96;
             break;
-        case EFFECT_POISON:
+        case AILMENT_POISON:
             image += 1088 + 0 * 96;
             break;
-        case EFFECT_BAD_POISON:
+        case AILMENT_BAD_POISON:
             image += 1088 + 5 * 96;
             break;
-        case EFFECT_SLEEP:
+        case AILMENT_SLEEP:
             image += 1088 + 2 * 96;
             break;
-        case EFFECT_FREEZE:
+        case AILMENT_FREEZE:
             image += 1088 + 3 * 96;
             break;
-        case EFFECT_NONE:
-        case EFFECT_CURE:
+        case AILMENT_NONE:
+        case AILMENT_CURE:
         default:
             setflag = true;
             break;

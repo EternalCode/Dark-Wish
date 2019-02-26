@@ -119,19 +119,19 @@ void switch_fetch_all_data()
             status = 0;
        u8 ailment = 0;
         if ((status & 7) > 0) {
-            ailment = EFFECT_SLEEP;
+            ailment = AILMENT_SLEEP;
         } else if (status & (1 << 3))
-            ailment = EFFECT_POISON;
+            ailment = AILMENT_POISON;
         else if (status & (1 << 4))
-            ailment = EFFECT_BURN;
+            ailment = AILMENT_BURN;
         else if (status & (1 << 5))
-            ailment = EFFECT_FREEZE;
+            ailment = AILMENT_FREEZE;
         else if (status & (1 << 6))
-            ailment = EFFECT_PARALYZE;
+            ailment = AILMENT_PARALYZE;
         else if (status & (1 << 7))
-            ailment = EFFECT_BAD_POISON;
+            ailment = AILMENT_BAD_POISON;
         else
-            ailment = EFFECT_NONE;
+            ailment = AILMENT_NONE;
         sd->s_pkmn_data[i].ailment_effect = ailment;
         pokemon_getattr(&party_player[i], REQUEST_NICK, (pchar*)&sd->s_pkmn_data[i].nickname[0]);
         pchar gender_m[] = _("{COLOR 15}{SHADOW 2}♂");
@@ -201,7 +201,7 @@ void switch_setup()
     u32 set = 0;
     CpuFastSet((void*)&set, (void*)ADDR_VRAM, CPUModeFS(0x10000, CPUFSSET));
 
-    /* Hide all the gSprites on screen */
+    /* Hide all the sprites on screen */
     for (u8 i = 0; i < BANK_MAX; i++) {
         //  pokemon OAMs
         if (gPkmnBank[i]->objid < 0x3F)
