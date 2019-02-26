@@ -148,7 +148,7 @@ void ShowStatBoostText(struct StatWindow* stats)
     for (u8 i = 4; i < 10; i++)
         rboxid_clear_pixels(i, 0xAA);
     // name
-    GetSpeciesName(string_buffer, species);
+    pokemon_getattr(&party_player[stats->slot], REQUEST_NICK, string_buffer);
     u8 gender = GetGenderFromSpeciesAndPersonality(species, pid);
     switch (gender) {
         case MON_MALE:

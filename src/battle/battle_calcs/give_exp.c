@@ -158,7 +158,6 @@ void give_exp(u8 fainted, u8 defeater)
 }
 
 #define state CURRENT_ACTION->priv[0]
-
 void TaskStatScreen(u8 taskId)
 {
     struct StatWindow* stats = (struct StatWindow*)CURRENT_ACTION->priv32;
