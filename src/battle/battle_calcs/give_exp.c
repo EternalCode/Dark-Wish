@@ -8,6 +8,7 @@
 #include "../battle_text/battle_pick_message.h"
 #include "../battle_text/battle_textbox_gfx.h"
 #include "../battle_text/stat_window.h"
+#include "../battle_text/battle_textbox_gfx.h"
 #include "../../pokemon/pokemon.h"
 #include "../../global.h"
 
@@ -16,7 +17,10 @@ extern const u8 AnimLearnMove;
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 extern void dprintf(const char * str, ...);
 extern u32 PokemonExpNeededToLevel(u8 slot);
-extern void VblankMergeStatsBox(void);
+extern void ShowStatBoostText(struct StatWindow* stats);
+extern void ShowStatBoostTextComplete(struct StatWindow* stats);
+extern void VblankMergeStatTextBox(void);
+extern void VblankMergeTextBox(void);
 extern u8 PokemonLearnsMoveLevel(u16 species, u8 level, u16* moveBuffer);
 
 u32 calc_exp(u8 fainted, u8 reciever, u8 defeaterLevel)
@@ -27,7 +31,6 @@ u32 calc_exp(u8 fainted, u8 reciever, u8 defeaterLevel)
     for (u8 i = 0; i < 6; i++) {
         if (gBattleMaster->participatingIDs[i] == recieverId) {
             participated = true;
-            dprintf("slot %d participated in battle\n", i);
             break;
         }
     }
@@ -38,9 +41,7 @@ u32 calc_exp(u8 fainted, u8 reciever, u8 defeaterLevel)
     // traded pokemon give 50% more exp
     u32 traded = pokemon_getattr(&party_player[reciever], REQUEST_TID, NULL) & 0xFFFF;
     u32 temp = gSaveBlock2Ptr->playerTrainerId[1] << 8 | gSaveBlock2Ptr->playerTrainerId[0];
-    //dprintf("reciever traded ids were %x and %x\n", traded, temp);
     traded = (traded == temp) ? 100 : 150; // t
-    //dprintf("result: %d\n", traded);
     // species base exp yield
     u16 species = pokemon_getattr(gPkmnBank[fainted]->this_pkmn, REQUEST_SPECIES, NULL);
     u16 base_yield =  gBaseStats[species].expYield; // b
@@ -54,7 +55,6 @@ u32 calc_exp(u8 fainted, u8 reciever, u8 defeaterLevel)
         exp_part1 = exp_part1 / 5;
     else
         exp_part1 = MAX((exp_part1 / 50), 1);
-
     u32 exp_part2 = ((2 *fainted_lvl) + 10);
     exp_part2 *= (exp_part2 * PERCENT(exp_part2, 50));
     u32 exp_part3 = (fainted_lvl + defeaterLevel + 10);
@@ -71,17 +71,18 @@ void give_exp(u8 fainted, u8 defeater)
     u32 experience;
     u8 pkmnLevel = pokemon_getattr(gPkmnBank[defeater]->this_pkmn, REQUEST_LEVEL, NULL); // Lp
     for (u8 i = 0; i < 6; i++) {
-        u16 species = pokemon_getattr(&party_player[i], REQUEST_SPECIES, NULL);
-        bool is_egg = pokemon_getattr(&party_player[i], REQUEST_IS_EGG, NULL);
-        u16 currentHP = pokemon_getattr(&party_player[i], REQUEST_CURRENT_HP, NULL);
+        struct Pokemon* pkmn = &party_player[i];
+        u16 species = pokemon_getattr(pkmn, REQUEST_SPECIES, NULL);
+        bool is_egg = pokemon_getattr(pkmn, REQUEST_IS_EGG, NULL);
+        u16 currentHP = pokemon_getattr(pkmn, REQUEST_CURRENT_HP, NULL);
         // valid if it's a valid species, isn't an egg, and is alive.
         if ((species < SPECIES_MAX) && (species > 0) &&
          (!is_egg) && (currentHP > 0)) {
              // calc exp to grant for level
             experience = calc_exp(fainted, i, pkmnLevel);
             QueueMessage(i, defeater, STRING_EXP_GAIN, experience);
-            u32 currentExp = pokemon_getattr(&party_player[i], REQUEST_EXP_POINTS, NULL);
-            u8 levelOld = pokemon_getattr(&party_player[i], REQUEST_LEVEL, NULL);
+            u32 currentExp = pokemon_getattr(pkmn, REQUEST_EXP_POINTS, NULL);
+            u8 levelOld = pokemon_getattr(pkmn, REQUEST_LEVEL, NULL);
             u8 newLevel = levelOld;
 
             // while the exp needed for slot to level < exp, grant exp needed to level
@@ -90,46 +91,48 @@ void give_exp(u8 fainted, u8 defeater)
                 // log old stats
                 struct StatWindow* stats = (struct StatWindow*)malloc_and_clear(sizeof(struct StatWindow));
                 stats->slot = i;
-                stats->level = pokemon_getattr(&party_player[i], REQUEST_LEVEL, NULL);
-                stats->totalHP = pokemon_getattr(&party_player[i], REQUEST_TOTAL_HP, NULL);
-                stats->attack = pokemon_getattr(&party_player[i], REQUEST_ATK, NULL);
-                stats->defense = pokemon_getattr(&party_player[i], REQUEST_DEF, NULL);
-                stats->speed = pokemon_getattr(&party_player[i], REQUEST_SPD, NULL);
-                stats->spattack = pokemon_getattr(&party_player[i], REQUEST_SPATK, NULL);
-                stats->spdefense = pokemon_getattr(&party_player[i], REQUEST_SPDEF, NULL);
+                stats->level = pokemon_getattr(pkmn, REQUEST_LEVEL, NULL);
+                stats->totalHP = pokemon_getattr(pkmn, REQUEST_TOTAL_HP, NULL);
+                stats->attack = pokemon_getattr(pkmn, REQUEST_ATK, NULL);
+                stats->defense = pokemon_getattr(pkmn, REQUEST_DEF, NULL);
+                stats->speed = pokemon_getattr(pkmn, REQUEST_SPD, NULL);
+                stats->spattack = pokemon_getattr(pkmn, REQUEST_SPATK, NULL);
+                stats->spdefense = pokemon_getattr(pkmn, REQUEST_SPDEF, NULL);
                 // grant needed exp and recalc stats
                 experience -=neededExp;
                 neededExp += currentExp;
-                pokemon_setattr(&party_player[i], REQUEST_EXP_POINTS, &neededExp);
-                recalculate_stats(&party_player[i]);
-                currentExp = pokemon_getattr(&party_player[i], REQUEST_EXP_POINTS, NULL);
+                pokemon_setattr(pkmn, REQUEST_EXP_POINTS, &neededExp);
+                // TODO Play exp gain animation
+                recalculate_stats(pkmn);
+                currentExp = pokemon_getattr(pkmn, REQUEST_EXP_POINTS, NULL);
                 newLevel += 1;
-                stats->levelNew = pokemon_getattr(&party_player[i], REQUEST_LEVEL, NULL);
-                stats->totalHPNew = pokemon_getattr(&party_player[i], REQUEST_TOTAL_HP, NULL);
-                stats->attackNew = pokemon_getattr(&party_player[i], REQUEST_ATK, NULL);
-                stats->defenseNew = pokemon_getattr(&party_player[i], REQUEST_DEF, NULL);
-                stats->speedNew = pokemon_getattr(&party_player[i], REQUEST_SPD, NULL);
-                stats->spattackNew = pokemon_getattr(&party_player[i], REQUEST_SPATK, NULL);
-                stats->spdefenseNew = pokemon_getattr(&party_player[i], REQUEST_SPDEF, NULL);
+                // log new stats for level
+                stats->levelNew = pokemon_getattr(pkmn, REQUEST_LEVEL, NULL);
+                stats->totalHPNew = pokemon_getattr(pkmn, REQUEST_TOTAL_HP, NULL);
+                stats->attackNew = pokemon_getattr(pkmn, REQUEST_ATK, NULL);
+                stats->defenseNew = pokemon_getattr(pkmn, REQUEST_DEF, NULL);
+                stats->speedNew = pokemon_getattr(pkmn, REQUEST_SPD, NULL);
+                stats->spattackNew = pokemon_getattr(pkmn, REQUEST_SPATK, NULL);
+                stats->spdefenseNew = pokemon_getattr(pkmn, REQUEST_SPDEF, NULL);
                 QueueMessage(i, defeater, STRING_LEVEL_UP, newLevel);
                 // show updated stats
                 struct action* a = prepend_action(ACTION_BANK, ACTION_BANK, ActionHighPriority, EventPlayAnimation);
                 a->action_bank = defeater;
                 a->script = (u32)&AnimSummaryLoad;
                 a->priv32 = (u32)stats;
-                dprintf("storage was at %x\n", a->priv32);
-
                 // check if pokemon learns a move at this level
                 u16 moveBuffer[4] = {0, 0, 0, 0};
                 u8 learnableMoves = PokemonLearnsMoveLevel(species, newLevel, &moveBuffer[0]);
                 u8 buffIndex = 0;
                 while (learnableMoves > buffIndex) {
-                    u8 moveCount = PokemonCountUsableMoves(&party_player[i]);
+                    u8 moveCount = PokemonCountUsableMoves(pkmn);
                     if ((moveCount < 4) && (learnableMoves > 0)) {
                         // teach move to pokemon in an open slot
-                        pokemon_setattr(&party_player[i], REQUEST_MOVE1 + moveCount, &moveBuffer[buffIndex]);
-                        u8 pp = gBattleMoves[moveBuffer[buffIndex]].pp;
-                        pokemon_setattr(&party_player[i], REQUEST_PP1 + moveCount, &pp);
+                        pokemon_setattr(pkmn, REQUEST_MOVE1 + moveCount, &moveBuffer[buffIndex]);
+                        pokemon_setattr(pkmn, REQUEST_PP1 + moveCount, &gBattleMoves[moveBuffer[buffIndex]].pp);
+                        // pp needs to be synced if the slot is currently battling
+                        if (B_PKMN(defeater) == pkmn)
+                            B_GET_MOVE_PP(defeater, moveCount) = gBattleMoves[moveBuffer[buffIndex]].pp;
                         QueueMessage(i, defeater, STRING_LEARN_MOVE, moveBuffer[buffIndex]);
                     }
                     // TODO needs to forget a move
@@ -145,8 +148,9 @@ void give_exp(u8 fainted, u8 defeater)
             }
             // grant remaining exp
             experience += currentExp;
-            pokemon_setattr(&party_player[i], REQUEST_EXP_POINTS, &experience);
-            recalculate_stats(&party_player[i]);
+            // TODO Play exp gain animation
+            pokemon_setattr(pkmn, REQUEST_EXP_POINTS, &experience);
+            recalculate_stats(pkmn);
 
         }
     }
@@ -154,12 +158,6 @@ void give_exp(u8 fainted, u8 defeater)
 }
 
 #define state CURRENT_ACTION->priv[0]
-#define TEXTBOX_COUNT 1
-#include "../battle_text/battle_textbox_gfx.h"
-extern void ShowStatBoostText(struct StatWindow* stats);
-extern void ShowStatBoostTextComplete(struct StatWindow* stats);
-extern void VblankMergeStatTextBox(void);
-extern void VblankMergeTextBox(void);
 
 void TaskStatScreen(u8 taskId)
 {
@@ -194,7 +192,7 @@ void TaskStatScreen(u8 taskId)
         case 3:
             if (gMain.newKeys & (KEY_A | KEY_B)) {
                 PlaySE(SOUND_GENERIC_CLINK);
-                // get rid of the status bar
+                // get rid of the summary screen gfx by writing default textbox gfx
                 void* char_base = (void *)0x600C000;
                 void* map_base = (void *)0x600F800;
                 lz77UnCompVram((void *)bboxTiles, char_base);
