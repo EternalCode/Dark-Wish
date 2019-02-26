@@ -110,7 +110,7 @@ void buffer_write_status_name(pchar* buffer, u8 status_id)
         case AILMENT_CONFUSION:
             pstrcpy(buffer, (pchar*)&str_status_confuse);
             break;
-        case AILMENT_INFACTUATE:
+        case AILMENT_INFACTUATION:
             pstrcpy(buffer, (pchar*)&str_status_infactuation);
             break;
     };
@@ -239,6 +239,10 @@ void fdecoder_battle(pchar* buffer, u8 bank, u16 moveId, u16 move_effect_id)
                 case 0x1E:
                     buffer_player_pkmn_nick_arbitrary(&result[result_index], moveId);
                     result_index = pstrlen(result);
+                    break;
+                case 0x1F:
+                buffer_write_move_name(&(result[result_index]), move_effect_id);
+                result_index = pstrlen(result);
                     break;
                 default:
                     {

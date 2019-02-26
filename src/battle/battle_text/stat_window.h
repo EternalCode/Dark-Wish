@@ -4,7 +4,7 @@
 #include <pokeagb/pokeagb.h>
 
 struct StatWindow {
-    u16 species;
+    u8 slot;
     u8 level;
     u16 totalHP;
     u16 attack;
@@ -20,7 +20,7 @@ struct StatWindow {
     u16 speedNew;
     u16 spattackNew;
     u16 spdefenseNew;
-    u8 textboxes[10];
+    u8 iconId;
 };
 
 

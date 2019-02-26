@@ -21,6 +21,21 @@ void VblankMergeTextBox()
 	}
 }
 
+void VblankMergeStatTextBox()
+{
+    gpu_sprites_upload();
+    copy_queue_process();
+    gpu_pal_upload();
+    u8 **bg0_map = (u8**)0x030008EC;
+    u8 *dst = (u8 *)(*bg0_map);
+    u8 *src = (u8 *)battle_textbox_statMap;
+    for (u32 i = 0; i < 2048; i++) {
+    // only merge if there is no text on this tile
+        if (!*(dst + i))
+            *(dst + i) = *(src + i);
+	}
+}
+
 /* This vblank overlaps the tilemap from show_message with the battle box */
 
 

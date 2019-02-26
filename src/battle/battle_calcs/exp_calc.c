@@ -7,14 +7,17 @@
 #include "../moves/moves.h"
 #include "../battle_text/battle_pick_message.h"
 #include "../battle_text/battle_textbox_gfx.h"
+#include "../battle_text/stat_window.h"
 #include "../../pokemon/pokemon.h"
 #include "../../global.h"
 
 extern const u8 AnimSummaryLoad;
+extern const u8 AnimLearnMove;
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 extern void dprintf(const char * str, ...);
 extern u32 PokemonExpNeededToLevel(u8 slot);
 extern void VblankMergeStatsBox(void);
+extern u8 PokemonLearnsMoveLevel(u16 species, u8 level, u16* moveBuffer);
 
 u32 calc_exp(u8 fainted, u8 reciever, u8 defeaterLevel)
 {
@@ -63,26 +66,6 @@ u32 calc_exp(u8 fainted, u8 reciever, u8 defeaterLevel)
 }
 
 
-struct StatWindow {
-    u16 species;
-    u8 level;
-    u16 totalHP;
-    u16 attack;
-    u16 defense;
-    u16 speed;
-    u16 spattack;
-    u16 spdefense;
-
-    u8 levelNew;
-    u16 totalHPNew;
-    u16 attackNew;
-    u16 defenseNew;
-    u16 speedNew;
-    u16 spattackNew;
-    u16 spdefenseNew;
-    u8 textboxes[10];
-};
-
 void give_exp(u8 fainted, u8 defeater)
 {
     u32 experience;
@@ -106,7 +89,7 @@ void give_exp(u8 fainted, u8 defeater)
             while (neededExp < experience) {
                 // log old stats
                 struct StatWindow* stats = (struct StatWindow*)malloc_and_clear(sizeof(struct StatWindow));
-                stats->species = species;
+                stats->slot = i;
                 stats->level = pokemon_getattr(&party_player[i], REQUEST_LEVEL, NULL);
                 stats->totalHP = pokemon_getattr(&party_player[i], REQUEST_TOTAL_HP, NULL);
                 stats->attack = pokemon_getattr(&party_player[i], REQUEST_ATK, NULL);
@@ -133,10 +116,30 @@ void give_exp(u8 fainted, u8 defeater)
                 struct action* a = prepend_action(ACTION_BANK, ACTION_BANK, ActionHighPriority, EventPlayAnimation);
                 a->action_bank = defeater;
                 a->script = (u32)&AnimSummaryLoad;
-                u32* storage = (u32*)&a->priv[3];
-                *storage = (u32)stats;
+                a->priv32 = (u32)stats;
+                dprintf("storage was at %x\n", a->priv32);
 
-                // TODO check if pokemon can learn a new move
+                // check if pokemon learns a move at this level
+                u16 moveBuffer[4] = {0, 0, 0, 0};
+                u8 learnableMoves = PokemonLearnsMoveLevel(species, newLevel, &moveBuffer[0]);
+                u8 buffIndex = 0;
+                while (learnableMoves > buffIndex) {
+                    u8 moveCount = PokemonCountUsableMoves(&party_player[i]);
+                    if ((moveCount < 4) && (learnableMoves > 0)) {
+                        // teach move to pokemon in an open slot
+                        pokemon_setattr(&party_player[i], REQUEST_MOVE1 + moveCount, &moveBuffer[buffIndex]);
+                        u8 pp = gBattleMoves[moveBuffer[buffIndex]].pp;
+                        pokemon_setattr(&party_player[i], REQUEST_PP1 + moveCount, &pp);
+                        QueueMessage(i, defeater, STRING_LEARN_MOVE, moveBuffer[buffIndex]);
+                    }
+                    // TODO needs to forget a move
+                    // // action to learn move
+                    // a = prepend_action(ACTION_BANK, ACTION_BANK, ActionHighPriority, EventPlayAnimation);
+                    // a->action_bank = defeater;
+                    // a->script = (u32)&TaskLearnMove;
+                    // a->priv[0] = moveBuffer[buffIndex];
+                     buffIndex++;
+                }
                 // TODO check if pokemon evolves
                 neededExp = PokemonExpNeededToLevel(i);
             }
@@ -153,45 +156,67 @@ void give_exp(u8 fainted, u8 defeater)
 #define state CURRENT_ACTION->priv[0]
 #define TEXTBOX_COUNT 1
 #include "../battle_text/battle_textbox_gfx.h"
+extern void ShowStatBoostText(struct StatWindow* stats);
+extern void ShowStatBoostTextComplete(struct StatWindow* stats);
+extern void VblankMergeStatTextBox(void);
+extern void VblankMergeTextBox(void);
 
 void TaskStatScreen(u8 taskId)
 {
-    struct StatWindow* stats = (struct StatWindow*)CURRENT_ACTION->script;
+    struct StatWindow* stats = (struct StatWindow*)CURRENT_ACTION->priv32;
     switch(state) {
         case 0:
             {
             // copy textbox image
-            void* char_base = (void *)0x6008000;
-            void* map_base = (void *)0x600F000;
+            void* char_base = (void *)0x600C000;
+            void* map_base = (void *)0x600F800;
             lz77UnCompVram((void *)bboxTiles, char_base);
             CpuFastSet((void*)battle_textbox_statMap, (void*)map_base, CPUModeFS(0x800, CPUFSCPY));
+            u8 **bg0_map = (u8**)0x030008EC;
+            u8 *dst = (u8 *)(*bg0_map);
+            CpuFastSet((void*)battle_textbox_statMap, (void*)dst, CPUModeFS(0x800, CPUFSCPY));
             // write palettes
-            LoadPalette((void*)bboxPal, 16 * 5, 32);
-            //SetVBlankCallback(VblankMergeStatsBox);
-            ChangeBgX(1, 0, 0);
-            ChangeBgY(1, 0, 0);
-            ShowBg(1);
+            SetVBlankCallback(VblankMergeStatTextBox);
             state++;
             break;
             }
         case 1:
+            ShowStatBoostText(stats);
             state++;
             break;
         case 2:
-            {
+            if (gMain.newKeys & (KEY_A | KEY_B)) {
+                PlaySE(SOUND_GENERIC_CLINK);
+                ShowStatBoostTextComplete(stats);
+                state++;
             }
             break;
         case 3:
+            if (gMain.newKeys & (KEY_A | KEY_B)) {
+                PlaySE(SOUND_GENERIC_CLINK);
+                // get rid of the status bar
+                void* char_base = (void *)0x600C000;
+                void* map_base = (void *)0x600F800;
+                lz77UnCompVram((void *)bboxTiles, char_base);
+                CpuFastSet((void*)battle_textboxMap, (void*)map_base, CPUModeFS(0x800, CPUFSCPY));
+                u8 **bg0_map = (u8**)0x030008EC;
+                u8 *dst = (u8 *)(*bg0_map);
+                CpuFastSet((void*)battle_textboxMap, (void*)dst, CPUModeFS(0x800, CPUFSCPY));
+                SetVBlankCallback(VblankMergeTextBox);
+                obj_free(&gSprites[stats->iconId]);
+                free(stats);
+                DestroyTask(taskId);
+                state++;
+            }
+            break;
+        case 4:
             break;
     };
 }
 #undef state
 
-void event_stat_screen(struct action* current_action)
+void TaskLearnMove(u8 taskId)
 {
-    // don't end the current action
-    return;
-    //
-
-
+    // TODO
+    DestroyTask(taskId);
 }

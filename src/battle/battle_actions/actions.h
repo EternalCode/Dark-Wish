@@ -32,6 +32,7 @@ struct action {
     u8 active_override : 1;
     s16 priv[5];
     u32 script;
+    u32 priv32;
     struct action* prev_action;
     struct action* next_action;
 };

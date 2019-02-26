@@ -9,7 +9,7 @@
 #include "../../pokemon/pokemon.h"
 
 extern void CpuFastSet(void*, void*, u32);
-/* Standard BG configuration for battle start */
+/* Special BG configuration for battle start */
 const struct BgConfig bg_config_data[4] = {
     {
         .basetile = 0,
@@ -43,6 +43,46 @@ const struct BgConfig bg_config_data[4] = {
         .priority = 3,
         .palette = 0,
         .size = 1,
+        .map_base = 28,
+        .character_base = 0,
+        .bgid = 3,
+    },
+};
+
+/* Standard BG configuration for returning to battle */
+const struct BgConfig configBattleReturn[4] = {
+    {
+        .basetile = 0,
+        .priority = 0,
+        .palette = 0,
+        .size = 0,
+        .map_base = 31,
+        .character_base = 3,
+        .bgid = 0,
+    },
+    {
+        .basetile = 0,
+        .priority = 1,
+        .palette = 0,
+        .size = 0,
+        .map_base = 30,
+        .character_base = 2,
+        .bgid = 1,
+    },
+    {
+        .basetile = 0,
+        .priority = 3,
+        .palette = 0,
+        .size = 0,
+        .map_base = 29,
+        .character_base = 1,
+        .bgid = 2,
+    },
+    {
+        .basetile = 0,
+        .priority = 3,
+        .palette = 0,
+        .size = 0,
         .map_base = 28,
         .character_base = 0,
         .bgid = 3,

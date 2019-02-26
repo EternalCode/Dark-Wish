@@ -4699,9 +4699,10 @@ struct move_data gBattleMoves[] = {
     {
     /*Hydro Cannon*/
     .name = _("Hydro Cannon"),
-    .accuracy = 90,
+    .accuracy = 100,
     .base_power = 150,
     .description = (pchar*)Hydro_Cannon_desc,
+    .priority = 1,
     .pp = 5,
     .category = MOVE_SPECIAL,
     .type = TYPE_WATER,

@@ -1,5 +1,6 @@
 #include <pokeagb/pokeagb.h>
 #include "pokemon/pokemon_base_stats.h"
+#include "pokemon/pokemon.h"
 
 #define TIME_SCALE 19
 #define MINUTES_IN_A_DAY 1140
@@ -147,4 +148,71 @@ struct Sprite* GetSpriteFromGfxTag(u16 tag)
 {
     /* This doesn't see reliable at all... Currently objid is the best way to get a sprite */
     return NULL;
+}
+
+
+const struct OamData icon_oam2 = {
+    .y = 0,
+    .affine_mode = 1,
+    .obj_mode = 0,
+    .mosaic = 0,
+    .bpp = 0,
+    .shape = 0,
+    .x = 0,
+    .matrix_num = 0,
+    .size = 2, // 32x32 square
+    .tile_num = 0,
+    .priority = 0, /*above the rest*/
+    .palette_num = 0,
+    .affine_param = 0,
+};
+
+u8 SpawnPokemonObj(u16 species, u32 pid, s16 x, s16 y, u16 tag)
+{
+    if (species > 0) {
+        void *icon_gfx = load_party_icon_tiles_with_form(species, pid, false);
+        struct SpritePalette pal = {&pokeicon_pals[pokeicon_pal_indices[species]], tag};
+        struct CompressedSpriteSheet icon_tiles = {icon_gfx, 4 * 8 * 32, tag};
+        gpu_tile_obj_alloc_tag_and_upload(&icon_tiles);
+        gpu_pal_obj_alloc_tag_and_apply(&pal);
+        struct Template icon_template = {
+                                        .tiles_tag = tag,
+                                        .pal_tag = tag,
+                                        .oam = &icon_oam2,
+                                        .animation = nullframe,
+                                        .graphics = &icon_tiles,
+                                        .rotscale = nullrsf,
+                                        .callback = oac_nullsub,
+                                        };
+        return template_instanciate_forward_search(&icon_template, x, y, 0);
+    }
+    return 0x3F;
+}
+
+extern const struct LearnMove* const gLevelUpLearnsets[];
+u8 PokemonLearnsMoveLevel(u16 species, u8 level, u16* moveBuffer)
+{
+    struct LearnMove* learnmove = (struct LearnMove*)gLevelUpLearnsets[species];
+    u8 setIndex = 0;
+    u8 bufferIndex = 0;
+    while (true) {
+        if (learnmove[setIndex].level == level) {
+            moveBuffer[bufferIndex] = learnmove[setIndex].move;
+            bufferIndex++;
+        } else if (learnmove[setIndex].level > level) {
+            break;
+        }
+        setIndex++;
+    }
+    return bufferIndex;
+}
+
+
+u8 PokemonCountUsableMoves(struct Pokemon *p)
+{
+    for (u8 i = 0; i < 4; i++) {
+        if (!pokemon_getattr(p, REQUEST_MOVE1 + i, NULL))
+            return i;
+    }
+    return 4;
 }
