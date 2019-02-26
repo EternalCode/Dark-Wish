@@ -222,6 +222,8 @@ void BankSelectOption2()
             break;
         case MoveSelectedExit:
         {
+            void* map_base = (void *)0x600F800;
+            CpuFastSet((void*)&battle_textboxMap, (void*)map_base, CPUModeFS(0x800, CPUFSCPY));
             free_unused_objs();
             SetMainCallback(validate_player_selected_move);
             SetVBlankCallback((MainCallback)VblankMergeTextBox);
