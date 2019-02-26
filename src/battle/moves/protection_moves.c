@@ -10,6 +10,7 @@ void set_status(u8 bank, enum StatusAilments status, u8 inflictor);
 extern void stat_boost(u8 bank, u8 stat_id, s8 amount, u8 inflicting_bank);
 extern bool protection_effect_exists_side(u8 bank, u32 func);
 extern bool BankMovesLast(u8 bank);
+extern void do_damage(u8 bank_index, u16 dmg);
 
 const static u8 chances_protect[] = {100, 33, 3, 1};
 const static u16 protection_moves[] = {

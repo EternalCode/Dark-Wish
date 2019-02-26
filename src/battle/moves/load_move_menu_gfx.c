@@ -126,9 +126,13 @@ u8 load_small_dmg_category_icon(u8 category, s16 x, s16 y, u8 tag)
     return template_instanciate_forward_search(&icon_temp, x, y, 0);
 }
 
+const struct TextboxTemplate tempObjText = {
+    .width = 8,
+    .height = 2,
+};
 void draw_text_obj(u8 font, u8 x_shift, u8 y_shift, pchar* string_buff, void* vram_addr, u8 background_pal)
 {
-    u8 r_id = rboxid_init((struct Textbox*)0x8260564);
+    u8 r_id = rboxid_init((struct TextboxTemplate*)&tempObjText);
     rboxid_clear_pixels(r_id, background_pal);
     u32 arrays[] = {2, 1, 3};
     rboxid_add_812E5A4(r_id, font, x_shift, y_shift, 0, 0, (u32*)&arrays[0], 0xFF, string_buff);
