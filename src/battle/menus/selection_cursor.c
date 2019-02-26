@@ -45,13 +45,16 @@ void update_cursor_action_select(u8 taskId)
 {
     switch (gMain.newKeys & (KEY_DPAD | KEY_A)) {
         case KEY_LEFT:
+            PlaySE(SOUND_GENERIC_CLINK);
             gBattleMaster->battle_cursor.cursor_pos += (!gBattleMaster->battle_cursor.cursor_pos) ? 3 : -1;
             break;
         case KEY_RIGHT:
+            PlaySE(SOUND_GENERIC_CLINK);
             gBattleMaster->battle_cursor.cursor_pos += (gBattleMaster->battle_cursor.cursor_pos > 2) ? -3 : 1;
             break;
         case KEY_A:
             // pick selected move
+            PlaySE(SOUND_GENERIC_CLINK);
             DestroyTask(taskId);
             gBattleMaster->selected_option = gBattleMaster->battle_cursor.cursor_pos;
             obj_free(&gSprites[gBattleMaster->battle_cursor.objid]);
@@ -83,6 +86,7 @@ void update_cursor_move_select(u8 taskId)
         case KEY_B:
         {
             // return to previous fight menu
+            PlaySE(SOUND_GENERIC_CLINK);
             DestroyTask(taskId);
             obj_free(&gSprites[gBattleMaster->battle_cursor.objid_mv_crsr[0]]);
             obj_free(&gSprites[gBattleMaster->battle_cursor.objid_mv_crsr[1]]);
@@ -103,6 +107,8 @@ void update_cursor_move_select(u8 taskId)
         }
         case KEY_A:
             // battle loop enter time
+            // TODO Avoid moving left or right onto the mega symbol unless item pair and mega is valid
+            PlaySE(SOUND_GENERIC_CLINK);
             obj_free(&gSprites[gBattleMaster->battle_cursor.objid_mv_crsr[0]]);
             obj_free(&gSprites[gBattleMaster->battle_cursor.objid_mv_crsr[1]]);
             obj_free(&gSprites[gBattleMaster->battle_cursor.objid]);
@@ -119,6 +125,7 @@ void update_cursor_move_select(u8 taskId)
             gMain.state = 8;
             break;
         case KEY_LEFT:
+            PlaySE(SOUND_GENERIC_CLINK);
             if (!gBattleMaster->battle_cursor.cursor_pos) {
                 gBattleMaster->battle_cursor.cursor_pos = 4;
             } else if (gBattleMaster->battle_cursor.cursor_pos == 1) {
@@ -128,6 +135,7 @@ void update_cursor_move_select(u8 taskId)
             }
             break;
         case KEY_RIGHT:
+            PlaySE(SOUND_GENERIC_CLINK);
             if (gBattleMaster->battle_cursor.cursor_pos == 4) {
                 gBattleMaster->battle_cursor.cursor_pos = 0;
             } else if (gBattleMaster->battle_cursor.cursor_pos == 5) {
@@ -139,6 +147,7 @@ void update_cursor_move_select(u8 taskId)
         case KEY_DOWN:
         case KEY_UP:
             // avoid moving up and down on mega symbol
+            PlaySE(SOUND_GENERIC_CLINK);
             if (gBattleMaster->battle_cursor.cursor_pos > 3)
                 break;
             gBattleMaster->battle_cursor.cursor_pos += (gBattleMaster->battle_cursor.cursor_pos % 2) ? -1 : 1;

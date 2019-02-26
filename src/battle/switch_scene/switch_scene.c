@@ -534,6 +534,8 @@ void switch_scene_main()
             switch_setup();
             switch_fetch_all_data();
             rotscale_reset();
+            // lower volume
+            m4aMPlayVolumeControl(&mplay_BGM, 0xFFFF, 128);
             gMain.state++;
         }
         break;
@@ -558,25 +560,20 @@ void switch_scene_main()
         if (!gPaletteFade.active) {
             switch (gMain.newKeys & (KEY_A | KEY_B | KEY_DOWN | KEY_UP)) {
             case KEY_A:
-                /* Choose
-                 * You only ever get to the switch menu and press A when you need to select a Pokemon.
-                 * Need to display the confirmation text. Skipped for now TODO
-                 */
-
+                 PlaySE(SOUND_GENERIC_CLINK);
                  spawn_confirm_box();
                  SetMainCallback(confirm_box);
-                 // BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
-                 // if (gBattleMaster->switch_main.reason == ViewPokemon)
-                 //    gBattleMaster->switch_main.reason = NormalSwitch;
-                 // gMain.state = 5;
-                break;
+                 break;
             case KEY_B:
-                /* Exit the switch menu, unless you are forced to make a switch option */
+                /* Exit the switch menu, unless you are forced to make a switch option TODO check forced switch */
+                PlaySE(SOUND_GENERIC_CLINK);
+                m4aMPlayVolumeControl(&mplay_BGM, 0xFFFF, 256);
                 BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
                 gBattleMaster->switch_main.reason = ViewPokemon;
                 gMain.state = 5;
                 break;
             case KEY_DOWN:
+                PlaySE(SOUND_GENERIC_CLINK);
                 if (gBattleMaster->switch_main.position < (SWM_LOG->list_count-1))
                     gBattleMaster->switch_main.position++;
                 else
@@ -585,6 +582,7 @@ void switch_scene_main()
                 switch_update_graphical(gBattleMaster->switch_main.position);
                 break;
             case KEY_UP:
+                PlaySE(SOUND_GENERIC_CLINK);
                 if (gBattleMaster->switch_main.position > 0)
                     gBattleMaster->switch_main.position--;
                 else
@@ -715,7 +713,14 @@ void confirm_box()
             // if cursor on cancel button, free confirm box and go back to main switch
             slot = gBattleMaster->switch_main.position;
             objid = gBattleMaster->switch_main.switch_confirm_cursor_id;
-            if ((gSprites[objid].pos1.y == CURSOR_CANCEL_POS) || (slot_is_fainted(slot)) || (slot_is_trapped(slot)) || (slot_in_battle(slot))) {
+            if ((gSprites[objid].pos1.y == CURSOR_CANCEL_POS)){
+                PlaySE(SOUND_GENERIC_CLINK);
+                gMain.state = 3;
+                SetMainCallback(switch_scene_main);
+                free_confirmation_box();
+                return;
+            } else if((slot_is_fainted(slot)) || (slot_is_trapped(slot)) || (slot_in_battle(slot))) {
+                PlaySE(SOUND_RSE_BERRY_MIX_CLICK);
                 gMain.state = 3;
                 SetMainCallback(switch_scene_main);
                 free_confirmation_box();
@@ -723,6 +728,8 @@ void confirm_box()
             }
             // validate chosen pokemon validitity TODO
             // exit to battle
+            PlaySE(SOUND_GENERIC_CLINK);
+            m4aMPlayVolumeControl(&mplay_BGM, 0xFFFF, 256);
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0x0000);
             if (gBattleMaster->switch_main.reason == ViewPokemon)
                gBattleMaster->switch_main.reason = NormalSwitch;
@@ -731,12 +738,14 @@ void confirm_box()
             free_confirmation_box();
             break;
         case KEY_B:
+            PlaySE(SOUND_GENERIC_CLINK);
             free_confirmation_box();
             gMain.state = 3;
             SetMainCallback(switch_scene_main);
             break;
         case KEY_UP:
         case KEY_DOWN:
+            PlaySE(SOUND_GENERIC_CLINK);
             objid = gBattleMaster->switch_main.switch_confirm_cursor_id;
             if (gSprites[objid].pos1.y == CURSOR_SHIFT_POS)
                 gSprites[objid].pos1.y = CURSOR_CANCEL_POS;
