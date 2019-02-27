@@ -41,7 +41,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 9,
         .height = 2,
         .pal_id = 15,
-        .charbase = 31,
+        .charbase = 19,
     },
     {
         /*atk*/
@@ -51,7 +51,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 3,
         .height = 3,
         .pal_id = 15,
-        .charbase = 61,
+        .charbase = 37,
     },
     {
         /*def*/
@@ -61,7 +61,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 3,
         .height = 3,
         .pal_id = 15,
-        .charbase = 76,
+        .charbase = 46,
     },
     {
         /*spa*/
@@ -71,7 +71,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 3,
         .height = 3,
         .pal_id = 15,
-        .charbase = 96,
+        .charbase = 55,
     },
     {
         /*spd*/
@@ -81,7 +81,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 3,
         .height = 3,
         .pal_id = 15,
-        .charbase = 106,
+        .charbase = 64,
     },
     {
         /*spe*/
@@ -91,7 +91,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 3,
         .height = 3,
         .pal_id = 15,
-        .charbase = 121,
+        .charbase = 73,
     },
     {
         /*moves*/
@@ -101,7 +101,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 10,
         .height = 8,
         .pal_id = 15,
-        .charbase = 136,
+        .charbase = 82,
     },
     {
         /*power*/
@@ -111,7 +111,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 2,
         .height = 8,
         .pal_id = 15,
-        .charbase = 220,
+        .charbase = 162,
     },
     {
         /*accuracy*/
@@ -121,7 +121,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 3,
         .height = 8,
         .pal_id = 15,
-        .charbase = 265,
+        .charbase = 178,
     },
     {
         /*pp*/
@@ -131,7 +131,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 2,
         .height = 8,
         .pal_id = 15,
-        .charbase = 310,
+        .charbase = 202,
     },
     {
         /*pkmn name*/
@@ -141,7 +141,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 11,
         .height = 2,
         .pal_id = 15,
-        .charbase = 355,
+        .charbase = 218,
     },
     {
         /*lvl name*/
@@ -151,7 +151,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 3,
         .height = 2,
         .pal_id = 15,
-        .charbase = 465,
+        .charbase = 240,
     },
     {
         /*hp ratio*/
@@ -161,7 +161,7 @@ struct TextboxTemplate switch_boxes[] = {
         .width = 6,
         .height = 2,
         .pal_id = 15,
-        .charbase = 496,
+        .charbase = 246,
     },
     {
         .bg_id = 0xFF, /* marks the end of the tb array */

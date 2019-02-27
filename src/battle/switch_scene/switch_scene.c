@@ -349,7 +349,7 @@ void switch_load_pokemon_data(u8 index)
 
     rboxid_print(SWB_NAME, 0, 0, 4, &switch_color_bg, 0, &SWM_LOG->s_pkmn_data[index].nickname[0]);
     rboxid_print(SWB_LVL, 0, 1, 4, &switch_color_bg, 0, &SWM_LOG->s_pkmn_data[index].level[0]);
-    rboxid_print(SWB_HP, 0, 1, 4, &switch_color_bg, 0, &SWM_LOG->s_pkmn_data[index].health[0]);
+    rboxid_print(SWB_HP, 0, 6, 4, &switch_color_bg, 0, &SWM_LOG->s_pkmn_data[index].health[0]);
 
     /* print the stats */
     str_int_padding(SWM_LOG->s_pkmn_data[index].stats[0], 3);
@@ -415,14 +415,11 @@ void switch_load_pokemon_data(u8 index)
     }
 
     for (u32 i = SWB_ATK; i <= SWB_MAX; ++i) {
-        rboxid_update(i, 3);
-        rboxid_tilemap_update(i);
+        rboxid_update_tilemap_and_tileset(i);
     }
     /* write those again, to overwrite empty space from stats */
-    rboxid_update(SWB_ABILITY, 3);
-    rboxid_tilemap_update(SWB_ABILITY);
-    rboxid_update(SWB_ITEM, 3);
-    rboxid_tilemap_update(SWB_ITEM);
+    rboxid_update_tilemap_and_tileset(SWB_ABILITY);
+    rboxid_update_tilemap_and_tileset(SWB_ITEM);
     REG_DISPCNT = 0x7360;
 
     /* load the type icons */
