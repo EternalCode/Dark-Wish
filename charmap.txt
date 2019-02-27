@@ -358,6 +358,7 @@ BANK_ITEM = FD 1C
 BANK_NAME = FD 1D
 PSLOT_MON = FD 1E
 MOVE_NAME_TWO = FD 1F
+ITEM_NAME = FD 20
 
 @ battle macros deprecated
 @UNKNOWN_STR = FD 00

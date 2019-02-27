@@ -3,6 +3,7 @@
 
 const static pchar empty_text[] = _("");
 const static pchar encounter_wild_text[] = _("A wild {DEFENDING_MON} appeared!\pGo! {ATTACKING_MON}!");
+const static pchar str_used_item[] = _("{PLAYER} used {ITEM_NAME}!");
 
 const pchar str_stat_mod_severely_fell_p[] = _("{ATTACKING_MON}’s {STAT_NAME}\nseverely fell!");
 const pchar str_stat_mod_severely_fell_o[] = _("{FOE}{ATTACKING_MON}’s {STAT_NAME}\nseverely fell!");
@@ -450,5 +451,6 @@ const pchar* battle_strings[STRINGS_TABLE_MAX] = {
    (pchar*)&str_frisk, // 203
    (pchar*)&empty_text, // 204
    (pchar*)&str_learn_move, // 205
+   (pchar*)&str_used_item, // 206
 
 };

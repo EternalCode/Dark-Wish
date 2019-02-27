@@ -9,8 +9,13 @@ extern void dprintf(const char * str, ...);
 
 void buffer_write_bank_item(pchar* buffer, u8 bank)
 {
-    dprintf("getting item for bank %d\n", bank);
     memcpy(buffer, items[B_ITEM(bank)].name, POKEAGB_ITEM_NAME_LENGTH);
+    buffer[POKEAGB_ITEM_NAME_LENGTH] = 0xFF;
+}
+
+void buffer_write_item_name(pchar* buffer, u16 itemId)
+{
+    memcpy(buffer, items[itemId].name, POKEAGB_ITEM_NAME_LENGTH);
     buffer[POKEAGB_ITEM_NAME_LENGTH] = 0xFF;
 }
 
@@ -241,8 +246,12 @@ void fdecoder_battle(pchar* buffer, u8 bank, u16 moveId, u16 move_effect_id)
                     result_index = pstrlen(result);
                     break;
                 case 0x1F:
-                buffer_write_move_name(&(result[result_index]), move_effect_id);
-                result_index = pstrlen(result);
+                    buffer_write_move_name(&(result[result_index]), move_effect_id);
+                    result_index = pstrlen(result);
+                    break;
+                case 0x20:
+                    buffer_write_item_name(&(result[result_index]), moveId);
+                    result_index = pstrlen(result);
                     break;
                 default:
                     {
