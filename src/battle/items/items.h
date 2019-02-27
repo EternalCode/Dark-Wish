@@ -3,18 +3,27 @@
 
 #include <pokeagb/pokeagb.h>
 
-struct BallCaptureRate {
+typedef void (*ItemCallback)(u8);
+
+#define POKEBALL_CATCH_RATE 10
+
+struct ItemBattleEffects {
     u16 itemId;
-    u8 captureMultiplier;
-    u8 guarenteeCapture;
+    ItemCallback initAction;
 };
 
-const struct BallCaptureRate BallRates[] = {
-    {ITEM_POKEBALL, 10, false},
-    {ITEM_GREATBALL, 15, false},
-    {ITEM_ULTRABALL, 20, false},
-    {ITEM_MASTERBALL, 0, true},
-};
+// struct BallCaptureRate {
+//     u16 itemId;
+//     u8 captureMultiplier;
+//     u8 guarenteeCapture;
+// };
+//
+// const struct BallCaptureRate BallRates[] = {
+//     {ITEM_POKEBALL, 10, false},
+//     {ITEM_GREATBALL, 15, false},
+//     {ITEM_ULTRABALL, 20, false},
+//     {ITEM_MASTERBALL, 0, true},
+// };
 
 /*
 enum Items {

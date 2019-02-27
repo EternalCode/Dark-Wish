@@ -101,7 +101,6 @@ u8 CountEggMoves(u16 species)
 #define PCBOX_COMPACITY 30
 bool SpaceAvailableInPC()
 {
-
     for (u8 box = 0; box < PCBOX_COUNT; box++) {
         for (u8 i = 0; i < PCBOX_COMPACITY; i++) {
             if (!pokemon_getattr(&saveblock3->bills_pc[(box * PCBOX_COMPACITY) + i], REQUEST_SPECIES, NULL))
@@ -124,6 +123,29 @@ bool SpaceAvailableForPKMN()
 {
     return (SpaceAvailableInPC() || SpaceAvailableInPartyPlayer());
 }
+
+void AddOpponentPokemonToPlayer()
+{
+    // party
+    for (u8 i = 0; i < 6; i++) {
+        if (!pokemon_getattr(&party_player[i], REQUEST_SPECIES, NULL)) {
+            // drop pokemon in this slot
+            memcpy(&party_player[i], &party_opponent[0], sizeof(struct Pokemon));
+            return true;
+        }
+    }
+    // bank
+    for (u8 box = 0; box < PCBOX_COUNT; box++) {
+        for (u8 i = 0; i < PCBOX_COMPACITY; i++) {
+            if (!pokemon_getattr(&saveblock3->bills_pc[(box * PCBOX_COMPACITY) + i], REQUEST_SPECIES, NULL)) {
+                // drop pokemon in this slot
+                memcpy(&party_player[i], &party_opponent[0], sizeof(struct BoxPokemon));
+                return true;
+            }
+        }
+    }
+}
+
 #undef PCBOX_COUNT
 #undef PCBOX_COMPACITY
 

@@ -24,6 +24,7 @@ extern u8 CountEggMoves(u16 species);
 extern bool SpaceAvailableInPC(void);
 extern bool SpaceAvailableInPartyPlayer(void);
 extern bool SpaceAvailableForPKMN(void);
+extern void AddOpponentPokemonToPlayer(void);
 extern u8 PokemonCountUsableMoves(struct Pokemon* p);
 
 /* EventObjects and sprite fetching */

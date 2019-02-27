@@ -1,7 +1,14 @@
 #include <pokeagb/pokeagb.h>
+#include "items.h"
+#include "../battle_actions/actions.h"
+#include "../battle_data/pkmn_bank_stats.h"
+#include "../battle_text/battle_pick_message.h"
+#include "../battle_events/battle_events.h"
 #include "../../global.h"
+#include "../../pokemon/pokemon.h"
 
-extern void return_to_battle_bag(void);
+extern void ReturnToBattleFromBag(void);
+extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 
 struct TextboxTemplate BagErrMsgText = {
     .bg_id = 0,
@@ -27,8 +34,8 @@ void WriteTextBag(u8 taskId, pchar* toPrint, bool keepOpen)
 void ReturnToBattleScene(u8 taskId)
 {
     // setup callback
-    *gBagCallback2OnExit = (u32)return_to_battle_bag|1;
-    *gBagCallback2OnExit_backup = (u32)return_to_battle_bag|1;
+    *gBagCallback2OnExit = (u32)ReturnToBattleFromBag|1;
+    *gBagCallback2OnExit_backup = (u32)ReturnToBattleFromBag|1;
     BagClosingAnimation();
     TaskExitBag(taskId);
 }
@@ -37,13 +44,113 @@ void ReturnToBattleScene(u8 taskId)
 // go to switch menu to select a pokemon for something
 // TODO
 
+u32 CalculateCatchRate(u8 ballBonus)
+{
+    // get bank
+    u8 bank;
+    if (ACTIVE_BANK(OPPONENT_SINGLES_BANK)) {
+        bank = OPPONENT_SINGLES_BANK;
+    } else {
+        bank = OPPONENT_DOUBLES_BANK;
+    }
+    // get HP modifier
+    u32 hpMax3 = 3 * TOTAL_HP(bank);
+    u32 hpModifier = (hpMax3 - (B_CURRENT_HP(bank) << 1));
+    // get pokemon catch rate
+    u8 catchRate = gBaseStats[B_SPECIES(bank)].catchRate;
+    // get ball bonus
+    // ballBonus = ballBonus;
+    // get bonus status
+    u8 status;
+    switch (B_STATUS(bank)) {
+        case AILMENT_PARALYZE:
+        case AILMENT_BURN:
+        case AILMENT_BAD_POISON:
+            status = 150;
+            break;
+        case AILMENT_SLEEP:
+        case AILMENT_FREEZE:
+            status = 250;
+            break;
+        default:
+            status = 100;
+            break;
+    };
+    // a
+    return (hpModifier * catchRate * ballBonus * status) / hpMax3;
+}
+
+bool ShakeBall(u8 modifiedCatchRate)
+{
+    u32 sqrta = 16711680 / modifiedCatchRate;
+    sqrta = Sqrt(sqrta);
+    sqrta = Sqrt(sqrta);
+    sqrta = 1048560 / sqrta;
+    return rand() < sqrta;
+}
+
+
 
 const pchar Pokeball_error[] = _("Error text checking\ncan go new line?");
 void PokeballTask(u8 taskId)
 {
+    // TODO: Check if it's a singles battle
     if (SpaceAvailableForPKMN()) {
+        var_800E = ITEM_POKEBALL;
+        BagRemoveItem(ITEM_POKEBALL, 1);
         ReturnToBattleScene(taskId);
     } else {
         WriteTextBag(taskId, (pchar*)Pokeball_error, true);
     }
 }
+
+void PokeballStartAction(u8 bank)
+{
+    // item used message
+    QueueMessage(ITEM_POKEBALL, bank, STRING_USED_ITEM, 0);
+    // calculate shakes and put it in lastresult
+    u32 rate = CalculateCatchRate(POKEBALL_CATCH_RATE);
+    u8 shakes;
+    for (shakes = 0; shakes < 4; shakes++) {
+        if (!ShakeBall(rate))
+            break;
+    }
+    var_800D = shakes;
+    if (shakes == 4) {
+        // if pokemon is captured, add it to party/box
+        AddOpponentPokemonToPlayer();
+        struct action* bo = add_action(0xFF, 0xFF, ActionHighPriority, EventEndBattle);
+        bo->active_override = false;
+    }
+    // call animation script TODO
+
+}
+
+
+
+
+
+
+
+const struct ItemBattleEffects gBattleItemEffects[] = {
+    {
+        .itemId = ITEM_NONE,
+        .initAction = NULL,
+    },
+    {
+        .itemId = ITEM_MASTERBALL,
+        .initAction = NULL,
+    },
+    {
+        .itemId = ITEM_ULTRABALL,
+        .initAction = NULL,
+    },
+    {
+        .itemId = ITEM_GREATBALL,
+        .initAction = NULL,
+    },
+    {
+        .itemId = ITEM_POKEBALL,
+        .initAction = PokeballStartAction,
+    },
+};
