@@ -36,8 +36,8 @@ s8 GetMovePriority(u8 bank)
     priority += MOVE_PRIORITY(move);
     B_MOVE_PRIORITY(bank) = priority;
 
-    /* on flee & switch the actor has a priority high enough to outspeed everything except pursuit */
-    if ((gPkmnBank[bank]->battleData.isRunning) || (gPkmnBank[bank]->battleData.isSwitching))
+    /* on flee/switch/trainer item use the actor has a priority high enough to outspeed everything except pursuit */
+    if ((gPkmnBank[bank]->battleData.isRunning) || (gPkmnBank[bank]->battleData.isSwitching) || (gPkmnBank[bank]->battleData.isUsingItem))
         priority = 6;
     return priority;
 }

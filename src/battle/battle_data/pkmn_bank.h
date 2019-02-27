@@ -152,7 +152,7 @@ struct local_battler_data {
 
     // This Pokemon's action this turn
     u8 isRunning : 1;
-    u8 using_item : 1;
+    u8 isUsingItem : 1;
     u8 isSwitching : 1;
     u8 skip_move_select : 1;
     u8 first_turn : 1;
@@ -168,6 +168,7 @@ struct local_battler_data {
     u16 last_damage;
     u16 moves_used[4];
     u16 last_used_item;
+    u16 last_trainer_item;
     u8 last_attacked_by;
     u8 move_lock_counter;
 

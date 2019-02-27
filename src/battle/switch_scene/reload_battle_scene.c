@@ -118,7 +118,7 @@ void return_to_battle()
 extern void ResetPals(void);
 extern u8 spawn_hpbox_opponent(u16 tag, s16 x, s16 y, u8 bank);
 extern u8 spawn_hpbox_player(u16 tag, s16 x, s16 y, u8 bank);
-void return_to_battle_bag()
+void ReturnToBattleFromBag()
 {
     switch (gMain.state) {
         case 0:
@@ -130,7 +130,7 @@ void return_to_battle_bag()
 
             // callbacks
             HandlersClear();
-            SetMainCallback(return_to_battle_bag);
+            SetMainCallback(ReturnToBattleFromBag);
             SetMainCallback2((MainCallback)C2SyncAll);
             SetVBlankCallback((MainCallback)VblankMergeTextBox);
 
@@ -141,8 +141,12 @@ void return_to_battle_bag()
             gpu_tile_bg_drop_all_sets(0);
             bg_vram_setup(0, (struct BgConfig *)&configBattleReturn, 4);
             // BGs
-            pick_and_load_battle_bgs_no_entry(battle_textbox_action_selectMap);
-
+            dprintf("var 0x800E is %d\n", var_800E);
+            if (var_800E == 0) {
+                pick_and_load_battle_bgs_no_entry(battle_textbox_action_selectMap);
+            } else {
+                pick_and_load_battle_bgs_no_entry(battle_textboxMap);
+            }
             HideBg(0);
             HideBg(1);
             HideBg(2);
@@ -179,8 +183,13 @@ void return_to_battle_bag()
             }
             break;
         default:
-            // set active movements
-            BankSelectOption(PLAYER_SINGLES_BANK);
+            if (var_800E == 0) {
+                BankSelectOption(PLAYER_SINGLES_BANK);
+            } else {
+                gPkmnBank[PLAYER_SINGLES_BANK]->battleData.isUsingItem = true;
+                gPkmnBank[PLAYER_SINGLES_BANK]->battleData.last_used_item = var_800E;
+                SetMainCallback(validate_player_selected_move);
+            }
             break;
     };
 

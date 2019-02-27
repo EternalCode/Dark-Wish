@@ -94,7 +94,7 @@ void UpdatePKMNBank(u8 bank, struct SwitchingFlagsToPass* flags)
 
     // user actions should always be cleared
     gPkmnBank[bank]->battleData.isRunning = 0;
-    gPkmnBank[bank]->battleData.using_item = 0;
+    gPkmnBank[bank]->battleData.isUsingItem = 0;
     gPkmnBank[bank]->battleData.isSwitching = 0;
     gPkmnBank[bank]->battleData.skip_move_select = 0;
     gPkmnBank[bank]->battleData.first_turn = 1;

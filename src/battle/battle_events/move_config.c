@@ -6,6 +6,7 @@
 #include "../battle_text/battle_pick_message.h"
 #include "../battle_events/battle_events.h"
 #include "../abilities/battle_abilities.h"
+#include "../items/items.h"
 
 extern u16 RandRange(u16 min, u16 max);
 extern void dprintf(const char * str, ...);
@@ -16,6 +17,7 @@ extern u8 CountBankMovePP(u16 moveId, u8 bank);
 extern u8 GetMoveIndexBank(u16 moveId, u8 bank);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 extern s8 GetMovePriority(u8 bank);
+extern const struct ItemBattleEffects gBattleItemEffects[];
 
 /* These following 3 functions are used to determine which order that Pokemon actions
  * are queued into the actions list
@@ -36,6 +38,7 @@ u8 compare_bank_speeds(u8 a, u8 b)
 
 u8 compare_bank_priority(u8 a, u8 b)
 {
+    // Move priority is where switching, running and trainer item use is taken into account
     extern s8 GetMovePriority(u8 bank);
     s8 a_priority = GetMovePriority(a);
     s8 b_priority = GetMovePriority(b);
@@ -107,6 +110,12 @@ void CreateActionsForActiveBanks()
             add_action(active_banks[i], active_banks[i], ActionRun, EventFlee);
         } else if (gPkmnBank[active_banks[i]]->battleData.isSwitching) {
             add_action(active_banks[i], active_banks[i], ActionSwitch, EventPreSwitch);
+        } else if (gPkmnBank[active_banks[i]]->battleData.isUsingItem) {
+            if (ACTION_HEAD == NULL) {
+                ACTION_HEAD = add_action(0xFF, 0xFF, ActionHighPriority, EventEndAction);
+                CURRENT_ACTION = ACTION_HEAD;
+            }
+            gBattleItemEffects[var_800E].initAction(active_banks[i]);
         } else {
             // action's target is developed later
             struct action *a = add_action(active_banks[i], NULL, ActionMove, EventBeforeMove);
@@ -126,6 +135,8 @@ void CreateActionsForActiveBanks()
 u16 BankInterpretSelectedMove(u8 bank)
 {
     if (gPkmnBank[bank]->battleData.isRunning)
+        return MOVE_NONE;
+    if (gPkmnBank[bank]->battleData.isUsingItem)
         return MOVE_NONE;
     if (gPkmnBank[bank]->battleData.isSwitching)
         return MOVE_NONE;
@@ -165,7 +176,8 @@ bool ValidateBankMove(u8 bank)
     u16 move_player = CURRENT_MOVE(bank);
 
     // if player is fleeing, don't use a move
-    if (gPkmnBank[bank]->battleData.isRunning || gPkmnBank[bank]->battleData.isSwitching) {
+    if (gPkmnBank[bank]->battleData.isRunning || gPkmnBank[bank]->battleData.isSwitching ||
+         gPkmnBank[bank]->battleData.isUsingItem) {
         CURRENT_MOVE(bank) = MOVE_NONE;
         gPkmnBank[bank]->battleData.pp_index = 0xFF;
         return true;
@@ -256,6 +268,7 @@ void ResetBankTurnBits(u8 bank)
 {
     gPkmnBank[bank]->battleData.isRunning = false;
     gPkmnBank[bank]->battleData.isSwitching = false;
+    gPkmnBank[bank]->battleData.isUsingItem = false;
     gPkmnBank[bank]->battleData.first_turn = false;
     gPkmnBank[bank]->battleData.justSwitched = false;
     memset((void*)(&gBattleMaster->b_moves[(bank)]), 0x0, sizeof(struct move_used));

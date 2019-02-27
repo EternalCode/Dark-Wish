@@ -204,6 +204,7 @@ enum battle_string_ids {
     STRING_FRISK,
     STRING_EMPTY,
     STRING_LEARN_MOVE,
+    STRING_USED_ITEM,
     STRINGS_TABLE_MAX = 700,
 };
 
