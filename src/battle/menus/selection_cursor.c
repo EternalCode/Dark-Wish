@@ -1,10 +1,11 @@
 #include <pokeagb/pokeagb.h>
+#include "options.h"
 #include "../battle_data/pkmn_bank.h"
 #include "../battle_data/battle_state.h"
 #include "../../../generated/images/selection_cursor.h"
 #include "../../../generated/images/move_selection_cursor.h"
 
-#define SELECTION_CURSOR_TAG 0x200
+
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
 
@@ -122,7 +123,7 @@ void update_cursor_move_select(u8 taskId)
             }
             gBattleAnimationStatus = 0;
             DestroyTask(taskId);
-            gMain.state = 8;
+            gMain.state = MoveSelectedExit;
             break;
         case KEY_LEFT:
             PlaySE(SOUND_GENERIC_CLINK);

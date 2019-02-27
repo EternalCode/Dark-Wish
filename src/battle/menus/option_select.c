@@ -1,4 +1,5 @@
 #include <pokeagb/pokeagb.h>
+#include "options.h"
 #include "../battle_data/pkmn_bank.h"
 #include "../battle_data/pkmn_bank_stats.h"
 #include "../battle_data/battle_state.h"
@@ -24,26 +25,11 @@ extern void event_peek_message(struct action* current_action);
 extern void CpuFastSet(void* src, void* dst, u32 mode);
 extern void SyncBankToParty(u8 bank);
 extern void TaskBackspriteBob(u8 task_id);
-extern void return_to_battle_bag(void);
+extern void ReturnToBattleFromBag(void);
 extern bool bank_trapped(u8 bank);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 
 
-/* Fight menu and move menu selection. Preperation to go into battle loop*/
-
-#define SELECTING_BANK gBattleMaster->option_selecting_bank
-
-enum BattleMenuSelectionOptions {
-    BaseMenuInitialize = 0,
-    BaseMenuInputInterpret,
-    FightOptionSelected_FirstTime,
-    FightOptionSelected_FastLoad,
-    SwitchOptionSelected,
-    BagOptionSelected,
-    RunOptionSelected,
-    MenuWaitState,
-    MoveSelectedExit,
-};
 
 /* Fight menu and move menu selection. Preperation to go into battle loop*/
 void BankSelectOption(u8 bank)
@@ -78,7 +64,8 @@ void bag_prep()
 {
     if (!gPaletteFade.active) {
         SetMainCallback(NULL);
-        GoToBagMenu(5, 3, return_to_battle_bag);
+        var_800E = 0;
+        GoToBagMenu(5, 3, ReturnToBattleFromBag);
         gpu_tile_bg_drop_all_sets(0);
         rboxes_free();
         free_battler_oams();
@@ -137,7 +124,6 @@ void BankSelectOption2()
             break;
         case FightOptionSelected_FirstTime:
             /* FIGHT selected from fight menu */
-            dprintf("opening fight menu for the first time for bank %d\n", SELECTING_BANK);
             // update tilemap
             SetVBlankCallback(VblankMergeMoveSelect);
             void* map_base = (void *)0x600F800;
@@ -155,7 +141,6 @@ void BankSelectOption2()
         case FightOptionSelected_FastLoad:
             {
                 SetVBlankCallback(VblankMergeMoveSelect);
-                dprintf("opening fight menu fast load\n");
                 void* map_base = (void *)0x600F800;
                 //memcpy(map_base, battle_textbox_move_selectMap, sizeof(battle_textbox_action_selectMap));
                 CpuFastSet((void*)&battle_textbox_move_selectMap, (void*)map_base, CPUModeFS(0x800, CPUFSCPY));
@@ -223,14 +208,12 @@ void BankSelectOption2()
             void* map_base = (void *)0x600F800;
             CpuFastSet((void*)&battle_textboxMap, (void*)map_base, CPUModeFS(0x800, CPUFSCPY));
             free_unused_objs();
+            // TODO: Change validator based on battle type
             SetMainCallback(validate_player_selected_move);
             SetVBlankCallback((MainCallback)VblankMergeTextBox);
             gBattleMaster->fight_menu_content_spawned  = 0;
             gMain.state = 0;
             break;
         }
-        case 9:
-            // pick move validator function based on battle type
-            return;
     };
 }

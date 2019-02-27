@@ -238,7 +238,6 @@ void load_names_moves(u8 bank)
 
 void load_icons_moves(u8 bank)
 {
-    dprintf("getting move icons for species %d\n", B_SPECIES(bank));
     u16 p_moves[4];
     u8 i;
     for (i = 0; i < 4; i++) {
