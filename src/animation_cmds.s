@@ -440,6 +440,10 @@
 .hword \varb
 .endm
 
+@vararg priv[1]
+@arg priv[2]
+@arg2 priv[3]
+@arg3 priv[4]
 .macro runtask task vararg arg arg2 arg3
 .byte 49
 .byte \arg
@@ -486,6 +490,37 @@
 .byte 0
 .byte 0
 .word \task
+.endm
+
+@speed is the amount of frames to travel the distance
+.macro horizontalArcTranslate startAngle endAngle varSrc varDst speed
+.byte 55
+.byte \speed
+.hword \startAngle
+.hword \endAngle
+.hword \varSrc
+.hword \varDst
+.byte 0
+.byte 0
+.endm
+
+.macro waitanimation var
+.byte 56
+.byte 0
+.hword \var
+.endm
+
+.macro waitaffineanimation var
+.byte 57
+.byte 0
+.hword \var
+.endm
+
+.macro spritecallback var callback
+.byte 58
+.byte 0
+.hword \var
+.word \callback
 .endm
 
 .macro end

@@ -16,6 +16,36 @@ static const struct RotscaleFrame shrink_grow[] = {
 
 static const struct RotscaleFrame* shrink_grow_ptr[] = {shrink_grow};
 
+void PokemonCaptureIntoPokeballSCB(struct Sprite* spr)
+{
+    // handle sprite upwards movement TODO
+    switch (spr->data[1]) {
+        case 0:
+            {
+                u8 pal_slot = spr->final_oam.palette_num;
+                u32 pal_fade = ((1 << (pal_slot + 16)));
+                BeginNormalPaletteFade(pal_fade, 10, 0x10, 0, 0x7ADF);
+                REG_BLDCNT = (BLDCNT_BG1_SRC | BLDCNT_BG2_SRC | BLDCNT_BG3_SRC | BLDCNT_LIGHTEN | BLDCNT_BG1_DST | BLDCNT_BG2_DST | BLDCNT_BG3_DST);
+                spr->data[0] = 0;
+                spr->data[1]++;
+                break;
+            }
+        case 1:
+            // TODO Move up
+            spr->data[2]++;
+            if (spr->data[2] % 3)
+                return;
+            if (spr->data[0] >= 10) {
+                REG_BLDCNT = 0;
+                spr->callback = oac_nullsub;
+                spr->invisible = true;
+                return;
+            }
+            REG_BLDY = spr->data[0];
+            spr->data[0]++;
+            break;
+    };
+}
 
 void pkmn_sendingout_objc(struct Sprite* spr)
 {

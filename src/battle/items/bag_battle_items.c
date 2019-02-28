@@ -9,6 +9,7 @@
 
 extern void ReturnToBattleFromBag(void);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
+extern u8 AnimCapturePokeball;
 
 struct TextboxTemplate BagErrMsgText = {
     .bg_id = 0,
@@ -115,15 +116,22 @@ void PokeballStartAction(u8 bank)
         if (!ShakeBall(rate))
             break;
     }
-    var_800D = shakes;
     if (shakes == 4) {
         // if pokemon is captured, add it to party/box
         AddOpponentPokemonToPlayer();
         struct action* bo = add_action(0xFF, 0xFF, ActionHighPriority, EventEndBattle);
-        bo->active_override = false;
+        bo->active_override = true;
     }
-    // call animation script TODO
+    // call animation script
+    struct action* a;
 
+    if (ACTIVE_BANK(OPPONENT_SINGLES_BANK)) {
+        a = prepend_action(bank, OPPONENT_SINGLES_BANK, ActionHighPriority, EventPlayAnimation);
+    } else {
+        a = prepend_action(bank, OPPONENT_DOUBLES_BANK, ActionHighPriority, EventPlayAnimation);
+    }
+    a->script = (u32)&AnimCapturePokeball;
+    a->priv[0] = shakes;
 }
 
 

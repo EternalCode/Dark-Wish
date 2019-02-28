@@ -61,6 +61,10 @@ void ScriptCmd_setframessprite(void);
 void ScriptCmd_loadsprite(void);
 void ScriptCmd_fadespritebg(void);
 void ScriptCmd_waittask(void);
+void ScriptCmd_confighorizontalarctranslate(void);
+void ScriptCmd_waitanimation(void);
+void ScriptCmd_waitaffineanimation(void);
+void ScriptCmd_spritecallback(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -72,7 +76,10 @@ extern void TaskQuakeBg(u8 taskId);
 extern void TaskQuakeSprite(u8 taskId);
 extern void TaskHPBoxBobFast(u8 taskId);
 extern void TaskWaitForTask(u8 taskId);
+extern void TaskWaitAnimation(u8 taskId);
+extern void TaskWaitAffineAnimation(u8 taskId);
 extern void battle_loop(void);
+extern void InitAnimLinearTranslation(struct Sprite *sprite);
 
 const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_loadspritefull, // 0
@@ -130,6 +137,10 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_loadsprite, // 52
     ScriptCmd_fadespritebg, // 53
     ScriptCmd_waittask, // 54
+    ScriptCmd_confighorizontalarctranslate, // 55
+    ScriptCmd_waitanimation, // 56
+    ScriptCmd_waitaffineanimation, // 57
+    ScriptCmd_spritecallback, // 58
 };
 
 
@@ -999,13 +1010,9 @@ void ScriptCmd_runtask()
     TaskCallback t = (TaskCallback)ANIMSCR_READ_WORD;
     u8 taskId = CreateTask(t, 0);
     tasks[taskId].priv[1] = VarGet(vararg);
-    dprintf("priv1 sprite id %d\n", tasks[taskId].priv[1]);
     tasks[taskId].priv[2] = arg;
-    dprintf("priv2 arg %d\n", tasks[taskId].priv[2]);
     tasks[taskId].priv[3] = arg2;
-    dprintf("priv3 arg2 %d\n", tasks[taskId].priv[3]);
     tasks[taskId].priv[4] = arg3;
-    dprintf("priv3 arg3 %d\n", tasks[taskId].priv[4]);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1029,11 +1036,81 @@ void ScriptCmd_setframessprite()
     spriteId = VarGet(spriteId);
     void* frames = (void*)ANIMSCR_READ_WORD;
     gSprites[spriteId].animation_table = (void*)frames;
-    gSprites[spriteId].animCmdIndex = frame;
+    gSprites[spriteId].animCmdIndex = 0;
+    gSprites[spriteId].animNum = frame;
     AnimateSprite(&gSprites[spriteId]);
     ANIMSCR_CMD_NEXT;
 }
 
+/* Set up a sprite's private variables for horizontal arc movement */
+// Meant to be called in conjunction with TaskTranslateSpriteHorizontalArc
+void ScriptCmd_confighorizontalarctranslate()
+{
+    u8 speed = ANIMSCR_READ_BYTE;
+    s16 startAngle = ANIMSCR_READ_HWORD;
+    s16 endAngle = ANIMSCR_READ_HWORD;
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    u16 spriteIdDst = ANIMSCR_READ_HWORD;
+    // get sprites
+    spriteId = VarGet(spriteId);
+    struct Sprite* sprite = &gSprites[spriteId];
+    spriteIdDst = VarGet(spriteIdDst);
+    struct Sprite* spriteDst = &gSprites[spriteIdDst];
+    // get total distances for x and y
+    s32 x = spriteDst->pos1.x - sprite->pos1.x;
+    s32 y = -((spriteDst->pos1.y - sprite->pos1.y) + sprite->pos1.y + 20); // peak is 20px over
+    sprite->data[0] = speed; // intervals to travel distance
+    sprite->data[1] = endAngle;
+    sprite->data[2] = Div((x * 256), speed);
+    sprite->data[3] = sprite->pos1.y;
+
+    // u32 percent = (Sin2(endAngle) * 100) / Sin2(90);
+    sprite->data[5] = y;
+    // calc frequency required
+    sprite->data[6] = ABS(endAngle - startAngle) /  speed; // frequency step
+    sprite->data[7] = startAngle; // frequency start
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+// wait for frame animation of sprite to finish
+void ScriptCmd_waitanimation()
+{
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    if (!gSprites[spriteId].animEnded) {
+        ANIMSCR_WAITING = true;
+        u8 taskId = CreateTask(TaskWaitAnimation, 0);
+        tasks[taskId].priv[0] = spriteId;
+    }
+    ANIMSCR_CMD_NEXT;
+}
+
+// wait for affine animation on a sprite to complete
+void ScriptCmd_waitaffineanimation()
+{
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    if (!gSprites[spriteId].affineAnimEnded) {
+        ANIMSCR_WAITING = true;
+        u8 taskId = CreateTask(TaskWaitAffineAnimation, 0);
+        tasks[taskId].priv[0] = spriteId;
+        tasks[taskId].priv[1] = ANIMSCR_THREAD;
+    }
+    ANIMSCR_CMD_NEXT;
+}
+
+// set sprite callback
+void ScriptCmd_spritecallback()
+{
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    gSprites[spriteId].callback = (SpriteCallback)ANIMSCR_READ_WORD;
+    ANIMSCR_CMD_NEXT;
+}
 
 void AnimationMain()
 {
@@ -1060,7 +1137,6 @@ void AnimationMain()
 
 void event_play_animation(struct action* current_action)
 {
-    dprintf("event started to run script: %x\n", (u32)current_action->script);
     InitializeAnimationCore((u8*)current_action->script, NULL, NULL, NULL);
     SetMainCallback(AnimationMain);
 }

@@ -238,3 +238,21 @@ u8 PokemonCountUsableMoves(struct Pokemon *p)
     }
     return 4;
 }
+
+
+void BlendPalette(u16 palOffset, u16 numEntries, u8 coeff, u16 blendColor)
+{
+    u16 i;
+    for (i = 0; i < numEntries; i++)
+    {
+        u16 index = i + palOffset;
+        struct ColorComponents *data1 = (struct ColorComponents *)&gPlttBufferUnfaded[index];
+        s8 r = data1->r;
+        s8 g = data1->g;
+        s8 b = data1->b;
+        struct ColorComponents *data2 = (struct ColorComponents *)&blendColor;
+        gPlttBufferFaded[index] = ((r + (((data2->r - r) * coeff) >> 4)) << 0)
+                                | ((g + (((data2->g - g) * coeff) >> 4)) << 5)
+                                | ((b + (((data2->b - b) * coeff) >> 4)) << 10);
+    }
+}

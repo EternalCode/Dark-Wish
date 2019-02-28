@@ -55,7 +55,7 @@ void TaskWaitFade(u8 taskId)
 }
 
 // wait for a specified task to finish
-void TaskWaitForTask(u16 taskId)
+void TaskWaitForTask(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
     u32* func = (u32*)&t->priv[0];
@@ -65,6 +65,26 @@ void TaskWaitForTask(u16 taskId)
         return;
     gAnimationCore->wait[t->priv[3]] = false;
     DestroyTask(taskId);
+}
+
+void TaskWaitAnimation(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    struct Sprite* sprite = &gSprites[t->priv[0]];
+    if (sprite->animEnded) {
+        gAnimationCore->wait[t->priv[1]] = false;
+        DestroyTask(taskId);
+    }
+}
+
+void TaskWaitAffineAnimation(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    struct Sprite* sprite = &gSprites[t->priv[0]];
+    if (sprite->affineAnimEnded) {
+        gAnimationCore->wait[t->priv[1]] = false;
+        DestroyTask(taskId);
+    }
 }
 
 #define spriteId t->priv[0]
@@ -529,3 +549,68 @@ void TaskCreateSmallFireworkImpact(u8 taskId)
     };
 
 }
+#undef spriteId
+#undef arg1bits
+#undef currentx
+#undef currenty
+#undef vX
+#undef vY
+#undef ystart
+#undef accX
+#undef accY
+#undef state
+#undef delay
+#undef delaytimer
+
+
+#define startX sprite->data[1]
+#define deltaX sprite->data[1]
+#define dstX sprite->data[2]
+#define startY sprite->data[3]
+#define deltaY sprite->data[3]
+#define dstY sprite->data[4]
+#define speed sprite->data[0]
+void InitAnimLinearTranslation(struct Sprite *sprite)
+{
+    s32 x = dstX - startX;
+    s32 y = dstY- startY;
+    deltaX = Div((x * 256), speed);
+    deltaY = Div((y * 256), speed);
+}
+
+
+u8 AnimTranslateLinear(struct Sprite* sprite)
+{
+    // destination reached
+    if (!speed)
+        return true;
+    sprite->pos1.x += deltaX / 256;
+    sprite->pos1.y += deltaY / 256;
+    speed--;
+    return false;
+}
+
+// meant to be used in conjunction with ScriptCmd_confighorizontalarctranslate
+void TaskTranslateSpriteHorizontalArc(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    struct Sprite* sprite = &gSprites[t->priv[1]];
+    if (!sprite->data[0]) {
+        DestroyTask(taskId);
+        return;
+    }
+    sprite->data[7] += sprite->data[6]; // frequency step
+    // amplitude must be a percentage from total amplitude * current sin(x) / sin(pi/2)
+    u32 percent = (Sin2(sprite->data[7]) * 100) / Sin2(90);
+    sprite->pos1.y = PERCENT(sprite->data[5], percent) + sprite->data[3];
+    sprite->pos1.x += sprite->data[2] / 256;
+    sprite->data[0]--;
+}
+
+#undef startX
+#undef deltaX
+#undef dstX
+#undef startY
+#undef deltaY
+#undef dstY
+#undef speed

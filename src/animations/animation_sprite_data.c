@@ -9,6 +9,7 @@
 #include "../../generated/images/battle_animations/sleep.h"
 #include "../../generated/images/battle_animations/smoke.h"
 #include "../../generated/images/battle_animations/glowball.h"
+#include "../../generated/images/battle_animations/pokeball.h"
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -174,3 +175,46 @@ const struct RotscaleFrame glowballAffineTable[] = {
     {0x7FFF, 0, 0, 0, 0}
 };
 const u32 glowballAffinePtr = (u32)&glowballAffineTable;
+
+// pokeball sprite
+const struct CompressedSpriteSheet pokeballSprite = {(void*)&pokeballTiles, 32 * 2 * 2 * 3, 409};
+const struct SpritePalette pokeballPalette = {&pokeballPal, 409};
+
+const struct OamData pokeballOam = {
+    .size = 1,
+    .priority = 1,
+};
+
+const struct Frame pokeballOpen[] = {
+    {0, 5},
+    {4, 5},
+    {0xFFFF, 0},
+};
+
+const struct Frame pokeballClose[] = {
+    {4, 5},
+    {0, 5},
+    {0xFFFF, 0},
+};
+
+const struct Frame* pokeballFrames[] = {
+    pokeballOpen,
+    pokeballClose,
+};
+
+
+const struct RotscaleFrame pokeballLeftTiltAffineTable[] = {
+    {0, 0, 0, 1, 0},
+    {0, 0, -30, 10, 0},
+    {0, 0, 30, 10, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+
+const struct RotscaleFrame pokeballRightTiltAffineTable[] = {
+    {0, 0, 0, 1, 0},
+    {0, 0, 30, 10, 0},
+    {0, 0, -30, 10, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+
+const struct Frame* pokeballOpenPtr[] = {pokeballOpen};
