@@ -65,6 +65,8 @@ void ScriptCmd_confighorizontalarctranslate(void);
 void ScriptCmd_waitanimation(void);
 void ScriptCmd_waitaffineanimation(void);
 void ScriptCmd_spritecallback(void);
+void ScriptCmd_hidehpbars(void);
+void ScriptCmd_showhpbars(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -141,6 +143,8 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_waitanimation, // 56
     ScriptCmd_waitaffineanimation, // 57
     ScriptCmd_spritecallback, // 58
+    ScriptCmd_hidehpbars, // 59
+    ScriptCmd_showhpbars, // 60
 };
 
 
@@ -1111,6 +1115,37 @@ void ScriptCmd_spritecallback()
     gSprites[spriteId].callback = (SpriteCallback)ANIMSCR_READ_WORD;
     ANIMSCR_CMD_NEXT;
 }
+
+// hide the hp bars of a given pokemon sprite
+void ScriptCmd_hidehpbars()
+{
+	ANIMSCR_MOVE(3);
+	for (u8 i = 0; i < BANK_MAX; i++) {
+		if (!ACTIVE_BANK(i)) continue;
+		// hide HP bars of this sprite
+		gSprites[gPkmnBank[i]->objid_hpbox[0]].invisible = true;
+		gSprites[gPkmnBank[i]->objid_hpbox[1]].invisible = true;
+		gSprites[gPkmnBank[i]->objid_hpbox[2]].invisible = true;
+		gSprites[gPkmnBank[i]->objid_hpbox[3]].invisible = true;
+	}
+	ANIMSCR_CMD_NEXT;
+}
+
+// show the hp bars of a given pokemon sprite
+void ScriptCmd_showhpbars()
+{
+	ANIMSCR_MOVE(3);
+	for (u8 i = 0; i < BANK_MAX; i++) {
+		if (!ACTIVE_BANK(i)) continue;
+		// hide HP bars of this sprite
+		gSprites[gPkmnBank[i]->objid_hpbox[0]].invisible = false;
+		gSprites[gPkmnBank[i]->objid_hpbox[1]].invisible = false;
+		gSprites[gPkmnBank[i]->objid_hpbox[2]].invisible = false;
+		gSprites[gPkmnBank[i]->objid_hpbox[3]].invisible = false;
+	}
+	ANIMSCR_CMD_NEXT;
+}
+
 
 void AnimationMain()
 {

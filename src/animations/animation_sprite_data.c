@@ -10,6 +10,7 @@
 #include "../../generated/images/battle_animations/smoke.h"
 #include "../../generated/images/battle_animations/glowball.h"
 #include "../../generated/images/battle_animations/pokeball.h"
+#include "../../generated/images/battle_animations/impact2.h"
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -218,3 +219,34 @@ const struct RotscaleFrame pokeballRightTiltAffineTable[] = {
 };
 
 const struct Frame* pokeballOpenPtr[] = {pokeballOpen};
+
+
+// impact2 sprite
+/* Used by: Slam */
+const struct CompressedSpriteSheet impact2Sprite = {(void*)&impact2Tiles, 32 * 4 * 4, 410};
+const struct SpritePalette impact2Palette = {&impact2Pal, 410};
+
+const struct OamData impact2Oam = {
+    .size = 2,
+    .priority = 1,
+};
+
+
+/*
+	OAM DATA:
+	
+	priority: 0-3; 0=Highest
+	
+	affine_mode: 0=Normal, 1=Affine
+
+	h_flip 1=flip horizontally
+    v_flip 1=flip vertically
+	
+	shape: 0=Square,1=Horizontal,2=Vertical
+	size:
+     * Size  Square   Horizontal  Vertical
+     * 0     8x8      16x8        8x16
+     * 1     16x16    32x8        8x32
+     * 2     32x32    32x16       16x32
+     * 3     64x64    64x32       32x64
+*/

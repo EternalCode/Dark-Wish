@@ -9,7 +9,7 @@ const bool USE_TESTS = true; // Change to false to not execute the test environm
 
 /* Player data */
 const static u16 playerSpecies = SPECIES_ABOMASNOW;
-const static u16 playerMove1 = MOVE_HYDROCANNON;
+const static u16 playerMove1 = MOVE_SLAM;
 const static u16 playerMove2 = MOVE_TACKLE;
 const static u16 playerMove3 = MOVE_SLEEPPOWDER;
 const static u16 playerMove4 = MOVE_THUNDERWAVE;
@@ -20,8 +20,8 @@ const u8 gPlayerAbility = ABILITY_ANTICIPATION;
 /* Opponent data */
 const static u16 opponentSpecies = SPECIES_VULPIX;
 const static u16 opponentMove1 = MOVE_TOXIC;
-const static u16 opponentMove2 = MOVE_THUNDERWAVE;
-const static u16 opponentMove3 = MOVE_SLEEPPOWDER;
+const static u16 opponentMove2 = MOVE_GROWL;
+const static u16 opponentMove3 = MOVE_TACKLE;
 const static u16 opponentMove4 = MOVE_WILLOWISP;
 const static u8 opponentLevel = 8;
 const static u16 opponentItem = ITEM_SITRUSBERRY;
