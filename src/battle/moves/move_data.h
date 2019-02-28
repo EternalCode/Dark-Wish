@@ -287,6 +287,8 @@ extern u8 fairy_lock_on_effect(u8 user, u8 src, u16 move, struct anonymous_callb
 extern const u8* TackleAnimation;
 extern const u8* TakedownAnimation;
 extern const u8* FireworkAnimation;
+extern const u8* SlamAnimation;
+
 
 /* User stats */
 extern struct move_procs user_lower_atk_1;
