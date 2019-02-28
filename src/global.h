@@ -39,6 +39,7 @@ extern u16 *GetVarPointer(u16 id);
 
 /* Colors */
 #define rgb5(r, g, b) (u16)((r >> 3) | ((g >> 3) << 5) | ((b >> 3) << 10))
+extern void BlendPalette(u16 palOffset, u16 numEntries, u8 coeff, u16 blendColor);
 
 /* Textbox stuff */
 extern const u16 GenericTextPal[];

@@ -28,8 +28,8 @@ AnimCapturePokeball:
     // run target transformations
     spritecallback target PokemonCaptureIntoPokeballSCB
     waitanimation ballSprite
-
     // play orbiting particles
+    
     // pokemon to ball
 
     // close ball
@@ -44,4 +44,4 @@ AnimCapturePokeball:
 //;
 //; PokeBallParticles:
 //;     loadspriteFull pokeballParticleSprite pokeballParticlePalette pokeballParticleOAM
-//;     copyvar ballParticle LASTRESULT 
+//;     copyvar ballParticle LASTRESULT
