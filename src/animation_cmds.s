@@ -523,6 +523,20 @@
 .word \callback
 .endm
 
+.macro hidehpbars
+.byte 59
+.byte 0
+.byte 0
+.byte 0
+.endm
+
+.macro showhpbars
+.byte 60
+.byte 0
+.byte 0
+.byte 0
+.endm
+
 .macro end
 .byte 0xFF
 .endm
