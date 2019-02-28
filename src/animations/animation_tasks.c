@@ -603,7 +603,14 @@ void TaskTranslateSpriteHorizontalArc(u8 taskId)
     // amplitude must be a percentage from total amplitude * current sin(x) / sin(pi/2)
     u32 percent = (Sin2(sprite->data[7]) * 100) / Sin2(90);
     sprite->pos1.y = PERCENT(sprite->data[5], percent) + sprite->data[3];
-    sprite->pos1.x += sprite->data[2] / 256;
+    sprite->pos1.x += (sprite->data[2] / 256);
+    // add 1px to the X as an error correction, if conditions align
+    if (sprite->data[4] != 0) {
+        if ((sprite->data[0] % sprite->data[4]) == 0) {
+            sprite->pos1.x += 1;
+        }
+    }
+
     sprite->data[0]--;
 }
 
