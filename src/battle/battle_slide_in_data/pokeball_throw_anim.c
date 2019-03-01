@@ -15,25 +15,36 @@ static const struct RotscaleFrame shrink_grow[] = {
     {0x7FFF, 0, 0, 0, 0}
 };
 
+static const struct RotscaleFrame rotAnimShrink[] = {
+    {0, 0, 0, 6, 0},
+    {-20, -20, 0, 10, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+
 static const struct RotscaleFrame* shrink_grow_ptr[] = {shrink_grow};
+const struct RotscaleFrame* rotAnimShrinkPtr[] = {rotAnimShrink};
 
 void PokemonCaptureIntoPokeballSCB(struct Sprite* spr)
 {
     // handle sprite upwards movement TODO
     switch (spr->data[1]) {
         case 0:
-            // fade bgs pals except textbox bg and text color 
-            BeginNormalPaletteFade((0xFFFF & ~(1 << 5)) & ~(1 << 7), 10, 0x10, 0, 0xFFFF);
+            // fade bgs pals except textbox bg and text color
+            BeginNormalPaletteFade((0xFFFF & ~(1 << 5)) & ~(1 << 7), 5, 16, 0, 0xFFFF);
             spr->data[0] = 0;
             spr->data[1]++;
+            spr->rotscale_table = rotAnimShrinkPtr;
+            spr->final_oam.affine_mode = 1;
             break;
         case 1:
-            // TODO Move up
             if (spr->data[0] > 16) {
                 REG_BLDCNT = 0;
                 spr->callback = oac_nullsub;
                 spr->invisible = true;
                 return;
+            } else if (spr->data[0] > 3) {
+                // shrink and Move up
+                spr->pos1.y -= 3;
             }
             u8 pal_slot = spr->final_oam.palette_num;
             BlendPalette((pal_slot * 16) + (16 * 16), 16, spr->data[0], 0x7ADF);

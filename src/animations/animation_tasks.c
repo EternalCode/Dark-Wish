@@ -5,6 +5,10 @@
 #include "../battle/battle_data/battle_state.h"
 #include "../battle/battle_data/pkmn_bank_stats.h"
 
+#define gtargetx 0x8000
+#define gtargety 0x8001
+
+
 #define id t->priv[0]
 #define deltaX t->priv[1]
 #define deltaY t->priv[2]
@@ -287,8 +291,8 @@ void TaskBurnEffect(u8 taskId)
         case 0:
             // pick sprite's position
             randFactor = (rand() % 2) ? -(rand_range(0, 20)) : rand_range(0, 20);
-            gSprites[spriteId].pos1.x = VarGet(0x8006) + randFactor;
-            gSprites[spriteId].pos1.y = VarGet(0x8007) + 16;
+            gSprites[spriteId].pos1.x = VarGet(gtargetx) + randFactor;
+            gSprites[spriteId].pos1.y = VarGet(gtargety) + 16;
             gSprites[spriteId].invisible = false;
             t->priv[5] = gSprites[spriteId].pos1.y;
             state++;
@@ -318,8 +322,8 @@ void TaskFreezeEffect(u8 taskId)
             // pick sprite's position
             randFactorX = (rand() % 2) ? -(rand_range(0, 20)) : rand_range(0, 20);
             randFactorY = (rand() % 2) ? -(rand_range(0, 20)) : rand_range(5, 10);
-            gSprites[spriteId].pos1.x = VarGet(0x8006) + randFactorX;
-            gSprites[spriteId].pos1.y = VarGet(0x8007) + randFactorY;
+            gSprites[spriteId].pos1.x = VarGet(gtargetx) + randFactorX;
+            gSprites[spriteId].pos1.y = VarGet(gtargety) + randFactorY;
             gSprites[spriteId].invisible = false;
             t->priv[5] = 0;
             state++;
@@ -349,8 +353,8 @@ void TaskMovePoisonBubble(u8 taskId)
         case 0:
             // pick sprite's position
             randFactor = (rand() % 2) ? -(rand_range(0, 20)) : rand_range(0, 20);
-            gSprites[spriteId].pos1.x = VarGet(0x8006) + randFactor;
-            gSprites[spriteId].pos1.y = VarGet(0x8007) + 16;
+            gSprites[spriteId].pos1.x = VarGet(gtargetx) + randFactor;
+            gSprites[spriteId].pos1.y = VarGet(gtargety) + 16;
             gSprites[spriteId].invisible = false;
             t->priv[5] = gSprites[spriteId].pos1.y;
             t->priv[6] = 0;
@@ -382,8 +386,8 @@ void TaskMoveSleepZ(u8 taskId)
     switch (state) {
         case 0:
             // pick sprite's position
-            gSprites[spriteId].pos1.x = VarGet(0x8006);
-            gSprites[spriteId].pos1.y = VarGet(0x8007);
+            gSprites[spriteId].pos1.x = VarGet(gtargetx);
+            gSprites[spriteId].pos1.y = VarGet(gtargety);
             gSprites[spriteId].invisible = false;
             t->priv[5] = gSprites[spriteId].pos1.y;
             t->priv[6] = 0;
@@ -426,8 +430,8 @@ void TaskMoveSinLeftAndRight(u8 taskId)
             for (u8 i = 0; i < 180; i+= (180 / frequency))
                 dist += Sin2(t->priv[5]);
             dist = dist >> 1;
-            gSprites[spriteId].pos1.x = VarGet(0x8006) - dist;
-            gSprites[spriteId].pos1.y = VarGet(0x8007);
+            gSprites[spriteId].pos1.x = VarGet(gtargetx) - dist;
+            gSprites[spriteId].pos1.y = VarGet(gtargety);
             gSprites[spriteId].invisible = false;
             state++;
             break;
@@ -613,7 +617,6 @@ void TaskTranslateSpriteHorizontalArc(u8 taskId)
 
     sprite->data[0]--;
 }
-
 #undef startX
 #undef deltaX
 #undef dstX
@@ -621,3 +624,7 @@ void TaskTranslateSpriteHorizontalArc(u8 taskId)
 #undef deltaY
 #undef dstY
 #undef speed
+
+
+#undef gtargetx
+#undef gtargety

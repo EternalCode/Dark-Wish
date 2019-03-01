@@ -3,15 +3,8 @@
 .align 2
 .include "src/animation_cmds.s"
 
-.equ attacker, 0x8004
-.equ target, 0x8005
-.equ targetx, 0x8006
-.equ targety, 0x8007
-.equ attackerx, 0x8008
-.equ attackery, 0x8009
-.equ LASTRESULT, 0x800D
-.equ ballSprite, 0x8003
-.equ ballParticle, 0x800A
+.equ ballSprite, 0x9006
+.equ ballParticle, 0x9007
 
 .global AnimCapturePokeball
 AnimCapturePokeball:
@@ -26,10 +19,10 @@ AnimCapturePokeball:
     // open ball
     setframessprite 0 ballSprite pokeballFrames
     // run target transformations
-    spritecallback target PokemonCaptureIntoPokeballSCB
+    //spritecallback target PokemonCaptureIntoPokeballSCB
     waitanimation ballSprite
-    // play orbiting particles
-    
+    // play scattering particles
+    orbit ballSprite target 800 28 20 1 6 true
     // pokemon to ball
 
     // close ball
@@ -40,8 +33,7 @@ AnimCapturePokeball:
 
 .pool
 
-//;
-//;
-//; PokeBallParticles:
-//;     loadspriteFull pokeballParticleSprite pokeballParticlePalette pokeballParticleOAM
-//;     copyvar ballParticle LASTRESULT
+//PokeBallParticles:
+//     loadspriteFull pokeballParticleSprite pokeballParticlePalette pokeballParticleOam
+//     copyvar ballParticle LASTRESULT
+//     loadsprite pokeballParticleSprite pokeballParticlePalette pokeballParticleOam

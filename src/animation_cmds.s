@@ -2,6 +2,15 @@
 @ General Defines
 .equ true, 1
 .equ false, 0
+.equ attacker, 0x9000
+.equ target, 0x9001
+.equ attackerx, 0x9002
+.equ targetx, 0x9003
+.equ attackery, 0x9004
+.equ targety, 0x9005
+.equ varmax, 0x9013
+.equ gLASTRESULT, 0x800D
+.equ LASTRESULT, 0x900D
 @ -----------------------------------------------
 
 @Loads the sprite Id into var_800D
@@ -111,11 +120,11 @@
 .byte 0
 .endm
 
-.macro startscript script
+.macro startscript script boolcopyvars
 .byte 12
 .byte 0
 .byte 0
-.byte 0
+.byte \boolcopyvars
 .word \script
 .endm
 
@@ -533,6 +542,22 @@
 .macro showhpbars
 .byte 60
 .byte 0
+.byte 0
+.byte 0
+.endm
+
+.macro orbit spriteA spriteB duration width height dir speed boolwait booldelete waveoffset
+.byte 61
+.byte \boolwait
+.hword \spriteA
+.hword \spriteB
+.hword \duration
+.byte \width
+.byte \height
+.byte \dir
+.byte \speed
+.byte \booldelete
+.byte \waveoffset
 .byte 0
 .byte 0
 .endm

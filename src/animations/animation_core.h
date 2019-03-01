@@ -1,10 +1,8 @@
 #include <pokeagb/pokeagb.h>
 
 #define ANIM_STACK_DEPTH 20
-#define ANIM_SPRITES_COUNT 30
+#define ANIM_VAR_COUNT 20
 #define ANIM_SCR_COUNT 4
-#define ANIM_ARGC_MAX 8
-#define ANIM_CMD_GLOBAL_COUNT 4
 
 typedef void(*AnimScriptFunc)(void);
 
@@ -31,9 +29,11 @@ struct AnimationCore {
     /* Call stack */
     u8* callStack[ANIM_SCR_COUNT][ANIM_STACK_DEPTH];
     u8 stacks[ANIM_SCR_COUNT];
+
     /* global vars for all commands split into each script */
     u32 palbuffer[ANIM_SCR_COUNT];
     u8 conditionResult[ANIM_SCR_COUNT];
+    u16 corevars[ANIM_SCR_COUNT][ANIM_VAR_COUNT];
 };
 
 
@@ -47,7 +47,7 @@ struct AnimationCore* gAnimationCore;
 #define ANIMSCR_PALBUFF gAnimationCore->palbuffer[ANIMSCR_THREAD]
 #define ANIMSCR_STACKDEPTH gAnimationCore->stacks[ANIMSCR_THREAD]
 #define ANIMSCR_CONDITION gAnimationCore->conditionResult[ANIMSCR_THREAD]
-#define ANIMSCR_CMD_NEXT ANIMSCR_THREAD = (ANIMSCR_THREAD == (ANIM_CMD_GLOBAL_COUNT - 1)) ? \
+#define ANIMSCR_CMD_NEXT ANIMSCR_THREAD = (ANIMSCR_THREAD == (ANIM_SCR_COUNT - 1)) ? \
                                             0 : ANIMSCR_THREAD + 1
 
 #define ANIMSCR_MOVE(x) (ANIMSCR_SCRIPT += x)

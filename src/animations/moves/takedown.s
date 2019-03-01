@@ -3,18 +3,11 @@
 .align 2
 .include "src/animation_cmds.s"
 
-.equ attacker, 0x8004
-.equ target, 0x8005
-.equ targetx, 0x8006
-.equ targety, 0x8007
-.equ attackerx, 0x8008
-.equ attackery, 0x8009
-.equ smokeParticle, 0x800B
-.equ impactParticle, 0x800C
-.equ smokeParticle2, 0x8003
-.equ smokeParticle3, 0x8002
-.equ smokeParticle4, 0x8001
-.equ LASTRESULT, 0x800D
+.equ smokeParticle, 0x9006
+.equ impactParticle, 0x9007
+.equ smokeParticle2, 0x9008
+.equ smokeParticle3, 0x9009
+.equ smokeParticle4, 0x900A
 
 .global TakedownAnimation
 TakedownAnimation:

@@ -67,6 +67,7 @@ void ScriptCmd_waitaffineanimation(void);
 void ScriptCmd_spritecallback(void);
 void ScriptCmd_hidehpbars(void);
 void ScriptCmd_showhpbars(void);
+void ScriptCmd_orbit(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -145,6 +146,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_spritecallback, // 58
 	ScriptCmd_hidehpbars, // 59
     ScriptCmd_showhpbars, // 60
+    ScriptCmd_orbit, // 61
 };
 
 
@@ -166,7 +168,6 @@ void RunCurrentCommand()
     if (cmd == 0xFF) {
         ANIMSCR_SCRIPT = NULL;
         ANIMSCR_CMD_NEXT;
-        //gAnimationCore->waitAll = true;
         return;
     }
     gAnimTable[cmd]();
@@ -186,7 +187,7 @@ void ScriptCmd_loadspritefull()
     LoadCompressedSpritePaletteUsingHeap(pal);
     u8 spriteId = template_instanciate_forward_search(&spriteTemp, 0, 0, 0);
     gSprites[spriteId].invisible = true;
-    var_800D = spriteId;
+    VarSet(0x900D, spriteId);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -201,7 +202,7 @@ void ScriptCmd_loadsprite()
     struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, nullrsf, (SpriteCallback)oac_nullsub};
     u8 spriteId = template_instanciate_forward_search(&spriteTemp, 0, 0, 0);
     gSprites[spriteId].invisible = true;
-    var_800D = spriteId;
+    VarSet(0x900D, spriteId);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -365,12 +366,18 @@ void ScriptCmd_waitthread()
 void ScriptCmd_RunAnimAvailableThread()
 {
     // alignment for read
-    ANIMSCR_MOVE(3);
+    ANIMSCR_MOVE(2);
+    bool copyvars = ANIMSCR_READ_BYTE;
     u8* scriptPtr = (u8*)ANIMSCR_READ_WORD;
     // find an unused script pointer and assign animation script to it
     for (u8 i = 0; i < ANIM_SCR_COUNT; i++) {
         if (gAnimationCore->animScriptPtr[i] == NULL) {
             gAnimationCore->animScriptPtr[i] = scriptPtr;
+            if (copyvars) {
+                for (u8 varId = 0; varId < ANIM_VAR_COUNT; varId++) {
+                    gAnimationCore->corevars[i][varId] = gAnimationCore->corevars[ANIMSCR_THREAD][varId];
+                }
+            }
             break;
         }
     }
@@ -440,6 +447,10 @@ void ScriptCmd_setspritepal()
 
 void DrawSpriteToBG1(u8 spriteId, u8 palslotBG, u8 width, u8 height)
 {
+    // temporarily boost up the priority of the copying sprite to appear ABOVE the BG layer until copying is done
+    // this keeps ugly tiles from vision because this cmd is not vsynced
+    u8 priority = gSprites[spriteId].final_oam.priority;
+    gSprites[spriteId].final_oam.priority = 0;
     // turn on BG 1 display
     REG_DISPCNT |= DISPCNT_BG1;
     // zerofill tilemap and tileset for BG1
@@ -476,6 +487,7 @@ void DrawSpriteToBG1(u8 spriteId, u8 palslotBG, u8 width, u8 height)
     ChangeBgX(1, (-gSprites[spriteId].pos1.x + (4 * width)) * 256, 0);
     ChangeBgY(1, (-gSprites[spriteId].pos1.y + (4 * height)) * 256, 0);
     REG_BG1CNT = BGCNT_PRIORITY1 | BGCNT_TILESTART2 | BGCNT_MAPSTART(30) | BGCNT_TILEMAPSIZE0;
+    gSprites[spriteId].final_oam.priority = priority;
     gSprites[spriteId].invisible = true;
 }
 
@@ -794,7 +806,7 @@ void ScriptCmd_flashsprite()
 void ScriptCmd_getattacker()
 {
     ANIMSCR_MOVE(3);
-    VarSet(0x800D, gPkmnBank[ACTION_BANK]->objid);
+    VarSet(0x9000, gPkmnBank[ACTION_BANK]->objid);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -802,7 +814,7 @@ void ScriptCmd_getattacker()
 void ScriptCmd_getdefender()
 {
     ANIMSCR_MOVE(3);
-    VarSet(0x800D, gPkmnBank[ACTION_TARGET]->objid);
+    VarSet(0x9001, gPkmnBank[ACTION_TARGET]->objid);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -811,8 +823,8 @@ void ScriptCmd_getattackercoords()
 {
     ANIMSCR_MOVE(3);
     struct Sprite* sprite = &gSprites[gPkmnBank[ACTION_BANK]->objid];
-    VarSet(0x8000, sprite->pos1.x);
-    VarSet(0x8001, sprite->pos1.y);
+    VarSet(0x9002, sprite->pos1.x);
+    VarSet(0x9004, sprite->pos1.y);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -821,8 +833,8 @@ void ScriptCmd_getdefendercoords()
 {
     ANIMSCR_MOVE(3);
     struct Sprite* sprite = &gSprites[gPkmnBank[ACTION_TARGET]->objid];
-    VarSet(0x8000, sprite->pos1.x);
-    VarSet(0x8001, sprite->pos1.y);
+    VarSet(0x9003, sprite->pos1.x);
+    VarSet(0x9005, sprite->pos1.y);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -950,12 +962,12 @@ void ScriptCmd_comparevars()
 }
 
 /* fast get all battlers into predetermined vars */
-#define attacker 0x8004
-#define defender 0x8005
-#define targetx 0x8006
-#define targety 0x8007
-#define attackerx 0x8008
-#define attackery 0x8009
+#define attacker 0x9000
+#define defender 0x9001
+#define attackerx 0x9002
+#define targetx 0x9003
+#define attackery 0x9004
+#define targety 0x9005
 void ScriptCmd_fastsetbattlers()
 {
     ANIMSCR_MOVE(3);
@@ -1076,6 +1088,72 @@ void ScriptCmd_confighorizontalarctranslate()
     sprite->data[7] = startAngle; // frequency start
     ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
+}
+
+// Make spriteA orbit spriteB with given customizations
+static void AnimOrbitFastStep(struct Sprite *sprite);
+void ScriptCmd_orbit()
+{
+    bool wait = ANIMSCR_READ_BYTE;
+    // spriteA
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct Sprite* sprite = &gSprites[spriteId];
+    // spriteB
+    spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct Sprite* toOrbit = &gSprites[spriteId];
+
+    toOrbit->final_oam.priority = 2;
+    sprite->data[0] = ANIMSCR_READ_HWORD; // duration
+    sprite->data[0] = MAX(1, sprite->data[0]);
+    sprite->data[2] = ANIMSCR_READ_BYTE; // width
+    sprite->data[3] = ANIMSCR_READ_BYTE; // height
+    u8 direction = ANIMSCR_READ_BYTE; // direction
+    if (direction) {
+        // left
+        sprite->data[2] = -sprite->data[2];
+        sprite->data[3] = -sprite->data[3];
+    }
+    sprite->data[4] = ANIMSCR_READ_BYTE; // speed
+    // animation should pause script thread or not
+    if (wait) {
+        sprite->data[6] = ANIMSCR_THREAD;
+        sprite->data[6] += 1;
+        ANIMSCR_WAITING = true;
+    } else {
+        sprite->data[6] = 0;
+    }
+    sprite->data[5] = ANIMSCR_READ_BYTE; // bool to delete
+    sprite->data[1] = ANIMSCR_READ_BYTE; // wave offset (0 - 255)
+    sprite->data[7] = toOrbit->final_oam.priority;
+    sprite->callback = AnimOrbitFastStep;
+    sprite->callback(sprite);
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+static void AnimOrbitFastStep(struct Sprite *sprite)
+{
+    if ((u16)(sprite->data[1] - 64) < 128)
+        sprite->final_oam.priority = MAX(0, sprite->data[7] + 1);
+    else
+        sprite->final_oam.priority = MIN(3, sprite->data[7] - 1);
+
+    sprite->pos2.x = Sin(sprite->data[1], sprite->data[2]);
+    sprite->pos2.y = Cos(sprite->data[1], sprite->data[3]);
+    sprite->data[1] = (sprite->data[1] + sprite->data[4]) & 0xFF;
+    sprite->data[0]--;
+    if (sprite->data[0] == 0) {
+        if (sprite->data[6]) {
+            gAnimationCore->wait[sprite->data[6] - 1] = false;
+        }
+        if (sprite->data[5]) {
+            FreeSpriteOamMatrix(sprite);
+            obj_free(sprite);
+        }
+        sprite->callback = (oac_nullsub);
+    }
 }
 
 // wait for frame animation of sprite to finish

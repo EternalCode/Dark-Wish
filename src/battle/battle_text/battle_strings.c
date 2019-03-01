@@ -16,7 +16,8 @@ const pchar str_stat_mod_cant_go_higher_o[] = _("{FOE}{ATTACKING_MON}’s {STAT_
 
 
 const pchar str_atk_used_o[] = _("{FOE}{ATTACKING_MON} used\n{ATTACK_NAME}!");
-const pchar str_infatuated_o[] = _("{FOE}{ATTACKING_MON} is in love.\p{FOE}{ATTACKING_MON}\nis immobolized by love!");
+const pchar str_infatuated_o[] = _("{FOE}{ATTACKING_MON}\nis immobolized by love!");
+const pchar str_inlove[] = _("{FOE}{ATTACKING_MON} is in love.");
 const pchar str_bide_o[] = _("{FOE}{ATTACKING_MON} is\nstoring energy!");
 const pchar str_focus_lost_o[] = _("{FOE}{ATTACKING_MON} lost its\nfocus and couldn’t move!");
 const pchar str_cant_use_o[] = _("{ATTACKING_MON} can’t use\n{ATTACK_NAME} because of {AILMENT_NAME}!");
@@ -452,5 +453,6 @@ const pchar* battle_strings[STRINGS_TABLE_MAX] = {
    (pchar*)&empty_text, // 204
    (pchar*)&str_learn_move, // 205
    (pchar*)&str_used_item, // 206
+   (pchar*)&str_inlove, // 207
 
 };
