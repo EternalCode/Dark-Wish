@@ -229,7 +229,7 @@ const struct SpritePalette impact2Palette = {&impact2Pal, 410};
 
 const struct OamData impact2Oam = {
     .size = 2,
-    .priority = 1,
+    .priority = 3,
 };
 
 // Pokeball particles when opened or closed

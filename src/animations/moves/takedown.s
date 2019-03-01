@@ -28,38 +28,38 @@ TakedownAnimation:
     if1 0x1 goto TakedownSpriteMoveOpponent
 
 TakedownSpriteMovePlayer:
-    movesprite attacker 0xFFFD 1 1
+    movesprite attacker 0xFFFD 1 1 true
     wait
-    movesprite attacker 0xFFFD 1 1
+    movesprite attacker 0xFFFD 1 1 true
     wait
-    movesprite attacker 0xFFFD 1 1
+    movesprite attacker 0xFFFD 1 1 true
     wait
-    movesprite attacker 0xFFFD 1 1
+    movesprite attacker 0xFFFD 1 1 true
     wait
-    movesprite attacker 0xFFFD 1 1
+    movesprite attacker 0xFFFD 1 1 true
     wait
-    movesprite attacker 0xFFFD 1 1
+    movesprite attacker 0xFFFD 1 1 true
     wait
     pauseframes 8
-    movesprite attacker 6 0xFFFD 3
+    movesprite attacker 6 0xFFFE 3 true
     wait
     goto TakedownTargetSideEffects
 
 TakedownSpriteMoveOpponent:
-    movesprite attacker 3 0xFFFF 1
+    movesprite attacker 3 0xFFFF 1 true
     wait
-    movesprite attacker 3 0xFFFF 1
+    movesprite attacker 3 0xFFFF 1 true
     wait
-    movesprite attacker 3 0xFFFF 1
+    movesprite attacker 3 0xFFFF 1 true
     wait
-    movesprite attacker 3 0xFFFF 1
+    movesprite attacker 3 0xFFFF 1 true
     wait
-    movesprite attacker 3 0xFFFF 1
+    movesprite attacker 3 0xFFFF 1 true
     wait
-    movesprite attacker 3 0xFFFF 1
+    movesprite attacker 3 0xFFFF 1 true
     wait
     pauseframes 8
-    movesprite attacker 0xFFFA 2 3
+    movesprite attacker 0xFFFA 2 3 true
     wait
 
 TakedownTargetSideEffects:

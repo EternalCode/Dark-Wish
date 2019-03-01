@@ -68,6 +68,7 @@ void ScriptCmd_spritecallback(void);
 void ScriptCmd_hidehpbars(void);
 void ScriptCmd_showhpbars(void);
 void ScriptCmd_orbit(void);
+void ScriptCmd_movebg(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -81,6 +82,7 @@ extern void TaskHPBoxBobFast(u8 taskId);
 extern void TaskWaitForTask(u8 taskId);
 extern void TaskWaitAnimation(u8 taskId);
 extern void TaskWaitAffineAnimation(u8 taskId);
+extern void TaskMoveBG(u8 taskId);
 extern void battle_loop(void);
 extern void InitAnimLinearTranslation(struct Sprite *sprite);
 
@@ -147,6 +149,7 @@ const AnimScriptFunc gAnimTable[] = {
 	ScriptCmd_hidehpbars, // 59
     ScriptCmd_showhpbars, // 60
     ScriptCmd_orbit, // 61
+    ScriptCmd_movebg, // 62
 };
 
 
@@ -347,9 +350,10 @@ void ScriptCmd_movesprite()
     t->priv[1] = ANIMSCR_READ_HWORD; // Delta X
     t->priv[2] = ANIMSCR_READ_HWORD; // Delta Y
     t->priv[3] = ANIMSCR_READ_HWORD; // Amount of frames to do animation for
-    t->priv[4] = ANIMSCR_THREAD; // execution thread
+    t->priv[4] = ANIMSCR_READ_BYTE; // anim wait
+    t->priv[5] = ANIMSCR_THREAD; // execution thread
     // to wait for finish, make sure to put use a waitanim command as the next command.
-    ANIMSCR_MOVE(2);
+    ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -376,6 +380,10 @@ void ScriptCmd_RunAnimAvailableThread()
             if (copyvars) {
                 for (u8 varId = 0; varId < ANIM_VAR_COUNT; varId++) {
                     gAnimationCore->corevars[i][varId] = gAnimationCore->corevars[ANIMSCR_THREAD][varId];
+                }
+            } else {
+                for (u8 varId = 0; varId < ANIM_VAR_COUNT; varId++) {
+                    gAnimationCore->corevars[i][varId] = 0;
                 }
             }
             break;
@@ -1224,6 +1232,20 @@ void ScriptCmd_showhpbars()
 	}
 	ANIMSCR_CMD_NEXT;
 }
+
+// move a bg
+void ScriptCmd_movebg()
+{
+    struct Task* t = &tasks[CreateTask(TaskMoveBG, 0)];
+    t->priv[0] = ANIMSCR_READ_BYTE; // bg id
+    t->priv[1] = ANIMSCR_READ_HWORD; // Delta X
+    t->priv[2] = ANIMSCR_READ_HWORD; // Delta Y
+    t->priv[3] = ANIMSCR_READ_BYTE; // Amount of frames to do animation for
+    t->priv[4] = ANIMSCR_READ_BYTE; // if we need to wait
+    t->priv[5] = ANIMSCR_THREAD;  // thread
+    ANIMSCR_CMD_NEXT;
+}
+
 
 void AnimationMain()
 {

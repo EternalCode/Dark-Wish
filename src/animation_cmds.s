@@ -11,6 +11,11 @@
 .equ varmax, 0x9013
 .equ gLASTRESULT, 0x800D
 .equ LASTRESULT, 0x900D
+@.equ <, 0
+@.equ ==, 1
+@.equ >, 2
+@.equ <=, 3
+
 @ -----------------------------------------------
 
 @Loads the sprite Id into var_800D
@@ -102,14 +107,14 @@
 .word \addr
 .endm
 
-.macro movesprite var xoff yoff frames
+.macro movesprite var xoff yoff frames boolwait
 .byte 10
 .byte 0
 .hword \var
 .hword \xoff
 .hword \yoff
 .hword \frames
-.byte 0
+.byte \boolwait
 .byte 0
 .endm
 
@@ -560,6 +565,15 @@
 .byte \waveoffset
 .byte 0
 .byte 0
+.endm
+
+.macro movebg id xOffset yOffset duration boolwait
+.byte 62
+.byte \id
+.hword \xOffset
+.hword \yOffset
+.byte \duration
+.byte \boolwait
 .endm
 
 .macro end

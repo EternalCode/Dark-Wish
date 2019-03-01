@@ -13,8 +13,9 @@
 #define deltaX t->priv[1]
 #define deltaY t->priv[2]
 #define framesCount t->priv[3]
-#define thread t->priv[4]
-#define framesPast t->priv[5]
+#define animwait t->priv[4]
+#define thread t->priv[5]
+#define framesPast t->priv[6]
 void TaskMoveSprite(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
@@ -25,16 +26,36 @@ void TaskMoveSprite(u8 taskId)
         spr->pos1.y += deltaY;
         framesPast++;
     } else {
-        gAnimationCore->wait[thread] = false;
+        if (animwait)
+            gAnimationCore->wait[thread] = false;
         DestroyTask(taskId);
     }
 }
+
+void TaskMoveBG(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    if (framesPast < framesCount) {
+        ChangeBgX(id, deltaX << 8, 2);
+        ChangeBgY(id, deltaY << 8, 2);
+        framesPast++;
+    } else {
+        if (animwait)
+            gAnimationCore->wait[thread] = false;
+        DestroyTask(taskId);
+    }
+}
+
+
 #undef id
 #undef deltaX
 #undef deltaY
 #undef framesCount
+#undef animwait
 #undef thread
 #undef framesPast
+
+
 
 // wait X frames before deleting task and undoing wait state
 void TaskWaitFrames(u8 taskId)

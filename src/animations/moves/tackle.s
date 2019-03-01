@@ -20,12 +20,12 @@ blendingPrep:
     if1 0x1 goto animationOpponent
 
 animationPlayer:
-    movesprite attacker 8 0 5
+    movesprite attacker 8 0 5 true
     wait
     rendersprite impactParticle targetx targety nullrsf
     startscript FireworkAnimation true
     startscript scrQuakeSprite true
-    movesprite attacker 0xFFFC 0 10 // -4 xoffset
+    movesprite attacker 0xFFFC 0 10 true
     wait
     pauseframes 30
     end
@@ -36,7 +36,7 @@ animationOpponent:
     rendersprite impactParticle targetx targety nullrsf
     startscript FireworkAnimation true
     startscript scrQuakeSprite true
-    movesprite attacker 4 0 10
+    movesprite attacker 4 0 10 true
     wait
     pauseframes 30
     end

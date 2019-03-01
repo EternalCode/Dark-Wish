@@ -7,6 +7,11 @@
 
 .global FireworkAnimation
 FireworkAnimation:
+    compare targetx 0
+    if1 1 goto FireworkPosInherited
+    fastsetbattlers
+
+FireworkPosInherited:
     loadspritefull glowballSprite glowballPalette glowballOam
     copyvar glowballParticle LASTRESULT
     spriteblend 8 8
