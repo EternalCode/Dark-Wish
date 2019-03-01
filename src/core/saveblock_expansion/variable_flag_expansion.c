@@ -1,5 +1,6 @@
 #include <pokeagb/pokeagb.h>
 #include "save.h"
+#include "../../animations/animation_core.h"
 
 extern void dprintf(const char * str, ...);
 u8 *GetFlagPointer(u16 id)
@@ -35,6 +36,9 @@ u16 *GetVarPointer(u16 id)
         // added vars
         u16 trueVarId = (id - 0x5000) << 1;
         return  (u16*)(EXPANDED_VARS_START + trueVarId);
+    } else if (id >= ANIMVARS) {
+        // animation script vars -- available only during animation. Unsaved
+        return &gAnimationCore->corevars[ANIMSCR_THREAD][id - ANIMVARS];
     } else if (id >= 0x8000 && id <= 0x8016) {
         id -= 0x8000;
         return (u16*)var_80xx[id];

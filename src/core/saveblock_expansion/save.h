@@ -24,7 +24,7 @@
 
 // vars from expanded block used
 #define DEXNAV_VAR 0x5000
-
+#define ANIMVARS 0x9000
 
 
 #endif /* SAVE_MAP_H_ */
