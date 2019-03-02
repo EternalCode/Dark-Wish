@@ -476,11 +476,11 @@ void switch_update_graphical(u8 cursor_position)
         if (i != cursor_position) {
             gSprites[gBattleMaster->switch_main.icon_objid[i]].rotscale_table = switch_scale_table;
             gSprites[gBattleMaster->switch_main.icon_objid[i]].callback = oac_nullsub;
-            obj_rotscale_play(&gSprites[gBattleMaster->switch_main.icon_objid[i]], 0);
+            StartSpriteAffineAnim(&gSprites[gBattleMaster->switch_main.icon_objid[i]], 0);
         } else {
             gSprites[gBattleMaster->switch_main.icon_objid[i]].rotscale_table = switch_scale_table_full;
             gSprites[gBattleMaster->switch_main.icon_objid[i]].callback = icon_frame_change;
-            obj_rotscale_play(&gSprites[gBattleMaster->switch_main.icon_objid[i]], 0);
+            StartSpriteAffineAnim(&gSprites[gBattleMaster->switch_main.icon_objid[i]], 0);
         }
     }
 

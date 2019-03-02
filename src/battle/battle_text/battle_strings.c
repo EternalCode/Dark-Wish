@@ -14,6 +14,12 @@ const pchar str_stat_mod_cant_go_lower_o[] = _("{FOE}{ATTACKING_MON}’s {STAT_N
 const pchar str_stat_mod_cant_go_higher_p[] = _("{ATTACKING_MON}’s {STAT_NAME}\nwon’t go any higher!");
 const pchar str_stat_mod_cant_go_higher_o[] = _("{FOE}{ATTACKING_MON}’s {STAT_NAME}\nwon’t go any higher!");
 
+const pchar str_broke_free[] = _("Oh no! the Pokémon broke free!");
+const pchar str_appeared_caught[] = _("Aww! it appeared to be caught!");
+const pchar str_almost_had_it[] = _("Aargh! Almost had it!");
+const pchar str_so_close_too[] = _("Gah! It was so close, too!");
+const pchar str_gotcha_caught[] = _("Gotcha! {DEFENDING_MON} was caught!\p");
+
 
 const pchar str_atk_used_o[] = _("{FOE}{ATTACKING_MON} used\n{ATTACK_NAME}!");
 const pchar str_infatuated_o[] = _("{FOE}{ATTACKING_MON}\nis immobolized by love!");
@@ -454,5 +460,10 @@ const pchar* battle_strings[STRINGS_TABLE_MAX] = {
    (pchar*)&str_learn_move, // 205
    (pchar*)&str_used_item, // 206
    (pchar*)&str_inlove, // 207
+   (pchar*)&str_broke_free, // 208
+   (pchar*)&str_appeared_caught, // 209
+   (pchar*)&str_almost_had_it, // 210
+   (pchar*)&str_so_close_too, // 211
+   (pchar*)&str_gotcha_caught, // 212
 
 };

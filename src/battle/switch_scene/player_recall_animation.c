@@ -71,7 +71,7 @@ void pkmn_player_normal_switch()
                 gSprites[objid].data[0] = 0;
                 gSprites[objid].callback = pkmn_recall_cb;
                 OBJID_SHOW_AFFINE(objid);
-                obj_rotscale_play(&gSprites[objid], 0);
+                StartSpriteAffineAnim(&gSprites[objid], 0);
                 // fade only this OAM's palette to pink
                 u8 pal_slot = gSprites[objid].final_oam.palette_num;
                 u32 pal_fade = ((1 << (pal_slot + 16)));
