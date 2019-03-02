@@ -13,6 +13,7 @@
 #include "../../generated/images/battle_animations/impact2.h"
 #include "../../generated/images/battle_animations/impact2.h"
 #include "../../generated/images/battle_animations/pokeball_particles.h"
+#include "../../generated/images/battle_animations/capture_star.h"
 
 
 extern const struct Frame (**nullframe)[];
@@ -210,17 +211,23 @@ const struct Frame* pokeballFrames[] = {
 
 const struct RotscaleFrame pokeballLeftTiltAffineTable[] = {
     {0, 0, 0, 1, 0},
-    {0, 0, -3, 10, 0},
-    {0, 0, 0, 10, 0},
-    {0, 0, 3, 10, 0},
+    {0, 0, -6, 5, 0},
+    {0, 0, 0, 5, 0},
+    {0, 0, 6, 5, 0},
+    {0, 0, 6, 3, 0},
+    {0, 0, 0, 3, 0},
+    {0, 0, -6, 3, 0},
     {0x7FFF, 0, 0, 0, 0}
 };
 
 const struct RotscaleFrame pokeballRightTiltAffineTable[] = {
     {0, 0, 0, 1, 0},
-    {0, 0, 3, 10, 0},
-    {0, 0, 0, 10, 0},
-    {0, 0, -3, 10, 0},
+    {0, 0, 6, 5, 0},
+    {0, 0, 0, 5, 0},
+    {0, 0, -6, 5, 0},
+    {0, 0, -6, 3, 0},
+    {0, 0, 0, 3, 0},
+    {0, 0, 6, 3, 0},
     {0x7FFF, 0, 0, 0, 0}
 };
 
@@ -253,6 +260,17 @@ const struct Frame pokeballParticleLoop[] = {
     {0xFFFE, 0},
 };
 const struct Frame* pokeballParticleLoopPtr[] = {pokeballParticleLoop};
+
+// Pokeball capture sucess stars particle
+const struct CompressedSpriteSheet starParticleSprite = {(void*)&capture_starTiles, 32 * 1 * 1, 412};
+const struct SpritePalette starParticlePalette = {&capture_starPal, 412};
+
+const struct OamData StarParticleOam = {
+    .size = 0,
+    .priority = 0,
+};
+
+
 
 
 /*

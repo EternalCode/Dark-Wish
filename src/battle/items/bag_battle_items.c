@@ -120,8 +120,10 @@ void PokeballStartAction(u8 bank)
     struct action* a;
 
     if (ACTIVE_BANK(OPPONENT_SINGLES_BANK)) {
+        TARGET_OF(bank) = OPPONENT_SINGLES_BANK;
         a = prepend_action(bank, OPPONENT_SINGLES_BANK, ActionHighPriority, EventPlayAnimation);
     } else {
+        TARGET_OF(bank) = OPPONENT_DOUBLES_BANK;
         a = prepend_action(bank, OPPONENT_DOUBLES_BANK, ActionHighPriority, EventPlayAnimation);
     }
     a->script = (u32)&AnimCapturePokeball;

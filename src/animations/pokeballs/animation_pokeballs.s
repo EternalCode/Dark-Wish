@@ -7,6 +7,11 @@
 .equ shakes, 0x9007
 .equ shakedir, 0x9008
 .equ captureStatus, 0x9009
+.equ starSprite1, 0x900A
+.equ starSprite2, 0x900B
+.equ starSprite3, 0x900C
+.equ ballx, 0x900E
+.equ bally, 0x900F
 
 .global AnimCapturePokeball
 AnimCapturePokeball:
@@ -78,7 +83,7 @@ shakeRight:
 
 checkCapture:
     compare captureStatus 4
-    if1 0x1 goto finish
+    if1 0x1 goto caught
     // pokemon needs to be released from ball
     setframessprite 0 ballSprite pokeballFrames
     copyvar 0x8000 ballSprite
@@ -90,8 +95,47 @@ checkCapture:
     runtask TaskDrawPokeballGlitter ballSprite 0 0 0
     pauseframes 15
     deletesprite ballSprite
+    end
 
-finish:
+caught:
+    // stars appear going downward for a few frames
+    startscript AnimStarsMove true
+    // fade black
+    spriteblend2 ballSprite 10 0
+    pauseframes 20
+    spriteblend2 ballSprite 5 0
+    pauseframes 2
+    spriteblend2 ballSprite 0 0
+    pauseframes 2
     end
 
 .pool
+
+
+AnimStarsMove:
+    spritebufferposition ballSprite ballx bally
+    loadspritefull starParticleSprite starParticlePalette StarParticleOam
+    copyvar starSprite1 LASTRESULT
+    loadsprite starParticleSprite starParticlePalette StarParticleOam
+    copyvar starSprite2 LASTRESULT
+    loadsprite starParticleSprite starParticlePalette StarParticleOam
+    copyvar starSprite3 LASTRESULT
+    subvar bally 4
+    BLOCKCMD
+    spritecallback starSprite1 SCB_SpriteBlink
+    spritecallback starSprite2 SCB_SpriteBlink
+    spritecallback starSprite3 SCB_SpriteBlink
+    rendersprite starSprite1 ballx bally nullrsf
+    rendersprite starSprite2 ballx bally nullrsf
+    rendersprite starSprite3 ballx bally nullrsf
+    movesprite starSprite1 0 1 8 false
+    movesprite starSprite2 0xFFFF 1 8 false
+    movesprite starSprite3 1 1 8 true
+    OPENCMD
+    wait
+    BLOCKCMD
+    deletesprite starSprite1
+    deletesprite starSprite2
+    deletesprite starSprite3
+    OPENCMD
+    end

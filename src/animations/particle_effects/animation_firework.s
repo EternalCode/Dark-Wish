@@ -18,6 +18,7 @@ FireworkPosInherited:
     spritetobg target 8 8
 
 FireworkLoop:
+    BLOCKCMD
     runtask TaskCreateSmallFireworkImpact 0 3 targetx targety
     runtask TaskCreateSmallFireworkImpact 0 3 targetx targety
     runtask TaskCreateSmallFireworkImpact 0 2 targetx targety
@@ -26,6 +27,7 @@ FireworkLoop:
     runtask TaskCreateSmallFireworkImpact 0 1 targetx targety
     runtask TaskCreateSmallFireworkImpact 0 0 targetx targety
     runtask TaskCreateSmallFireworkImpact 0 0 targetx targety
+    OPENCMD
 
 FireworkFinish:
     waittask TaskCreateSmallFireworkImpact
