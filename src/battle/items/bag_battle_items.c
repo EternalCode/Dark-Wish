@@ -116,12 +116,6 @@ void PokeballStartAction(u8 bank)
         if (!ShakeBall(rate))
             break;
     }
-    if (shakes == 4) {
-        // if pokemon is captured, add it to party/box
-        AddOpponentPokemonToPlayer();
-        struct action* bo = add_action(0xFF, 0xFF, ActionHighPriority, EventEndBattle);
-        bo->active_override = true;
-    }
     // call animation script
     struct action* a;
 
@@ -132,6 +126,29 @@ void PokeballStartAction(u8 bank)
     }
     a->script = (u32)&AnimCapturePokeball;
     a->priv[0] = shakes;
+    switch (shakes) {
+        case 0:
+            QueueMessage(0, bank, STRING_BROKE_FREE, 0);
+            break;
+        case 1:
+            QueueMessage(0, bank, STRING_APPEARED_CAUGHT, 0);
+            break;
+        case 2:
+            QueueMessage(0, bank, STRING_ALMOST_HAD_IT, 0);
+            break;
+        case 3:
+            QueueMessage(0, bank, STRING_SO_CLOSE_TOO, 0);
+            break;
+        case 4:
+            {
+                // if pokemon is captured, add it to party/box
+                QueueMessage(0, bank, STRING_GOTCHA_CAUGHT, 0);
+                AddOpponentPokemonToPlayer();
+                struct action* bo = prepend_action(0xFF, 0xFF, ActionHighPriority, EventEndBattle);
+                bo->active_override = true;
+            }
+
+    };
 }
 
 

@@ -25,7 +25,7 @@ burnLoop:
     if1 0x1 goto finishburn
     loadsprite burnSprite burnPalette burnOam
     copyvar burnParticle LASTRESULT
-    animatesprite burnParticle burnAffinePtr
+    animatesprite burnParticle burnAffinePtr 0
     runtask TaskBurnEffect burnParticle 0 0 0
     addvar counter 1
     goto burnLoop
@@ -116,7 +116,7 @@ freezeLoop:
     if1 0x1 goto finishfreeze
     loadsprite freezeSprite freezePalette freezeOam
     copyvar freezeParticle LASTRESULT
-    animatesprite freezeParticle freezeAffinePtr
+    animatesprite freezeParticle freezeAffinePtr 0
     runtask TaskFreezeEffect freezeParticle 0 0 0
     pauseframes 2
     addvar counter 1
@@ -241,7 +241,7 @@ sleepLoop:
     if1 0x1 goto finishsleep
     loadsprite sleepSprite sleepPalette sleepOam
     copyvar sleepParticle LASTRESULT
-    animatesprite sleepParticle sleepAffinePtr
+    animatesprite sleepParticle sleepAffinePtr 0
     runtask TaskMoveSleepZ sleepParticle 1 12 30
     pauseframes 20
     addvar counter 1

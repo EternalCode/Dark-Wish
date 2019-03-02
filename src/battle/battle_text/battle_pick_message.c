@@ -234,6 +234,11 @@ void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type,
             case STRING_LEARN_MOVE:
             case STRING_USED_ITEM:
             case STRING_IN_LOVE:
+            case STRING_BROKE_FREE:
+            case STRING_APPEARED_CAUGHT:
+            case STRING_ALMOST_HAD_IT:
+            case STRING_SO_CLOSE_TOO:
+            case STRING_GOTCHA_CAUGHT:
                 fdecoder_battle(battle_strings[id], user_bank, moveId, move_effect_id);
                 break;
             case STRING_IMMUNE_ABILITY:

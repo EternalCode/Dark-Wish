@@ -185,6 +185,7 @@ const struct CompressedSpriteSheet pokeballSprite = {(void*)&pokeballTiles, 32 *
 const struct SpritePalette pokeballPalette = {&pokeballPal, 409};
 
 const struct OamData pokeballOam = {
+    .affine_mode = 1,
     .size = 1,
     .priority = 1,
 };
@@ -209,19 +210,23 @@ const struct Frame* pokeballFrames[] = {
 
 const struct RotscaleFrame pokeballLeftTiltAffineTable[] = {
     {0, 0, 0, 1, 0},
-    {0, 0, -30, 10, 0},
-    {0, 0, 30, 10, 0},
+    {0, 0, -3, 10, 0},
+    {0, 0, 0, 10, 0},
+    {0, 0, 3, 10, 0},
     {0x7FFF, 0, 0, 0, 0}
 };
 
 const struct RotscaleFrame pokeballRightTiltAffineTable[] = {
     {0, 0, 0, 1, 0},
-    {0, 0, 30, 10, 0},
-    {0, 0, -30, 10, 0},
+    {0, 0, 3, 10, 0},
+    {0, 0, 0, 10, 0},
+    {0, 0, -3, 10, 0},
     {0x7FFF, 0, 0, 0, 0}
 };
 
 const struct Frame* pokeballOpenPtr[] = {pokeballOpen};
+const u32 pokeballLeftTiltAffineTablePtr = (u32)&pokeballLeftTiltAffineTable;
+const u32 pokeballRightTiltAffineTablePtr = (u32)&pokeballRightTiltAffineTable;
 
 // impact2 sprite
 const struct CompressedSpriteSheet impact2Sprite = {(void*)&impact2Tiles, 32 * 4 * 4, 410};
@@ -233,11 +238,11 @@ const struct OamData impact2Oam = {
 };
 
 // Pokeball particles when opened or closed
-const struct CompressedSpriteSheet pokeballParticleSprite = {(void*)&pokeball_particlesTiles, 32 * 4 * 4 * 3, 411};
-const struct SpritePalette pokeballParticlePalette = {&pokeball_particlesPal, 412};
+const struct CompressedSpriteSheet pokeballParticleSprite = {(void*)&pokeball_particlesTiles, 32 * 1 * 1 * 3, 411};
+const struct SpritePalette pokeballParticlePalette = {&pokeball_particlesPal, 411};
 
 const struct OamData pokeballParticleOam = {
-    .size = 2,
+    .size = 0,
     .priority = 1,
 };
 

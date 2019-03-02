@@ -139,9 +139,9 @@
 .hword \frames
 .endm
 
-.macro animatesprite var rotscaletable
+.macro animatesprite var rotscaletable index
 .byte 14
-.byte 0
+.byte \index
 .hword \var
 .word \rotscaletable
 .endm
@@ -574,6 +574,12 @@
 .hword \yOffset
 .byte \duration
 .byte \boolwait
+.endm
+
+.macro copyactionpriv var
+.byte 63
+.byte 0
+.hword \var
 .endm
 
 .macro end

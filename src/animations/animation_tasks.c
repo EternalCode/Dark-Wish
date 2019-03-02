@@ -646,6 +646,116 @@ void TaskTranslateSpriteHorizontalArc(u8 taskId)
 #undef dstY
 #undef speed
 
+extern const struct CompressedSpriteSheet pokeballParticleSprite;
+extern const struct SpritePalette pokeballParticlePalette;
+extern const struct OamData pokeballParticleOam;
+extern const struct Frame* pokeballParticleLoopPtr[];
+
+#define basemovement 1
+#define spritedur 40
+#define randfactor 16
+void SCBMoveSpriteLinear(struct Sprite* s)
+{
+    s->pos1.x += s->data[0];
+    s->pos1.y += s->data[1];
+    s->data[2]++;
+    if (s->data[2] > spritedur) {
+        FreeSpriteOamMatrix(s);
+        obj_free(s);
+    }
+}
+
+
+void TaskDrawPokeballGlitter(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    struct Sprite* sprite = &gSprites[t->priv[1]]; // ballsprite
+
+    switch (t->priv[0]) {
+        case 0:
+        {
+            // make the sprites
+            struct CompressedSpriteSheet gfx = (struct CompressedSpriteSheet)pokeballParticleSprite;
+            struct SpritePalette pal = (struct SpritePalette)pokeballParticlePalette;
+            struct Template spriteTemp = {gfx.tag, pal.tag, &pokeballParticleOam, (void*)pokeballParticleLoopPtr, &gfx, nullrsf, (SpriteCallback)SCBMoveSpriteLinear};
+            LoadCompressedSpriteSheetUsingHeap(&gfx);
+            LoadCompressedSpritePaletteUsingHeap(&pal);
+            u8 spriteId = template_instanciate_forward_search(&spriteTemp, sprite->pos1.x, sprite->pos1.y, 0);
+            switch (t->priv[10]) {
+                case 0:
+                    // axis y = 0, for all positive X
+                    gSprites[spriteId].data[0] = basemovement;
+                    gSprites[spriteId].data[1] = 0;
+                    // randomize start position
+                    gSprites[spriteId].pos1.x += rand() % randfactor;
+                    break;
+                case 1:
+                    // axis y = 0, for all negative x
+                    gSprites[spriteId].data[0] = -basemovement;
+                    gSprites[spriteId].data[1] = 0;
+                    // randomize start position
+                    gSprites[spriteId].pos1.x -= rand() % randfactor;
+                    break;
+                case 2:
+                    // axis x = 0, for all positive y
+                    gSprites[spriteId].data[0] = 0;
+                    gSprites[spriteId].data[1] = basemovement;
+                    // randomize start position
+                    gSprites[spriteId].pos1.y += rand() % randfactor;
+                    break;
+                case 3:
+                    // axis x = 0, for all negative y
+                    gSprites[spriteId].data[0] = 0;
+                    gSprites[spriteId].data[1] = -basemovement;
+                    // randomize start position
+                    gSprites[spriteId].pos1.y -= rand() % randfactor;
+                    break;
+                case 4:
+                    // y = x, for all positive x
+                    gSprites[spriteId].data[0] = basemovement;
+                    gSprites[spriteId].data[1] = basemovement;
+                    // randomize start position
+                    gSprites[spriteId].pos1.x += rand() % randfactor;
+                    gSprites[spriteId].pos1.y += rand() % randfactor;
+                    break;
+                case 5:
+                    // y = x, for all negative x
+                    gSprites[spriteId].data[0] = -basemovement;
+                    gSprites[spriteId].data[1] = basemovement;
+                    // randomize start position
+                    gSprites[spriteId].pos1.x -= rand() % randfactor;
+                    gSprites[spriteId].pos1.y += rand() % randfactor;
+                    break;
+                case 6:
+                    // y = -x, for all positive x
+                    gSprites[spriteId].data[0] = basemovement;
+                    gSprites[spriteId].data[1] = -basemovement;
+                    // randomize start position
+                    gSprites[spriteId].pos1.x += rand() % randfactor;
+                    gSprites[spriteId].pos1.y -= rand() % randfactor;
+                    break;
+                case 7:
+                    // y = -x, for all negative x
+                    gSprites[spriteId].data[0] = -basemovement;
+                    gSprites[spriteId].data[1] = -basemovement;
+                    // randomize start position
+                    gSprites[spriteId].pos1.x -= rand() % randfactor;
+                    gSprites[spriteId].pos1.y -= rand() % randfactor;
+                    break;
+            };
+            t->priv[10]++;
+            if (t->priv[10] == 8)
+                t->priv[0]++;
+            break;
+        }
+        case 1:
+            DestroyTask(taskId);
+            break;
+    };
+
+}
+
+
 
 #undef gtargetx
 #undef gtargety

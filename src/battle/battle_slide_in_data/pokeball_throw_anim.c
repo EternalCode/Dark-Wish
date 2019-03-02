@@ -17,12 +17,62 @@ static const struct RotscaleFrame shrink_grow[] = {
 
 static const struct RotscaleFrame rotAnimShrink[] = {
     {0, 0, 0, 6, 0},
-    {-20, -20, 0, 10, 0},
+    {-10, -10, 0, 20, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+
+static const struct RotscaleFrame rotAnimGrow[] = {
+    {-200, -200, 0, 1, 0},
+    {0, 0, 0, 6, 0},
+    {10, 10, 0, 20, 0},
     {0x7FFF, 0, 0, 0, 0}
 };
 
 static const struct RotscaleFrame* shrink_grow_ptr[] = {shrink_grow};
 const struct RotscaleFrame* rotAnimShrinkPtr[] = {rotAnimShrink};
+const struct RotscaleFrame* rotAnimGrowPtr[] = {rotAnimGrow};
+
+void PokemonReleaseFromPokeballSCB(struct Sprite* spr)
+{
+    switch (spr->data[1]) {
+        case 0:
+            // fade bg pals except textbox bg and text color
+            BeginNormalPaletteFade((0xFFFF & ~(1 << 5)) & ~(1 << 7), 5, 16, 0, 0xFFFF);
+            spr->data[0] = 16;
+            spr->data[1]++;
+            spr->final_oam.priority = 2;
+            spr->invisible = false;
+            spr->rotscale_table = rotAnimGrowPtr;
+            spr->final_oam.affine_mode = 1;
+            StartSpriteAffineAnim(spr, 0);
+            spr->pos1.y += 22;
+            VarSet(0x8000, 0);
+            break;
+        case 1:
+            if (spr->affineAnimEnded) {
+                REG_BLDCNT = 0;
+                spr->data[1] = 2;
+                VarSet(0x8000, 0x1);
+                return;
+            }
+            break;
+        case 2:
+            {
+                u8 pal_slot = spr->final_oam.palette_num;
+                BlendPalette((pal_slot * 16) + (16 * 16), 16, spr->data[0], 0x7ADF);
+                if (spr->data[0] == 0) {
+                    spr->callback = oac_nullsub;
+                    spr->final_oam.priority = 3;
+                    spr->data[0] = 0;
+                    spr->data[1] = 0;
+                    VarSet(0x8000, 0x1);
+                    return;
+                }
+                spr->data[0] = (spr->data[0] == 0 ? spr->data[0] : spr->data[0] - 1);
+            }
+            break;
+    };
+}
 
 void PokemonCaptureIntoPokeballSCB(struct Sprite* spr)
 {
@@ -31,27 +81,100 @@ void PokemonCaptureIntoPokeballSCB(struct Sprite* spr)
         case 0:
             // fade bgs pals except textbox bg and text color
             BeginNormalPaletteFade((0xFFFF & ~(1 << 5)) & ~(1 << 7), 5, 16, 0, 0xFFFF);
+            VarSet(0x8000, 0x0);
             spr->data[0] = 0;
             spr->data[1]++;
             spr->rotscale_table = rotAnimShrinkPtr;
             spr->final_oam.affine_mode = 1;
             break;
         case 1:
-            if (spr->data[0] > 16) {
+            if (spr->affineAnimEnded) {
                 REG_BLDCNT = 0;
                 spr->callback = oac_nullsub;
                 spr->invisible = true;
+                spr->data[0] = 0;
+                spr->data[1] = 0;
+                VarSet(0x8000, 0x1);
                 return;
             } else if (spr->data[0] > 3) {
                 // shrink and Move up
-                spr->pos1.y -= 3;
+                spr->pos1.y -= 1;
             }
             u8 pal_slot = spr->final_oam.palette_num;
             BlendPalette((pal_slot * 16) + (16 * 16), 16, spr->data[0], 0x7ADF);
-            spr->data[0]++;
+            spr->data[0] = (spr->data[0] == 16 ? spr->data[0] : spr->data[0] + 1);
             break;
     };
 }
+
+void PokeballBounceSCB(struct Sprite *sprite)
+{
+    bool lastBounce = false;
+    switch (sprite->data[3] & 0xFF) {
+        case 0:
+            sprite->pos2.y = -Cos(sprite->data[5], sprite->data[4]);
+            sprite->data[5] += (sprite->data[3] >> 8) + 4;
+            if (sprite->data[5] >= 64)
+            {
+                sprite->data[4] -= 8;
+                sprite->data[3] += (1 << 8) | 1;
+
+                u32 bounceCount = sprite->data[3] >> 8;
+                if (bounceCount == 4) {
+                    lastBounce = true;
+                }
+
+                // Play a different sound effect for each pokeball bounce.
+                switch (bounceCount)
+                {
+                case 1:
+                    PlaySE(SOUND_POKEBALL_BOUNCE1);
+                    break;
+                case 2:
+                    PlaySE(SOUND_POKEBALL_BOUNCE2);
+                    break;
+                case 3:
+                    PlaySE(SOUND_POKEBALL_BOUNCE3);
+                    break;
+                default:
+                    PlaySE(SOUND_POKEBALL_BOUNCE4);
+                    break;
+                }
+            }
+            break;
+        case 1:
+            sprite->pos2.y = -Cos(sprite->data[5], sprite->data[4]);
+            sprite->data[5] -= (sprite->data[3] >> 8) + 4;
+            if (sprite->data[5] <= 0)
+            {
+                sprite->data[5] = 0;
+                sprite->data[3] &= -0x100;
+            }
+            break;
+    };
+    if (lastBounce) {
+        sprite->data[3] = 0;
+        sprite->pos1.y += Cos(64, 32);
+        sprite->pos2.y = 0;
+        // do next step
+        sprite->callback = oac_nullsub;
+        VarSet(0x8000, 1);
+    }
+}
+
+void PokeballBounceInitSCB(struct Sprite* sprite)
+{
+    u32 angle;
+    sprite->data[3] = 0;
+    sprite->data[4] = 32;
+    sprite->data[5] = 0;
+    angle = 0;
+    sprite->pos1.y += Cos(angle, sprite->data[4]);
+    sprite->pos2.y = -Cos(angle, sprite->data[4]);
+    sprite->callback = PokeballBounceSCB;
+    sprite->final_oam.priority = 3;
+}
+
 
 void pkmn_sendingout_objc(struct Sprite* spr)
 {
