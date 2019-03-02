@@ -69,6 +69,7 @@ void ScriptCmd_hidehpbars(void);
 void ScriptCmd_showhpbars(void);
 void ScriptCmd_orbit(void);
 void ScriptCmd_movebg(void);
+void ScriptCmd_copyactionpriv(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -150,6 +151,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_showhpbars, // 60
     ScriptCmd_orbit, // 61
     ScriptCmd_movebg, // 62
+    ScriptCmd_copyactionpriv, // 63
 };
 
 
@@ -189,6 +191,7 @@ void ScriptCmd_loadspritefull()
     LoadCompressedSpriteSheetUsingHeap(gfx);
     LoadCompressedSpritePaletteUsingHeap(pal);
     u8 spriteId = template_instanciate_forward_search(&spriteTemp, 0, 0, 0);
+    gSprites[spriteId].final_oam.affine_mode = false;
     gSprites[spriteId].invisible = true;
     VarSet(0x900D, spriteId);
     ANIMSCR_CMD_NEXT;
@@ -209,7 +212,7 @@ void ScriptCmd_loadsprite()
     ANIMSCR_CMD_NEXT;
 }
 
-/* Deletes a sprite from the gfx tag */
+/* Deletes a sprite from the spriteId */
 void ScriptCmd_deletesprite()
 {
     // alignment for read
@@ -222,14 +225,14 @@ void ScriptCmd_deletesprite()
     ANIMSCR_CMD_NEXT;
 }
 
-/* show a loaded sprite using it's tag */
+/* show a loaded sprite using it's spriteId */
 void ScriptCmd_rendersprite()
 {
     // alignment for read
     ANIMSCR_MOVE(1);
     // read tag
-    u16 var = ANIMSCR_READ_HWORD;
-    var = VarGet(var);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
     // read positional arguements
     u16 xcontainer = ANIMSCR_READ_HWORD;
     s16 x = VarGet(xcontainer);
@@ -237,13 +240,14 @@ void ScriptCmd_rendersprite()
     s16 y = VarGet(ycontainer);
     // read animation data
     struct RotscaleFrame (**rotscale_table)[] = (void*)ANIMSCR_READ_WORD;
-    struct Sprite* s = &gSprites[var];
+    struct Sprite* s = &gSprites[spriteId];
     s->pos1.x = x;
     s->pos1.y = y;
     s->rotscale_table = rotscale_table;
     s->invisible = false;
     ANIMSCR_CMD_NEXT;
 }
+
 
 /* Var related script commands */
 void ScriptCmd_copyvar()
@@ -409,12 +413,13 @@ void ScriptCmd_waitframes()
 void ScriptCmd_animatesprite()
 {
     // alignment for read
-    ANIMSCR_MOVE(1);
+    u8 index = ANIMSCR_READ_BYTE;
     u16 spriteId = ANIMSCR_READ_HWORD;
     spriteId = VarGet(spriteId);
     struct RotscaleFrame (**rotscale_table)[] = (void*)ANIMSCR_READ_WORD;
     gSprites[spriteId].rotscale_table = rotscale_table;
     gSprites[spriteId].final_oam.affine_mode = 1;
+    StartSpriteAffineAnim(&gSprites[spriteId], index);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -459,8 +464,6 @@ void DrawSpriteToBG1(u8 spriteId, u8 palslotBG, u8 width, u8 height)
     // this keeps ugly tiles from vision because this cmd is not vsynced
     u8 priority = gSprites[spriteId].final_oam.priority;
     gSprites[spriteId].final_oam.priority = 0;
-    // turn on BG 1 display
-    REG_DISPCNT |= DISPCNT_BG1;
     // zerofill tilemap and tileset for BG1
     void* charBase = (void *)0x6008000;
     u16* mapBase = (void*)0x600F000;
@@ -492,6 +495,8 @@ void DrawSpriteToBG1(u8 spriteId, u8 palslotBG, u8 width, u8 height)
     // BG position to sprite position
     REG_BG1HOFS = -gSprites[spriteId].pos1.x + (4 * width);
     REG_BG1VOFS = -gSprites[spriteId].pos1.y + (4 * height);
+    // turn on BG 1 display
+    REG_DISPCNT |= DISPCNT_BG1;
     ChangeBgX(1, (-gSprites[spriteId].pos1.x + (4 * width)) * 256, 0);
     ChangeBgY(1, (-gSprites[spriteId].pos1.y + (4 * height)) * 256, 0);
     REG_BG1CNT = BGCNT_PRIORITY1 | BGCNT_TILESTART2 | BGCNT_MAPSTART(30) | BGCNT_TILEMAPSIZE0;
@@ -1243,6 +1248,15 @@ void ScriptCmd_movebg()
     t->priv[3] = ANIMSCR_READ_BYTE; // Amount of frames to do animation for
     t->priv[4] = ANIMSCR_READ_BYTE; // if we need to wait
     t->priv[5] = ANIMSCR_THREAD;  // thread
+    ANIMSCR_CMD_NEXT;
+}
+
+// copy an action variable from the current action to a script variable
+void ScriptCmd_copyactionpriv()
+{
+    ANIMSCR_MOVE(1);
+    u16 var = ANIMSCR_READ_HWORD;
+    VarSet(var, CURRENT_ACTION->priv[0]);
     ANIMSCR_CMD_NEXT;
 }
 
