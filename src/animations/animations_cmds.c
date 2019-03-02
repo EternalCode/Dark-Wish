@@ -70,6 +70,9 @@ void ScriptCmd_showhpbars(void);
 void ScriptCmd_orbit(void);
 void ScriptCmd_movebg(void);
 void ScriptCmd_copyactionpriv(void);
+void ScriptCmd_spriteblend2(void);
+void ScriptCmd_spritebufferposition(void);
+
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -152,6 +155,8 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_orbit, // 61
     ScriptCmd_movebg, // 62
     ScriptCmd_copyactionpriv, // 63
+    ScriptCmd_spriteblend2, // 64
+    ScriptCmd_spritebufferposition, // 65
 };
 
 
@@ -165,18 +170,35 @@ void InitializeAnimationCore(u8* scr1, u8* scr2, u8* scr3, u8* scr4)
     gAnimationCore->animScriptPtr[3] = scr4;
 }
 
-
+#define ENDCMD 0xFF
+#define BLOCKCMD 0xFE
+#define OPENCMD 0xFD
 void RunCurrentCommand()
 {
     u8 cmd = ANIMSCR_READ_BYTE;
     dprintf("running command id %d for script %x in thread %d\n", cmd, (u32)ANIMSCR_SCRIPT, ANIMSCR_THREAD);
-    if (cmd == 0xFF) {
+    if (cmd == ENDCMD) {
         ANIMSCR_SCRIPT = NULL;
         ANIMSCR_CMD_NEXT;
         return;
+    } else if (cmd == BLOCKCMD) {
+        // keep running commands until command is unblock
+        cmd = ANIMSCR_READ_BYTE;
+        while (cmd != OPENCMD) {
+            dprintf("running blocking command id %d for script %x in thread %d\n", cmd, (u32)ANIMSCR_SCRIPT, ANIMSCR_THREAD);
+            gAnimTable[cmd]();
+            ANIMSCR_THREAD = (ANIMSCR_THREAD == 0) ? 3 : ANIMSCR_THREAD - 1;
+            cmd = ANIMSCR_READ_BYTE;
+        }
+        ANIMSCR_CMD_NEXT;
+    } else {
+        gAnimTable[cmd]();
     }
-    gAnimTable[cmd]();
 }
+#undef ENDCMD
+#undef BLOCKCMD
+#undef OPENCMD
+
 
 /* this will only load the graphics themselves. Later must be initialized as objects */
 void ScriptCmd_loadspritefull()
@@ -1260,6 +1282,31 @@ void ScriptCmd_copyactionpriv()
     ANIMSCR_CMD_NEXT;
 }
 
+// blend a sprite without using the fade structure
+void ScriptCmd_spriteblend2()
+{
+    u8 coefficient = ANIMSCR_READ_BYTE;
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    u16 color = ANIMSCR_READ_HWORD;
+    u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
+    BlendPalette((pal_slot * 16) + (16 * 16), 16, coefficient, color);
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+// buffer a sprite's position into passed vars
+void ScriptCmd_spritebufferposition()
+{
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    u16 buffx = ANIMSCR_READ_HWORD;
+    u16 buffy = ANIMSCR_READ_HWORD;
+    VarSet(buffx, gSprites[spriteId].pos1.x);
+    VarSet(buffy, gSprites[spriteId].pos1.y);
+    ANIMSCR_CMD_NEXT;
+}
 
 void AnimationMain()
 {

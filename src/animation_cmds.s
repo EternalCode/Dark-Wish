@@ -582,6 +582,31 @@
 .hword \var
 .endm
 
+.macro spriteblend2 var coefficient color
+.byte 64
+.byte \coefficient
+.hword \var
+.hword \color
+.byte 0
+.byte 0
+.endm
+
+.macro spritebufferposition var bufferx buffery
+.byte 65
+.byte 0
+.hword \var
+.hword \bufferx
+.hword \buffery
+.endm
+
+.macro BLOCKCMD
+.byte 0xFE
+.endm
+
+.macro OPENCMD
+.byte 0xFD
+.endm
+
 .macro end
 .byte 0xFF
 .endm
