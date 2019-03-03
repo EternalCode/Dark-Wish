@@ -72,6 +72,7 @@ void ScriptCmd_movebg(void);
 void ScriptCmd_copyactionpriv(void);
 void ScriptCmd_spriteblend2(void);
 void ScriptCmd_spritebufferposition(void);
+void ScriptCmd_playmessage(void);
 
 
 extern const struct Frame (**nullframe)[];
@@ -87,8 +88,12 @@ extern void TaskWaitForTask(u8 taskId);
 extern void TaskWaitAnimation(u8 taskId);
 extern void TaskWaitAffineAnimation(u8 taskId);
 extern void TaskMoveBG(u8 taskId);
+extern void TaskWaitAnimMessage(u8 taskId);
 extern void battle_loop(void);
 extern void InitAnimLinearTranslation(struct Sprite *sprite);
+extern void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type, enum battle_string_ids id, u16 move_effect_id);
+extern void ShowBattleMessage2(pchar* str, u8 rboxid);
+
 
 const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_loadspritefull, // 0
@@ -157,6 +162,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_copyactionpriv, // 63
     ScriptCmd_spriteblend2, // 64
     ScriptCmd_spritebufferposition, // 65
+    ScriptCmd_playmessage, // 66
 };
 
 
@@ -1276,9 +1282,9 @@ void ScriptCmd_movebg()
 // copy an action variable from the current action to a script variable
 void ScriptCmd_copyactionpriv()
 {
-    ANIMSCR_MOVE(1);
+    u8 privId = ANIMSCR_READ_BYTE;
     u16 var = ANIMSCR_READ_HWORD;
-    VarSet(var, CURRENT_ACTION->priv[0]);
+    VarSet(var, CURRENT_ACTION->priv[privId]);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1305,6 +1311,23 @@ void ScriptCmd_spritebufferposition()
     u16 buffy = ANIMSCR_READ_HWORD;
     VarSet(buffx, gSprites[spriteId].pos1.x);
     VarSet(buffy, gSprites[spriteId].pos1.y);
+    ANIMSCR_CMD_NEXT;
+}
+
+// play a message
+void ScriptCmd_playmessage()
+{
+    u8 bank = ANIMSCR_READ_BYTE;
+    bank = VarGet(bank);
+    u16 move = ANIMSCR_READ_HWORD;
+    move = VarGet(move);
+    enum battle_string_ids id = ANIMSCR_READ_HWORD;
+    u16 effect = ANIMSCR_READ_HWORD;
+    effect = VarGet(effect);
+    pick_battle_message(move, bank, battle_type_flag, id, effect);
+    ShowBattleMessage2((u8*)string_buffer, 0x1);
+    CreateTask(TaskWaitAnimMessage, 0);
+    // to wait for the cmd to finish, you must use waittask on TaskWaitAnimMessage
     ANIMSCR_CMD_NEXT;
 }
 

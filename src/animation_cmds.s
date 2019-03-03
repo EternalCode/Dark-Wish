@@ -576,9 +576,9 @@
 .byte \boolwait
 .endm
 
-.macro copyactionpriv var
+.macro copyactionpriv var id
 .byte 63
-.byte 0
+.byte \id
 .hword \var
 .endm
 
@@ -597,6 +597,14 @@
 .hword \var
 .hword \bufferx
 .hword \buffery
+.endm
+
+.macro playmessage bank move id effect
+.byte 66
+.byte \bank
+.hword \move
+.hword \id
+.hword \effect
 .endm
 
 .macro BLOCKCMD
