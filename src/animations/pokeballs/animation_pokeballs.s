@@ -53,7 +53,7 @@ waitloop2:
     if1 0x1 goto waitloop2
     pauseframes 10
     // shaking should happen now
-    copyactionpriv shakes
+    copyactionpriv shakes 0
     setvar shakedir 0
     copyvar captureStatus shakes
 

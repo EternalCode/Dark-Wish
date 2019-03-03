@@ -14,6 +14,8 @@
 #include "../../generated/images/battle_animations/impact2.h"
 #include "../../generated/images/battle_animations/pokeball_particles.h"
 #include "../../generated/images/battle_animations/capture_star.h"
+#include "../../generated/images/battle_animations/yesno.h"
+#include "../../generated/images/battle_animations/yesno_cursor.h"
 
 
 extern const struct Frame (**nullframe)[];
@@ -270,6 +272,23 @@ const struct OamData StarParticleOam = {
     .priority = 0,
 };
 
+// Yes no choice box for..whatever choices
+const struct CompressedSpriteSheet yesnoBoxSprite = {(void*)&yesnoTiles, 32 * 8 * 8, 413};
+const struct SpritePalette yesnoBoxPalette = {&yesnoPal, 413};
+
+const struct OamData yesnoBoxOam = {
+    .size = 3,
+    .priority = 1,
+};
+
+// a cursor meant for the yesno box
+const struct CompressedSpriteSheet yesnoCursorSprite = {(void*)&yesno_cursorTiles, 32 * 8 * 8, 414};
+const struct SpritePalette yesnoCursorPalette = {&yesno_cursorPal, 414};
+
+const struct OamData yesnoCursorOam = {
+    .size = 1,
+    .priority = 0,
+};
 
 
 
