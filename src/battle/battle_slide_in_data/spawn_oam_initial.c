@@ -1,6 +1,7 @@
 #include <pokeagb/pokeagb.h>
 #include "battle_obj_sliding.h"
 #include "../battle_data/pkmn_bank.h"
+#include "../battle_data/pkmn_bank_stats.h"
 #include "../../global.h"
 #include "../../pokemon/pokemon.h"
 
@@ -184,8 +185,10 @@ void create_sprites_wild_battlers()
 
 void create_sprites_battle_mons_wild()
 {
-    gPkmnBank[OPPONENT_SINGLES_BANK]->objid = spawn_pkmn_obj_slot(OPPONENT_SINGLES_BANK, OPP1_BTAG);
-    gPkmnBank[PLAYER_SINGLES_BANK]->objid = spawn_pkmn_backsprite_obj_slot(PLAYER_SINGLES_BANK, PLAYER_BTAG);
+    if (ACTIVE_BANK(OPPONENT_SINGLES_BANK))
+        gPkmnBank[OPPONENT_SINGLES_BANK]->objid = spawn_pkmn_obj_slot(OPPONENT_SINGLES_BANK, OPP1_BTAG);
+    if (ACTIVE_BANK(PLAYER_SINGLES_BANK))
+        gPkmnBank[PLAYER_SINGLES_BANK]->objid = spawn_pkmn_backsprite_obj_slot(PLAYER_SINGLES_BANK, PLAYER_BTAG);
 }
 
 
