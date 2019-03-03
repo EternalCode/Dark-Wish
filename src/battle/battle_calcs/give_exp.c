@@ -226,7 +226,7 @@ void TaskLearnMove(u8 taskId)
     switch (tasks[taskId].priv[0]) {
         case 0:
             gMain.callback1 = NULL;
-            ShowSelectMovePokemonSummaryScreen(party_player, CURRENT_ACTION->priv[1], count_pokemon(), ReturnToBattleFromMoveMenu, MOVE_EMBER);
+            ShowSelectMovePokemonSummaryScreen(party_player, CURRENT_ACTION->priv[1], count_pokemon(), ReturnToBattleFromMoveMenu, CURRENT_ACTION->priv[0]);
             gSummarySelectedMove = 0xFF;
             tasks[taskId].priv[0]++;
             break;
@@ -240,4 +240,13 @@ void TaskLearnMove(u8 taskId)
             break;
         }
     };
+}
+
+void TaskSetSlotMove(u8 taskId)
+{
+    u8 partySlot = CURRENT_ACTION->priv[1];
+    u16 move = CURRENT_ACTION->priv[0];
+    pokemon_setattr(&party_player[partySlot], REQUEST_MOVE1 + gSummarySelectedMove, &move);
+    pokemon_setattr(&party_player[partySlot], REQUEST_PP1 + gSummarySelectedMove, &gBattleMoves[move].pp);
+    DestroyTask(taskId);
 }

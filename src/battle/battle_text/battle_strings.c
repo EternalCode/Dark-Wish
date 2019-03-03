@@ -20,6 +20,7 @@ const pchar str_almost_had_it[] = _("Aargh! Almost had it!");
 const pchar str_so_close_too[] = _("Gah! It was so close, too!");
 const pchar str_gotcha_caught[] = _("Gotcha! {DEFENDING_MON} was caught!\p");
 
+const pchar str_forgot_selected_move[] = _("{ATTACKING_MON} forgot {ATTACK_NAME}\nand learned {MOVE_NAME_TWO}!\p");
 const pchar str_confirm_forget[] = _("Forget {ATTACK_NAME} to\nlearn {MOVE_NAME_TWO}?");
 const pchar str_stop_learning_move[] = _("Stop learning\n{MOVE_NAME_TWO}?");
 const pchar str_wants_to_learn_move[] = _("{PSLOT_MON} wants to learn the\nmove {MOVE_NAME_TWO}\lbut {PSLOT_MON} can’t learn\lmore than 4 moves.\pMake it forget another move?");
@@ -472,5 +473,6 @@ const pchar* battle_strings[STRINGS_TABLE_MAX] = {
    (pchar*)&str_what_move_to_forget, // 214
    (pchar*)&str_stop_learning_move, // 215
    (pchar*)&str_confirm_forget, // 216
+   (pchar*)&str_forgot_selected_move, // 217
 
 };
