@@ -20,7 +20,7 @@ const pchar str_almost_had_it[] = _("Aargh! Almost had it!");
 const pchar str_so_close_too[] = _("Gah! It was so close, too!");
 const pchar str_gotcha_caught[] = _("Gotcha! {DEFENDING_MON} was caught!\p");
 
-
+const pchar str_wants_to_learn_move[] = _("{PSLOT_MON} wants to learn the\nmove {MOVE_NAME_TWO}\lbut {PSLOT_MON} can’t learn\lmore than 4 moves.\pMake it forget another move?");
 const pchar str_atk_used_o[] = _("{FOE}{ATTACKING_MON} used\n{ATTACK_NAME}!");
 const pchar str_infatuated_o[] = _("{FOE}{ATTACKING_MON}\nis immobolized by love!");
 const pchar str_inlove[] = _("{FOE}{ATTACKING_MON} is in love.");
@@ -465,5 +465,6 @@ const pchar* battle_strings[STRINGS_TABLE_MAX] = {
    (pchar*)&str_almost_had_it, // 210
    (pchar*)&str_so_close_too, // 211
    (pchar*)&str_gotcha_caught, // 212
+   (pchar*)&str_wants_to_learn_move, // 213
 
 };
