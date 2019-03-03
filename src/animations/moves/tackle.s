@@ -31,7 +31,7 @@ animationPlayer:
     end
 
 animationOpponent:
-    movesprite attacker 0xFFF8 0 5
+    movesprite attacker 0xFFF8 0 5 true
     wait
     rendersprite impactParticle targetx targety nullrsf
     startscript FireworkAnimation true
