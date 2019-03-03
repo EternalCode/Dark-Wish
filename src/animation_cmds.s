@@ -601,7 +601,10 @@
 
 .macro playmessage bank move id effect
 .byte 66
-.byte \bank
+.byte 0
+.byte 0
+.byte 0
+.hword \bank
 .hword \move
 .hword \id
 .hword \effect

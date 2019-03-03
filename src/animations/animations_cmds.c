@@ -1317,7 +1317,8 @@ void ScriptCmd_spritebufferposition()
 // play a message
 void ScriptCmd_playmessage()
 {
-    u8 bank = ANIMSCR_READ_BYTE;
+    ANIMSCR_MOVE(3);
+    u16 bank = ANIMSCR_READ_HWORD;
     bank = VarGet(bank);
     u16 move = ANIMSCR_READ_HWORD;
     move = VarGet(move);
