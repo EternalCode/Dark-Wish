@@ -20,8 +20,10 @@ extern void ResetAndHideBGs(void);
 extern void validate_player_selected_move(void);
 extern void free_unused_objs(void);
 extern bool bank_trapped(u8 bank);
+extern void AnimationMain(void);
 extern struct action* QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
 extern struct TextboxTemplate BattleTextBoxes[];
+extern void NullBattleSpriteTracker(void);
 
 void return_to_battle()
 {
@@ -192,5 +194,77 @@ void ReturnToBattleFromBag()
             }
             break;
     };
+}
 
+
+void ReturnToBattleFromMoveMenu()
+{
+    switch (gMain.state) {
+        case 0:
+            if (gPaletteFade.active)
+                return;
+            // display
+            lcd_io_set(0x4C, 0);
+            REG_WININ = WININ_BUILD(WIN_BG0 | WIN_BG1 | WIN_BG2 | WIN_BG3 | WIN_OBJ | WIN_BLD,
+            WIN_BG0 | WIN_BG1 | WIN_BG2 | WIN_BG3 | WIN_OBJ | WIN_BLD);
+            rboxes_free();
+
+            // callbacks
+            HandlersClear();
+            SetMainCallback(ReturnToBattleFromMoveMenu);
+            SetMainCallback2((MainCallback)C2SyncAll);
+            SetVBlankCallback((MainCallback)VblankMergeTextBox);
+
+            // BG stuff
+            u32 set = 0;
+            CpuFastSet((void*)&set, (void*)ADDR_VRAM, CPUModeFS(0x10000, CPUFSSET));
+            ResetPals();
+            gpu_tile_bg_drop_all_sets(0);
+            bg_vram_setup(0, (struct BgConfig *)&configBattleReturn, 4);
+            // // init textbox
+            rbox_init_from_templates((struct TextboxTemplate*)&BattleTextBoxes[0]);
+            LoadPalette((void*)stdpal_get(0), 16 * 7, 32);
+            // BGs
+            pick_and_load_battle_bgs_no_entry(battle_textboxMap);
+            HideBg(0);
+            HideBg(1);
+            HideBg(2);
+            HideBg(3);
+            gMain.state++;
+            break;
+        case 1:
+            {
+            // objs
+            for (u8 i = 0; i < 0x3F; i++) {
+                obj_free(&gSprites[i]);
+            }
+            NullBattleSpriteTracker();
+            ResetSpriteData();
+            gpu_tile_obj_tags_reset();
+            // need to redraw gSprites
+            create_sprites_battle_mons_wild();
+            if (ACTIVE_BANK(OPPONENT_SINGLES_BANK))
+                gSprites[gPkmnBank[OPPONENT_SINGLES_BANK]->objid].pos1.x = 178;
+            // spawn the HP boxes
+            if (ACTIVE_BANK(OPPONENT_SINGLES_BANK))
+                spawn_hpbox_opponent(HPBOX_TAG_OPP_SW, HPBOX_OPP_SW_X, HPBOX_OPP_SW_Y, OPPONENT_SINGLES_BANK);
+            if (ACTIVE_BANK(PLAYER_SINGLES_BANK))
+                spawn_hpbox_player(HPBOX_TAG_PLAYER_SINGLE, HPBOX_PLAYER_SINGLE_X, HPBOX_PLAYER_SINGLE_Y, PLAYER_SINGLES_BANK);
+            ShowBg(0);
+            ShowBg(3);
+            BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, 0x0000);
+            gMain.state++;
+            }
+            break;
+        case 2:
+            if (!gPaletteFade.active) {
+                // continue game callbacks
+                gMain.state++;
+            }
+            break;
+        case 3:
+            SetMainCallback(AnimationMain);
+            gMain.state = 0;
+            break;
+    };
 }

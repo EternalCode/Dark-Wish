@@ -9,6 +9,13 @@
 #define gtargety 0x8001
 
 
+
+void TaskWaitAnimMessage(u8 taskId)
+{
+    if (!dialogid_was_acknowledged(0x1))
+        DestroyTask(taskId);
+}
+
 #define id t->priv[0]
 #define deltaX t->priv[1]
 #define deltaY t->priv[2]
@@ -753,6 +760,48 @@ void TaskDrawPokeballGlitter(u8 taskId)
             break;
     };
 
+}
+
+
+void TaskAnimYesNo(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    struct Sprite* cursor = &gSprites[t->priv[1]];
+    bool currentPos = t->priv[2];
+    // draw cursor on current position
+    if (currentPos) {
+        // NO
+        cursor->pos1.x = 186;
+        cursor->pos1.y = 97;
+    } else {
+        // YES
+        cursor->pos1.x = 186;
+        cursor->pos1.y = 83;
+    }
+    // update cursorPos on input
+    switch (gMain.newKeys & (KEY_A | KEY_B | KEY_DOWN | KEY_UP)) {
+        case KEY_A:
+            // an option is selected (lets buffer the option into a local var?)
+            PlaySE(SOUND_GENERIC_CLINK);
+            VarSet(0x8000, currentPos);
+            dprintf("selected option is %d\n", currentPos);
+            DestroyTask(taskId);
+            break;
+        case KEY_B:
+            // same as pressing no
+            VarSet(0x8000, 1);
+            dprintf("selected option is No\n");
+            PlaySE(SOUND_GENERIC_CLINK);
+            DestroyTask(taskId);
+            break;
+        case KEY_DOWN:
+        case KEY_UP:
+            PlaySE(SOUND_GENERIC_CLINK);
+            t->priv[2] = !currentPos;
+            break;
+        default:
+            break;
+    };
 }
 
 

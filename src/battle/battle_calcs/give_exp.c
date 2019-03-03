@@ -134,13 +134,19 @@ void give_exp(u8 fainted, u8 defeater)
                         if (B_PKMN(defeater) == pkmn)
                             B_GET_MOVE_PP(defeater, moveCount) = gBattleMoves[moveBuffer[buffIndex]].pp;
                         QueueMessage(i, defeater, STRING_LEARN_MOVE, moveBuffer[buffIndex]);
+                    } else {
+                        // <slot> wants to learn the\nmove <move>
+                        // but <slot> can't learn\nmore than 4 moves
+                        // Make it forget another move?
+                        QueueMessage(i, defeater, STRING_TRYING_TO_LEARN_MOVE, moveBuffer[buffIndex]);
+                        // Yes/No
+                        // Yes-> which move should be forgotten?
+                        a = prepend_action(ACTION_BANK, ACTION_BANK, ActionHighPriority, EventPlayAnimation);
+                        a->action_bank = defeater;
+                        a->script = (u32)&AnimLearnMove;
+                        a->priv[0] = moveBuffer[buffIndex];
+                        a->priv[1] = i;
                     }
-                    // TODO needs to forget a move
-                    // // action to learn move
-                    // a = prepend_action(ACTION_BANK, ACTION_BANK, ActionHighPriority, EventPlayAnimation);
-                    // a->action_bank = defeater;
-                    // a->script = (u32)&TaskLearnMove;
-                    // a->priv[0] = moveBuffer[buffIndex];
                      buffIndex++;
                 }
                 // TODO check if pokemon evolves
@@ -156,6 +162,7 @@ void give_exp(u8 fainted, u8 defeater)
     }
     return;
 }
+
 
 #define state CURRENT_ACTION->priv[0]
 void TaskStatScreen(u8 taskId)
@@ -212,8 +219,25 @@ void TaskStatScreen(u8 taskId)
 }
 #undef state
 
+extern void ReturnToBattleFromMoveMenu(void);
+extern void AnimationMain(void);
 void TaskLearnMove(u8 taskId)
 {
-    // TODO
-    DestroyTask(taskId);
+    switch (tasks[taskId].priv[0]) {
+        case 0:
+            gMain.callback1 = NULL;
+            ShowSelectMovePokemonSummaryScreen(party_player, CURRENT_ACTION->priv[1], count_pokemon(), ReturnToBattleFromMoveMenu, MOVE_EMBER);
+            gSummarySelectedMove = 0xFF;
+            tasks[taskId].priv[0]++;
+            break;
+        case 1:
+        {
+            if (gMain.callback1 == AnimationMain && gSummarySelectedMove != 0xFF && !gPaletteFade.active) {
+                u8 partySlot = CURRENT_ACTION->priv[1];
+                VarSet(0x8000, pokemon_getattr(&party_player[partySlot], REQUEST_MOVE1 + gSummarySelectedMove, NULL));
+                DestroyTask(taskId);
+            }
+            break;
+        }
+    };
 }
