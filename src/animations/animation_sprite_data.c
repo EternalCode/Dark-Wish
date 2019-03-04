@@ -16,6 +16,9 @@
 #include "../../generated/images/battle_animations/capture_star.h"
 #include "../../generated/images/battle_animations/yesno.h"
 #include "../../generated/images/battle_animations/yesno_cursor.h"
+#include "../../generated/images/battle_animations/fist.h"
+#include "../../generated/images/battle_animations/circular.h"
+#include "../../generated/images/battle_animations/blendimpact1.h"
 
 
 extern const struct Frame (**nullframe)[];
@@ -30,6 +33,7 @@ const struct OamData impact1Oam = {
     .size = 2,
     .priority = 3,
 };
+
 
 // the burn animation sprite
 const struct CompressedSpriteSheet burnSprite = {(void*)&burnTiles, 32 * 2 * 4, 401};
@@ -290,11 +294,57 @@ const struct OamData yesnoCursorOam = {
     .priority = 0,
 };
 
+// fist sprite
+const struct CompressedSpriteSheet fistSprite = {(void*)&fistTiles, 32 * 4 * 4, 415};
+const struct SpritePalette fistPalette = {&fistPal, 415};
+
+const struct OamData fistOam = {
+    .priority = 3,
+    .affine_mode = 1,
+    .size = 2,
+};
+
+const struct OamData fistOam2 = {
+    .priority = 1,
+    .affine_mode = 1,
+    .size = 2,
+};
+
+// H-scaling, V-scaling, Rotation, duration, fill
+const struct RotscaleFrame fistAffineTable[] = {
+    {-100, -100, 0, 1, 0},
+    {20, 20, 0, 8, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+const u32 fistAffinePtr = (u32)&fistAffineTable;
+
+
+// circular sprite
+const struct CompressedSpriteSheet circularSprite = {(void*)&circularTiles, 32 * 1 * 1, 416};
+const struct SpritePalette circularPalette = {&circularPal, 416};
+
+const struct OamData circularOam = {
+    .priority = 2,
+    .size = 0,
+};
+
+// the impact sprite from tackle - but white for blendability
+const struct CompressedSpriteSheet bimpact1Sprite = {(void*)&blendimpact1Tiles, 32 * 4 * 4, 417};
+const struct SpritePalette bimpact1Palette = {&blendimpact1Pal, 417};
+
+const struct OamData bimpact1Oam = {
+    .size = 2,
+    .priority = 3,
+};
 
 
 /*
 	OAM DATA:
 
+    // priority 3 = all battlers
+    // priority 2 = hp boxes
+    // priority 1 free
+    // priortiy 0 free
 	priority: 0-3; 0=Highest
 
 	affine_mode: 0=Normal, 1=Affine

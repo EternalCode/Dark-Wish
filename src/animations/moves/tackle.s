@@ -23,6 +23,7 @@ animationPlayer:
     movesprite attacker 8 0 5 true
     wait
     rendersprite impactParticle targetx targety nullrsf
+    setvar gLASTRESULT 0x57FF
     startscript FireworkAnimation true
     startscript scrQuakeSprite true
     movesprite attacker 0xFFFC 0 10 true
@@ -34,6 +35,7 @@ animationOpponent:
     movesprite attacker 0xFFF8 0 5 true
     wait
     rendersprite impactParticle targetx targety nullrsf
+    setvar gLASTRESULT 0x57FF
     startscript FireworkAnimation true
     startscript scrQuakeSprite true
     movesprite attacker 4 0 10 true

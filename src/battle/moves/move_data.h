@@ -288,6 +288,7 @@ extern const u8* TackleAnimation;
 extern const u8* TakedownAnimation;
 extern const u8* FireworkAnimation;
 extern const u8* SlamAnimation;
+extern const u8* ShadowpunchAnimation;
 
 
 /* User stats */

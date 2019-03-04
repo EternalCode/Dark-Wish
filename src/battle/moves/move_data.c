@@ -4929,6 +4929,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GHOST,
     .m_flags = FLAG_PUNCH | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&ShadowpunchAnimation,
     },
 
     {
