@@ -1,0 +1,23 @@
+
+//{{BLOCK(togekissSPAL)
+
+//======================================================================
+//
+//	togekissSPAL, 0x0@8, 
+//	+ palette 18 entries, lz77 compressed
+//	Total size: 36 = 36
+//
+//	Time-stamp: 2019-03-03, 16:27:17
+//	Exported by Cearn's GBA Image Transmogrifier, v0.8.14
+//	( http://www.coranac.com/projects/#grit )
+//
+//======================================================================
+
+const unsigned char togekissSPALPal[36] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+{
+	0x10,0x1A,0x00,0x00,0x00,0x53,0x53,0x5A,0x4F,0x76,0x3E,0xD0,0x2D,0x00,0xFF,0x7F,
+	0x42,0x08,0x1B,0x1D,0x00,0x00,0x00,0x82,0x5D,0x45,0x72,0x1C,0x32,0xCE,0x6A,0x00,
+	0x77,0x04,0x00,0x00,
+};
+
+//}}BLOCK(togekissSPAL)

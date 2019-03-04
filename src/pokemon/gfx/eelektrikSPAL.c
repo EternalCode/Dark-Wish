@@ -1,0 +1,23 @@
+
+//{{BLOCK(eelektrikSPAL)
+
+//======================================================================
+//
+//	eelektrikSPAL, 0x0@8, 
+//	+ palette 18 entries, lz77 compressed
+//	Total size: 36 = 36
+//
+//	Time-stamp: 2019-03-03, 16:26:58
+//	Exported by Cearn's GBA Image Transmogrifier, v0.8.14
+//	( http://www.coranac.com/projects/#grit )
+//
+//======================================================================
+
+const unsigned char eelektrikSPALPal[36] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+{
+	0x10,0x1C,0x00,0x00,0x00,0x53,0x53,0x33,0x33,0x2D,0x22,0xDB,0x5B,0x00,0x63,0x10,
+	0x23,0x4D,0xC5,0x59,0x51,0x19,0x00,0xB8,0x19,0xFF,0x1D,0x31,0x03,0xF6,0x03,0x00,
+	0xFF,0x7F,0xF7,0x5E,
+};
+
+//}}BLOCK(eelektrikSPAL)

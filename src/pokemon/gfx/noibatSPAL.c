@@ -1,0 +1,23 @@
+
+//{{BLOCK(noibatSPAL)
+
+//======================================================================
+//
+//	noibatSPAL, 0x0@8, 
+//	+ palette 18 entries, lz77 compressed
+//	Total size: 36 = 36
+//
+//	Time-stamp: 2019-03-03, 16:27:10
+//	Exported by Cearn's GBA Image Transmogrifier, v0.8.14
+//	( http://www.coranac.com/projects/#grit )
+//
+//======================================================================
+
+const unsigned char noibatSPALPal[36] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+{
+	0x10,0x1C,0x00,0x00,0x00,0x0E,0x53,0x40,0x0C,0x47,0x31,0x00,0x00,0x00,0xA3,0x1C,
+	0x09,0x42,0x49,0x21,0x50,0x6B,0x00,0x24,0x25,0xF1,0x01,0xFF,0x7F,0x7F,0x03,0x00,
+	0xC5,0x10,0x63,0x08,
+};
+
+//}}BLOCK(noibatSPAL)

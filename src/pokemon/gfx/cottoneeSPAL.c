@@ -1,0 +1,23 @@
+
+//{{BLOCK(cottoneeSPAL)
+
+//======================================================================
+//
+//	cottoneeSPAL, 0x0@8, 
+//	+ palette 18 entries, lz77 compressed
+//	Total size: 36 = 36
+//
+//	Time-stamp: 2019-03-03, 16:26:55
+//	Exported by Cearn's GBA Image Transmogrifier, v0.8.14
+//	( http://www.coranac.com/projects/#grit )
+//
+//======================================================================
+
+const unsigned char cottoneeSPALPal[36] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+{
+	0x10,0x1A,0x00,0x00,0x00,0x53,0x53,0xD8,0x46,0xDE,0x63,0xF3,0x21,0x00,0x2D,0x01,
+	0x42,0x08,0xFF,0x7F,0x39,0x6B,0x00,0x98,0x15,0xB3,0x04,0x5D,0x12,0x0B,0x0A,0x00,
+	0xEE,0x02,0x00,0x00,
+};
+
+//}}BLOCK(cottoneeSPAL)

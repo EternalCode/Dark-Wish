@@ -1,0 +1,23 @@
+
+//{{BLOCK(skorupiSPAL)
+
+//======================================================================
+//
+//	skorupiSPAL, 0x0@8, 
+//	+ palette 18 entries, lz77 compressed
+//	Total size: 36 = 36
+//
+//	Time-stamp: 2019-03-03, 16:27:14
+//	Exported by Cearn's GBA Image Transmogrifier, v0.8.14
+//	( http://www.coranac.com/projects/#grit )
+//
+//======================================================================
+
+const unsigned char skorupiSPALPal[36] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+{
+	0x10,0x1A,0x00,0x00,0x00,0x53,0x53,0x65,0x31,0xBB,0x7B,0x42,0x08,0x00,0xAC,0x04,
+	0x3A,0x73,0x96,0x10,0xD6,0x6A,0x00,0x7D,0x2D,0xA5,0x18,0xB2,0x08,0x43,0x5A,0x00,
+	0xB0,0x04,0x00,0x00,
+};
+
+//}}BLOCK(skorupiSPAL)

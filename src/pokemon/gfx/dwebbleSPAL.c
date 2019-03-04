@@ -1,0 +1,23 @@
+
+//{{BLOCK(dwebbleSPAL)
+
+//======================================================================
+//
+//	dwebbleSPAL, 0x0@8, 
+//	+ palette 18 entries, lz77 compressed
+//	Total size: 36 = 36
+//
+//	Time-stamp: 2019-03-03, 16:26:58
+//	Exported by Cearn's GBA Image Transmogrifier, v0.8.14
+//	( http://www.coranac.com/projects/#grit )
+//
+//======================================================================
+
+const unsigned char dwebbleSPALPal[36] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+{
+	0x10,0x1A,0x00,0x00,0x00,0x53,0x53,0x4B,0x29,0xE8,0x18,0x6F,0x12,0x00,0xCE,0x35,
+	0x42,0x08,0xFF,0x7F,0xC6,0x18,0x00,0xFD,0x25,0x1A,0x0D,0x6A,0x08,0xDF,0x3E,0x00,
+	0x12,0x19,0x01,0x01,
+};
+
+//}}BLOCK(dwebbleSPAL)
