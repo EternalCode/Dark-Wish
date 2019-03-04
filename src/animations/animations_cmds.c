@@ -73,6 +73,7 @@ void ScriptCmd_copyactionpriv(void);
 void ScriptCmd_spriteblend2(void);
 void ScriptCmd_spritebufferposition(void);
 void ScriptCmd_playmessage(void);
+void ScriptCmd_spriteafterimage(void);
 
 
 extern const struct Frame (**nullframe)[];
@@ -163,6 +164,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_spriteblend2, // 64
     ScriptCmd_spritebufferposition, // 65
     ScriptCmd_playmessage, // 66
+    ScriptCmd_spriteafterimage, // 67
 };
 
 
@@ -530,6 +532,60 @@ void DrawSpriteToBG1(u8 spriteId, u8 palslotBG, u8 width, u8 height)
     REG_BG1CNT = BGCNT_PRIORITY1 | BGCNT_TILESTART2 | BGCNT_MAPSTART(30) | BGCNT_TILEMAPSIZE0;
     gSprites[spriteId].final_oam.priority = priority;
     gSprites[spriteId].invisible = true;
+}
+
+void CopySpriteToBG1(u8 spriteId, u8 palslotBG, u8 width, u8 height)
+{
+    // zerofill tilemap and tileset for BG1
+    void* charBase = (void *)0x6008000;
+    u16* mapBase = (void*)0x600F000;
+    u32 set = 0;
+    CpuFastSet((void*)&set, (void*)charBase, CPUModeFS(4096, CPUFSSET));
+    CpuFastSet((void*)&set, (void*)mapBase, CPUModeFS(2048, CPUFSSET));
+
+    // copy into BG1 tileset, tiles from the OAM. Note the first tile on the tileset is left empty
+    // this is so that the 0filled tiles don't display as the first tile of the image
+    u32 tileOffset = gSprites[spriteId].final_oam.tile_num * 32;
+    CpuFastSet((void*)(0x6010000 + tileOffset), charBase + 32, CPUModeFS(32 * width * height, CPUFSCPY));
+
+    // create tilemap
+    u8 offset = 1; // this is 1 because the first tile in the tileset is 0 filled
+    for (u8 xTile = 0; xTile < width; xTile++) {
+        for (u8 yTile = 0; yTile < height; yTile++) {
+            mapBase[xTile * 32 + yTile] |= offset | (palslotBG << 12);
+            offset++;
+        }
+    }
+
+    // write sprite palette to BG
+    u8 spritePalSlot = gSprites[spriteId].final_oam.palette_num;
+    void* spritepal = (void*)(ADDR_OAMPALRAM + (spritePalSlot * 32));
+    void* bgpal = (void*)(ADDR_PALRAM + (32 * palslotBG));
+    CpuFastSet(spritepal, bgpal, CPUModeFS(32, CPUFSCPY));
+    LoadPalette(spritepal, 16 * palslotBG, 32);
+
+    // BG position to sprite position
+    REG_BG1HOFS = -gSprites[spriteId].pos1.x + (4 * width);
+    REG_BG1VOFS = -gSprites[spriteId].pos1.y + (4 * height);
+    // turn on BG 1 display
+    REG_DISPCNT |= DISPCNT_BG1;
+    ChangeBgX(1, (-gSprites[spriteId].pos1.x + (4 * width)) * 256, 0);
+    ChangeBgY(1, (-gSprites[spriteId].pos1.y + (4 * height)) * 256, 0);
+    REG_BG1CNT = BGCNT_PRIORITY1 | BGCNT_TILESTART2 | BGCNT_MAPSTART(30) | BGCNT_TILEMAPSIZE0;
+    gSprites[spriteId].invisible = false;
+}
+
+
+void ScriptCmd_spriteafterimage()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    u16 tilewidth = ANIMSCR_READ_HWORD;
+    u16 tileheight = ANIMSCR_READ_HWORD;
+    CopySpriteToBG1(spriteId, 4, tilewidth, tileheight);
+    ANIMSCR_CMD_NEXT;
 }
 
 
@@ -1276,6 +1332,8 @@ void ScriptCmd_movebg()
     t->priv[3] = ANIMSCR_READ_BYTE; // Amount of frames to do animation for
     t->priv[4] = ANIMSCR_READ_BYTE; // if we need to wait
     t->priv[5] = ANIMSCR_THREAD;  // thread
+    t->priv[7] = ANIMSCR_READ_BYTE;  // direction
+    ANIMSCR_MOVE(3);
     ANIMSCR_CMD_NEXT;
 }
 

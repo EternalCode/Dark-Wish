@@ -567,13 +567,22 @@
 .byte 0
 .endm
 
-.macro movebg id xOffset yOffset duration boolwait
+@ -----------------------------------------------
+@ Defines for pal fading
+.equ LEFT, 1
+.equ RIGHT, 2
+@ -----------------------------------------------
+.macro movebg id xOffset yOffset duration direction boolwait
 .byte 62
 .byte \id
 .hword \xOffset
 .hword \yOffset
 .byte \duration
 .byte \boolwait
+.byte \direction
+.byte 0
+.byte 0
+.byte 0
 .endm
 
 .macro copyactionpriv var id
@@ -608,6 +617,14 @@
 .hword \move
 .hword \id
 .hword \effect
+.endm
+
+.macro spriteafterimage var tilesw tilesh bgid
+.byte 67
+.byte \bgid
+.hword \var
+.hword \tilesw
+.hword \tilesh
 .endm
 
 .macro BLOCKCMD
