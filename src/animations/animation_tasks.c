@@ -23,6 +23,7 @@ void TaskWaitAnimMessage(u8 taskId)
 #define animwait t->priv[4]
 #define thread t->priv[5]
 #define framesPast t->priv[6]
+#define direction t->priv[7]
 void TaskMoveSprite(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
@@ -43,8 +44,8 @@ void TaskMoveBG(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
     if (framesPast < framesCount) {
-        ChangeBgX(id, deltaX << 8, 2);
-        ChangeBgY(id, deltaY << 8, 2);
+        ChangeBgX(id, deltaX << 8, direction); // 2
+        ChangeBgY(id, deltaY << 8, direction);
         framesPast++;
     } else {
         if (animwait)
@@ -179,6 +180,7 @@ void TaskFlashSprite(u8 taskId)
 #undef state
 #undef counter
 #undef timesFlashed
+#undef color
 
 #define bgid t->priv[0]
 #define spriteId t->priv[0]
@@ -537,7 +539,10 @@ void TaskCreateSmallFireworkImpact(u8 taskId)
             struct SpritePalette* pal = (struct SpritePalette*)&glowballPalette;
             struct OamData* oam = (struct OamData*)&glowballOam;
             struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, nullrsf, (SpriteCallback)oac_nullsub};
+            u16 color = t->priv[1];
             spriteId = template_instanciate_forward_search(&spriteTemp, currentx, currenty, 0);
+            u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
+            BlendPalette((pal_slot * 16) + (16 * 16), 16, 12, color);
             struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballAffinePtr;
             gSprites[spriteId].rotscale_table = rotscale_table;
             gSprites[spriteId].final_oam.affine_mode = 1;
@@ -579,7 +584,6 @@ void TaskCreateSmallFireworkImpact(u8 taskId)
             DestroyTask(taskId);
             break;
     };
-
 }
 #undef spriteId
 #undef arg1bits
