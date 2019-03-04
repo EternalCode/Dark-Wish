@@ -15,6 +15,7 @@ export PREPROC := deps/preproc
 export CHARMAP := charmap.txt
 export ASFLAGS := -mthumb
 export PAGB_INCLUDE := deps/DarkwishPokeAGB/build
+export TEMP_LD := temp.ld
 
 export INCLUDE := -I $(PAGB_INCLUDE)/include -I $(SRC) -I .
 export LDFLAGS := -T layout.ld -T $(PAGB_INCLUDE)/linker/$(ROM_CODE).ld -r
@@ -61,7 +62,8 @@ test:
 
 $(BINARY): $(OBJECTS)
 	@echo -e "\e[1;32mLinking ELF binary $@\e[0m"
-	@$(LD) $(LDFLAGS) -o $@ $^
+	@echo "INPUT($^)" > $(TEMP_LD)
+	@$(LD) $(LDFLAGS) -o $@ -T $(TEMP_LD)
 
 $(BUILD)/%.c.o: %.c $(DEPDIR)/%.d
 	@echo -e "\e[32mCompiling $<\e[0m"
