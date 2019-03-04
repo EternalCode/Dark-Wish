@@ -18,7 +18,7 @@ struct MonCoords
 {
     u8 width : 4;
     u8 height : 4;
-    u8 y_offset;
+    s8 y_offset;
 };
 
 struct LearnMove {

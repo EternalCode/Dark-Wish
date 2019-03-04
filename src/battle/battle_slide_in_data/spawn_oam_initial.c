@@ -70,7 +70,7 @@ u8 spawn_pkmn_obj_slot(u8 bank, u16 tag)
 
     LoadCompressedSpriteSheetUsingHeap(&pkmn_sprite_gfx);
     LoadCompressedSpritePaletteUsingHeap(&pkmn_sprite_pal);
-    return template_instanciate_forward_search(&pkmn_temp, OPP1_X_POS_SLIDE, 54, 0);
+    return template_instanciate_forward_search(&pkmn_temp, OPP1_X_POS_SLIDE, 54 + gMonFrontPicCoords[species].y_offset, 0);
 }
 
 u8 spawn_pkmn_backsprite_obj_slot(u8 bank, u16 tag)

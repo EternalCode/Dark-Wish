@@ -13,7 +13,7 @@ const struct MonCoords gMonBackPicCoords[] =
 	{
 		.width = 0,
 		.height = 0,
-		.y_offset = 0,
+		.y_offset = 14,
 	},
 	// seadra 2
 	{
