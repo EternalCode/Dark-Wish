@@ -261,22 +261,13 @@
 .endm
 
 
-@ -----------------------------------------------
-@ Defines for the sin wave effect
-.equ BOUNCE, 0xF
-.equ SINWAVE, 0xFF
-@ -----------------------------------------------
-.macro movewave spritea spriteb amplitude frequency wavetype
+.macro movewave spritea spriteb amplitude waves steps
 .byte 27
-.byte 0
+.byte \steps
 .hword \spritea
 .hword \spriteb
 .byte \amplitude
-.byte \frequency
-.byte \wavetype
-.byte 0
-.byte 0
-.byte 0
+.byte \waves
 .endm
 
 .macro loadbg2 palsize tileset tilemap palette
@@ -625,6 +616,35 @@
 .hword \var
 .hword \tilesw
 .hword \tilesh
+.endm
+
+.macro spritemovedst steps vara varb
+.byte 68
+.byte \steps
+.hword \vara
+.hword \varb
+.byte 0
+.byte 0
+.endm
+
+.macro spritepriority var priority
+.byte 69
+.byte \priority
+.hword \var
+.endm
+
+.macro setprioritybg bg priority
+.byte 70
+.byte \priority
+.byte \bg
+.byte 0
+.endm
+
+.macro clearblending
+.byte 71
+.byte 0
+.byte 0
+.byte 0
 .endm
 
 .macro BLOCKCMD

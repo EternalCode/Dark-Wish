@@ -74,11 +74,16 @@ void ScriptCmd_spriteblend2(void);
 void ScriptCmd_spritebufferposition(void);
 void ScriptCmd_playmessage(void);
 void ScriptCmd_spriteafterimage(void);
+void ScriptCmd_movespritedst(void);
+void ScriptCmd_setpriority(void);
+void ScriptCmd_setprioritybg(void);
+void ScriptCmd_clearblending(void);
 
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
 extern void TaskMoveSprite(u8 taskId);
+extern void SCBMoveSpriteErrorCorrection(struct Sprite* spr);
 extern void TaskWaitFrames(u8 taskId);
 extern void TaskWaitFade(u8 taskId);
 extern void TaskFlashSprite(u8 taskId);
@@ -165,6 +170,10 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_spritebufferposition, // 65
     ScriptCmd_playmessage, // 66
     ScriptCmd_spriteafterimage, // 67
+    ScriptCmd_movespritedst, // 68
+    ScriptCmd_setpriority, // 69
+    ScriptCmd_setprioritybg, // 70
+    ScriptCmd_clearblending, // 71
 };
 
 
@@ -609,12 +618,13 @@ void ScriptCmd_spritebgclear()
     ANIMSCR_MOVE(1);
     u16 spriteId = ANIMSCR_READ_HWORD;
     spriteId = VarGet(spriteId);
+    gSprites[spriteId].invisible = false;
+    HideBg(1);
     void* charBase = (void *)0x6008000;
     u16* mapBase = (void*)0x600F000;
     u32 set = 0;
     CpuFastSet((void*)&set, (void*)charBase, CPUModeFS(4096, CPUFSSET));
     CpuFastSet((void*)&set, (void*)mapBase, CPUModeFS(2048, CPUFSSET));
-    gSprites[spriteId].invisible = false;
     ANIMSCR_CMD_NEXT;
 }
 
@@ -652,7 +662,7 @@ void ScriptCmd_spritesblend()
     ANIMSCR_MOVE(1);
     u8 coefficientA = ANIMSCR_READ_BYTE;
     u8 coefficientB = ANIMSCR_READ_BYTE;
-    REG_BLDCNT = (BLDCNT_BG1_SRC | BLDCNT_SPRITES_DST | BLDCNT_ALPHA_BLEND);
+    REG_BLDCNT = (BLDCNT_SPRITES_DST | BLDCNT_BG1_SRC | BLDCNT_ALPHA_BLEND);
     REG_BLDALPHA = BLDALPHA_BUILD(coefficientA, coefficientB);
 
     // set blending move for the sprite
@@ -786,13 +796,19 @@ void ScriptCmd_palfade()
 #define yDelta sprite->data[2]
 #define X sprite->data[4]
 #define amplitude sprite->data[5]
-#define waveOrBounce sprite->data[6]
+#define deltaError sprite->data[6]
 #define frequency sprite->data[7]
 void SCBWaveMovement(struct Sprite* sprite)
 {
-    sprite->pos1.x += Div(xDelta, 256);
-    sprite->pos1.y += Div(yDelta, 256);
+    sprite->pos1.x +=xDelta;
+    sprite->pos1.y += yDelta;
     bouncesPast += 1;
+    u8 xerror = deltaError >> 8;
+    u8 yerror = deltaError & 0xFF;
+    if (bouncesPast % xerror == 0)
+        sprite->pos1.x += xDelta > 0 ? 1 : -1;
+    if (bouncesPast % yerror == 0)
+        sprite->pos1.y += yDelta > 0 ? 1 : -1;
     if (bouncesPast > bounces)
         sprite->callback = oac_nullsub;
     // apply sin curve to Y position
@@ -801,13 +817,13 @@ void SCBWaveMovement(struct Sprite* sprite)
     else
         sprite->pos1.y += Sin(X, amplitude);
     // update wave frequency
-    X = (X + frequency) & waveOrBounce;
+    X = (X + frequency) & 0xFF;
 }
 
 void SpriteCmd_movewave()
 {
-    // alignment
-    ANIMSCR_MOVE(1);
+    // steps needed to reach DST
+    u8 steps = ANIMSCR_READ_BYTE;
     // get sprites
     u16 spriteId = ANIMSCR_READ_HWORD;
     spriteId = VarGet(spriteId);
@@ -815,21 +831,22 @@ void SpriteCmd_movewave()
     destSpriteId = VarGet(destSpriteId);
     struct Sprite* sprite = &gSprites[spriteId];
     struct Sprite* s2 = &gSprites[destSpriteId];
-    // set bounce properties
     X = 0; // starts sin(x) on X = 0. Can phase shift forward, not backwards
-    bounces = 30;
-    amplitude = ANIMSCR_READ_BYTE;
-    bouncesPast = 0;
+    bounces = steps;
+    amplitude = (s8)ANIMSCR_READ_BYTE;
     frequency = ANIMSCR_READ_BYTE;
-    waveOrBounce = ANIMSCR_READ_BYTE;
+    frequency = (256 / steps) * frequency;
+    dprintf("frequency is %d given %d steps\n", frequency, steps);
     // calculate delta distances per bounce
     s32 x = s2->pos1.x - sprite->pos1.x;
     s32 y = s2->pos1.y - sprite->pos1.y;
-    xDelta = Div((x * 256), bounces);
-    yDelta = Div((y * 256), bounces);
+    xDelta = Div(x, bounces);
+    yDelta = Div(y, bounces);
+    u16 xerr = ABS((bounces / (x - (xDelta * bounces)))); // error minimization increment intervals
+    u16 yerr = ABS((bounces / (y - (yDelta * bounces)))); // error minimization increment intervals
+    deltaError = ((xerr << 8) | (yerr & 0xFF));
     // Animate sprite bounce given parameters
     sprite->callback = SCBWaveMovement;
-    ANIMSCR_MOVE(3);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1171,7 +1188,7 @@ void ScriptCmd_confighorizontalarctranslate()
     struct Sprite* spriteDst = &gSprites[spriteIdDst];
     // get total distances for x and y
     s32 x = (spriteDst->pos1.x - sprite->pos1.x);
-    s32 y = -((spriteDst->pos1.y - sprite->pos1.y) + sprite->pos1.y + 20); // peak is 20px over
+    s32 y = -((spriteDst->pos1.y - sprite->pos1.y) + sprite->pos1.y + 40); // peak is 20px over
     sprite->data[0] = speed; // intervals to travel distance
     sprite->data[1] = endAngle;
     sprite->data[2] = Div((x * 256), speed);
@@ -1389,6 +1406,96 @@ void ScriptCmd_playmessage()
     // to wait for the cmd to finish, you must use waittask on TaskWaitAnimMessage
     ANIMSCR_CMD_NEXT;
 }
+
+// move sprite to another sprite linearly
+void ScriptCmd_movespritedst()
+{
+    u8 steps = ANIMSCR_READ_BYTE;
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct Sprite* sprite = &gSprites[spriteId];
+    u16 spriteId2 = ANIMSCR_READ_HWORD;
+    spriteId2 = VarGet(spriteId2);
+    struct Sprite* s2 = &gSprites[spriteId2];
+
+    // calculate delta distances per movement
+    s32 x = s2->pos1.x - sprite->pos1.x;
+    s32 y = s2->pos1.y - sprite->pos1.y;
+    s16 xDelta = Div(x, steps);
+    s16 yDelta = Div(y, steps);
+
+    sprite->callback = SCBMoveSpriteErrorCorrection;
+    sprite->data[0] = steps;
+    sprite->data[1] = xDelta;
+    sprite->data[2] = yDelta;
+    sprite->data[3] = steps / (x - (xDelta * steps)); // error minimization increment intervals
+    sprite->data[4] = steps / (y - (yDelta * steps)); // error minimization increment intervals
+
+    // to wait for finish, make sure to put use a waitanim command as the next command.
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+// blend sprites, on all layers including BG 3
+/* Given a coefficient for the amount of blending for the sprites and BG 0. Apply blending */
+void ScriptCmd_spritesblendall()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u8 coefficientA = ANIMSCR_READ_BYTE;
+    u8 coefficientB = ANIMSCR_READ_BYTE;
+    REG_BLDCNT = (BLDCNT_BG1_DST | BLDCNT_BG3_DST | BLDCNT_SPRITES_SRC | BLDCNT_ALPHA_BLEND);
+    REG_BLDALPHA = BLDALPHA_BUILD(coefficientA, coefficientB);
+
+    // set blending move for the sprite
+    ANIMSCR_CMD_NEXT;
+}
+
+// sets the priority of a sprite
+void ScriptCmd_setpriority()
+{
+    // alignment for read
+    u8 priority = ANIMSCR_READ_BYTE;
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    gSprites[spriteId].final_oam.priority = priority;
+    ANIMSCR_CMD_NEXT;
+}
+
+// sets the priority of a BG
+void ScriptCmd_setprioritybg()
+{
+    // alignment for read
+    u8 priority = ANIMSCR_READ_BYTE;
+    u8 bgid = ANIMSCR_READ_BYTE;
+    switch (bgid) {
+        case 1:
+            REG_BG1CNT &= ~3;
+            REG_BG1CNT |= priority;
+            break;
+        case 2:
+            REG_BG2CNT &= ~3;
+            REG_BG2CNT |= priority;
+            break;
+        case 3:
+            REG_BG3CNT &= ~3;
+            REG_BG3CNT |= priority;
+            break;
+    }
+    ANIMSCR_MOVE(1);
+    ANIMSCR_CMD_NEXT;
+}
+
+// Clears REGBLD
+void ScriptCmd_clearblending()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    REG_BLDCNT = 0;
+    ANIMSCR_CMD_NEXT;
+}
+
+
 
 void AnimationMain()
 {

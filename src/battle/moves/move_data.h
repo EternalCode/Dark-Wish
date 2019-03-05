@@ -290,6 +290,7 @@ extern const u8* FireworkAnimation;
 extern const u8* SlamAnimation;
 extern const u8* ShadowpunchAnimation;
 
+extern const u8* WatergunAnimation;
 
 /* User stats */
 extern struct move_procs user_lower_atk_1;

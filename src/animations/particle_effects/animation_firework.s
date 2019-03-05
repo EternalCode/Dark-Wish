@@ -42,3 +42,75 @@ FireworkFinish:
     end
 
 .pool
+
+
+.global LinearFireworkAnimation
+LinearFireworkAnimation:
+    copyvar glowcolor gLASTRESULT
+    compare targetx 0
+    if1 1 goto LinearFireworkPosInherited
+    fastsetbattlers
+
+LinearFireworkPosInherited:
+    BLOCKCMD
+    loadspritefull glowballSprite glowballPalette glowballOam
+    copyvar glowballParticle LASTRESULT
+    spriteblend 8 8
+    hidebg 1
+    spritetobg target 8 8
+    showbg 1
+    OPENCMD
+
+LinearFireworkLoop:
+    BLOCKCMD
+    runtask TaskCreateSmallLinearFireworkImpact glowcolor 3 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpact glowcolor 3 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpact glowcolor 2 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpact glowcolor 2 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpact glowcolor 1 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpact glowcolor 1 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpact glowcolor 0 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpact glowcolor 0 targetx targety
+    OPENCMD
+
+LinearFireworkFinish:
+    waittask TaskCreateSmallLinearFireworkImpact
+    spritebgclear target
+    deletesprite glowballParticle
+    end
+
+
+.global LinearFireworkAnimationRev
+LinearFireworkAnimationRev:
+    copyvar glowcolor gLASTRESULT
+    compare targetx 0
+    if1 1 goto LinearFireworkPosInheritedrev
+    fastsetbattlers
+
+LinearFireworkPosInheritedrev:
+    BLOCKCMD
+    loadspritefull glowballSprite glowballPalette glowballOam
+    copyvar glowballParticle LASTRESULT
+    spriteblend 8 8
+    hidebg 1
+    spritetobg target 8 8
+    showbg 1
+    OPENCMD
+
+LinearFireworkLooprev:
+    BLOCKCMD
+    runtask TaskCreateSmallLinearFireworkImpactRev glowcolor 3 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpactRev glowcolor 3 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpactRev glowcolor 2 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpactRev glowcolor 2 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpactRev glowcolor 1 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpactRev glowcolor 1 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpactRev glowcolor 0 targetx targety
+    runtask TaskCreateSmallLinearFireworkImpactRev glowcolor 0 targetx targety
+    OPENCMD
+
+LinearFireworkFinishrev:
+    waittask TaskCreateSmallLinearFireworkImpactRev
+    spritebgclear target
+    deletesprite glowballParticle
+    end

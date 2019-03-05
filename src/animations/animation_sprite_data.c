@@ -187,6 +187,13 @@ const struct RotscaleFrame glowballAffineTable[] = {
 };
 const u32 glowballAffinePtr = (u32)&glowballAffineTable;
 
+const struct RotscaleFrame glowballRevAffineTable[] = {
+    {-300, -300, 0, 1, 0},
+    {10, 10, 0, 30, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+const u32 glowballRevAffinePtr = (u32)&glowballRevAffineTable;
+
 // pokeball sprite
 const struct CompressedSpriteSheet pokeballSprite = {(void*)&pokeballTiles, 32 * 2 * 2 * 3, 409};
 const struct SpritePalette pokeballPalette = {&pokeballPal, 409};
@@ -320,13 +327,21 @@ const u32 fistAffinePtr = (u32)&fistAffineTable;
 
 
 // circular sprite
-const struct CompressedSpriteSheet circularSprite = {(void*)&circularTiles, 32 * 1 * 1, 416};
+const struct CompressedSpriteSheet circularSprite = {(void*)&circularTiles, 32 * 2 * 2, 416};
 const struct SpritePalette circularPalette = {&circularPal, 416};
 
 const struct OamData circularOam = {
-    .priority = 2,
-    .size = 0,
+    .affine_mode = 1,
+    .priority = 3,
+    .size = 1,
 };
+
+const struct RotscaleFrame circularAffineTable[] = {
+    {15, 15, 0, 1, 0},
+    {-1, -1, 0, 1, 0},
+    {0x7FFE, 0, 0, 0, 0}
+};
+const u32 circularAffinePtr = (u32)&circularAffineTable;
 
 // the impact sprite from tackle - but white for blendability
 const struct CompressedSpriteSheet bimpact1Sprite = {(void*)&blendimpact1Tiles, 32 * 4 * 4, 417};

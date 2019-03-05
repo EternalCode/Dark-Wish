@@ -116,7 +116,7 @@ void PokeballBounceSCB(struct Sprite *sprite)
             sprite->data[5] += (sprite->data[3] >> 8) + 4;
             if (sprite->data[5] >= 64)
             {
-                sprite->data[4] -= 8;
+                sprite->data[4] -= 10;
                 sprite->data[3] += (1 << 8) | 1;
 
                 u32 bounceCount = sprite->data[3] >> 8;
@@ -166,7 +166,7 @@ void PokeballBounceInitSCB(struct Sprite* sprite)
 {
     u32 angle;
     sprite->data[3] = 0;
-    sprite->data[4] = 32;
+    sprite->data[4] = 40;
     sprite->data[5] = 0;
     angle = 0;
     sprite->pos1.y += Cos(angle, sprite->data[4]);
