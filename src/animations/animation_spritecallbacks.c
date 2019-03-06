@@ -43,3 +43,11 @@ void SCBMoveSpriteErrorCorrection(struct Sprite* spr)
 #undef yerror
 #undef totalFramesPast
 #undef framesPast
+
+void SCB_SpriteDeleteWhenAffineEnds(struct Sprite* sprite)
+{
+    if (sprite->affineAnimEnded) {
+        FreeSpriteOamMatrix(sprite);
+        DestroySprite(sprite);
+    }
+}
