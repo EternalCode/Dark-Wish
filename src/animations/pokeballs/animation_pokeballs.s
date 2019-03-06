@@ -21,7 +21,7 @@ AnimCapturePokeball:
     rendersprite ballSprite 32 80 nullrsf
 
     // throw ball curve
-    horizontalArcTranslate 0 160 ballSprite target 34
+    horizontalArcTranslate 0 160 ballSprite target 34 POKEBALL
     runtask TaskTranslateSpriteHorizontalArc ballSprite 0 0 0
     waittask TaskTranslateSpriteHorizontalArc
 
