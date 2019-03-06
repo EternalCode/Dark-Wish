@@ -78,6 +78,7 @@ void ScriptCmd_movespritedst(void);
 void ScriptCmd_setpriority(void);
 void ScriptCmd_setprioritybg(void);
 void ScriptCmd_clearblending(void);
+void ScriptCmd_spritesblendall(void);
 
 
 extern const struct Frame (**nullframe)[];
@@ -174,6 +175,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_setpriority, // 69
     ScriptCmd_setprioritybg, // 70
     ScriptCmd_clearblending, // 71
+    ScriptCmd_spritesblendall, // 72
 };
 
 
@@ -1174,6 +1176,7 @@ void ScriptCmd_setframessprite()
 
 /* Set up a sprite's private variables for horizontal arc movement */
 // Meant to be called in conjunction with TaskTranslateSpriteHorizontalArc
+// used with the pokeball. For general use, use the one below this function
 void ScriptCmd_confighorizontalarctranslate()
 {
     u8 speed = ANIMSCR_READ_BYTE;
@@ -1181,6 +1184,7 @@ void ScriptCmd_confighorizontalarctranslate()
     s16 endAngle = ANIMSCR_READ_HWORD;
     u16 spriteId = ANIMSCR_READ_HWORD;
     u16 spriteIdDst = ANIMSCR_READ_HWORD;
+    u8 mode = ANIMSCR_READ_BYTE;
     // get sprites
     spriteId = VarGet(spriteId);
     struct Sprite* sprite = &gSprites[spriteId];
@@ -1188,19 +1192,30 @@ void ScriptCmd_confighorizontalarctranslate()
     struct Sprite* spriteDst = &gSprites[spriteIdDst];
     // get total distances for x and y
     s32 x = (spriteDst->pos1.x - sprite->pos1.x);
-    s32 y = -((spriteDst->pos1.y - sprite->pos1.y) + sprite->pos1.y + 40); // peak is 20px over
+    s32 y;
+    switch (mode) {
+        case 0:
+            y = -((spriteDst->pos1.y - sprite->pos1.y) + sprite->pos1.y + 40); // peak is 40px over
+            break;
+        case 1:
+            y = -((spriteDst->pos1.y - sprite->pos1.y) + sprite->pos1.y); // normal player side
+            dprintf("running normal player side : %d\n", y);
+            break;
+        default:
+            y = -sprite->pos1.y; // normal opponent's side
+            dprintf("running normal opp side : %d\n", y);
+            break;
+    };
     sprite->data[0] = speed; // intervals to travel distance
     sprite->data[1] = endAngle;
     sprite->data[2] = Div((x * 256), speed);
-    sprite->data[4] = speed / (x - ((sprite->data[2] / 256) * speed)); // error minimization increment intervals
     sprite->data[3] = sprite->pos1.y;
-
-    // u32 percent = (Sin2(endAngle) * 100) / Sin2(90);
+    sprite->data[4] = speed / (x - ((sprite->data[2] / 256) * speed)); // error minimization increment intervals
     sprite->data[5] = y;
     // calc frequency required
     sprite->data[6] = ABS(endAngle - startAngle) /  speed; // frequency step
     sprite->data[7] = startAngle; // frequency start
-    ANIMSCR_MOVE(2);
+    ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1444,10 +1459,8 @@ void ScriptCmd_spritesblendall()
     ANIMSCR_MOVE(1);
     u8 coefficientA = ANIMSCR_READ_BYTE;
     u8 coefficientB = ANIMSCR_READ_BYTE;
-    REG_BLDCNT = (BLDCNT_BG1_DST | BLDCNT_BG3_DST | BLDCNT_SPRITES_SRC | BLDCNT_ALPHA_BLEND);
+    REG_BLDCNT = (BLDCNT_BG1_SRC | BLDCNT_BG3_SRC | BLDCNT_SPRITES_DST | BLDCNT_ALPHA_BLEND);
     REG_BLDALPHA = BLDALPHA_BUILD(coefficientA, coefficientB);
-
-    // set blending move for the sprite
     ANIMSCR_CMD_NEXT;
 }
 

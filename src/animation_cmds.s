@@ -497,15 +497,21 @@
 .word \task
 .endm
 
+@ -----------------------------------------------
+@ Defines for pal fading
+.equ POKEBALL, 0
+.equ PLAYERSIDE, 1
+.equ OPPONENTSIDE, 2
+@ -----------------------------------------------
 @speed is the amount of frames to travel the distance
-.macro horizontalArcTranslate startAngle endAngle varSrc varDst speed
+.macro horizontalArcTranslate startAngle endAngle varSrc varDst speed mode
 .byte 55
 .byte \speed
 .hword \startAngle
 .hword \endAngle
 .hword \varSrc
 .hword \varDst
-.byte 0
+.byte \mode
 .byte 0
 .endm
 
@@ -646,6 +652,14 @@
 .byte 0
 .byte 0
 .endm
+
+.macro spritesblendall coa cob
+.byte 72
+.byte 0
+.byte \coa
+.byte \cob
+.endm
+
 
 .macro BLOCKCMD
 .byte 0xFE
