@@ -838,7 +838,6 @@ void SpriteCmd_movewave()
     amplitude = (s8)ANIMSCR_READ_BYTE;
     frequency = ANIMSCR_READ_BYTE;
     frequency = (256 / steps) * frequency;
-    dprintf("frequency is %d given %d steps\n", frequency, steps);
     // calculate delta distances per bounce
     s32 x = s2->pos1.x - sprite->pos1.x;
     s32 y = s2->pos1.y - sprite->pos1.y;
@@ -1199,11 +1198,9 @@ void ScriptCmd_confighorizontalarctranslate()
             break;
         case 1:
             y = -((spriteDst->pos1.y - sprite->pos1.y) + sprite->pos1.y); // normal player side
-            dprintf("running normal player side : %d\n", y);
             break;
         default:
             y = -sprite->pos1.y; // normal opponent's side
-            dprintf("running normal opp side : %d\n", y);
             break;
     };
     sprite->data[0] = speed; // intervals to travel distance

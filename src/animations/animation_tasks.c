@@ -756,7 +756,7 @@ void TaskTranslateSpriteHorizontalArc(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
     struct Sprite* sprite = &gSprites[t->priv[1]];
-    if (!sprite->data[0]) {
+    if (!sprite->data[0] || !sprite->inUse) {
         DestroyTask(taskId);
         return;
     }
@@ -774,21 +774,20 @@ void TaskTranslateSpriteHorizontalArc(u8 taskId)
     sprite->data[0]--;
 }
 
-// meant to be used in conjunction with ScriptCmd_confighorizontalarctranslateneg
-void TaskTranslateSpriteHorizontalArcNeg(u8 taskId)
+// meant to be used in conjunction with ScriptCmd_confighorizontalarctranslate
+void TaskTranslateSpriteHorizontalArcCos(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
     struct Sprite* sprite = &gSprites[t->priv[1]];
-    if (!sprite->data[0]) {
+    if (!sprite->data[0] || !sprite->inUse) {
         DestroyTask(taskId);
-        return; 
+        return;
     }
-    sprite->data[7] -= sprite->data[6]; // frequency step
+    sprite->data[7] += sprite->data[6]; // frequency step
     // amplitude must be a percentage from total amplitude * current sin(x) / sin(pi/2)
-    u32 percent = (Sin2(sprite->data[7]) * 100) / Sin2(90);
-    sprite->pos1.y = PERCENT(sprite->data[5], percent) + sprite->data[3];
+    u32 percent = (Cos2(sprite->data[7]) * 100) / Cos2(0);
+    sprite->pos1.y = PERCENT(sprite->data[5], percent) + (sprite->data[3] * 2);
     sprite->pos1.x += (sprite->data[2] / 256);
-    dprintf("X %d result is %d\n", sprite->data[7], PERCENT(sprite->data[5], percent) + sprite->data[3]);
     // add 1px to the X as an error correction, if conditions align
     if (sprite->data[4] != 0) {
         if ((sprite->data[0] % sprite->data[4]) == 0) {
@@ -797,6 +796,7 @@ void TaskTranslateSpriteHorizontalArcNeg(u8 taskId)
     }
     sprite->data[0]--;
 }
+
 #undef startX
 #undef deltaX
 #undef dstX
