@@ -117,8 +117,7 @@ bool ProcessPlayerFieldInput(struct FieldInput *input)
         return true;
     }
 
-    if (input->heldDirection && input->dpadDirection == playerDirection)
-    {
+    if (input->heldDirection && input->dpadDirection == playerDirection) {
         if (TryArrowWarp(&playerPos, metatileBehavior, playerDirection) == true)
             return true;
     }
@@ -130,13 +129,11 @@ bool ProcessPlayerFieldInput(struct FieldInput *input)
 
     GetPlayerPosition(&playerPos);
     metatileBehavior = MapGridGetMetatileBehaviorAt(playerPos.x, playerPos.y);
-    if (input->heldDirection2 && input->dpadDirection == playerDirection)
-    {
+    if (input->heldDirection2 && input->dpadDirection == playerDirection) {
         if (TryDoorWarp(&playerPos, metatileBehavior, playerDirection) == true)
             return true;
     }
-    if (input->pressedStartButton)
-    {
+    if (input->pressedStartButton) {
         PlaySE(SE_WIN_OPEN);
         ShowStartMenu();
         return true;

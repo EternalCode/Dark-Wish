@@ -30,10 +30,8 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
     u8 tileTransitionState = gPlayerAvatar.tileTransitionState;
     u8 runningState = gPlayerAvatar.runningState;
     u8 forcedMove = MetatileBehavior_IsForcedMovementTile(GetPlayerCurMetatileBehavior(runningState));
-    if ((tileTransitionState == T_TILE_CENTER && forcedMove == false) || tileTransitionState == T_NOT_MOVING)
-    {
-        if (GetPlayerSpeed() != 4)
-        {
+    if ((tileTransitionState == T_TILE_CENTER && forcedMove == false) || tileTransitionState == T_NOT_MOVING) {
+        if (GetPlayerSpeed() != 4) {
             if (newKeys & KEY_START)
                 input->pressedStartButton = true;
             if (newKeys & KEY_SELECT)
@@ -44,15 +42,13 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
                 input->pressedBButton = true;
         }
 
-        if (heldKeys & (KEY_UP | KEY_DOWN | KEY_LEFT | KEY_RIGHT))
-        {
+        if (heldKeys & (KEY_UP | KEY_DOWN | KEY_LEFT | KEY_RIGHT)) {
             input->heldDirection = true;
             input->heldDirection2 = true;
         }
     }
 
-    if (forcedMove == false)
-    {
+    if (forcedMove == false) {
         if (tileTransitionState == T_TILE_CENTER && runningState == MOVING)
             input->tookStep = true;
         if (forcedMove == false && tileTransitionState == T_TILE_CENTER)
