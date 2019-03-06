@@ -12,6 +12,8 @@ SlamAnimation:
 	loadspritefull impact2Sprite impact2Palette impact2Oam
 	copyvar impact2Particle LASTRESULT
 	hidehpbars
+	sideof attacker
+	if1 0x1 goto SlamAnimationOpponentsSide
 	movesprite attacker 5 3 2 false
 	rendersprite impact2Particle targetx targety nullrsf
 	movebg 1 5 3 2 false
@@ -20,6 +22,20 @@ SlamAnimation:
 	deletesprite impact2Particle
 	movesprite attacker 0xFFFB 0xFFFD 2 true
 	movebg 1 0xFFFB 0xFFFD 2 false
+	wait
+	waittask TaskCreateSmallFireworkImpact
+	showhpbars
+	end
+	
+SlamAnimationOpponentsSide:
+	movesprite attacker 0xFFFB 0xFFFD 2 false
+	rendersprite impact2Particle targetx targety nullrsf
+	movebg 1 0xFFFB 0xFFFD 2 false
+	movesprite impact2Particle 1 3 3 true
+	wait
+	deletesprite impact2Particle
+	movesprite attacker 5 3 2 true
+	movebg 1 5 3 2 false
 	wait
 	waittask TaskCreateSmallFireworkImpact
 	showhpbars
