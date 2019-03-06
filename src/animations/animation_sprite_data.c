@@ -19,6 +19,8 @@
 #include "../../generated/images/battle_animations/fist.h"
 #include "../../generated/images/battle_animations/circular.h"
 #include "../../generated/images/battle_animations/blendimpact1.h"
+#include "../../generated/images/battle_animations/watersplash.h"
+
 
 
 extern const struct Frame (**nullframe)[];
@@ -337,9 +339,8 @@ const struct OamData circularOam = {
 };
 
 const struct RotscaleFrame circularAffineTable[] = {
-    {15, 15, 0, 1, 0},
-    {-1, -1, 0, 1, 0},
-    {0x7FFE, 0, 0, 0, 0}
+    {8, 8, 0, 32, 0},
+    {0x7FFF, 0, 0, 0, 0}
 };
 const u32 circularAffinePtr = (u32)&circularAffineTable;
 
@@ -352,6 +353,23 @@ const struct OamData bimpact1Oam = {
     .priority = 3,
 };
 
+// a splash of dispersing water
+const struct CompressedSpriteSheet watersplashSprite = {(void*)&watersplashTiles, 32 * 8 * 8 * 4, 418};
+const struct SpritePalette watersplashPalette = {&watersplashPal, 418};
+
+const struct OamData watersplashOam = {
+    .size = 3,
+    .priority = 2,
+};
+
+const struct Frame watersplashLoop[] = {
+    {0, 5},
+    {64, 5},
+    {128, 5},
+    {192, 5},
+    {0xFFFE, 0},
+};
+const struct Frame* watersplashLoopPtr[] = {watersplashLoop};
 
 /*
 	OAM DATA:
