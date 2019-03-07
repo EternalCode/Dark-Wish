@@ -105,12 +105,18 @@ bool try_hit(u8 attacker)
     u16 user_accuracy = B_ACCURACY_STAT(attacker);
 
     u16 result = PERCENT(((user_accuracy * 100) / target_evasion),  move_accuracy);
-    if (RandRange(0, 100) <= result)
+    if (RandRange(0, 100) <= result || (gBattleMoves[move].multi_hit && gBattleMaster->b_moves[attacker].hit_counter < 3))
         return true;
     if (target_evasion > 100) {
-        QueueMessage(0, defender, STRING_ATTACK_AVOIDED, 0);
+        if (gBattleMoves[move].multi_hit && gBattleMaster->b_moves[attacker].hit_counter > 1)
+            QueueMessage(0, 0, STRING_MULTI_HIT, gBattleMaster->b_moves[attacker].hit_counter - 1);
+        else
+            QueueMessage(0, defender, STRING_ATTACK_AVOIDED, 0);
     } else {
-        QueueMessage(0, attacker, STRING_ATTACK_MISSED, 0);
+        if (gBattleMoves[move].multi_hit && gBattleMaster->b_moves[attacker].hit_counter > 1)
+            QueueMessage(0, 0, STRING_MULTI_HIT, gBattleMaster->b_moves[attacker].hit_counter - 1);
+        else
+            QueueMessage(0, attacker, STRING_ATTACK_MISSED, 0);
     }
     return false;
 }

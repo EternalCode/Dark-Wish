@@ -34,7 +34,7 @@ void event_multi_hit(struct action* current_action)
             if (gBattleMaster->b_moves[bank].hit_counter > 1) {
                 gBattleMaster->b_moves[bank].hit_counter = 1;
                 gBattleMaster->b_moves[bank].hit_times = 1;
-                damage_result_msg(bank);
+                //damage_result_msg(bank);
             }
             gBattleMaster->b_moves[bank].hit_counter = temp;
             QueueMessage(0, 0, STRING_MULTI_HIT, gBattleMaster->b_moves[bank].hit_counter);
