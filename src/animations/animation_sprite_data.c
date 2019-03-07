@@ -20,6 +20,8 @@
 #include "../../generated/images/battle_animations/circular.h"
 #include "../../generated/images/battle_animations/blendimpact1.h"
 #include "../../generated/images/battle_animations/watersplash.h"
+#include "../../generated/images/battle_animations/chop.h"
+#include "../../generated/images/battle_animations/slap.h"
 
 
 
@@ -188,6 +190,13 @@ const struct RotscaleFrame glowballAffineTable[] = {
     {0x7FFF, 0, 0, 0, 0}
 };
 const u32 glowballAffinePtr = (u32)&glowballAffineTable;
+
+const struct RotscaleFrame glowballSmallerAffineTable[] = {
+    {-100, -100, 0, 1, 0},
+    {-10, -10, 0, 20, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+const u32 glowballSmallerAffinePtr = (u32)&glowballSmallerAffineTable;
 
 const struct RotscaleFrame glowballRevAffineTable[] = {
     {-300, -300, 0, 1, 0},
@@ -362,6 +371,7 @@ const struct OamData watersplashOam = {
     .priority = 2,
 };
 
+
 const struct Frame watersplashLoop[] = {
     {0, 5},
     {64, 5},
@@ -370,6 +380,44 @@ const struct Frame watersplashLoop[] = {
     {0xFFFE, 0},
 };
 const struct Frame* watersplashLoopPtr[] = {watersplashLoop};
+
+
+// Chop hand from Karate chop
+const struct CompressedSpriteSheet chopSprite = {(void*)&chopTiles, 32 * 4 * 4 * 2, 419};
+const struct CompressedSpriteSheet chopSpriteSideways = {(void*)&chopTiles, 32 * 4 * 4 * 2, 419};
+const struct SpritePalette chopPalette = {&chopPal, 419};
+
+const struct OamData chopOam = {
+    .size = 2,
+    .priority = 1,
+};
+
+const struct Frame chopLeftFrame[] = {
+    {16, 1},
+    {0xFFFF, 0},
+};
+const struct Frame* chopLeftFramePtr[] = {chopLeftFrame};
+
+
+// Slap hand from double slap
+const struct CompressedSpriteSheet slapSprite = {(void*)&slapTiles, 32 * 4 * 4 * 3, 420};
+const struct SpritePalette slapPalette = {&slapPal, 420};
+
+const struct OamData slapOam = {
+    .size = 2,
+    .priority = 3,
+};
+
+const struct Frame slapFrames[] = {
+    {0, 12},
+    {16, 4},
+    {32, 12},
+    {32, 12},
+    {16, 4},
+    {0, 12},
+    {0xFFFF, 0},
+};
+const struct Frame* slapFramesPtr[] = {slapFrames};
 
 /*
 	OAM DATA:

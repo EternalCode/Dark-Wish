@@ -5,6 +5,7 @@
 
 .equ glowballParticle, 0x9006
 .equ glowcolor, 0x9007
+.equ inheritedFireWorkSprite, 0x9013
 
 .global FireworkAnimation
 FireworkAnimation:
@@ -41,6 +42,39 @@ FireworkFinish:
     deletesprite glowballParticle
     end
 
+.pool
+
+.global FireworkAnimationSmaller
+FireworkAnimationSmaller:
+    copyvar glowcolor gLASTRESULT
+    compare targetx 0
+    if1 1 goto FireworkSmallerPosInherited
+    fastsetbattlers
+
+FireworkSmallerPosInherited:
+    BLOCKCMD
+    loadspritefull glowballSprite glowballPalette glowballOam
+    copyvar glowballParticle LASTRESULT
+    spriteblend 8 8
+    hidebg 1
+    spritetobg target 8 8
+    showbg 1
+
+    runtask TaskCreateSmallerFireworkImpact glowcolor 3 targetx targety
+    runtask TaskCreateSmallerFireworkImpact glowcolor 3 targetx targety
+    runtask TaskCreateSmallerFireworkImpact glowcolor 2 targetx targety
+    runtask TaskCreateSmallerFireworkImpact glowcolor 2 targetx targety
+    runtask TaskCreateSmallerFireworkImpact glowcolor 1 targetx targety
+    runtask TaskCreateSmallerFireworkImpact glowcolor 1 targetx targety
+    runtask TaskCreateSmallerFireworkImpact glowcolor 0 targetx targety
+    runtask TaskCreateSmallerFireworkImpact glowcolor 0 targetx targety
+    OPENCMD
+
+FireworkSmallerFinish:
+    waittask TaskCreateSmallerFireworkImpact
+    spritebgclear target
+    deletesprite glowballParticle
+    end
 .pool
 
 
@@ -114,3 +148,31 @@ LinearFireworkFinishrev:
     spritebgclear target
     deletesprite glowballParticle
     end
+
+.global ApplyFireworkAnimation
+    ApplyFireworkAnimation:
+        copyvar glowcolor gLASTRESULT
+        BLOCKCMD
+        spriteblend 8 8
+        hidebg 1
+        spritetobg target 8 8
+        showbg 1
+        OPENCMD
+
+        BLOCKCMD
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 3 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 3 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 2 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 2 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 1 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 1 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 0 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 0 targetx targety
+        OPENCMD
+
+        waittask TaskCreateSmallFireworkGeneric
+        spritebgclear target
+        deletesprite inheritedFireWorkSprite
+        end
+
+    .pool

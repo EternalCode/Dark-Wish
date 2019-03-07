@@ -631,6 +631,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&KaratechopAnimation,
     },
 
     {
@@ -645,6 +646,7 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 5},
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&DoubleSlapAnimation,
     },
 
     {
