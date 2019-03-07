@@ -660,6 +660,18 @@
 .byte \cob
 .endm
 
+.macro applyfirework gfx pal oam affine argbits originx originy
+.byte 73
+.byte 0
+.byte 0
+.byte \argbits
+.word \gfx
+.word \pal
+.word \oam
+.word \affine
+.hword \originx
+.hword \originy
+.endm
 
 .macro BLOCKCMD
 .byte 0xFE

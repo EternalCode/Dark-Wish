@@ -79,6 +79,7 @@ void ScriptCmd_setpriority(void);
 void ScriptCmd_setprioritybg(void);
 void ScriptCmd_clearblending(void);
 void ScriptCmd_spritesblendall(void);
+void ScriptCmd_fireworkeffect(void);
 
 
 extern const struct Frame (**nullframe)[];
@@ -96,6 +97,7 @@ extern void TaskWaitAnimation(u8 taskId);
 extern void TaskWaitAffineAnimation(u8 taskId);
 extern void TaskMoveBG(u8 taskId);
 extern void TaskWaitAnimMessage(u8 taskId);
+extern void TaskCreateSmallFireworkGeneric(u8 taskId);
 extern void battle_loop(void);
 extern void InitAnimLinearTranslation(struct Sprite *sprite);
 extern void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type, enum battle_string_ids id, u16 move_effect_id);
@@ -176,6 +178,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_setprioritybg, // 70
     ScriptCmd_clearblending, // 71
     ScriptCmd_spritesblendall, // 72
+    ScriptCmd_fireworkeffect, // 73
 };
 
 
@@ -1505,7 +1508,49 @@ void ScriptCmd_clearblending()
     ANIMSCR_CMD_NEXT;
 }
 
+// Run the firework effect with a generic sprite
+void ScriptCmd_fireworkeffect()
+{
+    ANIMSCR_MOVE(2);
+    u8 argbits = ANIMSCR_READ_BYTE;
+    u32 pgfx = ANIMSCR_READ_WORD;
+    u32 ppal = ANIMSCR_READ_WORD;
+    u32 poam = ANIMSCR_READ_WORD;
+    u32 affine = ANIMSCR_READ_WORD;
+    s16 currentx = ANIMSCR_READ_HWORD;
+    s16 currenty = ANIMSCR_READ_HWORD;
 
+    u8 blend = argbits & 1;
+    u8 left = argbits & 1;
+    currentx = VarGet(currentx);
+    currentx += left ? rand_range(0, 10) - 10 : rand_range(0, 10);
+    currenty = VarGet(currenty);
+    currenty += rand_range(0, 20) - 10;
+    struct CompressedSpriteSheet* gfx = (struct CompressedSpriteSheet*)pgfx;
+    struct SpritePalette* pal = (struct SpritePalette*)ppal;
+    struct OamData* oam = (struct OamData*)poam;
+    struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, (void*)affine, (SpriteCallback)oac_nullsub};
+    u8 spriteId = template_instanciate_forward_search(&spriteTemp, currentx, currenty, 0);
+    struct RotscaleFrame (**rotscale_table)[] = (void*)affine;
+    gSprites[spriteId].rotscale_table = rotscale_table;
+    gSprites[spriteId].final_oam.affine_mode = 1;
+    gSprites[spriteId].final_oam.priority = 3;
+    if (!blend) {
+        gSprites[spriteId].final_oam.obj_mode = 1;
+        gSprites[spriteId].final_oam.priority = 1;
+    }
+    struct Task* t = &tasks[CreateTask(TaskCreateSmallFireworkGeneric, 0)];
+    t->priv[1] = spriteId;
+    t->priv[3] = currentx;
+    t->priv[4] = currenty;
+    // acceleration. Y must be always negative
+    t->priv[8] = 1;
+    t->priv[9] = 2;
+    // initial velocities
+    t->priv[5] = left ? -rand_range(1, 3) : rand_range(1, 3);
+    t->priv[6] = -(rand_range(1, 4));
+    ANIMSCR_CMD_NEXT;
+}
 
 void AnimationMain()
 {

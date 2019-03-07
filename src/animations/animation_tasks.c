@@ -519,6 +519,9 @@ void TaskMoveSinLeftAndRight(u8 taskId)
 #define state t->priv[10]
 #define delay t->priv[11]
 #define delaytimer t->priv[12]
+#define gfxpriv t->priv[13]
+#define palpriv t->priv[14]
+#define oampriv t->priv[15]
 extern const struct CompressedSpriteSheet glowballSprite;
 extern const struct SpritePalette glowballPalette;
 extern const struct OamData glowballOam;
@@ -527,6 +530,36 @@ extern const u32 glowballAffinePtr;
 extern const u32 glowballRevAffinePtr;
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
+void TaskCreateSmallFireworkGeneric(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+
+    switch (state) {
+        case 0:
+            // if affine transformation done end
+            if (gSprites[spriteId].affineAnimEnded) {
+                state++;
+                return;
+            }
+            // update vectors
+            vX += (accX / 32);
+            vY += (accY / 32);
+            currentx += vX;
+            currenty += vY;
+            gSprites[spriteId].pos1.x = currentx;
+            gSprites[spriteId].pos1.y = currenty;
+            accX += 1;
+            accY = MAX(accY + 2, 10);
+            break;
+        case 1:
+            // delete sprite
+            FreeSpriteOamMatrix(&gSprites[spriteId]);
+            DestroySprite(&gSprites[spriteId]);
+            DestroyTask(taskId);
+            break;
+    };
+}
+
 void TaskCreateSmallFireworkImpact(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
