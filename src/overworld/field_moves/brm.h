@@ -7,8 +7,6 @@ typedef void(*BRMFunc)(u8 taskId);
 
 extern void ValidateAndLaunchFieldmove(u8 taskId);
 
-static const u16 moveIdTerminator = 0xFFFF;
-
 extern const pchar summaryDescription[];
 extern const pchar switchDescription[];
 extern const pchar cancelDescription[];
@@ -90,8 +88,8 @@ extern const pchar AskDig[];
 extern const pchar AskDive[];
 
 
-static struct MachineBRM {
-	pchar *brmString;
+struct MachineBRM {
+	const pchar *brmString;
 	BRMFunc LaunchBRMTask;
 };
 
@@ -100,10 +98,10 @@ typedef void(*LaunchFunc)(u8 fieldIndex, u8 taskId);
 struct MachineFieldMoves {
     HMPrepareFunc BRMPrepareFunc;	// func to validate HM can be used / set up some stuff
     LaunchFunc LaunchFieldTask;	// do HM
-	pchar *errorMsg;		// cannot do HM string pointer
+	const pchar *errorMsg;		// cannot do HM string pointer
 };
 
-static enum brmIndices { 
+enum brmIndices {
 	summaryIndex = 0,
 	switchIndex,
 	cancelIndex,
@@ -134,12 +132,12 @@ static enum brmIndices {
 	milkDrinkIndex,
 	softboiledIndex,
 	sweetScentIndex,
-	diveIndex,	
+	diveIndex,
 };
 
 
 
-extern void AskAndDoBRMWarp( u8 bank, u8 map, u8 taskId, u8 fieldIndex, u32* StrPtr );
+extern void AskAndDoBRMWarp(u8 bank, u8 map, u8 taskId, u8 fieldIndex, pchar* strPtr);
 extern void BRMLaunchFly(u8 fieldIndex, u8 taskId);
 extern void BRMLaunchTeleport(u8 fieldIndex, u8 taskId);
 extern void BRMLaunchDig(u8 fieldIndex, u8 taskId);
@@ -151,7 +149,7 @@ extern bool BRMPrepareDive();
 extern struct MachineBRM gBrmLauncher[];
 extern struct MachineFieldMoves gFieldMoves[];
 
-extern u32 gHmHelper[];
+extern const pchar* gHmHelper[];
 extern u16 fieldMoveIdTable[];
 
 
