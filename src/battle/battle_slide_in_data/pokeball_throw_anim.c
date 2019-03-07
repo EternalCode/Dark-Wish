@@ -42,7 +42,7 @@ void PokemonReleaseFromPokeballSCB(struct Sprite* spr)
             spr->data[1]++;
             spr->final_oam.priority = 2;
             spr->invisible = false;
-            spr->rotscale_table = rotAnimGrowPtr;
+            spr->rotscale_table = (void*)rotAnimGrowPtr;
             spr->final_oam.affine_mode = 1;
             StartSpriteAffineAnim(spr, 0);
             spr->pos1.y += 22;
@@ -84,7 +84,7 @@ void PokemonCaptureIntoPokeballSCB(struct Sprite* spr)
             VarSet(0x8000, 0x0);
             spr->data[0] = 0;
             spr->data[1]++;
-            spr->rotscale_table = rotAnimShrinkPtr;
+            spr->rotscale_table = (void*)rotAnimShrinkPtr;
             spr->final_oam.affine_mode = 1;
             break;
         case 1:
@@ -205,7 +205,7 @@ u8 send_out_backsprite(u8 bank)
     // send out pokemon's backsprite based on bank
     affine_reset_all();
     u8 objid = spawn_pkmn_backsprite_obj_slot(bank, 0x810);
-    gSprites[objid].rotscale_table = shrink_grow_ptr;
+    gSprites[objid].rotscale_table = (void*)shrink_grow_ptr;
     gSprites[objid].final_oam.affine_mode = 1;
     gSprites[objid].callback = pkmn_sendingout_objc;
     gSprites[objid].data[0] = 10;
@@ -229,7 +229,8 @@ static const struct RotscaleFrame spin[] = {
     {0, 0, 30, 255, 0x0}, // 30, 255 frame
     {0x7FFF, 0x0, 0x0, 0x0, 0x0} // end
 };
-static const struct RotscaleFrame (*spin_ptr)[] = (const struct RotscaleFrame(*)[])&spin;
+
+const struct RotscaleFrame* spin_ptr[] = {spin};
 void pokeball_player_throw_arc(struct Sprite* spr)
 {
     if (spr->data[6] < 170) {
@@ -273,6 +274,6 @@ void make_spinning_pokeball(s16 x, s16 y, u8 bank)
     gSprites[objid].data[0] = bank;
 
     gSprites[objid].data[6] = 0x25; // Delay timer
-    gSprites[objid].rotscale_table = (const struct RotscaleFrame(**)[])&spin_ptr;
+    gSprites[objid].rotscale_table = (void*)spin_ptr;
     gSprites[objid].final_oam.affine_mode = 1;
 }
