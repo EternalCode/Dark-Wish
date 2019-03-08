@@ -276,7 +276,7 @@ void TaskQuakeSprite(u8 taskId)
         dirY = !dirUp;
         quakeCount++;
     } else {
-        gSprites[spriteId].pos1.y -= yquake;
+        gSprites[spriteId].pos1.y += yquake;
         dirY = dirUp;
         quakeCount++;
     }
