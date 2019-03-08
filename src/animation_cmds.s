@@ -418,7 +418,7 @@
 .hword \var
 .endm
 
-.macro random min max
+.macro grandom min max
 .byte 46
 .byte 0
 .hword \min
@@ -672,6 +672,16 @@
 .hword \originx
 .hword \originy
 .endm
+
+.macro random min max
+.byte 74
+.byte 0
+.byte 0
+.byte 0
+.hword \min
+.hword \max
+.endm
+
 
 .macro BLOCKCMD
 .byte 0xFE

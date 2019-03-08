@@ -80,6 +80,7 @@ void ScriptCmd_setprioritybg(void);
 void ScriptCmd_clearblending(void);
 void ScriptCmd_spritesblendall(void);
 void ScriptCmd_fireworkeffect(void);
+void ScriptCmd_random(void);
 
 
 extern const struct Frame (**nullframe)[];
@@ -179,6 +180,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_clearblending, // 71
     ScriptCmd_spritesblendall, // 72
     ScriptCmd_fireworkeffect, // 73
+    ScriptCmd_random, // 74
 };
 
 
@@ -1551,6 +1553,18 @@ void ScriptCmd_fireworkeffect()
     t->priv[6] = -(rand_range(1, 4));
     ANIMSCR_CMD_NEXT;
 }
+
+// puts a random number between two given numbers in var 0x900D, lastresult
+void ScriptCmd_random()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    u16 min = ANIMSCR_READ_HWORD;
+    u16 max = ANIMSCR_READ_HWORD;
+    VarSet(0x900D, rand_range(min, max));
+    ANIMSCR_CMD_NEXT;
+}
+
 
 void AnimationMain()
 {
