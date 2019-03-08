@@ -183,8 +183,10 @@
 .macro spriteblend coa cob
 .byte 20
 .byte 0
-.byte \coa
-.byte \cob
+.hword \coa
+.hword \cob
+.byte 0
+.byte 0
 .endm
 
 .macro excludeblend var
@@ -259,7 +261,6 @@
 .byte \amount
 .byte 0
 .endm
-
 
 .macro movewave spritea spriteb amplitude waves steps
 .byte 27
@@ -656,8 +657,10 @@
 .macro spritesblendall coa cob
 .byte 72
 .byte 0
-.byte \coa
-.byte \cob
+.hword \coa
+.hword \cob
+.byte 0
+.byte 0
 .endm
 
 .macro applyfirework gfx pal oam affine argbits originx originy
@@ -682,6 +685,15 @@
 .hword \max
 .endm
 
+.macro fadeplatformbg transitionspeed blendcolor fadedirection boolwaitfade amount
+.byte 75
+.byte \transitionspeed
+.hword \blendcolor
+.byte \fadedirection
+.byte \boolwaitfade
+.byte \amount
+.byte 0
+.endm
 
 .macro BLOCKCMD
 .byte 0xFE

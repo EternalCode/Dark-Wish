@@ -81,6 +81,7 @@ void ScriptCmd_clearblending(void);
 void ScriptCmd_spritesblendall(void);
 void ScriptCmd_fireworkeffect(void);
 void ScriptCmd_random(void);
+void ScriptCmd_fadeplatformbg(void);
 
 
 extern const struct Frame (**nullframe)[];
@@ -181,6 +182,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_spritesblendall, // 72
     ScriptCmd_fireworkeffect, // 73
     ScriptCmd_random, // 74
+    ScriptCmd_fadeplatformbg, // 75
 };
 
 
@@ -667,11 +669,13 @@ void ScriptCmd_spritesblend()
 {
     // alignment for read
     ANIMSCR_MOVE(1);
-    u8 coefficientA = ANIMSCR_READ_BYTE;
-    u8 coefficientB = ANIMSCR_READ_BYTE;
+    u16 coefficientA = ANIMSCR_READ_HWORD;
+    coefficientA = VarGet(coefficientA);
+    u16 coefficientB = ANIMSCR_READ_HWORD;
+    coefficientB = VarGet(coefficientB);
     REG_BLDCNT = (BLDCNT_SPRITES_DST | BLDCNT_BG1_SRC | BLDCNT_ALPHA_BLEND);
     REG_BLDALPHA = BLDALPHA_BUILD(coefficientA, coefficientB);
-
+    ANIMSCR_MOVE(2);
     // set blending move for the sprite
     ANIMSCR_CMD_NEXT;
 }
@@ -1459,10 +1463,13 @@ void ScriptCmd_spritesblendall()
 {
     // alignment for read
     ANIMSCR_MOVE(1);
-    u8 coefficientA = ANIMSCR_READ_BYTE;
-    u8 coefficientB = ANIMSCR_READ_BYTE;
+    u16 coefficientA = ANIMSCR_READ_HWORD;
+    coefficientA = VarGet(coefficientA);
+    u16 coefficientB = ANIMSCR_READ_HWORD;
+    coefficientB = VarGet(coefficientB);
     REG_BLDCNT = (BLDCNT_BG1_SRC | BLDCNT_BG3_SRC | BLDCNT_SPRITES_DST | BLDCNT_ALPHA_BLEND);
     REG_BLDALPHA = BLDALPHA_BUILD(coefficientA, coefficientB);
+    ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1562,6 +1569,33 @@ void ScriptCmd_random()
     u16 min = ANIMSCR_READ_HWORD;
     u16 max = ANIMSCR_READ_HWORD;
     VarSet(0x900D, rand_range(min, max));
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Blend platform bg. This will work if other sprites aren't in the process of blending */
+void ScriptCmd_fadeplatformbg()
+{
+    // time between color transitions
+    u8 delay = ANIMSCR_READ_BYTE;
+    // dst color
+    u16 blendColor = ANIMSCR_READ_HWORD;
+    // fade direction
+    u8 dir = ANIMSCR_READ_BYTE;
+    // apply delay task or not
+    u8 wait = ANIMSCR_READ_BYTE;
+    // amount of fade
+    u8 amount = ANIMSCR_READ_BYTE;
+    if (dir == 0) {
+        BeginNormalPaletteFade((1 << 0) , delay, 0x0, amount, blendColor);
+    } else {
+        BeginNormalPaletteFade((1 << 0) , delay, amount, 0x0, blendColor);
+    }
+    if (wait != 0) {
+        ANIMSCR_WAITING = true;
+        u8 taskId = CreateTask(TaskWaitFade, 0);
+        tasks[taskId].priv[0] = ANIMSCR_THREAD;
+    }
+    ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }
 
