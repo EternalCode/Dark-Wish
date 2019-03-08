@@ -316,7 +316,7 @@ const struct OamData yesnoCursorOam = {
 const struct CompressedSpriteSheet fistSprite = {(void*)&fistTiles, 32 * 4 * 4, 415};
 const struct SpritePalette fistPalette = {&fistPal, 415};
 
-const struct OamData fistOam = {
+const struct OamData fistOam = { // semi transparent fist
     .priority = 3,
     .affine_mode = 1,
     .size = 2,
@@ -335,6 +335,13 @@ const struct RotscaleFrame fistAffineTable[] = {
     {0x7FFF, 0, 0, 0, 0}
 };
 const u32 fistAffinePtr = (u32)&fistAffineTable;
+
+// fist that rotates slightly
+const struct RotscaleFrame fistAffineTable2[] = {
+    {0, 0, 3, 5, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+const u32 fistAffinePtr2 = (u32)&fistAffineTable2;
 
 
 // circular sprite

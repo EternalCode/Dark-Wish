@@ -51,3 +51,12 @@ void SCB_SpriteDeleteWhenAffineEnds(struct Sprite* sprite)
         DestroySprite(sprite);
     }
 }
+
+void SCB_SpriteDeleteAfter10Frames(struct Sprite* sprite)
+{
+    sprite->data[0]++;
+    if (sprite->data[0] == 10) {
+        FreeSpriteOamMatrix(sprite);
+        DestroySprite(sprite);
+    }
+}
