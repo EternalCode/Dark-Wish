@@ -51,6 +51,7 @@ Punchloop:
     spritecallback punchParticle SCB_SpriteDeleteWhenAffineEnds
     spritecallback impactParticle SCB_SpriteDeleteAfter10Frames
     OPENCMD
+    quakebg 1 2 0 2 1 false
     addvar counter 1
     goto Punchloop
 

@@ -22,12 +22,12 @@
 #include "../../generated/images/battle_animations/watersplash.h"
 #include "../../generated/images/battle_animations/chop.h"
 #include "../../generated/images/battle_animations/slap.h"
+#include "../../generated/images/battle_animations/bigfist.h"
 
 
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
-
 
 // the impact sprite from tackle
 const struct CompressedSpriteSheet impact1Sprite = {(void*)&impact1Tiles, 32 * 4 * 4, 400};
@@ -343,6 +343,14 @@ const struct RotscaleFrame fistAffineTable2[] = {
 };
 const u32 fistAffinePtr2 = (u32)&fistAffineTable2;
 
+// fist that starts rotating and shrinking, then reverts all rotation/shrinking
+const struct RotscaleFrame fistAffineTable3[] = {
+    {-450, -450, 0, 1, 0},
+    {6, 6, -7, 24, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+const u32 fistAffinePtr3 = (u32)&fistAffineTable3;
+
 
 // circular sprite
 const struct CompressedSpriteSheet circularSprite = {(void*)&circularTiles, 32 * 2 * 2, 416};
@@ -405,7 +413,6 @@ const struct Frame chopLeftFrame[] = {
 };
 const struct Frame* chopLeftFramePtr[] = {chopLeftFrame};
 
-
 // Slap hand from double slap
 const struct CompressedSpriteSheet slapSprite = {(void*)&slapTiles, 32 * 4 * 4 * 3, 420};
 const struct SpritePalette slapPalette = {&slapPal, 420};
@@ -425,6 +432,17 @@ const struct Frame slapFrames[] = {
     {0xFFFF, 0},
 };
 const struct Frame* slapFramesPtr[] = {slapFrames};
+
+
+// Big red fist from mega punch
+const struct CompressedSpriteSheet bigfistSprite = {(void*)&bigfistTiles, 32 * 8 * 8, 421};
+const struct SpritePalette bigfistPalette = {&bigfistPal, 421};
+
+const struct OamData bigfistOam = {
+    .affine_mode = 1,
+    .size = 3,
+    .priority = 2,
+};
 
 /*
 	OAM DATA:
