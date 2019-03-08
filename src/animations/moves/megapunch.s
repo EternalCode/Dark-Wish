@@ -22,8 +22,9 @@ MegapunchAnimation:
     rendersprite punchParticle targetx targety nullrsf
     setvar gLASTRESULT 0x00FA
     quakebg 1 5 0 8 3 false
-    quakesprite punchParticle 2 2 4 1 false
-    quakebg 3 3 0 4 2 true
+    quakesprite punchParticle 3 3 4 1 false
+    quakebg 1 1 0 2 1 true
+    wait
     animatesprite punchParticle fistAffinePtr3 0
     startscript FireworkAnimation true
 
