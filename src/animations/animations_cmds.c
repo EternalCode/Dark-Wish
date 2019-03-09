@@ -82,6 +82,8 @@ void ScriptCmd_spritesblendall(void);
 void ScriptCmd_fireworkeffect(void);
 void ScriptCmd_random(void);
 void ScriptCmd_fadeplatformbg(void);
+void ScriptCmd_depthlessorbit(void);
+void ScriptCmd_shrinkingorbit(void);
 
 
 extern const struct Frame (**nullframe)[];
@@ -104,7 +106,9 @@ extern void battle_loop(void);
 extern void InitAnimLinearTranslation(struct Sprite *sprite);
 extern void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type, enum battle_string_ids id, u16 move_effect_id);
 extern void ShowBattleMessage2(pchar* str, u8 rboxid);
-
+extern void AnimOrbitFastStep(struct Sprite *sprite);
+extern void AnimOrbitFastStepNoPriority(struct Sprite *sprite);
+extern void AnimOrbitShrinkNoPriority(struct Sprite *sprite);
 
 const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_loadspritefull, // 0
@@ -183,6 +187,8 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_fireworkeffect, // 73
     ScriptCmd_random, // 74
     ScriptCmd_fadeplatformbg, // 75
+    ScriptCmd_depthlessorbit, // 76
+    ScriptCmd_shrinkingorbit, // 77
 };
 
 
@@ -400,7 +406,9 @@ void ScriptCmd_movesprite()
     u16 spriteId = ANIMSCR_READ_HWORD;
     t->priv[0] = VarGet(spriteId);
     t->priv[1] = ANIMSCR_READ_HWORD; // Delta X
+    t->priv[1] = VarGet(t->priv[1]);
     t->priv[2] = ANIMSCR_READ_HWORD; // Delta Y
+    t->priv[2] = VarGet(t->priv[2]);
     t->priv[3] = ANIMSCR_READ_HWORD; // Amount of frames to do animation for
     t->priv[4] = ANIMSCR_READ_BYTE; // anim wait
     t->priv[5] = ANIMSCR_THREAD; // execution thread
@@ -1226,7 +1234,6 @@ void ScriptCmd_confighorizontalarctranslate()
 }
 
 // Make spriteA orbit spriteB with given customizations
-static void AnimOrbitFastStep(struct Sprite *sprite);
 void ScriptCmd_orbit()
 {
     bool wait = ANIMSCR_READ_BYTE;
@@ -1268,28 +1275,6 @@ void ScriptCmd_orbit()
     ANIMSCR_CMD_NEXT;
 }
 
-static void AnimOrbitFastStep(struct Sprite *sprite)
-{
-    if ((u16)(sprite->data[1] - 64) < 128)
-        sprite->final_oam.priority = MAX(0, sprite->data[7] + 1);
-    else
-        sprite->final_oam.priority = MIN(3, sprite->data[7] - 1);
-
-    sprite->pos2.x = Sin(sprite->data[1], sprite->data[2]);
-    sprite->pos2.y = Cos(sprite->data[1], sprite->data[3]);
-    sprite->data[1] = (sprite->data[1] + sprite->data[4]) & 0xFF;
-    sprite->data[0]--;
-    if (sprite->data[0] == 0) {
-        if (sprite->data[6]) {
-            gAnimationCore->wait[sprite->data[6] - 1] = false;
-        }
-        if (sprite->data[5]) {
-            FreeSpriteOamMatrix(sprite);
-            obj_free(sprite);
-        }
-        sprite->callback = (oac_nullsub);
-    }
-}
 
 // wait for frame animation of sprite to finish
 void ScriptCmd_waitanimation()
@@ -1575,26 +1560,93 @@ void ScriptCmd_random()
 /* Blend platform bg. This will work if other sprites aren't in the process of blending */
 void ScriptCmd_fadeplatformbg()
 {
-    // time between color transitions
-    u8 delay = ANIMSCR_READ_BYTE;
-    // dst color
-    u16 blendColor = ANIMSCR_READ_HWORD;
-    // fade direction
-    u8 dir = ANIMSCR_READ_BYTE;
-    // apply delay task or not
-    u8 wait = ANIMSCR_READ_BYTE;
-    // amount of fade
-    u8 amount = ANIMSCR_READ_BYTE;
-    if (dir == 0) {
-        BeginNormalPaletteFade((1 << 0) , delay, 0x0, amount, blendColor);
-    } else {
-        BeginNormalPaletteFade((1 << 0) , delay, amount, 0x0, blendColor);
+    ANIMSCR_MOVE(3);
+    ANIMSCR_PALBUFF |= (1 << 0);
+    ANIMSCR_CMD_NEXT;
+}
+
+
+// Make spriteA orbit spriteB with given customizations
+void ScriptCmd_depthlessorbit()
+{
+    bool wait = ANIMSCR_READ_BYTE;
+    // spriteA
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct Sprite* sprite = &gSprites[spriteId];
+    // spriteB
+    spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct Sprite* toOrbit = &gSprites[spriteId];
+
+    toOrbit->final_oam.priority = 2;
+    sprite->data[0] = ANIMSCR_READ_HWORD; // duration
+    sprite->data[0] = MAX(1, sprite->data[0]);
+    sprite->data[2] = ANIMSCR_READ_BYTE; // width
+    sprite->data[3] = ANIMSCR_READ_BYTE; // height
+    u8 direction = ANIMSCR_READ_BYTE; // direction
+    if (direction) {
+        // left
+        sprite->data[2] = -sprite->data[2];
+        sprite->data[3] = -sprite->data[3];
     }
-    if (wait != 0) {
+    sprite->data[4] = ANIMSCR_READ_BYTE; // speed
+    // animation should pause script thread or not
+    if (wait) {
+        sprite->data[6] = ANIMSCR_THREAD;
+        sprite->data[6] += 1;
         ANIMSCR_WAITING = true;
-        u8 taskId = CreateTask(TaskWaitFade, 0);
-        tasks[taskId].priv[0] = ANIMSCR_THREAD;
+    } else {
+        sprite->data[6] = 0;
     }
+    sprite->data[5] = ANIMSCR_READ_BYTE; // bool to delete
+    sprite->data[1] = ANIMSCR_READ_BYTE; // wave offset (0 - 255)
+    sprite->data[7] = toOrbit->final_oam.priority;
+    sprite->callback = AnimOrbitFastStepNoPriority;
+    sprite->callback(sprite);
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+// Make spriteA orbit spriteB with given customizations
+void ScriptCmd_shrinkingorbit()
+{
+    bool wait = ANIMSCR_READ_BYTE;
+    // spriteA
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct Sprite* sprite = &gSprites[spriteId];
+    // spriteB
+    spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct Sprite* toOrbit = &gSprites[spriteId];
+
+    toOrbit->final_oam.priority = 2;
+    sprite->data[0] = ANIMSCR_READ_HWORD; // duration
+    sprite->data[0] = MAX(1, sprite->data[0]);
+    sprite->data[2] = ANIMSCR_READ_BYTE; // width
+    sprite->data[3] = ANIMSCR_READ_BYTE; // height
+    u8 direction = ANIMSCR_READ_BYTE; // direction
+    if (direction) {
+        // left
+        sprite->data[2] = -sprite->data[2];
+        sprite->data[3] = -sprite->data[3];
+    }
+    sprite->data[4] = ANIMSCR_READ_BYTE; // speed
+    // animation should pause script thread or not
+    if (wait) {
+        sprite->data[6] = ANIMSCR_THREAD;
+        sprite->data[6] += 1;
+        ANIMSCR_WAITING = true;
+    } else {
+        sprite->data[6] = 0;
+    }
+    sprite->data[5] = ANIMSCR_READ_BYTE; // bool to delete
+    sprite->data[1] = ANIMSCR_READ_HWORD; // wave offset (0 - 255)
+    sprite->data[1] = VarGet(sprite->data[1]);
+    sprite->data[7] = toOrbit->final_oam.priority;
+    sprite->callback = AnimOrbitShrinkNoPriority;
+    sprite->callback(sprite);
     ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }

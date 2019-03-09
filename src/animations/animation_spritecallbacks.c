@@ -60,3 +60,67 @@ void SCB_SpriteDeleteAfter10Frames(struct Sprite* sprite)
         DestroySprite(sprite);
     }
 }
+
+void AnimOrbitFastStep(struct Sprite *sprite)
+{
+    if ((u16)(sprite->data[1] - 64) < 128)
+        sprite->final_oam.priority = MAX(0, sprite->data[7] + 1);
+    else
+        sprite->final_oam.priority = MIN(3, sprite->data[7] - 1);
+
+    sprite->pos2.x = Sin(sprite->data[1], sprite->data[2]);
+    sprite->pos2.y = Cos(sprite->data[1], sprite->data[3]);
+    sprite->data[1] = (sprite->data[1] + sprite->data[4]) & 0xFF;
+    sprite->data[0]--;
+    if (sprite->data[0] == 0) {
+        if (sprite->data[6]) {
+            gAnimationCore->wait[sprite->data[6] - 1] = false;
+        }
+        if (sprite->data[5]) {
+            FreeSpriteOamMatrix(sprite);
+            obj_free(sprite);
+            sprite->final_oam.priority = 3;
+        }
+        sprite->callback = (oac_nullsub);
+    }
+}
+
+void AnimOrbitFastStepNoPriority(struct Sprite *sprite)
+{
+    sprite->pos2.x = Sin(sprite->data[1], sprite->data[2]);
+    sprite->pos2.y = Cos(sprite->data[1], sprite->data[3]);
+    sprite->data[1] = (sprite->data[1] + sprite->data[4]) & 0xFF;
+    sprite->data[0]--;
+    if (sprite->data[0] == 0) {
+        if (sprite->data[6]) {
+            gAnimationCore->wait[sprite->data[6] - 1] = false;
+        }
+        if (sprite->data[5]) {
+            FreeSpriteOamMatrix(sprite);
+            obj_free(sprite);
+        }
+        sprite->callback = (oac_nullsub);
+    }
+}
+
+void AnimOrbitShrinkNoPriority(struct Sprite *sprite)
+{
+    sprite->pos2.x = Sin(sprite->data[1], sprite->data[2]);
+    sprite->pos2.y = Cos(sprite->data[1], sprite->data[3]);
+    sprite->data[1] = (sprite->data[1] + sprite->data[4]) & 0xFF;
+    sprite->data[0]--;
+    if (sprite->data[0] % 2) {
+        sprite->data[3] = MAX(0, sprite->data[3] - 1);
+        sprite->data[2] = MAX(0, sprite->data[2] - 1);
+    }
+    if (sprite->data[0] == 0) {
+        if (sprite->data[6]) {
+            gAnimationCore->wait[sprite->data[6] - 1] = false;
+        }
+        if (sprite->data[5]) {
+            FreeSpriteOamMatrix(sprite);
+            obj_free(sprite);
+        }
+        sprite->callback = (oac_nullsub);
+    }
+}
