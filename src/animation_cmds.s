@@ -685,13 +685,41 @@
 .hword \max
 .endm
 
-.macro fadeplatformbg transitionspeed blendcolor fadedirection boolwaitfade amount
+.macro addfadeplatformbg
 .byte 75
-.byte \transitionspeed
-.hword \blendcolor
-.byte \fadedirection
-.byte \boolwaitfade
-.byte \amount
+.byte 0
+.byte 0
+.byte 0
+.endm
+
+.macro depthlessorbit spriteA spriteB duration width height dir speed boolwait booldelete waveoffset
+.byte 76
+.byte \boolwait
+.hword \spriteA
+.hword \spriteB
+.hword \duration
+.byte \width
+.byte \height
+.byte \dir
+.byte \speed
+.byte \booldelete
+.byte \waveoffset
+.byte 0
+.byte 0
+.endm
+
+.macro shrinkingorbit spriteA spriteB duration width height dir speed boolwait booldelete waveoffset
+.byte 77
+.byte \boolwait
+.hword \spriteA
+.hword \spriteB
+.hword \duration
+.byte \width
+.byte \height
+.byte \dir
+.byte \speed
+.byte \booldelete
+.hword \waveoffset
 .byte 0
 .endm
 
