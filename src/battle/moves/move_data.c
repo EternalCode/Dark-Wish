@@ -703,6 +703,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET | FLAG_PUNCH,
     .procs = &burn_10_procs,
+    .animation = (u8*)&FirepunchAnimation,
     },
 
     {

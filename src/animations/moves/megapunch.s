@@ -18,13 +18,14 @@ MegapunchAnimation:
     setvar coefficientB 16
     spriteblend coefficientA coefficientB
     excludeblend punchParticle
-    fadeplatformbg 5 0 FADETO true 10
+    addfadeplatformbg
+    beginfade 5 0 FADETO true 10
     rendersprite punchParticle targetx targety nullrsf
     setvar gLASTRESULT 0x00FA
     quakebg 1 5 0 8 3 false
     quakesprite punchParticle 3 3 4 1 false
-    quakebg 1 1 0 2 1 true
-    wait
+    quakebg 1 1 0 2 1 false
+    pauseframes 5
     animatesprite punchParticle fistAffinePtr3 0
     startscript FireworkAnimation true
 
@@ -41,7 +42,7 @@ Punchloop:
 finishAnimation:
     waitaffineanimation punchParticle
     deletesprite punchParticle
-    fadeplatformbg 5 0 FADEFROM true 10
+    beginfade 5 0 FADEFROM true 10
     showhpbars
     showsprite target
     hidebg 1

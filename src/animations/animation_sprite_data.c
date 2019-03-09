@@ -23,6 +23,7 @@
 #include "../../generated/images/battle_animations/chop.h"
 #include "../../generated/images/battle_animations/slap.h"
 #include "../../generated/images/battle_animations/bigfist.h"
+#include "../../generated/images/battle_animations/smallfire.h"
 
 
 
@@ -443,6 +444,46 @@ const struct OamData bigfistOam = {
     .size = 3,
     .priority = 2,
 };
+
+const struct RotscaleFrame bigfistShrinkAffineTable[] = {
+    {-140, -140, 0, 1, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+const u32 bigfistShrinkAffinePtr = (u32)&bigfistShrinkAffineTable;
+
+// The small fire from fire punch
+const struct CompressedSpriteSheet smallfireSprite = {(void*)&smallfireTiles, 32 * 2 * 4 * 4, 422};
+const struct SpritePalette smallfirePalette = {&smallfirePal, 422};
+
+const struct OamData smallfireOam = {
+    .shape = 2,
+    .size = 2,
+    .priority = 2,
+};
+
+const struct OamData smallfireAffOam = {
+    .affine_mode = 1,
+    .shape = 2,
+    .size = 2,
+    .priority = 3,
+};
+
+// smallfire sprite to shrink
+const struct RotscaleFrame smallfireAffineTable[] = {
+    {-6, -6, 0, 20, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+
+const struct Frame smallfireFrames[] = {
+    {0, 5},
+    {8, 5},
+    {16, 5},
+    {24, 5},
+    {0xFFFE, 0}
+};
+
+const u32 smallfireAffinePtr = (u32)&smallfireAffineTable;
+const struct Frame* smallfireFramesPtr = {smallfireFrames};
 
 /*
 	OAM DATA:
