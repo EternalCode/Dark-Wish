@@ -98,6 +98,7 @@ enum TryHitMoveStatus damp_on_tryhit(u8 user, u8 src, u16 move, struct anonymous
 u8 limber_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     if (ailment == AILMENT_PARALYZE) {
     	QueueMessage(NULL, user, STRING_IMMUNE_ABILITY, NULL);
        	return false;
@@ -109,7 +110,7 @@ u8 limber_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* ac
 u16 sand_veil_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
     if (user != src) return acb->data_ptr;
-
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return acb->data_ptr;
     if (IS_WEATHER_SANDSTORM && stat_id == STAT_EVASION) {
         return PERCENT(acb->data_ptr, 120);
     }
@@ -173,6 +174,7 @@ enum TryHitMoveStatus oblivious_on_tryhit(u8 user, u8 src, u16 move, struct anon
 u8 oblivious_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     if (ailment == AILMENT_INFACTUATION) {
     	return false;
     }
@@ -202,6 +204,7 @@ u16 compound_eyes_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callbac
 u8 insomnia_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     if (ailment == AILMENT_SLEEP) {
     	QueueMessage(NULL, user, STRING_IMMUNE_ABILITY, NULL);
     	return false;
@@ -224,6 +227,7 @@ void colorchange_on_after_move(u8 user, u8 src, u16 move, struct anonymous_callb
 u8 immunity_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     if (ailment == AILMENT_POISON) {
     	QueueMessage(NULL, user, STRING_IMMUNE_ABILITY, NULL);
     	return false;
@@ -262,6 +266,7 @@ enum TryHitMoveStatus flash_fire_on_tryhit(u8 user, u8 src, u16 move, struct ano
 u8 own_tempo_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     if (ailment == AILMENT_CONFUSION) {
     	return false;
     }
@@ -495,6 +500,7 @@ u8 inner_focus_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callba
 u8 magmaarmor_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     if (ailment == AILMENT_FREEZE) {
     	QueueMessage(NULL, user, STRING_IMMUNE_ABILITY, NULL);
     	return false;
@@ -506,6 +512,7 @@ u8 magmaarmor_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback
 u8 waterveil_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     if (ailment == AILMENT_BURN) {
     	QueueMessage(NULL, user, STRING_IMMUNE_ABILITY, NULL);
     	return false;
@@ -766,6 +773,7 @@ u16 guts_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 u16 marvel_scale_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
     if (user != src) return acb->data_ptr;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return acb->data_ptr;
     // double attack if status'd
     if (B_STATUS(user) != AILMENT_NONE) {
         if (stat_id == DEFENSE_MOD)
@@ -868,6 +876,7 @@ bool arena_trap_on_trap(u8 affectedMon, u8 user, u8 trapType)
 u8 vitalspirit_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     if (ailment == AILMENT_SLEEP) {
     	QueueMessage(NULL, user, STRING_IMMUNE_ABILITY, NULL);
     	return false;
@@ -891,6 +900,7 @@ bool white_smoke_on_stat_boost(u8 user, u8 src, u16 move, struct anonymous_callb
 u16 tangled_feet_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
     if (user != src) return acb->data_ptr;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return acb->data_ptr;
     if (B_PSTATUS(user) != AILMENT_CONFUSION) {
         if ((stat_id == EVASION_MOD))
             return (acb->data_ptr << 1);
@@ -931,6 +941,7 @@ void steadfast_on_flinch(u8 user, u8 src, u16 move, struct anonymous_callback* a
 u16 snow_cloak_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
     if (user != src) return acb->data_ptr;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return acb->data_ptr;
     if (IS_WEATHER_HAIL && stat_id == STAT_EVASION) {
         return PERCENT(acb->data_ptr, 120);
     }
@@ -1848,7 +1859,7 @@ u8 flower_veil_on_status(u8 user, u8 src, u16 ailment, struct anonymous_callback
 u16 fur_coat_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
     if (user != src) return acb->data_ptr;
-    if (CAN_IGNORE_TARGET_ABILITY(user)) return acb->data_ptr;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return acb->data_ptr;
     if (stat_id == DEFENSE_MOD) {
         return (acb->data_ptr << 1);
     }
@@ -1860,10 +1871,9 @@ u16 fur_coat_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* ac
 // Bulletproof
 enum TryHitMoveStatus bulletproof_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if ((TARGET_OF(user) != src) || (user == src) || !(IS_BULLET(move))) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     return TRYHIT_TARGET_MOVE_IMMUNITY;
-
 }
 
 // Competitive
@@ -1944,7 +1954,7 @@ void megalauncher_on_base_power(u8 user, u8 src, u16 move, struct anonymous_call
 u16 grass_pelt_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
     if (user != src) return acb->data_ptr;
-    //if (CAN_IGNORE_TARGET_ABILITY(user)) return acb->data_ptr;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return acb->data_ptr;
     if (gBattleMaster->field_state.is_grassy_terrain && stat_id == DEFENSE_MOD) {
         return PERCENT(acb->data_ptr, 150);
     }
@@ -2130,6 +2140,7 @@ u16 water_bubble_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback
     } else {
     // deboost fire type attacks against src
         if ((TARGET_OF(user) != src) || (CURRENT_ACTION->action_bank != user)) return acb->data_ptr;
+        if (CAN_IGNORE_TARGET_ABILITY(user)) return acb->data_ptr;
         if (B_MOVE_HAS_TYPE(user, TYPE_FIRE)) {
             // halve atk and spa stats
             if ((stat_id == ATTACK_MOD) || (stat_id == SPATTACK_MOD)) {
@@ -2143,6 +2154,7 @@ u16 water_bubble_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback
 u8 water_bubble_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     if (ailment == AILMENT_BURN) {
     	QueueMessage(NULL, user, STRING_IMMUNE_ABILITY, NULL);
        	return false;
@@ -2282,6 +2294,7 @@ void battery_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback*
 void fluffy_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (B_MOVE_DMG(user) < 1)) return;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return;
     if (B_MOVE_HAS_TYPE(user, TYPE_FIRE))
         B_MOVE_DMG(user) = B_MOVE_DMG(user) << 1;
     if (B_MOVE_CONTACT(user)) {
@@ -2294,6 +2307,7 @@ void fluffy_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 enum TryHitMoveStatus dazzling_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src) || (MOVE_PRIORITY(user) < 1)) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     return TRYHIT_TARGET_MOVE_IMMUNITY;
 }
 
