@@ -21,8 +21,8 @@ struct action *stat_boost(u8 bank, u8 stat_id, s8 amount, u8 inflicting_bank)
 
 void event_stat_boost(struct action* current_action)
 {
-    s8 new_amount = current_action->priv[1];
-    if  (new_amount == 0) {
+    s8 *new_amount = (s8 *)(&(current_action->priv[1]));
+    if  (*new_amount == 0) {
         end_action(CURRENT_ACTION);
         return;
     }
@@ -88,14 +88,14 @@ void event_stat_boost(struct action* current_action)
             return;
     };
 
-    s8 stat_total = *stat_stored + new_amount;
+    s8 stat_total = *stat_stored + *new_amount;
     stat_total = MIN(6, stat_total);
     stat_total = MAX(-6, stat_total);
     u8 delta = (ABS(stat_total - (*stat_stored)));
     switch (delta) {
         case 0:
            // stat didn't change - string can't go up/down anymore
-            if (new_amount > 0) {
+            if (*new_amount > 0) {
                 QueueMessage(0, bank, STRING_STAT_MOD_CANT_GO_HIGHER, stat_id + REQUEST_ATK);
             } else {
                 QueueMessage(0, bank, STRING_STAT_MOD_CANT_GO_LOWER, stat_id + REQUEST_ATK);
@@ -103,8 +103,8 @@ void event_stat_boost(struct action* current_action)
             break;
         case 1:
             // stat changed by 1 stage
-            *stat_stored += (new_amount > 0) ? delta : -delta;
-            if (new_amount > 0) {
+            *stat_stored += (*new_amount > 0) ? delta : -delta;
+            if (*new_amount > 0) {
                 dprintf("\ntrying to queue the stat went up string...\n\n");
                 QueueMessage(0, bank, STRING_STAT_MOD_RISE, stat_id + REQUEST_ATK);
             } else {
@@ -113,8 +113,8 @@ void event_stat_boost(struct action* current_action)
             break;
         case 2:
             // stat changed by 2 stages
-            *stat_stored += (new_amount > 0) ? delta : -delta;
-            if (new_amount > 0) {
+            *stat_stored += (*new_amount > 0) ? delta : -delta;
+            if (*new_amount > 0) {
                 QueueMessage(0, bank, STRING_STAT_MOD_HARSH_RISE, stat_id + REQUEST_ATK);
             } else {
                 QueueMessage(0, bank, STRING_STAT_MOD_HARSH_DROP, stat_id + REQUEST_ATK);
@@ -125,8 +125,8 @@ void event_stat_boost(struct action* current_action)
         case 5:
         case 6:
             // stat changed by >=3 stages
-            *stat_stored += (new_amount > 0) ? delta : -delta;
-            if (new_amount > 0) {
+            *stat_stored += (*new_amount > 0) ? delta : -delta;
+            if (*new_amount > 0) {
                 QueueMessage(0, bank, STRING_STAT_MOD_ROSE_DRASTICALLY, stat_id + REQUEST_ATK);
             } else {
                 QueueMessage(0, bank, STRING_STAT_MOD_SEVERELY_FELL, stat_id + REQUEST_ATK);
