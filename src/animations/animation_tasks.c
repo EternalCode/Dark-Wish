@@ -580,7 +580,7 @@ void TaskCreateSmallFireworkImpact(u8 taskId)
             struct OamData* oam = (struct OamData*)&glowballOam;
             struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, nullrsf, (SpriteCallback)oac_nullsub};
             u16 color = t->priv[1];
-            spriteId = template_instanciate_forward_search(&spriteTemp, currentx, currenty, 0);
+            spriteId = CreateSprite(&spriteTemp, currentx, currenty, 0);
             u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
             BlendPalette((pal_slot * 16) + (16 * 16), 16, 12, color);
             struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballAffinePtr;
@@ -646,7 +646,7 @@ void TaskCreateSmallerFireworkImpact(u8 taskId)
             struct OamData* oam = (struct OamData*)&glowballOam;
             struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, nullrsf, (SpriteCallback)oac_nullsub};
             u16 color = t->priv[1];
-            spriteId = template_instanciate_forward_search(&spriteTemp, currentx, currenty, 0);
+            spriteId = CreateSprite(&spriteTemp, currentx, currenty, 0);
             u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
             BlendPalette((pal_slot * 16) + (16 * 16), 16, 12, color);
             struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballSmallerAffinePtr;
@@ -712,7 +712,7 @@ void TaskCreateSmallLinearFireworkImpact(u8 taskId)
             struct OamData* oam = (struct OamData*)&glowballOam;
             struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, nullrsf, (SpriteCallback)oac_nullsub};
             u16 color = t->priv[1];
-            spriteId = template_instanciate_forward_search(&spriteTemp, currentx, currenty, 0);
+            spriteId = CreateSprite(&spriteTemp, currentx, currenty, 0);
             u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
             BlendPalette((pal_slot * 16) + (16 * 16), 16, 12, color);
             struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballAffinePtr;
@@ -771,7 +771,7 @@ void TaskCreateSmallLinearFireworkImpactRev(u8 taskId)
             struct OamData* oam = (struct OamData*)&glowballOam;
             struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, nullrsf, (SpriteCallback)oac_nullsub};
             u16 color = t->priv[1];
-            spriteId = template_instanciate_forward_search(&spriteTemp, currentx, currenty, 0);
+            spriteId = CreateSprite(&spriteTemp, currentx, currenty, 0);
             u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
             BlendPalette((pal_slot * 16) + (16 * 16), 16, 12, color);
             struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballRevAffinePtr;
@@ -938,7 +938,7 @@ void TaskDrawPokeballGlitter(u8 taskId)
             struct Template spriteTemp = {gfx.tag, pal.tag, &pokeballParticleOam, (void*)pokeballParticleLoopPtr, &gfx, nullrsf, (SpriteCallback)SCBMoveSpriteLinear};
             LoadCompressedSpriteSheetUsingHeap(&gfx);
             LoadCompressedSpritePaletteUsingHeap(&pal);
-            u8 spriteId = template_instanciate_forward_search(&spriteTemp, sprite->pos1.x, sprite->pos1.y, 0);
+            u8 spriteId = CreateSprite(&spriteTemp, sprite->pos1.x, sprite->pos1.y, 0);
             switch (t->priv[10]) {
                 case 0:
                     // axis y = 0, for all positive X

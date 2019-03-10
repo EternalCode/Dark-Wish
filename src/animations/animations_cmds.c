@@ -244,7 +244,7 @@ void ScriptCmd_loadspritefull()
     struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, nullrsf, (SpriteCallback)oac_nullsub};
     LoadCompressedSpriteSheetUsingHeap(gfx);
     LoadCompressedSpritePaletteUsingHeap(pal);
-    u8 spriteId = template_instanciate_forward_search(&spriteTemp, 0, 0, 0);
+    u8 spriteId = CreateSprite(&spriteTemp, 0, 0, 0);
     gSprites[spriteId].final_oam.affine_mode = false;
     gSprites[spriteId].invisible = true;
     VarSet(0x900D, spriteId);
@@ -260,7 +260,7 @@ void ScriptCmd_loadsprite()
     struct SpritePalette* pal = (struct SpritePalette*)ANIMSCR_READ_WORD;
     struct OamData* oam = (struct OamData*)ANIMSCR_READ_WORD;
     struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, nullrsf, (SpriteCallback)oac_nullsub};
-    u8 spriteId = template_instanciate_forward_search(&spriteTemp, 0, 0, 0);
+    u8 spriteId = CreateSprite(&spriteTemp, 0, 0, 0);
     gSprites[spriteId].invisible = true;
     VarSet(0x900D, spriteId);
     ANIMSCR_CMD_NEXT;
@@ -1311,6 +1311,7 @@ void ScriptCmd_spritecallback()
     ANIMSCR_MOVE(1);
     u16 spriteId = ANIMSCR_READ_HWORD;
     spriteId = VarGet(spriteId);
+    ClearSpriteData(&gSprites[spriteId]);
     gSprites[spriteId].callback = (SpriteCallback)ANIMSCR_READ_WORD;
     ANIMSCR_CMD_NEXT;
 }
@@ -1524,7 +1525,7 @@ void ScriptCmd_fireworkeffect()
     struct SpritePalette* pal = (struct SpritePalette*)ppal;
     struct OamData* oam = (struct OamData*)poam;
     struct Template spriteTemp = {gfx->tag, pal->tag, oam, nullframe, gfx, (void*)affine, (SpriteCallback)oac_nullsub};
-    u8 spriteId = template_instanciate_forward_search(&spriteTemp, currentx, currenty, 0);
+    u8 spriteId = CreateSprite(&spriteTemp, currentx, currenty, 0);
     struct RotscaleFrame (**rotscale_table)[] = (void*)affine;
     gSprites[spriteId].rotscale_table = rotscale_table;
     gSprites[spriteId].final_oam.affine_mode = 1;

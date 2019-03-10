@@ -101,7 +101,7 @@ u8 load_dmg_type_icon(u8 type, s16 x, s16 y, u8 tag)
                                 (SpriteCallback)oac_nullsub};
     gpu_tile_obj_alloc_tag_and_upload(&icon_gfx);
     gpu_pal_obj_alloc_tag_and_apply(&icon_pal);
-    return template_instanciate_forward_search(&icon_temp, x, y, 0);
+    return CreateSprite(&icon_temp, x, y, 0);
 }
 
 u8 load_dmg_category_icon(u8 category, s16 x, s16 y, u8 tag)
@@ -112,7 +112,7 @@ u8 load_dmg_category_icon(u8 category, s16 x, s16 y, u8 tag)
                                 (SpriteCallback)oac_nullsub};
     gpu_tile_obj_alloc_tag_and_upload(&icon_gfx);
     gpu_pal_obj_alloc_tag_and_apply(&icon_pal);
-    return template_instanciate_forward_search(&icon_temp, x, y, 0);
+    return CreateSprite(&icon_temp, x, y, 0);
 }
 
 u8 load_small_dmg_category_icon(u8 category, s16 x, s16 y, u8 tag)
@@ -123,7 +123,7 @@ u8 load_small_dmg_category_icon(u8 category, s16 x, s16 y, u8 tag)
                                 (SpriteCallback)oac_nullsub};
     gpu_tile_obj_alloc_tag_and_upload(&icon_gfx);
     gpu_pal_obj_alloc_tag_and_apply(&icon_pal);
-    return template_instanciate_forward_search(&icon_temp, x, y, 0);
+    return CreateSprite(&icon_temp, x, y, 0);
 }
 
 const struct TextboxTemplate tempObjText = {
@@ -167,19 +167,19 @@ u8 draw_pp(u8 bank, u8 index)
 
      switch (index) {
         case 0:
-            objid = template_instanciate_forward_search(&text_temp, 110, 131, 0);
+            objid = CreateSprite(&text_temp, 110, 131, 0);
             vram_addr = (void*)((gSprites[objid].final_oam.tile_num * 32) + 0x6010000);
             break;
         case 1:
-            objid = template_instanciate_forward_search(&text_temp, 212, 131, 0);
+            objid = CreateSprite(&text_temp, 212, 131, 0);
             vram_addr = (void*)((gSprites[objid].final_oam.tile_num * 32) + 0x6010000);
             break;
         case 2:
-            objid = template_instanciate_forward_search(&text_temp, 110, 150, 0);
+            objid = CreateSprite(&text_temp, 110, 150, 0);
             vram_addr = (void*)((gSprites[objid].final_oam.tile_num * 32) + 0x6010000);
             break;
         default:
-            objid = template_instanciate_forward_search(&text_temp, 212, 150, 0);
+            objid = CreateSprite(&text_temp, 212, 150, 0);
             vram_addr = (void*)((gSprites[objid].final_oam.tile_num * 32) + 0x6010000);
             break;
     };
@@ -211,19 +211,19 @@ void load_names_moves(u8 bank)
         u8 objid;
         switch (i) {
             case 0:
-                objid = template_instanciate_forward_search(&text_temp, 43, 131, 0);
+                objid = CreateSprite(&text_temp, 43, 131, 0);
                 vram_addr = (void*)((gSprites[objid].final_oam.tile_num * 32) + 0x6010000);
                 break;
             case 1:
-                objid = template_instanciate_forward_search(&text_temp, 145, 131, 0);
+                objid = CreateSprite(&text_temp, 145, 131, 0);
                 vram_addr = (void*)((gSprites[objid].final_oam.tile_num * 32) + 0x6010000);
                 break;
             case 2:
-                objid = template_instanciate_forward_search(&text_temp, 43, 150, 0);
+                objid = CreateSprite(&text_temp, 43, 150, 0);
                 vram_addr = (void*)((gSprites[objid].final_oam.tile_num * 32) + 0x6010000);
                 break;
             default:
-                objid = template_instanciate_forward_search(&text_temp, 145, 150, 0);
+                objid = CreateSprite(&text_temp, 145, 150, 0);
                 vram_addr = (void*)((gSprites[objid].final_oam.tile_num * 32) + 0x6010000);
                 break;
         };

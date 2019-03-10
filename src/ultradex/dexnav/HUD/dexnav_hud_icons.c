@@ -24,7 +24,7 @@ void dexnav_draw_ability(enum PokemonAbility ability, u8* objid) {
                                 nullrsf, (SpriteCallback)0x800760D};
     gpu_tile_obj_alloc_tag_and_upload(&fontsprite_ability);
     gpu_pal_obj_alloc_tag_and_apply(&heldpal);
-    u8 obj_id = template_instanciate_forward_search(&font_temp_ability, ICONX + 80, ICONY + 0x12, 0x0);
+    u8 obj_id = CreateSprite(&font_temp_ability, ICONX + 80, ICONY + 0x12, 0x0);
     *objid = obj_id;
     gSprites[obj_id].final_oam.affine_mode = 2;
 
@@ -59,7 +59,7 @@ void dexnav_draw_move(u16 move, u8 search_level, u8* objid) {
                             nullrsf, (SpriteCallback)0x800760D};
     gpu_tile_obj_alloc_tag_and_upload(&fontsprite_move);
     gpu_pal_obj_alloc_tag_and_apply(&heldpal);
-    u8 obj_id = template_instanciate_forward_search(&font_temp_move, ICONX + 80, ICONY + 0x12, 0x0);
+    u8 obj_id = CreateSprite(&font_temp_move, ICONX + 80, ICONY + 0x12, 0x0);
     *objid = obj_id;
     gSprites[obj_id].final_oam.affine_mode = 2;
 
@@ -112,9 +112,9 @@ void dexnav_draw_potential(u8 potential, u8* objid) {
     u8 i;
     for (i = 0; i < 3; i++) {
         if (potential > i) {
-            obj_id = template_instanciate_forward_search(&star_lit_temp, ICONX + 23 + (i * 8), ICONY + 0x5, 0x0);
+            obj_id = CreateSprite(&star_lit_temp, ICONX + 23 + (i * 8), ICONY + 0x5, 0x0);
         } else {
-            obj_id = template_instanciate_forward_search(&star_off_temp, ICONX + 23 + (i * 8), ICONY + 0x5, 0x0);
+            obj_id = CreateSprite(&star_off_temp, ICONX + 23 + (i * 8), ICONY + 0x5, 0x0);
         }
         objid[i] = obj_id;
         gSprites[obj_id].final_oam.affine_mode = 2;
@@ -133,7 +133,7 @@ void dexnav_draw_sight(u8 sight_lvl, u8* objid) {
                                             nullrsf, (SpriteCallback)0x800760D};
     gpu_tile_obj_alloc_tag_and_upload(&sight_tiles);
     gpu_pal_obj_alloc_tag_and_apply(&heldpal);
-    u8 obj_id = template_instanciate_forward_search(&font_temp_sight, ICONX + 192, ICONY + 0x12, 0x0);
+    u8 obj_id = CreateSprite(&font_temp_sight, ICONX + 192, ICONY + 0x12, 0x0);
     *objid = obj_id;
     gSprites[obj_id].final_oam.affine_mode = 2;
     extern void dexnav_sight_update(u8);
@@ -166,7 +166,7 @@ void dexnav_draw_helditem(u8* objid) {
                                     nullrsf, (SpriteCallback)0x800760D};
     gpu_tile_obj_alloc_tag_and_upload(&heldicon);
     gpu_pal_obj_alloc_tag_and_apply(&heldpal);
-    u8 obj_id = template_instanciate_forward_search(&heldtemp, ICONX + 0x8, ICONY + 0xC, 0x0);
+    u8 obj_id = CreateSprite(&heldtemp, ICONX + 0x8, ICONY + 0xC, 0x0);
     *objid = obj_id;
     gSprites[obj_id].final_oam.affine_mode = 2;
     gSprites[obj_id].final_oam.obj_mode = 1;
@@ -186,7 +186,7 @@ void dexnav_draw_speciesicon(u16 species, u8* objid) {
     gpu_tile_obj_alloc_tag_and_upload(&bulbicon);
 
     // create object
-    u8 obj_id = template_instanciate_forward_search(&bulbtemp, ICONX, ICONY, 0x0);
+    u8 obj_id = CreateSprite(&bulbtemp, ICONX, ICONY, 0x0);
     *objid = obj_id;
     //dprintf("address is: %x\n", gSprites[obj_id].image);
     dprintf("address is: %x\n", &picon_oam);

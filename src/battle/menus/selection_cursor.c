@@ -216,7 +216,7 @@ void spawn_pointer_arrow(u8 tag)
     // uncompressed
     gpu_tile_obj_alloc_tag_and_upload(&cursor_gfx);
     gpu_pal_obj_alloc_tag_and_apply(&cursor_pal);
-    gBattleMaster->battle_cursor.objid = template_instanciate_forward_search(
+    gBattleMaster->battle_cursor.objid = CreateSprite(
                                         &cursor_temp,
                                         gBattleMaster->battle_cursor.cursor_x[gBattleMaster->battle_cursor.cursor_pos],
                                         gBattleMaster->battle_cursor.cursor_y[gBattleMaster->battle_cursor.cursor_pos], 0
@@ -234,12 +234,12 @@ void spawn_square_pointer(u8 tag)
     gpu_tile_obj_alloc_tag_and_upload(&move_cursor_gfx);
     gpu_pal_obj_alloc_tag_and_apply(&move_cursor_pal);
 
-    gBattleMaster->battle_cursor.objid_mv_crsr[0] = template_instanciate_forward_search(
+    gBattleMaster->battle_cursor.objid_mv_crsr[0] = CreateSprite(
                                         &move_cursor_temp,
                                         gBattleMaster->battle_cursor.cursor_x[gBattleMaster->battle_cursor.cursor_pos],
                                         gBattleMaster->battle_cursor.cursor_y[gBattleMaster->battle_cursor.cursor_pos], 0
                                         );
-    gBattleMaster->battle_cursor.objid_mv_crsr[1] = template_instanciate_forward_search(
+    gBattleMaster->battle_cursor.objid_mv_crsr[1] = CreateSprite(
                                                 &move_cursor_temp,
                                                 gBattleMaster->battle_cursor.cursor_x[gBattleMaster->battle_cursor.cursor_pos] + 64,
                                                 gBattleMaster->battle_cursor.cursor_y[gBattleMaster->battle_cursor.cursor_pos], 0

@@ -304,11 +304,11 @@ void switch_load_pokemon_icons() {
                                             .callback = ((i != 0) ? oac_nullsub : icon_frame_change),
                                             };
             if (i == 0) {
-                gBattleMaster->switch_main.icon_objid[i] = template_instanciate_forward_search(&icon_template, 16, 10, 0);
+                gBattleMaster->switch_main.icon_objid[i] = CreateSprite(&icon_template, 16, 10, 0);
             } else if (i == 5) {
-                gBattleMaster->switch_main.icon_objid[i] = template_instanciate_forward_search(&icon_template, 16, 10 + 23 * i, 0);
+                gBattleMaster->switch_main.icon_objid[i] = CreateSprite(&icon_template, 16, 10 + 23 * i, 0);
             } else {
-                gBattleMaster->switch_main.icon_objid[i] = template_instanciate_forward_search(&icon_template, 16, 10 + 24 * i, 0);
+                gBattleMaster->switch_main.icon_objid[i] = CreateSprite(&icon_template, 16, 10 + 24 * i, 0);
             }
         }
     }
@@ -329,9 +329,9 @@ void switch_load_scroll_box()
     LoadCompressedSpriteSheetUsingHeap(&top_gfx);
     LoadCompressedSpriteSheetUsingHeap(&mid_gfx);
     LoadCompressedSpriteSheetUsingHeap(&bot_gfx);
-    gBattleMaster->switch_main.slider_objid[0] = template_instanciate_forward_search(&top_template, 17, 17, 1);
-    gBattleMaster->switch_main.slider_objid[1] = template_instanciate_forward_search(&mid_template, 17, 40, 1);
-    gBattleMaster->switch_main.slider_objid[2] = template_instanciate_forward_search(&bot_template, 17, 128, 1);
+    gBattleMaster->switch_main.slider_objid[0] = CreateSprite(&top_template, 17, 17, 1);
+    gBattleMaster->switch_main.slider_objid[1] = CreateSprite(&mid_template, 17, 40, 1);
+    gBattleMaster->switch_main.slider_objid[2] = CreateSprite(&bot_template, 17, 128, 1);
     gSprites[gBattleMaster->switch_main.slider_objid[0]].final_oam.affine_mode = 0;
     gSprites[gBattleMaster->switch_main.slider_objid[1]].final_oam.affine_mode = 0;
     gSprites[gBattleMaster->switch_main.slider_objid[2]].final_oam.affine_mode = 0;
@@ -530,7 +530,7 @@ void switch_scene_main()
             rboxes_free();
             switch_setup();
             switch_fetch_all_data();
-            rotscale_reset();
+            ResetAffineAnimData();
             // lower volume
             m4aMPlayVolumeControl(&mplay_BGM, 0xFFFF, 128);
             gMain.state++;
@@ -651,7 +651,7 @@ void spawn_confirm_box()
                                     .rotscale = nullrsf,
                                     .callback = oac_nullsub,
                                     };
-    gBattleMaster->switch_main.switch_confirm_box_id = template_instanciate_forward_search(&confirm_template, 208, 120, 0);
+    gBattleMaster->switch_main.switch_confirm_box_id = CreateSprite(&confirm_template, 208, 120, 0);
 
     /* Box cursor */
     gfx_tag = CONFIRM_BOX_TAG + 1;
@@ -666,7 +666,7 @@ void spawn_confirm_box()
                                     .rotscale = nullrsf,
                                     .callback = oac_nullsub,
                                     };
-    gBattleMaster->switch_main.switch_confirm_cursor_id = template_instanciate_forward_search(&cursor_template, 188, CURSOR_SHIFT_POS , 0);
+    gBattleMaster->switch_main.switch_confirm_cursor_id = CreateSprite(&cursor_template, 188, CURSOR_SHIFT_POS , 0);
 }
 
 

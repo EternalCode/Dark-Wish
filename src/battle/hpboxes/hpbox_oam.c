@@ -123,7 +123,7 @@ u8 hpbar_build_full(struct Pokemon* pkmn, s16 x, s16 y, u16 tag)
     struct Template hpbar_temp = {tag, tag, &hpbar_oam, nullframe, &hpbar_sprite_gfx, nullrsf, (SpriteCallback)oac_nullsub};
     LoadCompressedSpriteSheetUsingHeap(&hpbar_sprite_gfx);
     LoadCompressedSpritePaletteUsingHeap(&hpbar_sprite_pal);
-    u8 objid_main = template_instanciate_forward_search(&hpbar_temp, x, y, 0);
+    u8 objid_main = CreateSprite(&hpbar_temp, x, y, 0);
 
     // update hp
     refresh_hp(pkmn, objid_main, 0, 0, (u8*)hpbar_piecesTiles);
@@ -138,7 +138,7 @@ u8 hpbar_build_transparent(struct Pokemon* pkmn, s16 x, s16 y, u16 tag)
     struct Template hpbar_temp = {tag, tag, &hpbar_oam, nullframe, &hpbar_sprite_gfx, nullrsf, (SpriteCallback)oac_nullsub};
     LoadCompressedSpriteSheetUsingHeap(&hpbar_sprite_gfx);
     LoadCompressedSpritePaletteUsingHeap(&hpbar_sprite_pal);
-    u8 objid_main = template_instanciate_forward_search(&hpbar_temp, x, y, 0);
+    u8 objid_main = CreateSprite(&hpbar_temp, x, y, 0);
     gSprites[objid_main].final_oam.priority = 0;
     // update hp
     refresh_hp(pkmn, objid_main, 0, 0, (u8*)hpbar_pieces_switchTiles);
@@ -321,8 +321,8 @@ u8 spawn_hpbox_opponent(u16 tag, s16 x, s16 y, u8 bank)
 
     LoadCompressedSpriteSheetUsingHeap(&hpbox_sprite_gfx);
     LoadCompressedSpritePaletteUsingHeap(&hpbox_sprite_pal);
-    u8 objid_main = template_instanciate_forward_search(&hpbox_temp, x, y, 0);
-    u8 objid = template_instanciate_forward_search(&hpbox_temp, x + 64, y, 0);
+    u8 objid_main = CreateSprite(&hpbox_temp, x, y, 0);
+    u8 objid = CreateSprite(&hpbox_temp, x + 64, y, 0);
     gSprites[objid].final_oam.tile_num += 64;
     draw_name(&party_opponent[0], NAME_OS_OFFSET1, NAME_OS_OFFSET2, objid_main, HPFONT_OPP_SINGLE);
     gPkmnBank[bank]->objid_hpbox[0] = objid_main;
@@ -339,7 +339,7 @@ u8 spawn_hpbox_opponent(u16 tag, s16 x, s16 y, u8 bank)
     struct CompressedSpriteSheet status_tiles = {(void*)hpbar_piecesTiles, 128, s_tag};
     LoadCompressedSpriteSheetUsingHeap(&status_tiles);
     struct Template status_temp = {s_tag, HPBAR_OS_TAG, &hpbar_status_oam, nullframe, &status_tiles, nullrsf, (SpriteCallback)oac_nullsub};
-    gPkmnBank[bank]->objid_hpbox[3] = template_instanciate_forward_search(&status_temp, s_x, s_y, 0);
+    gPkmnBank[bank]->objid_hpbox[3] = CreateSprite(&status_temp, s_x, s_y, 0);
 
 
     u32 ailment = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, NULL);
@@ -372,8 +372,8 @@ u8 spawn_hpbox_player(u16 tag, s16 x, s16 y, u8 bank)
     // init structs. HP box is 2 Objects put together
     LoadCompressedSpriteSheetUsingHeap(&hpbox_sprite_gfx);
     LoadCompressedSpritePaletteUsingHeap(&hpbox_sprite_pal);
-    u8 objid_main = template_instanciate_forward_search(&hpbox_temp, x, y, 0);
-    u8 objid = template_instanciate_forward_search(&hpbox_temp, x + 64, y, 0);
+    u8 objid_main = CreateSprite(&hpbox_temp, x, y, 0);
+    u8 objid = CreateSprite(&hpbox_temp, x + 64, y, 0);
     gSprites[objid].final_oam.tile_num += 64;
     gPkmnBank[bank]->objid_hpbox[0] = objid_main;
     gPkmnBank[bank]->objid_hpbox[1] = objid;
@@ -391,7 +391,7 @@ u8 spawn_hpbox_player(u16 tag, s16 x, s16 y, u8 bank)
     struct CompressedSpriteSheet status_tiles = {(void*)hpbar_piecesTiles, 128, s_tag};
     gpu_tile_obj_alloc_tag_and_upload(&status_tiles);
     struct Template status_temp = {s_tag, HPBAR_PS_TAG, &hpbar_status_oam, nullframe, &status_tiles, nullrsf, (SpriteCallback)oac_nullsub};
-    gPkmnBank[bank]->objid_hpbox[3] = template_instanciate_forward_search(&status_temp, s_x, s_y, 0);
+    gPkmnBank[bank]->objid_hpbox[3] = CreateSprite(&status_temp, s_x, s_y, 0);
 
 
     u32 ailment = pokemon_getattr(gPkmnBank[bank]->this_pkmn, REQUEST_STATUS_AILMENT, NULL);

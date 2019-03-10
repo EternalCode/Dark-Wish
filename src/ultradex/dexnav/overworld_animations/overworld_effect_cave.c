@@ -35,7 +35,7 @@ void oei_1A_cave() {
     gpu_pal_obj_alloc_tag_and_apply(&cave_smoke);
     LoadPalette((u8 *)&cave_smokePal, 29 * 16, 32);
     log_coords_relative_camera(&oe_state.effect_pos.x, &oe_state.effect_pos.y, 8, 8);
-    u8 obj_id = template_instanciate_reverse_search(&objt_cave, oe_state.effect_pos.x, oe_state.effect_pos.y, 0xFF);
+    u8 obj_id = CreateSpriteAtEnd(&objt_cave, oe_state.effect_pos.x, oe_state.effect_pos.y, 0xFF);
     if (obj_id != 64) {
         gSprites[obj_id].coordOffsetEnabled = 1; //what
         gSprites[obj_id].data[0] = 22;

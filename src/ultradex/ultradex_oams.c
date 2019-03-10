@@ -95,7 +95,7 @@ void SpawnUltraDexCursor()
     // uncompressed
     gpu_tile_obj_alloc_tag_and_upload(&cursorGfx);
     gpu_pal_obj_alloc_tag_and_apply(&cursorPal);
-    gUltraDex->cursorObjId = template_instanciate_forward_search(&cursorTemp, 36, 24, 0);
+    gUltraDex->cursorObjId = CreateSprite(&cursorTemp, 36, 24, 0);
     gSprites[gUltraDex->cursorObjId].invisible = true;
 }
 
@@ -128,7 +128,7 @@ void SpawnUltraDexPageTracker()
     // uncompressed
     gpu_tile_obj_alloc_tag_and_upload(&pageGfx);
     gpu_pal_obj_alloc_tag_and_apply(&pagePal);
-    gUltraDex->pageObjId = template_instanciate_forward_search(&pageTemp, 120, 104, 0);
+    gUltraDex->pageObjId = CreateSprite(&pageTemp, 120, 104, 0);
     gSprites[gUltraDex->pageObjId].invisible = true;
 }
 
@@ -163,7 +163,7 @@ void SpawnUltraDexIcon(u8 i, void* tiles, void* pal)
     gpu_tile_obj_alloc_tag_and_upload(&iconGfx);
     gpu_pal_obj_alloc_tag_and_apply(&iconPal);
     u16 x = i >= (APPS_COUNT >> 1) ? 240 + 36 + ((i - (APPS_COUNT >> 1)) * 56) : 36 + (i * 56);
-    gUltraDex->iconObjIds[i] = template_instanciate_forward_search(&iconTemp, x, 56, 0);
+    gUltraDex->iconObjIds[i] = CreateSprite(&iconTemp, x, 56, 0);
     gSprites[gUltraDex->iconObjIds[i]].invisible = true;
 }
 

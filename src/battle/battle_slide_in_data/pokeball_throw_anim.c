@@ -203,7 +203,7 @@ void pkmn_sendingout_objc(struct Sprite* spr)
 u8 send_out_backsprite(u8 bank)
 {
     // send out pokemon's backsprite based on bank
-    affine_reset_all();
+    ResetOamMatrices();
     u8 objid = spawn_pkmn_backsprite_obj_slot(bank, 0x810);
     gSprites[objid].rotscale_table = (void*)shrink_grow_ptr;
     gSprites[objid].final_oam.affine_mode = 1;
@@ -269,7 +269,7 @@ void make_spinning_pokeball(s16 x, s16 y, u8 bank)
     ball_id = ball_number_to_ball_processing_index(ball_id);
     LoadCompressedSpriteSheetUsingHeap(&ball_tiles[ball_id]);
     LoadCompressedSpritePaletteUsingHeap(&ball_palettes[ball_id]);
-    u8 objid = template_instanciate_forward_search((struct Template*)0x82606F4, x, y, 0);
+    u8 objid = CreateSprite((struct Template*)0x82606F4, x, y, 0);
     gSprites[objid].callback = pokeball_player_throw_arc;
     gSprites[objid].data[0] = bank;
 

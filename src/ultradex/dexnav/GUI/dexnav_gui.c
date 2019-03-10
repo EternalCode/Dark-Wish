@@ -73,7 +73,7 @@ void dexnav_load_pokemon_icons() {
                                             .callback = oac_nullsub,
                                             };
                                                                 // x and y pos of sprite
-            (*DNavState)->objids[i] = template_instanciate_forward_search(&icon_template, 20 + (24 * (i % 6)), 92 + (i > 5 ? 28 : 0), 0);
+            (*DNavState)->objids[i] = CreateSprite(&icon_template, 20 + (24 * (i % 6)), 92 + (i > 5 ? 28 : 0), 0);
         //}
     }
     for (u8 i = 0; i < 5; i++) {
@@ -95,7 +95,7 @@ void dexnav_load_pokemon_icons() {
                                             .callback = oac_nullsub,
                                             };
                                                                 // x and y pos of sprite
-            (*DNavState)->objids[12 + i] = template_instanciate_forward_search(&icon_template, 30 + 24 * i, 48, 0);
+            (*DNavState)->objids[12 + i] = CreateSprite(&icon_template, 30 + 24 * i, 48, 0);
         //}
     }
 }
@@ -124,7 +124,7 @@ void DnavSpawnPointerArrow() {
     // uncompressed
     gpu_tile_obj_alloc_tag_and_upload(&cursor_gfx);
     gpu_pal_obj_alloc_tag_and_apply(&cursor_pal);
-    (*DNavState)->cursor_id = template_instanciate_forward_search(&cursor_temp, 30, 48, 0);
+    (*DNavState)->cursor_id = CreateSprite(&cursor_temp, 30, 48, 0);
     update_cursor_position();
 }
 
