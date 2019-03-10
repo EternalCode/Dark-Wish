@@ -67,6 +67,7 @@ u8 speedboost_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* 
 u8 battle_armor_variations_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (TARGET_OF(user) != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return true;
     B_MOVE_WILL_CRIT(user) = false;
     return true;
 }
@@ -75,6 +76,7 @@ u8 battle_armor_variations_on_modify_move(u8 user, u8 src, u16 move, struct anon
 void sturdy_on_dmg(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (TARGET_OF(user) != src) return;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return;
     if (B_CURRENT_HP(src) == TOTAL_HP(src)) {
         if (B_MOVE_DMG(user) >= B_CURRENT_HP(user))
             B_MOVE_DMG(user) = B_CURRENT_HP(src) - 1;
@@ -85,6 +87,7 @@ void sturdy_on_dmg(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 /* Aftermath immunity is done through ability flag. See ability_table.c */
 enum TryHitMoveStatus damp_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if ((move == MOVE_SELFDESTRUCT) || (move == MOVE_EXPLOSION))
         return TRYHIT_CANT_USE_MOVE;
     return TRYHIT_USE_MOVE_NORMAL;
@@ -106,6 +109,7 @@ u8 limber_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback* ac
 u16 sand_veil_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
     if (user != src) return acb->data_ptr;
+
     if (IS_WEATHER_SANDSTORM && stat_id == STAT_EVASION) {
         return PERCENT(acb->data_ptr, 120);
     }
@@ -127,6 +131,7 @@ u8 static_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 enum TryHitMoveStatus volt_absorb_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if (!B_MOVE_HAS_TYPE(user, TYPE_ELECTRIC)) return TRYHIT_USE_MOVE_NORMAL;
     if (TOTAL_HP(src) != B_CURRENT_HP(src)) {
         do_heal(src, (TOTAL_HP(src) >> 2));
@@ -140,6 +145,7 @@ enum TryHitMoveStatus volt_absorb_on_tryhit(u8 user, u8 src, u16 move, struct an
 enum TryHitMoveStatus water_absorb_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if (!B_MOVE_HAS_TYPE(user, TYPE_WATER)) return TRYHIT_USE_MOVE_NORMAL;
     if (TOTAL_HP(src) != B_CURRENT_HP(src)) {
         do_heal(src, (TOTAL_HP(src) >> 2));
@@ -157,6 +163,7 @@ u16 oblivious_disallow[] = {
 enum TryHitMoveStatus oblivious_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     for (u8 i = 0; i < (sizeof(oblivious_disallow)/sizeof(u16)); i++) {
          if (move == oblivious_disallow[i]) return TRYHIT_CANT_USE_MOVE;
     }
@@ -238,6 +245,7 @@ u16 flash_fire_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* 
 enum TryHitMoveStatus flash_fire_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if (!B_MOVE_HAS_TYPE(user, TYPE_FIRE)) return TRYHIT_USE_MOVE_NORMAL;
     if (!HAS_VOLATILE(VOLATILE_FLASH_FIRE, src)) {
         ADD_VOLATILE(VOLATILE_FLASH_FIRE, src);
@@ -294,6 +302,7 @@ enum TryHitMoveStatus wonder_guard_on_tryhit(u8 user, u8 src, u16 move, struct a
 {
     if ((user == src) || (B_MOVE_IS_STATUS(user) || CURRENT_MOVE(user) == MOVE_STRUGGLE))
         return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if (B_MOVE_EFFECTIVENESS(user) != TE_SUPER_EFFECTIVE)
         return TRYHIT_TARGET_MOVE_IMMUNITY;
     else
@@ -337,6 +346,7 @@ u8 synchronize_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callbac
 bool clear_body_variations_on_stat_boost(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     // boost on self which isnt by the user
     return ((CURRENT_ACTION->action_bank == user) || (CURRENT_ACTION->priv[1] > 0));
 }
@@ -353,6 +363,7 @@ u8 natural_cure_before_switch(u8 user, u8 src, u16 move, struct anonymous_callba
 enum TryHitMoveStatus lightning_rod_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if (!B_MOVE_HAS_TYPE(user, TYPE_ELECTRIC)) return TRYHIT_USE_MOVE_NORMAL;
     stat_boost(src, STAT_SPECIAL_ATTACK, 1, src);
     return TRYHIT_FAIL_SILENTLY;
@@ -474,6 +485,7 @@ u8 poisonpoint_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* a
 u8 inner_focus_on_modify_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (TARGET_OF(user) != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return true;
     B_MOVE_FLINCH(user) = 0;
     return true;
 }
@@ -527,6 +539,7 @@ bool magnetpull_on_trap(u8 affectedMon, u8 user, u8 trapType)
 enum TryHitMoveStatus soundproof_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src) || !(IS_SOUND_BASE(move))) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     return TRYHIT_TARGET_MOVE_IMMUNITY;
 }
 
@@ -569,7 +582,7 @@ u8 pressure_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 u16 thick_fat_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (CURRENT_ACTION->action_bank != user)) return acb->data_ptr;
-
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return acb->data_ptr;
     // check current move is fire or ice
     if (B_MOVE_HAS_TYPE(user, TYPE_FIRE) || B_MOVE_HAS_TYPE(user, TYPE_ICE)) {
         // halve atk and spa stats
@@ -630,6 +643,7 @@ bool keen_eye_on_stat_boost(u8 user, u8 src, u16 move, struct anonymous_callback
 {
     u8 attacker = CURRENT_ACTION->action_bank; // inflictor
     if (attacker == src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(attacker)) return true;
     return (!(CURRENT_ACTION->priv[0] == ACCURACY_MOD));
 }
 
@@ -648,6 +662,7 @@ u16 keen_eye_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* ac
 bool hyper_cutter_on_stat_boost(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     if (CURRENT_ACTION->action_bank == src) return true;
     return (!CURRENT_ACTION->priv[0] == ATTACK_MOD);
 }
@@ -864,6 +879,7 @@ u8 vitalspirit_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callbac
 bool white_smoke_on_stat_boost(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     if (CURRENT_ACTION->action_bank == src) return true;
     return false;
 }
@@ -886,6 +902,7 @@ u16 tangled_feet_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback
 enum TryHitMoveStatus motor_drive_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if (!B_MOVE_HAS_TYPE(user, TYPE_ELECTRIC)) return TRYHIT_USE_MOVE_NORMAL;
     stat_boost(src, STAT_SPEED, 1, src);
     return TRYHIT_FAIL_SILENTLY;
@@ -941,6 +958,7 @@ u8 angerpoint_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* ac
 void heatproof_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (TARGET_OF(user) != src) return;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return;
     if (B_MOVE_HAS_TYPE (user, TYPE_FIRE)) {
         B_MOVE_POWER(user) = B_MOVE_POWER(user) >> 1;
     }
@@ -959,6 +977,7 @@ bool simple_on_stat_boost_mod(u8 user, u8 src, u16 stat_id, struct anonymous_cal
 enum TryHitMoveStatus dry_skin_try_hit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_CANT_USE_MOVE;
     if (!B_MOVE_HAS_TYPE(user, TYPE_WATER)) return TRYHIT_USE_MOVE_NORMAL;
     if (TOTAL_HP(src) != B_CURRENT_HP(src)) {
         flat_heal(src, (TOTAL_HP(src) >> 2));
@@ -1176,6 +1195,7 @@ u8 leaf_guard_on_status(u8 user, u8 src, u16 ailment , struct anonymous_callback
 enum TryHitMoveStatus leaf_guard_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if (move == MOVE_YAWN) return TRYHIT_FAIL_SILENTLY;
     return TRYHIT_USE_MOVE_NORMAL;
 }
@@ -1296,6 +1316,7 @@ void tintedlens_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback* 
 void filter_variations_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (TARGET_OF(user) != src) return;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return;
     if (B_MOVE_EFFECTIVENESS(user) == TE_SUPER_EFFECTIVE) {
         B_MOVE_DMG(user) = PERCENT(B_MOVE_DMG(user), 75);
     }
@@ -1335,6 +1356,7 @@ u16 scrappy_on_effectiveness(u8 target_type, u8 src, u16 move_type, struct anony
 enum TryHitMoveStatus storm_drain_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if (!B_MOVE_HAS_TYPE(user, TYPE_WATER)) return TRYHIT_USE_MOVE_NORMAL;
     stat_boost(src, STAT_SPECIAL_ATTACK, 1, src);
     return TRYHIT_FAIL_SILENTLY;
@@ -1424,6 +1446,7 @@ bool contrary_on_stat_boost_mod(u8 user, u8 src, u16 stat_id, struct anonymous_c
 {
     acb->in_use = false;
     if (user != src) return true;
+    if(CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     CURRENT_ACTION->priv[1] = -CURRENT_ACTION->priv[1];
     return true;
 }
@@ -1485,6 +1508,7 @@ void friend_guard_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback
 {
     u8 target = TARGET_OF(user);
     if ((SIDE_OF(target) != SIDE_OF(src)) || (target == src) || (B_MOVE_DMG(user) < 1)) return;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return;
     B_MOVE_DMG(user) = MAX(1, PERCENT(B_MOVE_DMG(user), 75));
 }
 
@@ -1531,6 +1555,7 @@ void flare_boost_on_base_power(u8 user, u8 src, u16 move, struct anonymous_callb
 // Telepathy
 enum TryHitMoveStatus telepathy_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
+    //if (CAN_IGNORE_TARGET_ABILITY(user)) return;
     if ((TARGET_OF(user) == src) && (src == ALLY_OF(user)))
         return TRYHIT_FAIL_SILENTLY;
     return TRYHIT_USE_MOVE_NORMAL;
@@ -1572,6 +1597,7 @@ u8 moody_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb) 
 enum TryHitMoveStatus overcoat_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src) || !(IS_POWDER(move))) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     return TRYHIT_TARGET_MOVE_IMMUNITY;
 }
 
@@ -1601,6 +1627,7 @@ u8 regenerator_before_switch(u8 user, u8 src, u16 move, struct anonymous_callbac
 bool big_pecks_on_stat_boost(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
+    if (CAN_IGNORE_TARGET_ABILITY(CURRENT_ACTION->action_bank)) return true;
     if (CURRENT_ACTION->action_bank == src) return true;
     return (!(CURRENT_ACTION->priv[0] == DEFENSE_MOD));
 }
@@ -1618,7 +1645,7 @@ u16 sand_rush_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* a
 // Wonder skin
 enum TryHitMoveStatus wonder_skin_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if ((TARGET_OF(user) == src) && (user != src)) {
+    if ((TARGET_OF(user) == src) && (user != src) && !CAN_IGNORE_TARGET_ABILITY(user)) {
         // if move is a status move, reduce accuracy
         if (B_MOVE_IS_STATUS(user)) {
             B_MOVE_ACCURACY(user) = B_MOVE_ACCURACY(user) >> 1;
@@ -1709,6 +1736,7 @@ u8 rattled_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 // Magic bounce
 enum TryHitMoveStatus magic_bounce_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if ((TARGET_OF(user) == src) && (!ACTION_BOUNCED) && (IS_REFLECTABLE(move))) {
         struct action* a = next_action(user, user, ActionMove, EventMoveTryHit);
         a->move = CURRENT_MOVE(user);
@@ -1728,6 +1756,7 @@ enum TryHitMoveStatus magic_bounce_on_tryhit(u8 user, u8 src, u16 move, struct a
 enum TryHitMoveStatus sap_sipper_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if ((TARGET_OF(user) != src) || (user == src)) return TRYHIT_USE_MOVE_NORMAL;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if (!B_MOVE_HAS_TYPE(user, TYPE_GRASS)) return TRYHIT_USE_MOVE_NORMAL;
     stat_boost(src, STAT_DEFENSE, 1, src);
     return TRYHIT_FAIL_SILENTLY;
@@ -1779,6 +1808,7 @@ u16 victory_star_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback
 u16 aroma_veil_banned[] = {MOVE_ATTRACT, MOVE_DISABLE, MOVE_ENCORE, MOVE_HEALBLOCK, MOVE_TAUNT, MOVE_TORMENT};
 enum TryHitMoveStatus aroma_veil_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if (SIDE_OF(TARGET_OF(user)) == SIDE_OF(src)) {
         for (u8 i = 0; i < (sizeof(aroma_veil_banned)/ sizeof(u16)); i++) {
             if (move == aroma_veil_banned[i])
@@ -1818,6 +1848,7 @@ u8 flower_veil_on_status(u8 user, u8 src, u16 ailment, struct anonymous_callback
 u16 fur_coat_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
     if (user != src) return acb->data_ptr;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return acb->data_ptr;
     if (stat_id == DEFENSE_MOD) {
         return (acb->data_ptr << 1);
     }
@@ -1829,8 +1860,10 @@ u16 fur_coat_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* ac
 // Bulletproof
 enum TryHitMoveStatus bulletproof_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return TRYHIT_USE_MOVE_NORMAL;
     if ((TARGET_OF(user) != src) || (user == src) || !(IS_BULLET(move))) return TRYHIT_USE_MOVE_NORMAL;
     return TRYHIT_TARGET_MOVE_IMMUNITY;
+
 }
 
 // Competitive
@@ -1911,6 +1944,7 @@ void megalauncher_on_base_power(u8 user, u8 src, u16 move, struct anonymous_call
 u16 grass_pelt_on_stat(u8 user, u8 src, u16 stat_id, struct anonymous_callback* acb)
 {
     if (user != src) return acb->data_ptr;
+    //if (CAN_IGNORE_TARGET_ABILITY(user)) return acb->data_ptr;
     if (gBattleMaster->field_state.is_grassy_terrain && stat_id == DEFENSE_MOD) {
         return PERCENT(acb->data_ptr, 150);
     }
@@ -2341,6 +2375,7 @@ void beast_boost_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback*
 void shadow_shield_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (TARGET_OF(user) != src) return;
+    if (CAN_IGNORE_TARGET_ABILITY(user)) return;
 	if (TOTAL_HP(user) == B_CURRENT_HP(user)) {
 	    B_MOVE_DMG(user) = PERCENT(B_MOVE_DMG(user), 50);
     }
