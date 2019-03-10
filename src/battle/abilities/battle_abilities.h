@@ -69,7 +69,10 @@ extern const pchar ability_names[][17];
 #define A_FLAG_SECONDARIES_PREVENT (1 << 7)
 #define A_FLAG_OPP_SECONDARIES_PREVENT (1 << 8)
 #define A_FLAG_FORCED_SWITCHING_PREVENT (1 << 9)
+#define A_FLAG_IGNORE_TARGET_ABILITY (1 << 10)
 #define HAS_ABILITY_FLAG(ability, flag) (abilities[ability].a_flags & flag)
+
+#define CAN_IGNORE_TARGET_ABILITY(bank) (HAS_ABILITY_FLAG(BANK_ABILITY(bank), A_FLAG_IGNORE_TARGET_ABILITY))   
 
 /* Callback externs */
 extern u8 ability_none_on_effect(u8 user, u8 source, u16 move, struct anonymous_callback* acb);

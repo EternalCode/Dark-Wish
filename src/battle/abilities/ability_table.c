@@ -434,7 +434,8 @@ struct ability_data abilities[] = {
 		// KLUTZ TODO
 	},
 	{
-		// MOLDBREAKER TODO
+		// Mold Breaker
+		.a_flags = A_FLAG_IGNORE_TARGET_ABILITY,
 	},
 	{
 		// SUPERLUCK
@@ -665,10 +666,12 @@ struct ability_data abilities[] = {
 		.on_stat = victory_star_on_stat,
 	},
 	{
-		// TURBOBLAZE
+		// Turboblaze
+		.a_flags = A_FLAG_IGNORE_TARGET_ABILITY,
 	},
 	{
-		// TERAVOLT
+		// Teravolt
+		.a_flags = A_FLAG_IGNORE_TARGET_ABILITY,
 	},
 	{
 		// Aroma Veil
