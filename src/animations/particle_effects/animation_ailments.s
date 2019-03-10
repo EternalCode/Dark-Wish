@@ -101,6 +101,7 @@ animParalyzed:
 .equ freezeParticle, 0x9006
 .global animFreeze
 animFreeze:
+    BLOCKCMD
     fastsetbattlers
     copyvar 0x8000 targetx
     copyvar 0x8001 targety
@@ -110,6 +111,7 @@ animFreeze:
     fadespritebg 3 0x6546 FADETO 0 10
     spriteblend 8 8
     setvar counter 0x0
+    OPENCMD
 
 freezeLoop:
     compare counter 8

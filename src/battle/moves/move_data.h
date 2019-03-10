@@ -289,6 +289,7 @@ extern const u8* DoubleSlapAnimation;
 extern const u8* CometpunchAnimation;
 extern const u8* MegapunchAnimation;
 extern const u8* FirepunchAnimation;
+extern const u8* IcepunchAnimation;
 extern const u8* TackleAnimation;
 extern const u8* TakedownAnimation;
 extern const u8* FireworkAnimation;

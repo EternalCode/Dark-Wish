@@ -24,6 +24,7 @@
 #include "../../generated/images/battle_animations/slap.h"
 #include "../../generated/images/battle_animations/bigfist.h"
 #include "../../generated/images/battle_animations/smallfire.h"
+#include "../../generated/images/battle_animations/bigbluefist.h"
 
 
 
@@ -100,12 +101,20 @@ const struct RotscaleFrame freezeAffineTable[] = {
     {0x7FFF, 0, 0, 0, 0}
 };
 
+// freeze sprite grow slow and rotate slow
+const struct RotscaleFrame freezeAffine2Table[] = {
+    {-200, -200, 0, 1, 0},
+    {5, 5, 5, 20, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+
 const struct OamData freezeOam = {
     .affine_mode = 1,
     .size = 2,
     .priority = 3,
 };
 const u32 freezeAffinePtr = (u32)&freezeAffineTable;
+const u32 freezeAffine2Ptr = (u32)&freezeAffine2Table;
 
 
 // confused sprite
@@ -435,9 +444,11 @@ const struct Frame slapFrames[] = {
 const struct Frame* slapFramesPtr[] = {slapFrames};
 
 
-// Big red fist from mega punch
+// Big red fist from mega punch, and blue fist from ice punch
 const struct CompressedSpriteSheet bigfistSprite = {(void*)&bigfistTiles, 32 * 8 * 8, 421};
+const struct CompressedSpriteSheet bigbluefistSprite = {(void*)&bigbluefistTiles, 32 * 8 * 8, 423};
 const struct SpritePalette bigfistPalette = {&bigfistPal, 421};
+const struct SpritePalette bigbluefistPalette = {&bigbluefistPal, 423};
 
 const struct OamData bigfistOam = {
     .affine_mode = 1,

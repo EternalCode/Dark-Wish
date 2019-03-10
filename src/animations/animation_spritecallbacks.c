@@ -124,3 +124,52 @@ void AnimOrbitShrinkNoPriority(struct Sprite *sprite)
         sprite->callback = (oac_nullsub);
     }
 }
+
+
+void AttemptNonConstRotscale(struct Sprite* sprite)
+{
+    switch (sprite->data[0]) {
+        case 0:
+        {
+            struct RotscaleFrame* affineTable = (void*)malloc_and_clear(sizeof(struct RotscaleFrame) * 2);
+            affineTable[1].scale_delta_x = 0x7FFF;
+            affineTable[0].scale_delta_x = 6;
+            affineTable[0].scale_delta_y = 6;
+            affineTable[0].rot_delta = -7;
+            affineTable[0].duration = 24;
+            affineTable[0].field_6 = 0;
+            u32* ptr = (u32*)malloc_and_clear(4);
+            *ptr = (u32)affineTable;
+            sprite->rotscale_table = (void*)ptr;
+            StartSpriteAffineAnim(sprite, 0);
+            sprite->data[0]++;
+        }
+        default:
+            break;
+    };
+}
+
+void ManualRotationAttempt(struct Sprite* sprite)
+{
+    sprite->final_oam.affine_mode = 1;
+    sprite->affineAnimPaused = true;
+    u8 matrixNum = sprite->final_oam.matrix_num;
+    struct ObjAffineSrcData src;
+    src.xScale = 1 * 256;
+    src.yScale = 1 * 256;
+    src.rotation = (sprite->data[0]) << 8;
+    ObjAffineSet(&src, (void *)&gOamMatrices[matrixNum], 1, 2);
+    sprite->pos2.x = Sin(sprite->data[0], 20) - 32;
+    sprite->pos2.y = Cos(sprite->data[0], 20) - 52;
+    sprite->centerToCornerVecX = 0;
+    sprite->centerToCornerVecY = 0;
+    //CalcCenterToCornerVec(sprite, 0, 3, 1);
+    sprite->data[0] = (sprite->data[0] + 1) & 0xFF;
+    if (sprite->data[1])
+        sprite->callback = oac_nullsub;
+
+    if (sprite->data[0] == 0)
+        sprite->data[1] = 1;
+    else
+        sprite->data[1] = 0;
+}

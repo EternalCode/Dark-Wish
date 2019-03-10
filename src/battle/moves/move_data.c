@@ -717,6 +717,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ICE,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET | FLAG_PUNCH,
     .procs = &freeze_10_procs,
+    .animation = (u8*)&IcepunchAnimation,
     },
 
     {
