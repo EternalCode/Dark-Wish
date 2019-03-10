@@ -84,6 +84,8 @@ void ScriptCmd_random(void);
 void ScriptCmd_fadeplatformbg(void);
 void ScriptCmd_depthlessorbit(void);
 void ScriptCmd_shrinkingorbit(void);
+void ScriptCmd_spritesetposition(void);
+void ScriptCmd_spritecallbackargs(void);
 
 
 extern const struct Frame (**nullframe)[];
@@ -189,6 +191,8 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_fadeplatformbg, // 75
     ScriptCmd_depthlessorbit, // 76
     ScriptCmd_shrinkingorbit, // 77
+    ScriptCmd_spritesetposition, // 78
+    ScriptCmd_spritecallbackargs, // 79
 };
 
 
@@ -1158,9 +1162,9 @@ void ScriptCmd_runtask()
     TaskCallback t = (TaskCallback)ANIMSCR_READ_WORD;
     u8 taskId = CreateTask(t, 0);
     tasks[taskId].priv[1] = VarGet(vararg);
-    tasks[taskId].priv[2] = arg;
-    tasks[taskId].priv[3] = arg2;
-    tasks[taskId].priv[4] = arg3;
+    tasks[taskId].priv[2] = VarGet(arg);
+    tasks[taskId].priv[3] = VarGet(arg2);
+    tasks[taskId].priv[4] = VarGet(arg3);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1651,6 +1655,48 @@ void ScriptCmd_shrinkingorbit()
     ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }
+
+// set a sprite's position to the given position
+void ScriptCmd_spritesetposition()
+{
+    ANIMSCR_MOVE(1);
+    // sprite
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct Sprite* sprite = &gSprites[spriteId];
+    // positions
+    s16 posx = ANIMSCR_READ_HWORD;
+    s16 posy = ANIMSCR_READ_HWORD;
+    posx = VarGet(posx);
+    posy = VarGet(posy);
+    sprite->pos1.x = posx;
+    sprite->pos1.y = posy;
+    ANIMSCR_CMD_NEXT;
+}
+
+void ScriptCmd_spritecallbackargs()
+{
+    ANIMSCR_MOVE(1);
+    // sprite
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct Sprite* sprite = &gSprites[spriteId];
+    // clear sprite args
+    ClearSpriteData(sprite);
+    // read args
+    sprite->data[0] = ANIMSCR_READ_HWORD;
+    sprite->data[0] = VarGet(sprite->data[0]);
+    sprite->data[1] = ANIMSCR_READ_HWORD;
+    sprite->data[1] = VarGet(sprite->data[1]);
+    sprite->data[2] = ANIMSCR_READ_HWORD;
+    sprite->data[2] = VarGet(sprite->data[2]);
+    sprite->data[3] = ANIMSCR_READ_HWORD;
+    sprite->data[3] = VarGet(sprite->data[3]);
+    // read and assign callback
+    sprite->callback = (void*)ANIMSCR_READ_WORD;
+    ANIMSCR_CMD_NEXT;
+}
+
 
 
 void AnimationMain()

@@ -18,7 +18,7 @@
 
 @ -----------------------------------------------
 
-@Loads the sprite Id into var_800D
+@Loads the sprite Id into 0x900D
 .macro loadspritefull graphics palette oam
 .byte 0
 .byte 0
@@ -721,6 +721,25 @@
 .byte \booldelete
 .hword \waveoffset
 .byte 0
+.endm
+
+.macro spritesetposition var varx vary
+.byte 78
+.byte 0
+.hword \var
+.hword \varx
+.hword \vary
+.endm
+
+.macro spritecallbackargs spr var1 var2 var3 var4 callback
+.byte 79
+.byte 0
+.hword \spr
+.hword \var1
+.hword \var2
+.hword \var3
+.hword \var4
+.word \callback
 .endm
 
 .macro BLOCKCMD
