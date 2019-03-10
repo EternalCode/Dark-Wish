@@ -126,26 +126,50 @@ void AnimOrbitShrinkNoPriority(struct Sprite *sprite)
 }
 
 
-void AttemptNonConstRotscale(struct Sprite* sprite)
+void SpriteTravelRandDirFlash(struct Sprite* sprite)
 {
     switch (sprite->data[0]) {
         case 0:
         {
+            sprite->data[3] = rand_range(2, 5);
+            sprite->final_oam.affine_mode = 1;
             struct RotscaleFrame* affineTable = (void*)malloc_and_clear(sizeof(struct RotscaleFrame) * 2);
-            affineTable[1].scale_delta_x = 0x7FFF;
             affineTable[0].scale_delta_x = 6;
             affineTable[0].scale_delta_y = 6;
-            affineTable[0].rot_delta = -7;
-            affineTable[0].duration = 24;
+            affineTable[0].rot_delta = sprite->data[1];
+            affineTable[0].duration = 1;
             affineTable[0].field_6 = 0;
+            affineTable[1].scale_delta_x = 0x7FFF;
             u32* ptr = (u32*)malloc_and_clear(4);
             *ptr = (u32)affineTable;
             sprite->rotscale_table = (void*)ptr;
             StartSpriteAffineAnim(sprite, 0);
             sprite->data[0]++;
+            sprite->final_oam.priority = rand_range(2, 4);
         }
         default:
+        {
+            sprite->data[2] += sprite->data[3];
+            sprite->pos2.x = Sin(sprite->data[1], sprite->data[2]);
+            sprite->pos2.y = Cos(sprite->data[1], sprite->data[2]);
+            sprite->invisible = false;
+            u8 pal_slot = sprite->final_oam.palette_num;
+            sprite->data[4]++;
+            if (sprite->data[2] > 80) {
+                // sprite has traveled 80 pixels from origin
+                sprite->callback = oac_nullsub;
+                u32** ptr = (u32**)sprite->rotscale_table;
+                free(*ptr);
+                free(ptr);
+                FreeSpriteOamMatrix(sprite);
+                obj_free(sprite);
+            } else if (!(sprite->data[4] % 3)) {
+                BlendPalette((pal_slot * 16) + (16 * 16), 16, 16, 0xFFFF);
+            } else {
+                BlendPalette((pal_slot * 16) + (16 * 16), 16, 0, 0xFFFF);
+            }
             break;
+        }
     };
 }
 

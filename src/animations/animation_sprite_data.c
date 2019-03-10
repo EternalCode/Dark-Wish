@@ -25,6 +25,8 @@
 #include "../../generated/images/battle_animations/bigfist.h"
 #include "../../generated/images/battle_animations/smallfire.h"
 #include "../../generated/images/battle_animations/bigbluefist.h"
+#include "../../generated/images/battle_animations/lightningbolt.h"
+#include "../../generated/images/battle_animations/yellowfist.h"
 
 
 
@@ -79,7 +81,7 @@ const struct OamData paralyzeOam = {
 };
 
 const struct Frame paralyzeLoop[] = {
-    {0, 0x200},
+    {0, 5},
     {8, 5},
     {16, 5},
     {20, 5},
@@ -495,6 +497,40 @@ const struct Frame smallfireFrames[] = {
 
 const u32 smallfireAffinePtr = (u32)&smallfireAffineTable;
 const struct Frame* smallfireFramesPtr = {smallfireFrames};
+
+// Lightning bolt
+const struct CompressedSpriteSheet lightningboltSprite = {(void*)&lightningboltTiles, 32 * 4 * 4 * 2, 424};
+const struct SpritePalette lightningboltPalette = {&lightningboltPal, 424};
+
+const struct OamData lightningboltOam = {
+    .affine_mode = 1,
+    .size = 2,
+    .priority = 3,
+};
+
+const struct Frame lightningboltFrames[] = {
+    {0, 2},
+    {16, 2},
+    {0xFFFE, 0}
+};
+const struct Frame* lightningboltFramesPtr = {lightningboltFrames};
+
+// Yellow fist sprite frmo thunder punch
+const struct CompressedSpriteSheet yellowfistSprite = {(void*)&yellowfistTiles, 32 * 8 * 8, 425};
+const struct SpritePalette yellowfistPalette = {&yellowfistPal, 425};
+
+const struct OamData yellowfistOam = {
+    .affine_mode = 1,
+    .size = 3,
+    .priority = 0,
+};
+
+const struct RotscaleFrame bigfistShrinkSlowlyAffineTable[] = {
+    {-10, -10, 0, 16, 0},
+    {0, 0, 0, 20, 0},
+    {0x7FFF, 0, 0, 0, 0}
+};
+const u32 bigfistShrinkSlowlyAffinePtr = (u32)&bigfistShrinkSlowlyAffineTable;
 
 /*
 	OAM DATA:

@@ -731,6 +731,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ELECTRIC,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET | FLAG_PUNCH,
     .procs = &paralyze_10_procs,
+    .animation = (u8*)&ThunderpunchAnimation,
     },
 
     {

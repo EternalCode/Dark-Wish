@@ -7,11 +7,6 @@
 typedef void(*AnimScriptFunc)(void);
 
 
-struct AnimationStack {
-    u8* script;
-    u8 scriptIndex;
-};
-
 struct AnimationCore {
     /* Animation script pointers */
     u8* animScriptPtr[ANIM_SCR_COUNT];
