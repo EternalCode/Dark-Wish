@@ -29,6 +29,12 @@ u32	Sqrt(u32 num)
     return 0;
 }
 
+void ObjAffineSet(struct ObjAffineSrcData *src, void *dest, s32 count, s32 offset)
+{
+    __asm__("swi 0xF");
+    __asm__("bx lr");
+}
+
 u16 rand_range(u16 min, u16 max)
 {
     if (min == max) return min;
@@ -206,7 +212,7 @@ u8 SpawnPokemonObj(u16 species, u32 pid, s16 x, s16 y, u16 tag)
                                         .rotscale = nullrsf,
                                         .callback = oac_nullsub,
                                         };
-        return template_instanciate_forward_search(&icon_template, x, y, 0);
+        return CreateSprite(&icon_template, x, y, 0);
     }
     return 0x3F;
 }
@@ -255,4 +261,10 @@ void BlendPalette(u16 palOffset, u16 numEntries, u8 coeff, u16 blendColor)
                                 | ((g + (((data2->g - g) * coeff) >> 4)) << 5)
                                 | ((b + (((data2->b - b) * coeff) >> 4)) << 10);
     }
+}
+
+void ClearSpriteData(struct Sprite* s)
+{
+    for (u8 i = 0; i < 8; i++)
+        s->data[i] = 0;
 }

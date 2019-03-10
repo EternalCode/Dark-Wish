@@ -31,6 +31,7 @@ extern u8 PokemonCountUsableMoves(struct Pokemon* p);
 #define EVENTID_DIR(i) (gEventObjects[i].direction & 0xF)
 #define EVENTOBJ_DIR(n) (n->direction & 0xF)
 struct Sprite* GetSpriteFromGfxTag(u16 tag);
+extern void ClearSpriteData(struct Sprite* s);
 
 
 /* var access funcs */
@@ -55,6 +56,7 @@ extern struct TextColor textGreen;
 extern void CpuFastSet(void* src, void* dst, u32 mode);
 extern s32	Div(s32 num, s32 divisor);
 extern u32	Sqrt(u32 num);
+extern void ObjAffineSet(struct ObjAffineSrcData *src, void *dest, s32 count, s32 offset);
 
 /* Game clock */
 // we'll say 60 minutes is 1 day. So 1140 mins is 1 day,
