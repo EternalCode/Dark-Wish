@@ -216,8 +216,8 @@ void ShowStatBoostTextComplete(struct StatWindow* stats)
     // colors
     struct TextColor StatColor = {10, 3, 11};
     // data needed
-    u16 species = pokemon_getattr(&party_player[stats->slot], REQUEST_SPECIES, NULL);
-    u32 pid = pokemon_getattr(&party_player[stats->slot], REQUEST_PID, NULL);
+    // u16 species = pokemon_getattr(&party_player[stats->slot], REQUEST_SPECIES, NULL);
+    // u32 pid = pokemon_getattr(&party_player[stats->slot], REQUEST_PID, NULL);
     pchar numberBuffer[6];
     // clear pixels
     for (u8 i = 4; i < 10; i++)

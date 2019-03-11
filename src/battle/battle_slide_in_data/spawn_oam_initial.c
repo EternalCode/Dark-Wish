@@ -156,7 +156,7 @@ u8 spawn_backsprite_npc(u8 sprite_id, u16 tag)
 
     struct SpritePalette player_sprite_pal = {player_pal, tag};
     struct CompressedSpriteSheet player_sprite_gfx = {player_gfx, 2048 * 5, tag};
-    struct Template player_temp = {tag, tag, &opp_oam, trainer_frame_table, &player_sprite_gfx, nullrsf, (SpriteCallback)oac_nullsub};
+    struct Template player_temp = {tag, tag, &opp_oam, (void*)trainer_frame_table, &player_sprite_gfx, nullrsf, (SpriteCallback)oac_nullsub};
 
     LoadCompressedSpriteSheetUsingHeap(&player_sprite_gfx);
     LoadCompressedSpritePaletteUsingHeap(&player_sprite_pal);

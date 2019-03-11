@@ -300,7 +300,7 @@ void switch_load_pokemon_icons() {
                                             .oam = &icon_oam,
                                             .animation = nullframe,
                                             .graphics = &icon_tiles,
-                                            .rotscale = ((i != 0) ? switch_scale_table : switch_scale_table_full),
+                                            .rotscale = ((i != 0) ? (void*)switch_scale_table : (void*)switch_scale_table_full),
                                             .callback = ((i != 0) ? oac_nullsub : icon_frame_change),
                                             };
             if (i == 0) {
@@ -474,11 +474,11 @@ void switch_update_graphical(u8 cursor_position)
     // update size of icons based on cursor position
     for (u8 i = 0; i < SWM_LOG->list_count; i++) {
         if (i != cursor_position) {
-            gSprites[gBattleMaster->switch_main.icon_objid[i]].rotscale_table = switch_scale_table;
+            gSprites[gBattleMaster->switch_main.icon_objid[i]].rotscale_table = (void*)switch_scale_table;
             gSprites[gBattleMaster->switch_main.icon_objid[i]].callback = oac_nullsub;
             StartSpriteAffineAnim(&gSprites[gBattleMaster->switch_main.icon_objid[i]], 0);
         } else {
-            gSprites[gBattleMaster->switch_main.icon_objid[i]].rotscale_table = switch_scale_table_full;
+            gSprites[gBattleMaster->switch_main.icon_objid[i]].rotscale_table = (void*)switch_scale_table_full;
             gSprites[gBattleMaster->switch_main.icon_objid[i]].callback = icon_frame_change;
             StartSpriteAffineAnim(&gSprites[gBattleMaster->switch_main.icon_objid[i]], 0);
         }

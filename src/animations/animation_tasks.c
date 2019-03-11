@@ -7,7 +7,8 @@
 
 #define gtargetx 0x8000
 #define gtargety 0x8001
-
+extern const struct Frame (**nullframe)[];
+extern const struct RotscaleFrame (**nullrsf)[];
 
 
 void TaskWaitAnimMessage(u8 taskId)
@@ -528,8 +529,8 @@ extern const struct OamData glowballOam;
 extern const u32 glowballSmallerAffinePtr;
 extern const u32 glowballAffinePtr;
 extern const u32 glowballRevAffinePtr;
-extern const struct Frame (**nullframe)[];
-extern const struct RotscaleFrame (**nullrsf)[];
+
+
 void TaskCreateSmallFireworkGeneric(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
@@ -907,7 +908,7 @@ void TaskTranslateSpriteHorizontalArcCos(u8 taskId)
 extern const struct CompressedSpriteSheet pokeballParticleSprite;
 extern const struct SpritePalette pokeballParticlePalette;
 extern const struct OamData pokeballParticleOam;
-extern const struct Frame* pokeballParticleLoopPtr[];
+extern const struct Frame* pokeballParticleFrames[];
 
 #define basemovement 1
 #define spritedur 40
@@ -935,7 +936,7 @@ void TaskDrawPokeballGlitter(u8 taskId)
             // make the sprites
             struct CompressedSpriteSheet gfx = (struct CompressedSpriteSheet)pokeballParticleSprite;
             struct SpritePalette pal = (struct SpritePalette)pokeballParticlePalette;
-            struct Template spriteTemp = {gfx.tag, pal.tag, &pokeballParticleOam, (void*)pokeballParticleLoopPtr, &gfx, nullrsf, (SpriteCallback)SCBMoveSpriteLinear};
+            struct Template spriteTemp = {gfx.tag, pal.tag, &pokeballParticleOam, (void*)pokeballParticleFrames, &gfx, nullrsf, (SpriteCallback)SCBMoveSpriteLinear};
             LoadCompressedSpriteSheetUsingHeap(&gfx);
             LoadCompressedSpritePaletteUsingHeap(&pal);
             u8 spriteId = CreateSprite(&spriteTemp, sprite->pos1.x, sprite->pos1.y, 0);

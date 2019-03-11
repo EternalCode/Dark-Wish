@@ -67,7 +67,7 @@ void pkmn_player_normal_switch()
             {
                 u8 bank = CURRENT_ACTION->action_bank;
                 u8 objid = gPkmnBank[bank]->objid;
-                gSprites[objid].rotscale_table = shrink_ptr;
+                gSprites[objid].rotscale_table = (void*)shrink_ptr;
                 gSprites[objid].data[0] = 0;
                 gSprites[objid].callback = pkmn_recall_cb;
                 OBJID_SHOW_AFFINE(objid);
