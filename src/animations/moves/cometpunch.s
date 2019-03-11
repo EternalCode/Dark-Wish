@@ -19,7 +19,7 @@ CometpunchAnimation:
     BLOCKCMD
     loadspritefull bimpact1Sprite bimpact1Palette bimpact1Oam
     copyvar impactOrg LASTRESULT
-    loadspritefull fistSprite fistPalette fistOam2
+    loadspritefull fistSprite fistPalette fist2Oam
     copyvar punchOrg LASTRESULT
     fastsetbattlers
     spriteblend 8 8
@@ -40,7 +40,7 @@ Punchloop:
     addvars tempx LASTRESULT
     random 0 48
     addvars tempy LASTRESULT
-    loadsprite fistSprite fistPalette fistOam2
+    loadsprite fistSprite fistPalette fist2Oam
     copyvar punchParticle LASTRESULT
     loadsprite bimpact1Sprite bimpact1Palette bimpact1Oam
     copyvar impactParticle LASTRESULT

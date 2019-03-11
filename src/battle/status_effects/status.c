@@ -226,7 +226,7 @@ u8 infactuated_before_move(u8 user, u8 src, u16 move, struct anonymous_callback*
 {
 	if (user != src) return true;
 	struct action* a = prepend_action(user, user, ActionAnimation, EventPlayAnimation);
-	a->script = (u32)&animInfatuation;
+	a->script = (u32)&animinfactuation;
 	QueueMessage(0, user, STRING_IN_LOVE, 0);
 	if (RandRange(0, 100) < 50) {
 		return true;

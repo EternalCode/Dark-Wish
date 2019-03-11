@@ -30,7 +30,7 @@ firepunchFireOrbiting:
     compare counter 0x6
     if1 0x1 goto showFist
     loadsprite smallfireSprite smallfirePalette smallfireOam
-    setframessprite 0 LASTRESULT smallfireFramesPtr
+    setframessprite 0 LASTRESULT smallfireFrames
     copyvar multiplyBuffer counter
     mulvar multiplyBuffer 43
     rendersprite LASTRESULT targetx targety nullrsf
@@ -70,7 +70,7 @@ finishAnimation:
 spawnFlameRandomDir:
     loadsprite smallfireSprite smallfirePalette smallfireAffOam
     copyvar tempSprite LASTRESULT
-    setframessprite 0 tempSprite smallfireFramesPtr
+    setframessprite 0 tempSprite smallfireFrames
     rendersprite tempSprite targetx targety smallfireAffinePtr
     // pick random xOff
     random 0 5

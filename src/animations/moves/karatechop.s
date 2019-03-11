@@ -12,7 +12,7 @@ KaratechopAnimation:
     // this will not burn frames on fetching data during the animation
     loadspritefull bimpact1Sprite bimpact1Palette bimpact1Oam
     copyvar impactParticle LASTRESULT
-    loadspritefull chopSpriteSideways chopPalette chopOam
+    loadspritefull chopSprite chopPalette chopOam
     copyvar chopParticle LASTRESULT
     fastsetbattlers
 
@@ -20,7 +20,7 @@ blendingPrep:
     spriteblend 8 8
     spritetobg target 8 8
     subvar targety 40
-    setframessprite 0 chopParticle chopLeftFramePtr
+    setframessprite 0 chopParticle chopLeftFrames
     rendersprite chopParticle targetx targety nullrsf
     movesprite chopParticle 0 6 9 true
     wait

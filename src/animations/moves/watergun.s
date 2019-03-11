@@ -60,7 +60,7 @@ WatergunFinish:
     spriteblend2 impactParticle 10 0x7354
     rendersprite impactParticle targetx targety nullrsf
     spritepriority impactParticle 2
-    setframessprite 0 watersplashParticle watersplashLoopPtr
+    setframessprite 0 watersplashParticle watersplashFrames
     excludeblend watersplashParticle
     quakebg 1 2 0 2 2 false
     OPENCMD

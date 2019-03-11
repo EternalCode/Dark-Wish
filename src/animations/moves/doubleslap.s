@@ -22,7 +22,7 @@ blendingPrep:
 
 slapLeft:
     subvar targetx 40
-    setframessprite 0 slapParticle slapFramesPtr
+    setframessprite 0 slapParticle slapFrames
     rendersprite slapParticle targetx targety nullrsf
     movesprite slapParticle 4 0 10 true
     wait

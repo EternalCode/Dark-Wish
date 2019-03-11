@@ -291,12 +291,12 @@ extern const u8* MegapunchAnimation;
 extern const u8* FirepunchAnimation;
 extern const u8* IcepunchAnimation;
 extern const u8* ThunderpunchAnimation;
+extern const u8* VicegripAnimation;
 extern const u8* TackleAnimation;
 extern const u8* TakedownAnimation;
 extern const u8* FireworkAnimation;
 extern const u8* SlamAnimation;
 extern const u8* ShadowpunchAnimation;
-
 extern const u8* WatergunAnimation;
 
 /* User stats */

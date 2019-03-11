@@ -74,10 +74,10 @@ TakedownTargetSideEffects:
     rendersprite smokeParticle3 targetx targety nullrsf
     addvar targety 10
     rendersprite smokeParticle4 targetx targety nullrsf
-    setframessprite 0 smokeParticle smokeLoopPtr
-    setframessprite 0 smokeParticle2 smokeLoopPtr
-    setframessprite 0 smokeParticle3 smokeLoopPtr
-    setframessprite 0 smokeParticle4 smokeLoopPtr
+    setframessprite 0 smokeParticle smokeFrames
+    setframessprite 0 smokeParticle2 smokeFrames
+    setframessprite 0 smokeParticle3 smokeFrames
+    setframessprite 0 smokeParticle4 smokeFrames
     pauseframes 10
     deletesprite impactParticle
     deletesprite smokeParticle2

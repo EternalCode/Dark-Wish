@@ -90,7 +90,7 @@ stopLearningMoveConfirm:
 loadYesNoBoxes:
 	// load options box
 	BLOCKCMD
-	loadspritefull yesnoBoxSprite yesnoBoxPalette yesnoBoxOam
+	loadspritefull yesnoSprite yesnoPalette yesnoOam
 	copyvar boxSprite LASTRESULT
 	loadspritefull yesnoCursorSprite yesnoCursorPalette yesnoCursorOam
 	copyvar boxCursorSprite LASTRESULT

@@ -5,20 +5,20 @@
 #include "../../generated/images/battle_animations/paralyze.h"
 #include "../../generated/images/battle_animations/freeze.h"
 #include "../../generated/images/battle_animations/confused.h"
-#include "../../generated/images/battle_animations/infatuation.h"
+#include "../../generated/images/battle_animations/infactuation.h"
 #include "../../generated/images/battle_animations/sleep.h"
 #include "../../generated/images/battle_animations/smoke.h"
 #include "../../generated/images/battle_animations/glowball.h"
 #include "../../generated/images/battle_animations/pokeball.h"
 #include "../../generated/images/battle_animations/impact2.h"
 #include "../../generated/images/battle_animations/impact2.h"
-#include "../../generated/images/battle_animations/pokeball_particles.h"
-#include "../../generated/images/battle_animations/capture_star.h"
+#include "../../generated/images/battle_animations/pokeballParticle.h"
+#include "../../generated/images/battle_animations/starParticle.h"
 #include "../../generated/images/battle_animations/yesno.h"
-#include "../../generated/images/battle_animations/yesno_cursor.h"
+#include "../../generated/images/battle_animations/yesnoCursor.h"
 #include "../../generated/images/battle_animations/fist.h"
 #include "../../generated/images/battle_animations/circular.h"
-#include "../../generated/images/battle_animations/blendimpact1.h"
+#include "../../generated/images/battle_animations/bimpact1.h"
 #include "../../generated/images/battle_animations/watersplash.h"
 #include "../../generated/images/battle_animations/chop.h"
 #include "../../generated/images/battle_animations/slap.h"
@@ -27,25 +27,63 @@
 #include "../../generated/images/battle_animations/bigbluefist.h"
 #include "../../generated/images/battle_animations/lightningbolt.h"
 #include "../../generated/images/battle_animations/yellowfist.h"
+#include "../../generated/images/battle_animations/vicegrip.h"
+
+
+#define BEGIN_FRAME_ANIM(name) const struct Frame name ## A_N_I_M_F_R_A_M_E[];\
+                               const struct Frame* name[] = {name ## A_N_I_M_F_R_A_M_E}; \
+                               const struct Frame name ## A_N_I_M_F_R_A_M_E[] = {
+#define SHOW_FRAME(x, size, duration) {x * size, duration},
+#define JUMP_FRAME(x) {0xFFFE, x},
+#define LOOP_FRAME(times) {0xFFFD, times},
+#define STOP_ANIM() {0xFFFF, 0},
+#define END_ANIM() };
+
+#define ASSETS(name, size, tag) const struct CompressedSpriteSheet name ##Sprite = {(void*)&name ## Tiles, size * 32, tag}; \
+                                const struct SpritePalette name ## Palette = {&name ## Pal, tag}
+
+#define MAKE_OAM(name) const struct OamData name ## Oam = {
+#define OAM_PRIORITY(p) .priority = p,
+#define OAM_SIZE(s) .size = s,
+#define OAM_AFFINE() .affine_mode = 1,
+#define OAM_HFLIP() .h_flip = 1,
+#define OAM_VFLIP() .v_flip = 1,
+#define OAM_SHAPE(shp) .shape = shp,
+#define END_OAM() };
+#define SQUARE 0
+#define WIDE 1
+#define TALL 2
+
+#define BEGIN_AFFINE_ANIM(name) const struct RotscaleFrame name ## AffineTable[];\
+                                const u32 name ## Affine = (u32)&burn ## AffineTable; \
+                                const struct RotscaleFrame burnAffineTable[] = {
+#define PLAY_AFFINE(x, y, rot, dur) {x, y, rot, dur, 0},
+#define LOOP_AFFINE(x) {0x7FFD, x, 0, 0, 0},
+#define JUMP_AFFINE(x) {0x7FFE, x, 0, 0, 0},
+#define STOP_AFFINE() {0x7FFF, 0, 0, 0, 0},
+#define END_AFFINE() };
 
 
 
-extern const struct Frame (**nullframe)[];
-extern const struct RotscaleFrame (**nullrsf)[];
 
 // the impact sprite from tackle
-const struct CompressedSpriteSheet impact1Sprite = {(void*)&impact1Tiles, 32 * 4 * 4, 400};
-const struct SpritePalette impact1Palette = {&impact1Pal, 400};
+ASSETS(impact1, 4 * 4, 400);
 
-const struct OamData impact1Oam = {
-    .size = 2,
-    .priority = 3,
-};
+MAKE_OAM(impact1)
+    OAM_PRIORITY(3)
+    OAM_SIZE(2)
+END_OAM()
 
 
 // the burn animation sprite
-const struct CompressedSpriteSheet burnSprite = {(void*)&burnTiles, 32 * 2 * 4, 401};
-const struct SpritePalette burnPalette = {&burnPal, 401};
+ASSETS(burn, 2 * 4, 401);
+
+MAKE_OAM(burn)
+    OAM_AFFINE()
+    OAM_SHAPE(TALL)
+    OAM_SIZE(2)
+    OAM_PRIORITY(1)
+END_OAM()
 
 // burn sprite to shrink
 const struct RotscaleFrame burnAffineTable[] = {
@@ -53,47 +91,44 @@ const struct RotscaleFrame burnAffineTable[] = {
     {0x7FFF, 0, 0, 0, 0}
 };
 
-const struct OamData burnOam = {
-    .affine_mode = 1,
-    .shape = 2,
-    .size = 2,
-    .priority = 1,
-};
-const u32 burnAffinePtr = (u32)&burnAffineTable;
+const u32 burnAffine = (u32)&burnAffineTable;
 
 
 // poison ailment sprite
-const struct CompressedSpriteSheet poisonSprite = {(void*)&poisonTiles, 32 * 2 * 2, 402};
-const struct SpritePalette poisonPalette = {&poisonPal, 402};
+ASSETS(poison, 2 * 2, 402);
 
-const struct OamData poisonOam = {
-    .size = 1,
-    .priority = 1,
-};
+MAKE_OAM(poison)
+    OAM_SIZE(1)
+    OAM_PRIORITY(1)
+END_OAM()
 
 // paralyze ailment sprite
-const struct CompressedSpriteSheet paralyzeSprite = {(void*)&paralyzeTiles, 32 * 4 * 4 * 3, 403};
-const struct SpritePalette paralyzePalette = {&paralyzePal, 403};
+ASSETS(paralyze, 4 * 4 * 3, 403);
 
-const struct OamData paralyzeOam = {
-    .size = 2,
-    .priority = 1,
-};
+MAKE_OAM(paralyze)
+    OAM_SIZE(2)
+    OAM_PRIORITY(1)
+END_OAM()
 
-const struct Frame paralyzeLoop[] = {
-    {0, 5},
-    {8, 5},
-    {16, 5},
-    {20, 5},
-    {24, 5},
-    {32, 5},
-    {0xFFFE, 0},
-};
-const struct Frame* paralyzeLoopPtr[] = {paralyzeLoop};
+BEGIN_FRAME_ANIM(paralyzeFrames)
+    SHOW_FRAME(0, 8, 5)
+    SHOW_FRAME(1, 8, 5)
+    SHOW_FRAME(4, 4, 5)
+    SHOW_FRAME(5, 4, 5)
+    SHOW_FRAME(6, 4, 5)
+    SHOW_FRAME(8, 4, 5)
+    JUMP_FRAME(0)
+    END_ANIM()
+
 
 // freeze ailment sprite
-const struct CompressedSpriteSheet freezeSprite = {(void*)&freezeTiles, 32 * 4 * 4, 404};
-const struct SpritePalette freezePalette = {&freezePal, 404};
+ASSETS(freeze, 4 * 4, 404);
+
+MAKE_OAM(freeze)
+    OAM_PRIORITY(3)
+    OAM_SIZE(2)
+    OAM_AFFINE()
+END_OAM()
 
 // freeze sprite to grow
 const struct RotscaleFrame freezeAffineTable[] = {
@@ -110,46 +145,43 @@ const struct RotscaleFrame freezeAffine2Table[] = {
     {0x7FFF, 0, 0, 0, 0}
 };
 
-const struct OamData freezeOam = {
-    .affine_mode = 1,
-    .size = 2,
-    .priority = 3,
-};
 const u32 freezeAffinePtr = (u32)&freezeAffineTable;
 const u32 freezeAffine2Ptr = (u32)&freezeAffine2Table;
 
 
 // confused sprite
-const struct CompressedSpriteSheet confusedSprite = {(void*)&confusedTiles, 32 * 2 * 2 * 3, 405};
-const struct SpritePalette confusedPalette = {&confusedPal, 405};
+ASSETS(confused, 2 * 2 * 3, 405);
 
-const struct OamData confusedOam = {
-    .size = 1,
-    .priority = 1,
-};
+MAKE_OAM(confused)
+    OAM_PRIORITY(1)
+    OAM_SIZE(1)
+END_OAM()
 
-const struct Frame confusedLoop[] = {
-    {0, 20},
-    {4, 20},
-    {8, 20},
-    {0xFFFE, 0},
-};
-const struct Frame* confusedLoopPtr[] = {confusedLoop};
+BEGIN_FRAME_ANIM(confusedFrames)
+    SHOW_FRAME(0, 4, 20)
+    SHOW_FRAME(1, 4, 20)
+    SHOW_FRAME(2, 4, 20)
+    JUMP_FRAME(0)
+END_ANIM()
 
 
 // infactuation sprite
-const struct CompressedSpriteSheet infatuationSprite = {(void*)&infatuationTiles, 32 * 2 * 2, 406};
-const struct SpritePalette infatuationPalette = {&infatuationPal, 406};
+ASSETS(infactuation, 2 * 2, 406);
 
-const struct OamData infatuationOam = {
-    .size = 1,
-    .priority = 1,
-};
+MAKE_OAM(infactuation)
+    OAM_SIZE(1)
+    OAM_PRIORITY(1)
+END_OAM()
 
 
 // Sleep sprite
-const struct CompressedSpriteSheet sleepSprite = {(void*)&sleepTiles, 32 * 4 * 4, 407};
-const struct SpritePalette sleepPalette = {&sleepPal, 407};
+ASSETS(sleep, 4 * 4, 407);
+
+MAKE_OAM(sleep)
+    OAM_AFFINE()
+    OAM_SIZE(2)
+    OAM_PRIORITY(1)
+END_OAM()
 
 const struct RotscaleFrame sleepAffineTable[] = {
     {-150, -150, -30, 1, 0},
@@ -163,38 +195,30 @@ const struct RotscaleFrame sleepAffineTable[] = {
 };
 const u32 sleepAffinePtr = (u32)&sleepAffineTable;
 
-const struct OamData sleepOam = {
-    .affine_mode = 1,
-    .size = 2,
-    .priority = 1,
-};
 
 // Smoke sprite
-const struct CompressedSpriteSheet smokeSprite = {(void*)&smokeTiles, 32 * 4 * 4 * 3, 407};
-const struct SpritePalette smokePalette = {&smokePal, 407};
+ASSETS(smoke, 4 * 4 * 3, 408);
 
-const struct OamData smokeOam = {
-    .size = 2,
-    .priority = 1,
-};
+MAKE_OAM(smoke)
+    OAM_SIZE(2)
+    OAM_PRIORITY(1)
+END_OAM()
 
-const struct Frame smokeLoop[] = {
-    {0, 5},
-    {16, 5},
-    {32, 5},
-    {0xFFFF, 0},
-};
-const struct Frame* smokeLoopPtr[] = {smokeLoop};
+BEGIN_FRAME_ANIM(smokeFrames)
+    SHOW_FRAME(0, 16, 5)
+    SHOW_FRAME(1, 16, 5)
+    SHOW_FRAME(2, 16, 5)
+    STOP_ANIM()
+END_ANIM()
 
 // glowball sprite
-const struct CompressedSpriteSheet glowballSprite = {(void*)&glowballTiles, 32 * 2 * 2, 408};
-const struct SpritePalette glowballPalette = {&glowballPal, 408};
+ASSETS(glowball, 2 * 2, 409);
 
-const struct OamData glowballOam = {
-    .affine_mode = 1,
-    .size = 1,
-    .priority = 1,
-};
+MAKE_OAM(glowball)
+    OAM_AFFINE()
+    OAM_SIZE(1)
+    OAM_PRIORITY(1)
+END_OAM()
 
 const struct RotscaleFrame glowballAffineTable[] = {
     {0, 0, 0, 1, 0},
@@ -218,32 +242,30 @@ const struct RotscaleFrame glowballRevAffineTable[] = {
 const u32 glowballRevAffinePtr = (u32)&glowballRevAffineTable;
 
 // pokeball sprite
-const struct CompressedSpriteSheet pokeballSprite = {(void*)&pokeballTiles, 32 * 2 * 2 * 3, 409};
-const struct SpritePalette pokeballPalette = {&pokeballPal, 409};
+ASSETS(pokeball, 2 * 2 * 3, 410);
 
-const struct OamData pokeballOam = {
-    .affine_mode = 1,
-    .size = 1,
-    .priority = 1,
-};
+MAKE_OAM(pokeball)
+    OAM_AFFINE()
+    OAM_SIZE(1)
+    OAM_PRIORITY(1)
+END_OAM()
 
 const struct Frame pokeballOpen[] = {
-    {0, 5},
-    {4, 5},
-    {0xFFFF, 0},
+    SHOW_FRAME(0, 4, 5)
+    SHOW_FRAME(1, 4, 5)
+    STOP_ANIM()
 };
 
 const struct Frame pokeballClose[] = {
-    {4, 5},
-    {0, 5},
-    {0xFFFF, 0},
+    SHOW_FRAME(1, 4, 5)
+    SHOW_FRAME(0, 4, 5)
+    STOP_ANIM()
 };
 
 const struct Frame* pokeballFrames[] = {
     pokeballOpen,
     pokeballClose,
 };
-
 
 const struct RotscaleFrame pokeballLeftTiltAffineTable[] = {
     {0, 0, 0, 1, 0},
@@ -272,73 +294,66 @@ const u32 pokeballLeftTiltAffineTablePtr = (u32)&pokeballLeftTiltAffineTable;
 const u32 pokeballRightTiltAffineTablePtr = (u32)&pokeballRightTiltAffineTable;
 
 // impact2 sprite
-const struct CompressedSpriteSheet impact2Sprite = {(void*)&impact2Tiles, 32 * 4 * 4, 410};
-const struct SpritePalette impact2Palette = {&impact2Pal, 410};
+ASSETS(impact2, 4 * 4, 411);
 
-const struct OamData impact2Oam = {
-    .size = 2,
-    .priority = 3,
-};
+MAKE_OAM(impact2)
+    OAM_SIZE(2)
+    OAM_PRIORITY(3)
+END_OAM()
 
 // Pokeball particles when opened or closed
-const struct CompressedSpriteSheet pokeballParticleSprite = {(void*)&pokeball_particlesTiles, 32 * 1 * 1 * 3, 411};
-const struct SpritePalette pokeballParticlePalette = {&pokeball_particlesPal, 411};
+ASSETS(pokeballParticle, 1 * 1 * 3, 412);
 
-const struct OamData pokeballParticleOam = {
-    .size = 0,
-    .priority = 1,
-};
+MAKE_OAM(pokeballParticle)
+    OAM_PRIORITY(1)
+END_OAM()
 
-const struct Frame pokeballParticleLoop[] = {
-    {0, 5},
-    {1, 5},
-    {2, 5},
-    {0xFFFE, 0},
-};
-const struct Frame* pokeballParticleLoopPtr[] = {pokeballParticleLoop};
+BEGIN_FRAME_ANIM(pokeballParticleFrames)
+    SHOW_FRAME(0, 1, 5)
+    SHOW_FRAME(1, 1, 5)
+    SHOW_FRAME(2, 1, 5)
+    JUMP_FRAME(0)
+END_ANIM()
+
 
 // Pokeball capture sucess stars particle
-const struct CompressedSpriteSheet starParticleSprite = {(void*)&capture_starTiles, 32 * 1 * 1, 412};
-const struct SpritePalette starParticlePalette = {&capture_starPal, 412};
+ASSETS(starParticle, 1 * 1, 413);
 
-const struct OamData StarParticleOam = {
-    .size = 0,
-    .priority = 0,
-};
+MAKE_OAM(starParticle)
+END_OAM()
+
 
 // Yes no choice box for..whatever choices
-const struct CompressedSpriteSheet yesnoBoxSprite = {(void*)&yesnoTiles, 32 * 8 * 8, 413};
-const struct SpritePalette yesnoBoxPalette = {&yesnoPal, 413};
+ASSETS(yesno, 8 * 8, 414);
 
-const struct OamData yesnoBoxOam = {
-    .size = 3,
-    .priority = 1,
-};
+MAKE_OAM(yesno)
+    OAM_SIZE(3)
+    OAM_PRIORITY(1)
+END_OAM()
 
 // a cursor meant for the yesno box
-const struct CompressedSpriteSheet yesnoCursorSprite = {(void*)&yesno_cursorTiles, 32 * 8 * 8, 414};
-const struct SpritePalette yesnoCursorPalette = {&yesno_cursorPal, 414};
+ASSETS(yesnoCursor, 8 * 8, 415);
 
-const struct OamData yesnoCursorOam = {
-    .size = 1,
-    .priority = 0,
-};
+MAKE_OAM(yesnoCursor)
+    OAM_SIZE(1)
+    OAM_PRIORITY(0)
+END_OAM()
 
 // fist sprite
-const struct CompressedSpriteSheet fistSprite = {(void*)&fistTiles, 32 * 4 * 4, 415};
-const struct SpritePalette fistPalette = {&fistPal, 415};
+ASSETS(fist, 4 * 4, 416);
 
-const struct OamData fistOam = { // semi transparent fist
-    .priority = 3,
-    .affine_mode = 1,
-    .size = 2,
-};
+MAKE_OAM(fist)
+    OAM_PRIORITY(3)
+    OAM_AFFINE()
+    OAM_SIZE(2)
+END_OAM()
 
-const struct OamData fistOam2 = {
-    .priority = 1,
-    .affine_mode = 1,
-    .size = 2,
-};
+MAKE_OAM(fist2)
+    OAM_PRIORITY(1)
+    OAM_AFFINE()
+    OAM_SIZE(2)
+END_OAM ()
+
 
 // H-scaling, V-scaling, Rotation, duration, fill
 const struct RotscaleFrame fistAffineTable[] = {
@@ -365,14 +380,13 @@ const u32 fistAffinePtr3 = (u32)&fistAffineTable3;
 
 
 // circular sprite
-const struct CompressedSpriteSheet circularSprite = {(void*)&circularTiles, 32 * 2 * 2, 416};
-const struct SpritePalette circularPalette = {&circularPal, 416};
+ASSETS(circular, 2 * 2, 417);
 
-const struct OamData circularOam = {
-    .affine_mode = 1,
-    .priority = 3,
-    .size = 1,
-};
+MAKE_OAM(circular)
+    OAM_AFFINE()
+    OAM_PRIORITY(3)
+    OAM_SIZE(1)
+END_OAM()
 
 const struct RotscaleFrame circularAffineTable[] = {
     {8, 8, 0, 32, 0},
@@ -381,82 +395,69 @@ const struct RotscaleFrame circularAffineTable[] = {
 const u32 circularAffinePtr = (u32)&circularAffineTable;
 
 // the impact sprite from tackle - but white for blendability
-const struct CompressedSpriteSheet bimpact1Sprite = {(void*)&blendimpact1Tiles, 32 * 4 * 4, 417};
-const struct SpritePalette bimpact1Palette = {&blendimpact1Pal, 417};
+ASSETS(bimpact1, 4 * 4, 418);
 
-const struct OamData bimpact1Oam = {
-    .size = 2,
-    .priority = 3,
-};
+MAKE_OAM(bimpact1)
+    OAM_SIZE(2)
+    OAM_PRIORITY(3)
+END_OAM()
 
 // a splash of dispersing water
-const struct CompressedSpriteSheet watersplashSprite = {(void*)&watersplashTiles, 32 * 8 * 8 * 4, 418};
-const struct SpritePalette watersplashPalette = {&watersplashPal, 418};
+ASSETS(watersplash, 8 * 8 * 4, 419);
 
-const struct OamData watersplashOam = {
-    .size = 3,
-    .priority = 2,
-};
+MAKE_OAM(watersplash)
+    OAM_SIZE(3)
+    OAM_PRIORITY(2)
+END_OAM()
 
-
-const struct Frame watersplashLoop[] = {
-    {0, 5},
-    {64, 5},
-    {128, 5},
-    {192, 5},
-    {0xFFFE, 0},
-};
-const struct Frame* watersplashLoopPtr[] = {watersplashLoop};
-
+BEGIN_FRAME_ANIM(watersplashFrames)
+    SHOW_FRAME(0, 64, 5)
+    SHOW_FRAME(1, 64, 5)
+    SHOW_FRAME(2, 64, 5)
+    SHOW_FRAME(3, 64, 5)
+    JUMP_FRAME(0)
+END_ANIM()
 
 // Chop hand from Karate chop
-const struct CompressedSpriteSheet chopSprite = {(void*)&chopTiles, 32 * 4 * 4 * 2, 419};
-const struct CompressedSpriteSheet chopSpriteSideways = {(void*)&chopTiles, 32 * 4 * 4 * 2, 419};
-const struct SpritePalette chopPalette = {&chopPal, 419};
+ASSETS(chop, 4 * 4 * 2, 420);
 
-const struct OamData chopOam = {
-    .size = 2,
-    .priority = 1,
-};
+MAKE_OAM(chop)
+    OAM_SIZE(2)
+    OAM_PRIORITY(1)
+END_OAM()
 
-const struct Frame chopLeftFrame[] = {
-    {16, 1},
-    {0xFFFF, 0},
-};
-const struct Frame* chopLeftFramePtr[] = {chopLeftFrame};
+BEGIN_FRAME_ANIM(chopLeftFrames)
+    SHOW_FRAME(1, 16, 1)
+    STOP_ANIM()
+END_ANIM()
 
 // Slap hand from double slap
-const struct CompressedSpriteSheet slapSprite = {(void*)&slapTiles, 32 * 4 * 4 * 3, 420};
-const struct SpritePalette slapPalette = {&slapPal, 420};
+ASSETS(slap, 4 * 4 * 3, 421);
 
-const struct OamData slapOam = {
-    .size = 2,
-    .priority = 3,
-};
+MAKE_OAM(slap)
+    OAM_SIZE(2)
+    OAM_PRIORITY(3)
+END_OAM()
 
-const struct Frame slapFrames[] = {
-    {0, 12},
-    {16, 4},
-    {32, 12},
-    {32, 12},
-    {16, 4},
-    {0, 12},
-    {0xFFFF, 0},
-};
-const struct Frame* slapFramesPtr[] = {slapFrames};
-
+BEGIN_FRAME_ANIM(slapFrames)
+    SHOW_FRAME(0, 16, 12)
+    SHOW_FRAME(1, 16, 4)
+    SHOW_FRAME(2, 16, 12)
+    SHOW_FRAME(2, 16, 12)
+    SHOW_FRAME(1, 16, 4)
+    SHOW_FRAME(0, 16, 12)
+    STOP_ANIM()
+END_ANIM()
 
 // Big red fist from mega punch, and blue fist from ice punch
-const struct CompressedSpriteSheet bigfistSprite = {(void*)&bigfistTiles, 32 * 8 * 8, 421};
-const struct CompressedSpriteSheet bigbluefistSprite = {(void*)&bigbluefistTiles, 32 * 8 * 8, 423};
-const struct SpritePalette bigfistPalette = {&bigfistPal, 421};
-const struct SpritePalette bigbluefistPalette = {&bigbluefistPal, 423};
+ASSETS(bigfist, 8 * 8, 422);
+ASSETS(bigbluefist, 8 * 8, 424);
 
-const struct OamData bigfistOam = {
-    .affine_mode = 1,
-    .size = 3,
-    .priority = 2,
-};
+MAKE_OAM(bigfist)
+    OAM_AFFINE()
+    OAM_SIZE(3)
+    OAM_PRIORITY(2)
+END_OAM()
 
 const struct RotscaleFrame bigfistShrinkAffineTable[] = {
     {-140, -140, 0, 1, 0},
@@ -465,72 +466,77 @@ const struct RotscaleFrame bigfistShrinkAffineTable[] = {
 const u32 bigfistShrinkAffinePtr = (u32)&bigfistShrinkAffineTable;
 
 // The small fire from fire punch
-const struct CompressedSpriteSheet smallfireSprite = {(void*)&smallfireTiles, 32 * 2 * 4 * 4, 422};
-const struct SpritePalette smallfirePalette = {&smallfirePal, 422};
+ASSETS(smallfire, 2 * 4 * 4, 423);
 
-const struct OamData smallfireOam = {
-    .shape = 2,
-    .size = 2,
-    .priority = 2,
-};
+MAKE_OAM(smallfire)
+    OAM_SHAPE(TALL)
+    OAM_SIZE(2)
+    OAM_PRIORITY(2)
+END_OAM()
 
-const struct OamData smallfireAffOam = {
-    .affine_mode = 1,
-    .shape = 2,
-    .size = 2,
-    .priority = 3,
-};
+MAKE_OAM(smallfireAff)
+    OAM_AFFINE()
+    OAM_SHAPE(TALL)
+    OAM_SIZE(2)
+    OAM_PRIORITY(3)
+END_OAM()
 
 // smallfire sprite to shrink
 const struct RotscaleFrame smallfireAffineTable[] = {
     {-6, -6, 0, 20, 0},
     {0x7FFF, 0, 0, 0, 0}
 };
-
-const struct Frame smallfireFrames[] = {
-    {0, 5},
-    {8, 5},
-    {16, 5},
-    {24, 5},
-    {0xFFFE, 0}
-};
-
 const u32 smallfireAffinePtr = (u32)&smallfireAffineTable;
-const struct Frame* smallfireFramesPtr = {smallfireFrames};
+
+BEGIN_FRAME_ANIM(smallfireFrames)
+    SHOW_FRAME(0, 8, 5)
+    SHOW_FRAME(1, 8, 5)
+    SHOW_FRAME(2, 8, 5)
+    SHOW_FRAME(3, 8, 5)
+    JUMP_FRAME(0)
+END_ANIM()
+
 
 // Lightning bolt
-const struct CompressedSpriteSheet lightningboltSprite = {(void*)&lightningboltTiles, 32 * 4 * 4 * 2, 424};
-const struct SpritePalette lightningboltPalette = {&lightningboltPal, 424};
+ASSETS(lightningbolt, 4 * 4 * 2, 425);
 
-const struct OamData lightningboltOam = {
-    .affine_mode = 1,
-    .size = 2,
-    .priority = 3,
-};
+MAKE_OAM(lightningbolt)
+    OAM_AFFINE()
+    OAM_SIZE(2)
+    OAM_PRIORITY(3)
+END_OAM()
 
-const struct Frame lightningboltFrames[] = {
-    {0, 2},
-    {16, 2},
-    {0xFFFE, 0}
-};
-const struct Frame* lightningboltFramesPtr = {lightningboltFrames};
+BEGIN_FRAME_ANIM(lightningboltFrames)
+    SHOW_FRAME(0, 16, 2)
+    SHOW_FRAME(1, 16, 2)
+    JUMP_FRAME(0)
+END_ANIM()
 
-// Yellow fist sprite frmo thunder punch
-const struct CompressedSpriteSheet yellowfistSprite = {(void*)&yellowfistTiles, 32 * 8 * 8, 425};
-const struct SpritePalette yellowfistPalette = {&yellowfistPal, 425};
+// Yellow fist sprite from thunder punch
+ASSETS(yellowfist, 8 * 8, 426);
 
-const struct OamData yellowfistOam = {
-    .affine_mode = 1,
-    .size = 3,
-    .priority = 0,
-};
+MAKE_OAM(yellowfist)
+    OAM_AFFINE()
+    OAM_SIZE(3)
+END_OAM()
 
 const struct RotscaleFrame bigfistShrinkSlowlyAffineTable[] = {
-    {-10, -10, 0, 16, 0},
-    {0, 0, 0, 20, 0},
+    {0, 0, 0, 8, 0},
+    {-100, -100, 0, 1, 0},
+    {0, 0, 0, 28, 0},
     {0x7FFF, 0, 0, 0, 0}
 };
 const u32 bigfistShrinkSlowlyAffinePtr = (u32)&bigfistShrinkSlowlyAffineTable;
+
+// Vicegrip graphic
+ASSETS(vicegrip, 4 * 4, 427);
+
+MAKE_OAM(vicegrip)
+    OAM_PRIORITY(1)
+    OAM_SIZE(2)
+END_OAM()
+
+
 
 /*
 	OAM DATA:

@@ -26,15 +26,15 @@ ThunderpunchAnimation:
     OPENCMD
     hidehpbars
     rendersprite paralyzeParticle targetx targety nullrsf
-    setframessprite 0 paralyzeParticle paralyzeLoopPtr
+    setframessprite 0 paralyzeParticle paralyzeFrames
     beginfade 3 0 FADETO false 10
-    animatesprite fistParticle bigfistShrinkSlowlyAffinePtr 0
-    spritecallback fistParticle SCB_SpriteDeleteWhenAffineEnds
     BLOCKCMD
+    spritecallback fistParticle SCB_SpriteDeleteWhenAffineEnds
+    animatesprite fistParticle bigfistShrinkSlowlyAffinePtr 0
     rendersprite fistParticle targetx targety bigfistShrinkSlowlyAffinePtr
     quakesprite fistParticle 4 2 4 2 false
-    quakesprite target 4 4 4 2 false
     OPENCMD
+    quakesprite target 4 4 4 2 false
     spriteblend2 target 8 0x579F
     BLOCKCMD
 
@@ -43,7 +43,7 @@ splashingLightning:
     if1 0x1 goto splashLightningRandom
     loadsprite lightningboltSprite lightningboltPalette lightningboltOam
     spritesetposition LASTRESULT targetx targety
-    setframessprite 0 LASTRESULT lightningboltFramesPtr
+    setframessprite 0 LASTRESULT lightningboltFrames
     spritecallbackargs LASTRESULT 0 angle 0 0 SpriteTravelRandDirFlash
     addvar counter 1
     addvar angle 25

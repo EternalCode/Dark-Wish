@@ -25,7 +25,7 @@ burnLoop:
     if1 0x1 goto finishburn
     loadsprite burnSprite burnPalette burnOam
     copyvar burnParticle LASTRESULT
-    animatesprite burnParticle burnAffinePtr 0
+    animatesprite burnParticle burnAffine 0
     runtask TaskBurnEffect burnParticle 0 0 0
     addvar counter 1
     goto burnLoop
@@ -90,7 +90,7 @@ animParalyzed:
     loadspritefull paralyzeSprite paralyzePalette paralyzeOam
     copyvar paralyzeParticle LASTRESULT
     rendersprite paralyzeParticle targetx targety nullrsf
-    setframessprite 0 paralyzeParticle paralyzeLoopPtr
+    setframessprite 0 paralyzeParticle paralyzeFrames
     quakesprite target 4 0 2 5 0
     beginfade 3 0 FADETO 1 10
     beginfade 3 0 FADEFROM 1 10
@@ -152,9 +152,9 @@ animConfused:
     loadsprite confusedSprite confusedPalette confusedOam
     copyvar confusedParticle3 LASTRESULT
     // set ducks animframe
-    setframessprite 0 confusedParticle1 confusedLoopPtr
-    setframessprite 0 confusedParticle2 confusedLoopPtr
-    setframessprite 0 confusedParticle3 confusedLoopPtr
+    setframessprite 0 confusedParticle1 confusedFrames
+    setframessprite 0 confusedParticle2 confusedFrames
+    setframessprite 0 confusedParticle3 confusedFrames
     // set ducks orbit cb
     orbit confusedParticle1 target 60 30 8 0 9 false true 85
     orbit confusedParticle2 target 60 30 8 0 9 false true 170
@@ -173,52 +173,52 @@ finishConfused:
 .pool
 
 
-.equ infatuationParticle, 0x9006
-.equ infatuationX, 0x9009
-.equ infatuationY, 0x900A
-.global animInfatuation
-animInfatuation:
+.equ infactuationParticle, 0x9006
+.equ infactuationX, 0x9009
+.equ infactuationY, 0x900A
+.global animinfactuation
+animinfactuation:
     fastsetbattlers
-    loadspritefull infatuationSprite infatuationPalette infatuationOam
+    loadspritefull infactuationSprite infactuationPalette infactuationOam
     copyvar initialSprite LASTRESULT
     setvar counter 0
     copyvar 0x8000 targetx
     copyvar 0x8001 targety
 
-infatuationLoop:
+infactuationLoop:
     compare counter 4
-    if1 0x1 goto finishInfatuation
+    if1 0x1 goto finishinfactuation
     random 0 1
     compare LASTRESULT 0x1
     random 10 30
-    copyvar infatuationX LASTRESULT
+    copyvar infactuationX LASTRESULT
     random 20 30
-    copyvar infatuationY LASTRESULT
-    subvars targety infatuationY
+    copyvar infactuationY LASTRESULT
+    subvars targety infactuationY
     copyvar LASTRESULT targety
-    addvars targety infatuationY
-    copyvar infatuationY LASTRESULT
-    if1 0x1 goto infatuationLeft
+    addvars targety infactuationY
+    copyvar infactuationY LASTRESULT
+    if1 0x1 goto infactuationLeft
 
-infatuationRight:
+infactuationRight:
     copyvar LASTRESULT targetx
-    addvars infatuationX LASTRESULT
-    goto infatuationHeartShow
+    addvars infactuationX LASTRESULT
+    goto infactuationHeartShow
 
-infatuationLeft:
+infactuationLeft:
     copyvar LASTRESULT targetx
-    subvars LASTRESULT infatuationX
-    copyvar infatuationX LASTRESULT
+    subvars LASTRESULT infactuationX
+    copyvar infactuationX LASTRESULT
 
-infatuationHeartShow:
-    loadsprite infatuationSprite infatuationPalette infatuationOam
-    copyvar infatuationParticle LASTRESULT
-    runtask TaskMovePoisonBubble infatuationParticle 3 12 50
+infactuationHeartShow:
+    loadsprite infactuationSprite infactuationPalette infactuationOam
+    copyvar infactuationParticle LASTRESULT
+    runtask TaskMovePoisonBubble infactuationParticle 3 12 50
     addvar counter 1
-    goto infatuationLoop
+    goto infactuationLoop
 
 
-finishInfatuation:
+finishinfactuation:
     waittask TaskMovePoisonBubble
     deletesprite initialSprite
     end
