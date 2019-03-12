@@ -1,3 +1,6 @@
+#ifndef ANIMATION_CORE_H_
+#define ANIMATION_CORE_H_
+
 #include <pokeagb/pokeagb.h>
 
 #define ANIM_STACK_DEPTH 20
@@ -56,3 +59,5 @@ struct AnimationCore* gAnimationCore;
 						   (ANIMSCR_SCRIPT[1] << 8) | \
 						   (ANIMSCR_SCRIPT[2] << 16) | \
 						   (ANIMSCR_SCRIPT[3] << 24)); ANIMSCR_MOVE(4)
+
+#endif /* ANIMATION_CORE_H_ */
