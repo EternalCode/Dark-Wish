@@ -1188,9 +1188,9 @@ void ScriptCmd_setframessprite()
     spriteId = VarGet(spriteId);
     void* frames = (void*)ANIMSCR_READ_WORD;
     gSprites[spriteId].animation_table = (void*)frames;
-    gSprites[spriteId].animCmdIndex = 0;
     gSprites[spriteId].animNum = frame;
-    AnimateSprite(&gSprites[spriteId]);
+    gSprites[spriteId].animBeginning = true;
+    gSprites[spriteId].animEnded = false;
     ANIMSCR_CMD_NEXT;
 }
 
