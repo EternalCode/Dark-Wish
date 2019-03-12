@@ -30,8 +30,8 @@ ThunderpunchAnimation:
     beginfade 3 0 FADETO false 10
     BLOCKCMD
     spritecallback fistParticle SCB_SpriteDeleteWhenAffineEnds
-    animatesprite fistParticle bigfistShrinkSlowlyAffinePtr 0
-    rendersprite fistParticle targetx targety bigfistShrinkSlowlyAffinePtr
+    animatesprite fistParticle bigfistShrinkSlowlyAffine 0
+    rendersprite fistParticle targetx targety bigfistShrinkSlowlyAffine
     quakesprite fistParticle 4 2 4 2 false
     OPENCMD
     quakesprite target 4 4 4 2 false

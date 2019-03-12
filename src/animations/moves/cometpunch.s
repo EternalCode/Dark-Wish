@@ -47,7 +47,7 @@ Punchloop:
     spriteblend2 impactParticle 10 0x03DE
     rendersprite impactParticle tempx tempy nullrsf
     rendersprite punchParticle tempx tempy nullrsf
-    animatesprite punchParticle fistAffinePtr2 0
+    animatesprite punchParticle fist2Affine 0
     spritecallback punchParticle SCB_SpriteDeleteWhenAffineEnds
     spritecallback impactParticle SCB_SpriteDeleteAfter10Frames
     OPENCMD

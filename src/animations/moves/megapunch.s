@@ -26,7 +26,7 @@ MegapunchAnimation:
     quakesprite punchParticle 3 3 4 1 false
     quakebg 1 1 0 2 1 false
     pauseframes 5
-    animatesprite punchParticle fistAffinePtr3 0
+    animatesprite punchParticle fist2Affine 0
     startscript FireworkAnimation true
 
 Punchloop:

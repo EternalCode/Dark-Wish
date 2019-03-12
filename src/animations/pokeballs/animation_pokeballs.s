@@ -66,7 +66,7 @@ shakeLoop:
     if1 0x1 goto shakeRight
 
 shakeLeft:
-    animatesprite ballSprite pokeballLeftTiltAffineTablePtr 0
+    animatesprite ballSprite pokeballLeftTiltAffine 0
     subvar shakes 1
     setvar shakedir 1
     waitaffineanimation ballSprite
@@ -74,7 +74,7 @@ shakeLeft:
     goto shakeLoop
 
 shakeRight:
-    animatesprite ballSprite pokeballRightTiltAffineTablePtr 0
+    animatesprite ballSprite pokeballRightTiltAffine 0
     setvar shakedir 0
     subvar shakes 1
     waitaffineanimation ballSprite

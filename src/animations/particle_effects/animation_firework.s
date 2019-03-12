@@ -160,14 +160,14 @@ LinearFireworkFinishrev:
         OPENCMD
 
         BLOCKCMD
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 3 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 3 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 2 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 2 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 1 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 1 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 0 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffineTablePtr 0 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 3 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 3 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 2 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 2 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 1 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 1 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 0 targetx targety
+        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 0 targetx targety
         OPENCMD
 
         waittask TaskCreateSmallFireworkGeneric

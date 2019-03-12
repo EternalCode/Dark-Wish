@@ -37,7 +37,7 @@
 #define JUMP_FRAME(x) {0xFFFE, x},
 #define LOOP_FRAME(times) {0xFFFD, times},
 #define STOP_ANIM() {0xFFFF, 0},
-#define END_ANIM() };
+#define END_ANIM() {0xFFFF, 0},};
 
 #define ASSETS(name, size, tag) const struct CompressedSpriteSheet name ##Sprite = {(void*)&name ## Tiles, size * 32, tag}; \
                                 const struct SpritePalette name ## Palette = {&name ## Pal, tag}
@@ -55,18 +55,15 @@
 #define TALL 2
 
 #define BEGIN_AFFINE_ANIM(name) const struct RotscaleFrame name ## AffineTable[];\
-                                const u32 name ## Affine = (u32)&burn ## AffineTable; \
-                                const struct RotscaleFrame burnAffineTable[] = {
+                                const u32 name ## Affine = (u32)&name ## AffineTable; \
+                                const struct RotscaleFrame name ## AffineTable[] = {
 #define PLAY_AFFINE(x, y, rot, dur) {x, y, rot, dur, 0},
 #define LOOP_AFFINE(x) {0x7FFD, x, 0, 0, 0},
 #define JUMP_AFFINE(x) {0x7FFE, x, 0, 0, 0},
-#define STOP_AFFINE() {0x7FFF, 0, 0, 0, 0},
-#define END_AFFINE() };
+#define END_AFFINE() {0x7FFF, 0, 0, 0, 0},};
 
 
-
-
-// the impact sprite from tackle
+/* the impact sprite from tackle */
 ASSETS(impact1, 4 * 4, 400);
 
 MAKE_OAM(impact1)
@@ -75,7 +72,7 @@ MAKE_OAM(impact1)
 END_OAM()
 
 
-// the burn animation sprite
+/* the burn animation sprite */
 ASSETS(burn, 2 * 4, 401);
 
 MAKE_OAM(burn)
@@ -86,15 +83,12 @@ MAKE_OAM(burn)
 END_OAM()
 
 // burn sprite to shrink
-const struct RotscaleFrame burnAffineTable[] = {
-    {-20, -20, 0, 10, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-
-const u32 burnAffine = (u32)&burnAffineTable;
+BEGIN_AFFINE_ANIM(burn)
+    PLAY_AFFINE(-20, -20, 0, 10)
+END_AFFINE()
 
 
-// poison ailment sprite
+/* poison ailment sprite */
 ASSETS(poison, 2 * 2, 402);
 
 MAKE_OAM(poison)
@@ -102,7 +96,8 @@ MAKE_OAM(poison)
     OAM_PRIORITY(1)
 END_OAM()
 
-// paralyze ailment sprite
+
+/* paralyze ailment sprite */
 ASSETS(paralyze, 4 * 4 * 3, 403);
 
 MAKE_OAM(paralyze)
@@ -118,10 +113,10 @@ BEGIN_FRAME_ANIM(paralyzeFrames)
     SHOW_FRAME(6, 4, 5)
     SHOW_FRAME(8, 4, 5)
     JUMP_FRAME(0)
-    END_ANIM()
+END_ANIM()
 
 
-// freeze ailment sprite
+/* freeze ailment sprite */
 ASSETS(freeze, 4 * 4, 404);
 
 MAKE_OAM(freeze)
@@ -131,25 +126,20 @@ MAKE_OAM(freeze)
 END_OAM()
 
 // freeze sprite to grow
-const struct RotscaleFrame freezeAffineTable[] = {
-    {-200, -200, 0, 1, 0},
-    {10, 10, 0, 15, 0},
-    {0, 0, 0, 10, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
+BEGIN_AFFINE_ANIM(freeze)
+    PLAY_AFFINE(-200, -200, 0, 1)
+    PLAY_AFFINE(10, 10, 0, 15)
+    PLAY_AFFINE(0, 0, 0, 10)
+END_AFFINE()
 
 // freeze sprite grow slow and rotate slow
-const struct RotscaleFrame freezeAffine2Table[] = {
-    {-200, -200, 0, 1, 0},
-    {5, 5, 5, 20, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-
-const u32 freezeAffinePtr = (u32)&freezeAffineTable;
-const u32 freezeAffine2Ptr = (u32)&freezeAffine2Table;
+BEGIN_AFFINE_ANIM(freeze2)
+    PLAY_AFFINE(-200, -200, 0, 1)
+    PLAY_AFFINE(5, 5, 5, 20)
+END_AFFINE()
 
 
-// confused sprite
+/* confused sprite */
 ASSETS(confused, 2 * 2 * 3, 405);
 
 MAKE_OAM(confused)
@@ -165,7 +155,7 @@ BEGIN_FRAME_ANIM(confusedFrames)
 END_ANIM()
 
 
-// infactuation sprite
+/* infactuation sprite */
 ASSETS(infactuation, 2 * 2, 406);
 
 MAKE_OAM(infactuation)
@@ -174,7 +164,7 @@ MAKE_OAM(infactuation)
 END_OAM()
 
 
-// Sleep sprite
+/* Sleep sprite */
 ASSETS(sleep, 4 * 4, 407);
 
 MAKE_OAM(sleep)
@@ -183,20 +173,18 @@ MAKE_OAM(sleep)
     OAM_PRIORITY(1)
 END_OAM()
 
-const struct RotscaleFrame sleepAffineTable[] = {
-    {-150, -150, -30, 1, 0},
-    {2, 2, 2, 5, 0},
-    {0, 0, 0, 8, 0},
-    {2, 2, 2, 5, 0},
-    {0, 0, 0, 8, 0},
-    {2, 2, 2, 5, 0},
-    {0, 0, 0, 8, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-const u32 sleepAffinePtr = (u32)&sleepAffineTable;
+BEGIN_AFFINE_ANIM(sleep)
+    PLAY_AFFINE(-150, -150, -30, 1)
+    PLAY_AFFINE(2, 2, 2, 5)
+    PLAY_AFFINE(0, 0, 8, 0)
+    PLAY_AFFINE(2, 2, 2, 5)
+    PLAY_AFFINE(0, 0, 8, 0)
+    PLAY_AFFINE(2, 2, 2, 5)
+    PLAY_AFFINE(0, 0, 8, 0)
+END_AFFINE()
 
 
-// Smoke sprite
+/* Smoke sprite */
 ASSETS(smoke, 4 * 4 * 3, 408);
 
 MAKE_OAM(smoke)
@@ -208,10 +196,10 @@ BEGIN_FRAME_ANIM(smokeFrames)
     SHOW_FRAME(0, 16, 5)
     SHOW_FRAME(1, 16, 5)
     SHOW_FRAME(2, 16, 5)
-    STOP_ANIM()
 END_ANIM()
 
-// glowball sprite
+
+/* glowball sprite */
 ASSETS(glowball, 2 * 2, 409);
 
 MAKE_OAM(glowball)
@@ -220,28 +208,23 @@ MAKE_OAM(glowball)
     OAM_PRIORITY(1)
 END_OAM()
 
-const struct RotscaleFrame glowballAffineTable[] = {
-    {0, 0, 0, 1, 0},
-    {-10, -10, 0, 30, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-const u32 glowballAffinePtr = (u32)&glowballAffineTable;
+BEGIN_AFFINE_ANIM(glowball)
+    PLAY_AFFINE(0, 0, 0, 1)
+    PLAY_AFFINE(-10, -10, 0, 30)
+END_AFFINE()
 
-const struct RotscaleFrame glowballSmallerAffineTable[] = {
-    {-100, -100, 0, 1, 0},
-    {-10, -10, 0, 20, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-const u32 glowballSmallerAffinePtr = (u32)&glowballSmallerAffineTable;
+BEGIN_AFFINE_ANIM(glowballSmaller)
+    PLAY_AFFINE(-100, -100, 0, 1)
+    PLAY_AFFINE(-10, -10, 0, 20)
+END_AFFINE()
 
-const struct RotscaleFrame glowballRevAffineTable[] = {
-    {-300, -300, 0, 1, 0},
-    {10, 10, 0, 30, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-const u32 glowballRevAffinePtr = (u32)&glowballRevAffineTable;
+BEGIN_AFFINE_ANIM(glowballRev)
+    PLAY_AFFINE(-300, -300, 0, 1)
+    PLAY_AFFINE(10, 10, 0, 30)
+END_AFFINE()
 
-// pokeball sprite
+
+/* pokeball sprite */
 ASSETS(pokeball, 2 * 2 * 3, 410);
 
 MAKE_OAM(pokeball)
@@ -266,34 +249,30 @@ const struct Frame* pokeballFrames[] = {
     pokeballOpen,
     pokeballClose,
 };
-
-const struct RotscaleFrame pokeballLeftTiltAffineTable[] = {
-    {0, 0, 0, 1, 0},
-    {0, 0, -6, 5, 0},
-    {0, 0, 0, 5, 0},
-    {0, 0, 6, 5, 0},
-    {0, 0, 6, 3, 0},
-    {0, 0, 0, 3, 0},
-    {0, 0, -6, 3, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-
-const struct RotscaleFrame pokeballRightTiltAffineTable[] = {
-    {0, 0, 0, 1, 0},
-    {0, 0, 6, 5, 0},
-    {0, 0, 0, 5, 0},
-    {0, 0, -6, 5, 0},
-    {0, 0, -6, 3, 0},
-    {0, 0, 0, 3, 0},
-    {0, 0, 6, 3, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-
 const struct Frame* pokeballOpenPtr[] = {pokeballOpen};
-const u32 pokeballLeftTiltAffineTablePtr = (u32)&pokeballLeftTiltAffineTable;
-const u32 pokeballRightTiltAffineTablePtr = (u32)&pokeballRightTiltAffineTable;
 
-// impact2 sprite
+BEGIN_AFFINE_ANIM(pokeballLeftTilt)
+    PLAY_AFFINE(0, 0, 0, 1)
+    PLAY_AFFINE(0, 0, -6, 5)
+    PLAY_AFFINE(0, 0, 0, 5)
+    PLAY_AFFINE(0, 0, 6, 5)
+    PLAY_AFFINE(0, 0, 6, 3)
+    PLAY_AFFINE(0, 0, 0, 3)
+    PLAY_AFFINE(0, 0, -6, 3)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(pokeballRightTilt)
+    PLAY_AFFINE(0, 0, 0, 1)
+    PLAY_AFFINE(0, 0, 6, 5)
+    PLAY_AFFINE(0, 0, 0, 5)
+    PLAY_AFFINE(0, 0, -6, 5)
+    PLAY_AFFINE(0, 0, -6, 3)
+    PLAY_AFFINE(0, 0, 0, 3)
+    PLAY_AFFINE(0, 0, 6, 3)
+END_AFFINE()
+
+
+/* impact2 sprite */
 ASSETS(impact2, 4 * 4, 411);
 
 MAKE_OAM(impact2)
@@ -301,7 +280,8 @@ MAKE_OAM(impact2)
     OAM_PRIORITY(3)
 END_OAM()
 
-// Pokeball particles when opened or closed
+
+/* Pokeball particles when opened or closed */
 ASSETS(pokeballParticle, 1 * 1 * 3, 412);
 
 MAKE_OAM(pokeballParticle)
@@ -316,14 +296,14 @@ BEGIN_FRAME_ANIM(pokeballParticleFrames)
 END_ANIM()
 
 
-// Pokeball capture sucess stars particle
+/* Pokeball capture sucess stars particle */
 ASSETS(starParticle, 1 * 1, 413);
 
 MAKE_OAM(starParticle)
 END_OAM()
 
 
-// Yes no choice box for..whatever choices
+/* Yes no choice box for..whatever choices */
 ASSETS(yesno, 8 * 8, 414);
 
 MAKE_OAM(yesno)
@@ -331,7 +311,8 @@ MAKE_OAM(yesno)
     OAM_PRIORITY(1)
 END_OAM()
 
-// a cursor meant for the yesno box
+
+/* a cursor meant for the yesno box */
 ASSETS(yesnoCursor, 8 * 8, 415);
 
 MAKE_OAM(yesnoCursor)
@@ -339,7 +320,8 @@ MAKE_OAM(yesnoCursor)
     OAM_PRIORITY(0)
 END_OAM()
 
-// fist sprite
+
+/* fist sprite */
 ASSETS(fist, 4 * 4, 416);
 
 MAKE_OAM(fist)
@@ -354,32 +336,22 @@ MAKE_OAM(fist2)
     OAM_SIZE(2)
 END_OAM ()
 
+BEGIN_AFFINE_ANIM(fist)
+    PLAY_AFFINE(-100, -100, 0, 1)
+    PLAY_AFFINE(20, 20, 0, 8)
+END_AFFINE()
 
-// H-scaling, V-scaling, Rotation, duration, fill
-const struct RotscaleFrame fistAffineTable[] = {
-    {-100, -100, 0, 1, 0},
-    {20, 20, 0, 8, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-const u32 fistAffinePtr = (u32)&fistAffineTable;
+BEGIN_AFFINE_ANIM(fist2)
+    PLAY_AFFINE(0, 0, 3, 5)
+END_AFFINE()
 
-// fist that rotates slightly
-const struct RotscaleFrame fistAffineTable2[] = {
-    {0, 0, 3, 5, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-const u32 fistAffinePtr2 = (u32)&fistAffineTable2;
-
-// fist that starts rotating and shrinking, then reverts all rotation/shrinking
-const struct RotscaleFrame fistAffineTable3[] = {
-    {-450, -450, 0, 1, 0},
-    {6, 6, -7, 24, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-const u32 fistAffinePtr3 = (u32)&fistAffineTable3;
+BEGIN_AFFINE_ANIM(fist3)
+    PLAY_AFFINE(-450, -450, 0, 1)
+    PLAY_AFFINE(6, 6, -7, 24)
+END_AFFINE()
 
 
-// circular sprite
+/* circular sprite */
 ASSETS(circular, 2 * 2, 417);
 
 MAKE_OAM(circular)
@@ -388,13 +360,12 @@ MAKE_OAM(circular)
     OAM_SIZE(1)
 END_OAM()
 
-const struct RotscaleFrame circularAffineTable[] = {
-    {8, 8, 0, 32, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-const u32 circularAffinePtr = (u32)&circularAffineTable;
+BEGIN_AFFINE_ANIM(circular)
+    PLAY_AFFINE(8, 8, 0, 32)
+END_AFFINE()
 
-// the impact sprite from tackle - but white for blendability
+
+/* the impact sprite from tackle - but white for blendability */
 ASSETS(bimpact1, 4 * 4, 418);
 
 MAKE_OAM(bimpact1)
@@ -402,7 +373,8 @@ MAKE_OAM(bimpact1)
     OAM_PRIORITY(3)
 END_OAM()
 
-// a splash of dispersing water
+
+/* a splash of dispersing water */
 ASSETS(watersplash, 8 * 8 * 4, 419);
 
 MAKE_OAM(watersplash)
@@ -418,7 +390,8 @@ BEGIN_FRAME_ANIM(watersplashFrames)
     JUMP_FRAME(0)
 END_ANIM()
 
-// Chop hand from Karate chop
+
+/* Chop hand from Karate chop */
 ASSETS(chop, 4 * 4 * 2, 420);
 
 MAKE_OAM(chop)
@@ -428,10 +401,10 @@ END_OAM()
 
 BEGIN_FRAME_ANIM(chopLeftFrames)
     SHOW_FRAME(1, 16, 1)
-    STOP_ANIM()
 END_ANIM()
 
-// Slap hand from double slap
+
+/* Slap hand from double slap */
 ASSETS(slap, 4 * 4 * 3, 421);
 
 MAKE_OAM(slap)
@@ -446,10 +419,10 @@ BEGIN_FRAME_ANIM(slapFrames)
     SHOW_FRAME(2, 16, 12)
     SHOW_FRAME(1, 16, 4)
     SHOW_FRAME(0, 16, 12)
-    STOP_ANIM()
 END_ANIM()
 
-// Big red fist from mega punch, and blue fist from ice punch
+
+/* Big red fist from mega punch, and blue fist from ice punch */
 ASSETS(bigfist, 8 * 8, 422);
 ASSETS(bigbluefist, 8 * 8, 424);
 
@@ -459,13 +432,12 @@ MAKE_OAM(bigfist)
     OAM_PRIORITY(2)
 END_OAM()
 
-const struct RotscaleFrame bigfistShrinkAffineTable[] = {
-    {-140, -140, 0, 1, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-const u32 bigfistShrinkAffinePtr = (u32)&bigfistShrinkAffineTable;
+BEGIN_AFFINE_ANIM(bigfistShrink)
+    PLAY_AFFINE(-140, -140, 0, 1)
+END_AFFINE()
 
-// The small fire from fire punch
+
+/* The small fire from fire punch */
 ASSETS(smallfire, 2 * 4 * 4, 423);
 
 MAKE_OAM(smallfire)
@@ -481,13 +453,6 @@ MAKE_OAM(smallfireAff)
     OAM_PRIORITY(3)
 END_OAM()
 
-// smallfire sprite to shrink
-const struct RotscaleFrame smallfireAffineTable[] = {
-    {-6, -6, 0, 20, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-const u32 smallfireAffinePtr = (u32)&smallfireAffineTable;
-
 BEGIN_FRAME_ANIM(smallfireFrames)
     SHOW_FRAME(0, 8, 5)
     SHOW_FRAME(1, 8, 5)
@@ -496,8 +461,12 @@ BEGIN_FRAME_ANIM(smallfireFrames)
     JUMP_FRAME(0)
 END_ANIM()
 
+BEGIN_AFFINE_ANIM(smallfire)
+    PLAY_AFFINE(-6, -6, 0, 20)
+END_AFFINE()
 
-// Lightning bolt
+
+/* Lightning bolt */
 ASSETS(lightningbolt, 4 * 4 * 2, 425);
 
 MAKE_OAM(lightningbolt)
@@ -512,7 +481,8 @@ BEGIN_FRAME_ANIM(lightningboltFrames)
     JUMP_FRAME(0)
 END_ANIM()
 
-// Yellow fist sprite from thunder punch
+
+/* Yellow fist sprite from thunder punch */
 ASSETS(yellowfist, 8 * 8, 426);
 
 MAKE_OAM(yellowfist)
@@ -520,15 +490,14 @@ MAKE_OAM(yellowfist)
     OAM_SIZE(3)
 END_OAM()
 
-const struct RotscaleFrame bigfistShrinkSlowlyAffineTable[] = {
-    {0, 0, 0, 8, 0},
-    {-100, -100, 0, 1, 0},
-    {0, 0, 0, 28, 0},
-    {0x7FFF, 0, 0, 0, 0}
-};
-const u32 bigfistShrinkSlowlyAffinePtr = (u32)&bigfistShrinkSlowlyAffineTable;
+BEGIN_AFFINE_ANIM(bigfistShrinkSlowly)
+    PLAY_AFFINE(0, 0, 0, 8)
+    PLAY_AFFINE(-100, -100, 0, 1)
+    PLAY_AFFINE(0, 0, 0, 28)
+END_AFFINE()
 
-// Vicegrip graphic
+
+/* Vicegrip graphic */
 ASSETS(vicegrip, 4 * 4, 427);
 
 MAKE_OAM(vicegrip)

@@ -76,10 +76,10 @@ continue2:
     // defender to Bg for blending with fist and impact particle
     spritetobg target 8 8
     // render first sprite and a blinking copy of it
-    animatesprite fistParticle fistAffinePtr 0
+    animatesprite fistParticle fistAffine 0
     BLOCKCMD
 
-    rendersprite fistParticle targetx targety fistAffinePtr
+    rendersprite fistParticle targetx targety fistAffine
     sideof attacker
     if1 0x1 goto oppmove3
     movesprite fistParticle 6 0 15 false

@@ -17,7 +17,7 @@ IcepunchAnimation:
     copyvar freezeParticle LASTRESULT
     loadspritefull bigbluefistSprite bigbluefistPalette bigfistOam
     copyvar fistParticle LASTRESULT
-    animatesprite fistParticle bigfistShrinkAffinePtr 0
+    animatesprite fistParticle bigfistShrinkAffine 0
     fastsetbattlers
     setvar counter 0
     addfadeplatformbg
@@ -26,7 +26,7 @@ IcepunchAnimation:
 
 showFist:
     pauseframes 40
-    rendersprite fistParticle targetx targety bigfistShrinkAffinePtr
+    rendersprite fistParticle targetx targety bigfistShrinkAffine
     quakesprite fistParticle 3 3 6 1 false
     quakesprite target 2 0 6 1 false
     setvar counter 0

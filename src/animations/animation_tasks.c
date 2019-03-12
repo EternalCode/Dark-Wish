@@ -526,9 +526,9 @@ void TaskMoveSinLeftAndRight(u8 taskId)
 extern const struct CompressedSpriteSheet glowballSprite;
 extern const struct SpritePalette glowballPalette;
 extern const struct OamData glowballOam;
-extern const u32 glowballSmallerAffinePtr;
-extern const u32 glowballAffinePtr;
-extern const u32 glowballRevAffinePtr;
+extern const u32 glowballSmallerAffine;
+extern const u32 glowballAffine;
+extern const u32 glowballRevAffine;
 
 
 void TaskCreateSmallFireworkGeneric(u8 taskId)
@@ -584,7 +584,7 @@ void TaskCreateSmallFireworkImpact(u8 taskId)
             spriteId = CreateSprite(&spriteTemp, currentx, currenty, 0);
             u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
             BlendPalette((pal_slot * 16) + (16 * 16), 16, 12, color);
-            struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballAffinePtr;
+            struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballAffine;
             gSprites[spriteId].rotscale_table = rotscale_table;
             gSprites[spriteId].final_oam.affine_mode = 1;
             gSprites[spriteId].final_oam.priority = 3;
@@ -650,7 +650,7 @@ void TaskCreateSmallerFireworkImpact(u8 taskId)
             spriteId = CreateSprite(&spriteTemp, currentx, currenty, 0);
             u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
             BlendPalette((pal_slot * 16) + (16 * 16), 16, 12, color);
-            struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballSmallerAffinePtr;
+            struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballSmallerAffine;
             gSprites[spriteId].rotscale_table = rotscale_table;
             gSprites[spriteId].final_oam.affine_mode = 1;
             gSprites[spriteId].final_oam.priority = 3;
@@ -716,7 +716,7 @@ void TaskCreateSmallLinearFireworkImpact(u8 taskId)
             spriteId = CreateSprite(&spriteTemp, currentx, currenty, 0);
             u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
             BlendPalette((pal_slot * 16) + (16 * 16), 16, 12, color);
-            struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballAffinePtr;
+            struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballAffine;
             gSprites[spriteId].rotscale_table = rotscale_table;
             gSprites[spriteId].final_oam.affine_mode = 1;
             gSprites[spriteId].final_oam.priority = 3;
@@ -775,7 +775,7 @@ void TaskCreateSmallLinearFireworkImpactRev(u8 taskId)
             spriteId = CreateSprite(&spriteTemp, currentx, currenty, 0);
             u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
             BlendPalette((pal_slot * 16) + (16 * 16), 16, 12, color);
-            struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballRevAffinePtr;
+            struct RotscaleFrame (**rotscale_table)[] = (void*)&glowballRevAffine;
             gSprites[spriteId].rotscale_table = rotscale_table;
             gSprites[spriteId].final_oam.affine_mode = 1;
             gSprites[spriteId].final_oam.priority = 3;

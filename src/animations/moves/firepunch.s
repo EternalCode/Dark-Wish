@@ -17,7 +17,7 @@ FirepunchAnimation:
     copyvar fireParticle LASTRESULT
     loadspritefull bigfistSprite bigfistPalette bigfistOam
     copyvar fistParticle LASTRESULT
-    animatesprite fistParticle bigfistShrinkAffinePtr 0
+    animatesprite fistParticle bigfistShrinkAffine 0
     fastsetbattlers
     setvar counter 0
     addpalbuffer target false
@@ -43,7 +43,7 @@ firepunchFireOrbiting:
 showFist:
     OPENCMD
     pauseframes 40
-    rendersprite fistParticle targetx targety bigfistShrinkAffinePtr
+    rendersprite fistParticle targetx targety bigfistShrinkAffine
     quakesprite fistParticle 3 3 6 1 false
     quakesprite target 2 0 6 1 false
     setvar counter 0
@@ -71,7 +71,7 @@ spawnFlameRandomDir:
     loadsprite smallfireSprite smallfirePalette smallfireAffOam
     copyvar tempSprite LASTRESULT
     setframessprite 0 tempSprite smallfireFrames
-    rendersprite tempSprite targetx targety smallfireAffinePtr
+    rendersprite tempSprite targetx targety smallfireAffine
     // pick random xOff
     random 0 5
     subvar LASTRESULT 2

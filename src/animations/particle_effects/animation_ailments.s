@@ -118,7 +118,7 @@ freezeLoop:
     if1 0x1 goto finishfreeze
     loadsprite freezeSprite freezePalette freezeOam
     copyvar freezeParticle LASTRESULT
-    animatesprite freezeParticle freezeAffinePtr 0
+    animatesprite freezeParticle freezeAffine 0
     runtask TaskFreezeEffect freezeParticle 0 0 0
     pauseframes 2
     addvar counter 1
@@ -243,7 +243,7 @@ sleepLoop:
     if1 0x1 goto finishsleep
     loadsprite sleepSprite sleepPalette sleepOam
     copyvar sleepParticle LASTRESULT
-    animatesprite sleepParticle sleepAffinePtr 0
+    animatesprite sleepParticle sleepAffine 0
     runtask TaskMoveSleepZ sleepParticle 1 12 30
     pauseframes 20
     addvar counter 1

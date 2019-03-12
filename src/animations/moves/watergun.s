@@ -31,8 +31,8 @@ WatergunLoop:
     if1 0x1 goto WatergunFinish
     loadsprite circularSprite circularPalette circularOam
     spriteblend2 LASTRESULT 10 0x7354
-    animatesprite LASTRESULT circularAffinePtr 0
-    rendersprite LASTRESULT attackerx attackery circularAffinePtr
+    animatesprite LASTRESULT circularAffine 0
+    rendersprite LASTRESULT attackerx attackery circularAffine
     excludeblend LASTRESULT
     spritecallback LASTRESULT SCB_SpriteDeleteWhenAffineEnds
     sideof attacker
