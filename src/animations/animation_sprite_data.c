@@ -29,6 +29,8 @@
 #include "../../generated/images/battle_animations/lightningbolt.h"
 #include "../../generated/images/battle_animations/yellowfist.h"
 #include "../../generated/images/battle_animations/vicegrip.h"
+#include "../../generated/images/battle_animations/guillotine.h"
+#include "../../generated/images/battle_animations/guillotineLeft.h"
 
 
 /* the impact sprite from tackle */
@@ -491,3 +493,27 @@ BEGIN_FRAME_ANIM(vicegripFlipFrame)
     SHOW_FRAME(1, s32x32, HVFLIP, 2)
     SHOW_FRAME(2, s32x32, HVFLIP, 2)
 END_ANIM()
+
+
+/* Guillotine */
+ASSETS(guillotine, s64x64, 428);
+ASSETS(guillotineLeft, s64x64, 429);
+
+MAKE_OAM(guillotine)
+    OAM_AFFINE()
+    OAM_PRIORITY(3)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(guillotineGrow)
+    PLAY_AFFINE(-100, -140, 0, 1)
+    PLAY_AFFINE(5, 7, 0, 20)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(guillotineTiltLeft)
+    PLAY_AFFINE(0, 0, 1, 40)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(guillotineTiltRight)
+    PLAY_AFFINE(0, 0, -1, 40)
+END_AFFINE()

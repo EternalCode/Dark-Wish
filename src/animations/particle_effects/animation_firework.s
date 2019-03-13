@@ -176,3 +176,29 @@ LinearFireworkFinishrev:
         end
 
     .pool
+
+.global FireworkAnimationNoBlend
+FireworkAnimationNoBlend:
+    copyvar glowcolor gLASTRESULT
+    compare targetx 0
+    if1 1 goto FireworkPosInheritedNoBlend
+    fastsetbattlers
+
+FireworkPosInheritedNoBlend:
+    loadspritefull glowballSprite glowballPalette glowballOam
+    
+    BLOCKCMD
+    runtask TaskCreateSmallFireworkImpact glowcolor 3 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 3 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 2 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 2 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 1 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 1 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 0 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 0 targetx targety
+    OPENCMD
+    waittask TaskCreateSmallFireworkImpact
+    deletesprite glowballParticle
+    end
+
+.pool

@@ -771,7 +771,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET | FLAG_OHKO,
     .procs = &basic_proc,
-    .on_tryhit_move = ohko_tryhit_move,
+    //.on_tryhit_move = ohko_tryhit_move,
+    .animation = (u8*)&GuillotineAnimation,
     },
 
     {
