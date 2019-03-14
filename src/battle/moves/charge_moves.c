@@ -1,4 +1,7 @@
 #include <pokeagb/pokeagb.h>
+#include "move_data.h"
+#include "../battle_actions/actions.h"
+#include "../battle_events/battle_events.h"
 #include "../battle_data/pkmn_bank.h"
 #include "../battle_data/pkmn_bank_stats.h"
 #include "../battle_data/battle_state.h"
@@ -30,6 +33,11 @@ u8 solarbeam_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* a
 u8 razor_wind_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (src != user) return true;
+    if (!HAS_VOLATILE(user, VOLATILE_CHARGING)) {
+        struct action* a = prepend_action(ACTION_BANK, ACTION_BANK, ActionHighPriority, EventPlayAnimation);
+        a->action_bank = user;
+        a->script = (u32)&RazorwindWhipUpAnimation;
+    }
     return before_move_charge_frame(user, STRING_RAZORWIND);
 }
 

@@ -771,7 +771,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET | FLAG_OHKO,
     .procs = &basic_proc,
-    //.on_tryhit_move = ohko_tryhit_move,
+    .on_tryhit_move = ohko_tryhit_move,
     .animation = (u8*)&GuillotineAnimation,
     },
 
@@ -788,6 +788,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CHARGE | FLAG_MIRROR | FLAG_PROTECT | FLAG_HITS_FOE_SIDE,
     .procs = &basic_proc,
     .before_move = razor_wind_before_move,
+    .animation = (u8*)&RazorwindAnimation,
     },
 
     {

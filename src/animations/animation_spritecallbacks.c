@@ -197,3 +197,16 @@ void ManualRotationAttempt(struct Sprite* sprite)
     else
         sprite->data[1] = 0;
 }
+
+
+
+void SCB_SpriteMove64UpAndDeleteWhenAffineEnds(struct Sprite* sprite)
+{
+    sprite->data[0]++;
+    if (sprite->data[0] <= 64)
+        sprite->pos1.y--;
+    if (sprite->affineAnimEnded) {
+        FreeSpriteOamMatrix(sprite);
+        DestroySprite(sprite);
+    }
+}

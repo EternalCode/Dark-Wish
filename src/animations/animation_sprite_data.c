@@ -31,6 +31,8 @@
 #include "../../generated/images/battle_animations/vicegrip.h"
 #include "../../generated/images/battle_animations/guillotine.h"
 #include "../../generated/images/battle_animations/guillotineLeft.h"
+#include "../../generated/images/battle_animations/tornadopiece.h"
+#include "../../generated/images/battle_animations/impact3.h"
 
 
 /* the impact sprite from tackle */
@@ -517,3 +519,42 @@ END_AFFINE()
 BEGIN_AFFINE_ANIM(guillotineTiltRight)
     PLAY_AFFINE(0, 0, -1, 40)
 END_AFFINE()
+
+
+/* Razor wind whip up */
+ASSETS(tornadopiece, s64x64 * 4, 430);
+
+MAKE_OAM(tornadopiece)
+    OAM_AFFINE()
+    OAM_PRIORITY(2)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+MAKE_OAM(tornadopieceAttack)
+    OAM_PRIORITY(2)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+BEGIN_FRAME_ANIM(tornadopieceFrame)
+    SHOW_FRAME(0, s64x64, NOFLIP, 3)
+    SHOW_FRAME(1, s64x64, NOFLIP, 3)
+    SHOW_FRAME(2, s64x64, NOFLIP, 3)
+    SHOW_FRAME(3, s64x64, NOFLIP, 3)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_AFFINE_ANIM(tornadopiece)
+    PLAY_AFFINE(180, 180, 0, 1)
+    PLAY_AFFINE(-12, -12, 0, 30)
+    PLAY_AFFINE(0, 0, 0, 4)
+    PLAY_AFFINE(12, 12, 0, 30)
+END_AFFINE()
+
+
+/* Impact3 particle (small 16x16) */
+ASSETS(impact3, s16x16, 431);
+
+MAKE_OAM(impact3)
+    OAM_PRIORITY(2)
+    OAM_SIZE(o16x16)
+END_OAM()
