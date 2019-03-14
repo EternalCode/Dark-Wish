@@ -86,6 +86,9 @@ void ScriptCmd_depthlessorbit(void);
 void ScriptCmd_shrinkingorbit(void);
 void ScriptCmd_spritesetposition(void);
 void ScriptCmd_spritecallbackargs(void);
+void ScriptCmd_runspritefunc(void);
+void ScriptCmd_blendsemitransparent(void);
+void ScriptCmd_runvoidfunc(void);
 
 
 extern const struct Frame (**nullframe)[];
@@ -193,6 +196,9 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_shrinkingorbit, // 77
     ScriptCmd_spritesetposition, // 78
     ScriptCmd_spritecallbackargs, // 79
+    ScriptCmd_runspritefunc, // 80
+    ScriptCmd_blendsemitransparent, // 81
+    ScriptCmd_runvoidfunc, // 82
 };
 
 
@@ -332,9 +338,9 @@ void ScriptCmd_addvar()
 {
     // alignment for read
     ANIMSCR_MOVE(3);
-    u16 var = ANIMSCR_READ_HWORD;
-    u16 value = ANIMSCR_READ_HWORD;
-    VarSet(var, VarGet(var) + value);
+    u16 varA = ANIMSCR_READ_HWORD;
+    u16 varB = ANIMSCR_READ_HWORD;
+    VarSet(varA, VarGet(varA) + VarGet(varB));
     ANIMSCR_CMD_NEXT;
 }
 
@@ -352,9 +358,9 @@ void ScriptCmd_subvar()
 {
     // alignment for read
     ANIMSCR_MOVE(3);
-    u16 var = ANIMSCR_READ_HWORD;
-    u16 value = ANIMSCR_READ_HWORD;
-    VarSet(var, VarGet(var) - value);
+    u16 varA = ANIMSCR_READ_HWORD;
+    u16 varB = ANIMSCR_READ_HWORD;
+    VarSet(varA, VarGet(varA) - VarGet(varB));
     ANIMSCR_CMD_NEXT;
 }
 
@@ -374,7 +380,7 @@ void ScriptCmd_mulvar()
     ANIMSCR_MOVE(3);
     u16 var = ANIMSCR_READ_HWORD;
     u16 value = ANIMSCR_READ_HWORD;
-    VarSet(var, VarGet(var) * value);
+    VarSet(var, VarGet(var) * VarGet(value));
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1271,11 +1277,12 @@ void ScriptCmd_orbit()
         sprite->data[6] = 0;
     }
     sprite->data[5] = ANIMSCR_READ_BYTE; // bool to delete
-    sprite->data[1] = ANIMSCR_READ_BYTE; // wave offset (0 - 255)
+    sprite->data[1] = ANIMSCR_READ_HWORD; // wave offset (0 - 255)
+    sprite->data[1] = VarGet(sprite->data[1]);
     sprite->data[7] = toOrbit->final_oam.priority;
     sprite->callback = AnimOrbitFastStep;
     sprite->callback(sprite);
-    ANIMSCR_MOVE(2);
+    ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1377,13 +1384,15 @@ void ScriptCmd_copyactionpriv()
 // blend a sprite without using the fade structure
 void ScriptCmd_spriteblend2()
 {
-    u8 coefficient = ANIMSCR_READ_BYTE;
+    ANIMSCR_MOVE(1);
+    u8 coefficient = ANIMSCR_READ_HWORD;
+    coefficient = VarGet(coefficient);
     u16 spriteId = ANIMSCR_READ_HWORD;
     spriteId = VarGet(spriteId);
     u16 color = ANIMSCR_READ_HWORD;
+    color = VarGet(color);
     u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
     BlendPalette((pal_slot * 16) + (16 * 16), 16, coefficient, color);
-    ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1504,6 +1513,7 @@ void ScriptCmd_clearblending()
     // alignment for read
     ANIMSCR_MOVE(3);
     REG_BLDCNT = 0;
+    REG_BLDALPHA = 0;
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1674,6 +1684,7 @@ void ScriptCmd_spritesetposition()
     ANIMSCR_CMD_NEXT;
 }
 
+// assign a sprite callback with args
 void ScriptCmd_spritecallbackargs()
 {
     ANIMSCR_MOVE(1);
@@ -1697,6 +1708,45 @@ void ScriptCmd_spritecallbackargs()
     ANIMSCR_CMD_NEXT;
 }
 
+// run a spritecallback once
+void ScriptCmd_runspritefunc()
+{
+    ANIMSCR_MOVE(1);
+    // sprite
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct Sprite* sprite = &gSprites[spriteId];
+    // func
+    SpriteCallback sprcb = (SpriteCallback)ANIMSCR_READ_WORD;
+    sprcb(sprite);
+    ANIMSCR_CMD_NEXT;
+}
+
+// Blend semi transparent sprites only
+void ScriptCmd_blendsemitransparent()
+{
+    // alignment for read
+    ANIMSCR_MOVE(1);
+    u16 coefficientA = ANIMSCR_READ_HWORD;
+    coefficientA = VarGet(coefficientA);
+    u16 coefficientB = ANIMSCR_READ_HWORD;
+    coefficientB = VarGet(coefficientB);
+    REG_BLDCNT = (BLDCNT_BG0_DST | BLDCNT_BG1_DST | BLDCNT_BG2_DST | BLDCNT_BG3_DST | BLDCNT_SPRITES_DST |
+        BLDCNT_BACKDROP_DST | BLDCNT_ALPHA_BLEND);
+    REG_BLDALPHA = BLDALPHA_BUILD(coefficientA, coefficientB);
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+// run a void function
+void ScriptCmd_runvoidfunc()
+{
+    // alignment for read
+    ANIMSCR_MOVE(3);
+    MainCallback func = (MainCallback)ANIMSCR_READ_WORD;
+    func();
+    ANIMSCR_CMD_NEXT;
+}
 
 
 void AnimationMain()

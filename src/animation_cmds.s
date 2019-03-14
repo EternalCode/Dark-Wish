@@ -195,6 +195,12 @@
 .hword \var
 .endm
 
+.macro semitransparent var
+.byte 21
+.byte 0
+.hword \var
+.endm
+
 .macro includeblend var
 .byte 31
 .byte 0
@@ -560,8 +566,7 @@
 .byte \dir
 .byte \speed
 .byte \booldelete
-.byte \waveoffset
-.byte 0
+.hword \waveoffset
 .byte 0
 .endm
 
@@ -591,11 +596,10 @@
 
 .macro spriteblend2 var coefficient color
 .byte 64
-.byte \coefficient
+.byte 0
+.hword \coefficient
 .hword \var
 .hword \color
-.byte 0
-.byte 0
 .endm
 
 .macro spritebufferposition var bufferx buffery
@@ -741,6 +745,31 @@
 .hword \var4
 .word \callback
 .endm
+
+.macro runspritefunc spr callback
+.byte 80
+.byte 0
+.hword \spr
+.word \callback
+.endm
+
+.macro blendsemitransparent coa cob
+.byte 81
+.byte 0
+.hword \coa
+.hword \cob
+.byte 0
+.byte 0
+.endm
+
+.macro runvoidfunc func
+.byte 82
+.byte 0
+.byte 0
+.byte 0
+.word \func
+.endm
+
 
 .macro BLOCKCMD
 .byte 0xFE
