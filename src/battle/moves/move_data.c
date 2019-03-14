@@ -801,6 +801,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SNATCH | FLAG_DANCE | FLAG_ONSELF,
     .procs = &user_raise_atk_2,
+    .animation = (u8*)&SwordsDanceAnimation,
     },
 
     {

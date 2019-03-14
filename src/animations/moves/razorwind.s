@@ -101,6 +101,7 @@ razorwindFinish:
     showhpbars
     deletesprite tornadopieceParticle
     deletesprite impactParticle
+    clearblending
     end
 
 .pool

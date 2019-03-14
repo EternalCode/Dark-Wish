@@ -33,6 +33,8 @@
 #include "../../generated/images/battle_animations/guillotineLeft.h"
 #include "../../generated/images/battle_animations/tornadopiece.h"
 #include "../../generated/images/battle_animations/impact3.h"
+#include "../../generated/images/battle_animations/blueglowball.h"
+#include "../../generated/images/battle_animations/sword.h"
 
 
 /* the impact sprite from tackle */
@@ -558,3 +560,28 @@ MAKE_OAM(impact3)
     OAM_PRIORITY(2)
     OAM_SIZE(o16x16)
 END_OAM()
+
+
+/* Glowball particle from swords dance */
+ASSETS(blueglowball, s16x16, 432);
+
+MAKE_OAM(blueglowball)
+    OAM_PRIORITY(3)
+    OAM_SIZE(o16x16)
+END_OAM()
+
+
+/* Swords dance sword */
+ASSETS(sword, s32x64, 433);
+
+MAKE_OAM(sword)
+    OAM_AFFINE()
+    OAM_PRIORITY(2)
+    OAM_SHAPE(TALL)
+    OAM_SIZE(o32x64)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(sword)
+    PLAY_AFFINE(-200, -200, 0, 1)
+    PLAY_AFFINE(10, 10, 0, 20)
+END_AFFINE()
