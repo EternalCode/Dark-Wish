@@ -39,5 +39,13 @@ void event_move_effect(struct action* current_action)
             return;
         }
     }
+    // play animation for a effect type move
+    if (B_MOVE_IS_STATUS(attacker)) {
+        if (gBattleMoves[CURRENT_MOVE(attacker)].animation) {
+            struct action* a = prepend_action(attacker, TARGET_OF(attacker), ActionAnimation, EventPlayAnimation);
+            a->move = CURRENT_MOVE(attacker);
+            a->script = (u32)gBattleMoves[CURRENT_MOVE(attacker)].animation;
+        }
+    }
     CURRENT_ACTION->event_state++;
 }
