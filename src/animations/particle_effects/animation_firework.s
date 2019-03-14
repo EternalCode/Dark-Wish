@@ -38,6 +38,8 @@ FireworkLoop:
 
 FireworkFinish:
     waittask TaskCreateSmallFireworkImpact
+    showsprite target
+    hidebg 1
     spritebgclear target
     deletesprite glowballParticle
     end
@@ -186,7 +188,7 @@ FireworkAnimationNoBlend:
 
 FireworkPosInheritedNoBlend:
     loadspritefull glowballSprite glowballPalette glowballOam
-    
+
     BLOCKCMD
     runtask TaskCreateSmallFireworkImpact glowcolor 3 targetx targety
     runtask TaskCreateSmallFireworkImpact glowcolor 3 targetx targety

@@ -472,7 +472,7 @@ END_AFFINE()
 
 
 /* Vicegrip graphic */
-ASSETS(vicegrip, s32x32 * 3, 427);
+ASSETS(vicegrip, s32x32 * 4, 427);
 
 MAKE_OAM(vicegrip)
     OAM_PRIORITY(2)
@@ -496,6 +496,20 @@ BEGIN_FRAME_ANIM(vicegripFlipFrame)
     SHOW_FRAME(0, s32x32, HVFLIP, 2)
     SHOW_FRAME(1, s32x32, HVFLIP, 2)
     SHOW_FRAME(2, s32x32, HVFLIP, 2)
+END_ANIM()
+
+
+/* Cut (borrows vicegrip graphic frames 1-3, skipping 0) */
+MAKE_OAM(cut)
+    OAM_PRIORITY(3)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_FRAME_ANIM(cutFrame)
+    SHOW_FRAME(0, s32x32, NOFLIP, 4)
+    SHOW_FRAME(1, s32x32, NOFLIP, 5)
+    SHOW_FRAME(2, s32x32, NOFLIP, 6)
+    SHOW_FRAME(3, s32x32, NOFLIP, 8)
 END_ANIM()
 
 

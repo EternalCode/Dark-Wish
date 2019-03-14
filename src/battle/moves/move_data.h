@@ -296,6 +296,7 @@ extern const u8* GuillotineAnimation;
 extern const u8* RazorwindWhipUpAnimation;
 extern const u8* RazorwindAnimation;
 extern const u8* SwordsDanceAnimation;
+extern const u8* CutAnimation;
 extern const u8* TackleAnimation;
 extern const u8* TakedownAnimation;
 extern const u8* FireworkAnimation;
