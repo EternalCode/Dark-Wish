@@ -63,6 +63,10 @@
 #define ASSETS(name, size, tag) const struct CompressedSpriteSheet name ##Sprite = {(void*)&name ## Tiles, size * 32, tag}; \
                                 const struct SpritePalette name ## Palette = {&name ## Pal, tag}
 
+#define ASSET_ALIAS(name, size, tag, prefname) const struct CompressedSpriteSheet prefname ##Sprite = {(void*)&name ## Tiles, size * 32, tag}; \
+                                const struct SpritePalette prefname ## Palette = {&name ## Pal, tag}
+
+
 /* OAM */
 #define MAKE_OAM(name) const struct OamData name ## Oam = {
 #define OAM_PRIORITY(p) .priority = p,
