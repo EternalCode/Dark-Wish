@@ -89,7 +89,7 @@ void ScriptCmd_spritecallbackargs(void);
 void ScriptCmd_runspritefunc(void);
 void ScriptCmd_blendsemitransparent(void);
 void ScriptCmd_runvoidfunc(void);
-
+void ScriptCmd_spritefeatherfall(void);
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -114,6 +114,7 @@ extern void ShowBattleMessage2(pchar* str, u8 rboxid);
 extern void AnimOrbitFastStep(struct Sprite *sprite);
 extern void AnimOrbitFastStepNoPriority(struct Sprite *sprite);
 extern void AnimOrbitShrinkNoPriority(struct Sprite *sprite);
+extern void SCB_SpriteFeatherFall(struct Sprite *sprite);
 
 const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_loadspritefull, // 0
@@ -199,6 +200,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_runspritefunc, // 80
     ScriptCmd_blendsemitransparent, // 81
     ScriptCmd_runvoidfunc, // 82
+    ScriptCmd_spritefeatherfall, // 83
 };
 
 
@@ -885,6 +887,7 @@ void SpriteCmd_movewave()
 #undef X
 #undef amplitude
 #undef waveOrBounce
+#undef frequency
 
 /* Upload a BG to BG2.. */
 void ScriptCmd_uploadbg()
@@ -1161,7 +1164,7 @@ void ScriptCmd_randrange()
 /* Run task */
 void ScriptCmd_runtask()
 {
-    u8 arg = ANIMSCR_READ_BYTE;
+    s8 arg = ANIMSCR_READ_BYTE;
     u16 arg2 = ANIMSCR_READ_HWORD;
     u16 arg3 = ANIMSCR_READ_HWORD;
     u16 vararg = ANIMSCR_READ_HWORD;
@@ -1749,6 +1752,35 @@ void ScriptCmd_runvoidfunc()
     ANIMSCR_CMD_NEXT;
 }
 
+
+// A slow fall like a feather
+void ScriptCmd_spritefeatherfall()
+{
+    bool toDelete = ANIMSCR_READ_BYTE;
+    // sprite
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    // Amplitude
+    s16 amplitude = ANIMSCR_READ_HWORD;
+    amplitude = VarGet(amplitude);
+    // frequency
+    u16 frequency = ANIMSCR_READ_HWORD;
+    frequency = VarGet(frequency);
+    // duration
+    u16 duration = ANIMSCR_READ_HWORD;
+    duration = VarGet(duration);
+
+    struct Sprite* spr = &gSprites[spriteId];
+    ClearSpriteData(spr);
+    spr->data[0] = ANIMSCR_READ_BYTE; // delay
+    spr->data[1] = ANIMSCR_READ_BYTE; // speed y
+    spr->data[2] = amplitude;
+    spr->data[3] = frequency;
+    spr->data[4] = duration;
+    spr->data[5] = toDelete;
+    spr->callback = (SpriteCallback)SCB_SpriteFeatherFall;
+    ANIMSCR_CMD_NEXT;
+}
 
 void AnimationMain()
 {

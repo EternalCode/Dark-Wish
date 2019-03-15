@@ -769,6 +769,17 @@
 .word \func
 .endm
 
+.macro spritefeatherfall var amplitude frequency duration delay yspeed booldelete
+.byte 83
+.byte \booldelete
+.hword \var
+.hword \amplitude
+.hword \frequency
+.hword \duration
+.byte \yspeed
+.byte \delay
+.endm
+
 
 .macro BLOCKCMD
 .byte 0xFE
