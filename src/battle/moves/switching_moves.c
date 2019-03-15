@@ -51,19 +51,8 @@ bool forced_switch_effect_move(u8 target, u8 user)
             // player
             if (SIDE_OF(target) == PLAYER_SIDE) {
                 // if user's level is less than target's level, don't switch
-                if (B_LEVEL(user) < B_LEVEL(target)) return true;
+                if (B_LEVEL(user) < B_LEVEL(target)) return false;
                 // exit battle if selected mon is only one for player
-                if (SideCountUsablePkmn(PLAYER_SIDE) < 2) {
-                    prepend_action(target, target, ActionHighPriority, EventEndBattle);
-                    end_action(CURRENT_ACTION);
-                } else {
-                    struct action* a = next_action(target, target, ActionSwitch, EventForcedSwitch);
-                    a->priv[0] = 0;
-                }
-            } else {
-                // opponent wild, end battle
-                prepend_action(target, target, ActionHighPriority, EventEndBattle);
-                end_action(CURRENT_ACTION);
             }
             break;
         case BATTLE_MODE_WILD_DOUBLE:
@@ -83,7 +72,25 @@ u8 dragon_tail_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* a
 {
     if (user != src) return true;
     u8 target = TARGET_OF(user);
-    return forced_switch_effect_move(target, user);
+    bool status = forced_switch_effect_move(target, user);
+    if (!status)
+        return false;
+
+    // do the animation
+    struct action* a = prepend_action(user, TARGET_OF(user), ActionAnimation, EventPlayAnimation);
+    a->move = move;
+    a->script = (u32)gBattleMoves[move].animation;
+
+    // switch resolution
+    if (SIDE_OF(target) == PLAYER_SIDE) {
+        if (SideCountUsablePkmn(PLAYER_SIDE) >= 2) {
+            a = next_action(target, target, ActionSwitch, EventForcedSwitch);
+            a->priv[0] = 0;
+        }
+    }
+    prepend_action(target, target, ActionHighPriority, EventEndBattle);
+    end_action(CURRENT_ACTION);
+    return true;
 }
 
 
