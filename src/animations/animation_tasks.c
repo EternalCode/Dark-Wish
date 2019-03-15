@@ -72,6 +72,16 @@ void TaskMoveBG(u8 taskId)
 #undef totalFramesPast
 
 
+// wait for a script thread to complete it's execution
+void TaskWaitForScrThread(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    if (gAnimationCore->animScriptPtr[t->priv[0]] == 0) {
+        gAnimationCore->wait[t->priv[1]] = false;
+        DestroyTask(taskId);
+    }
+}
+
 // wait X frames before deleting task and undoing wait state
 void TaskWaitFrames(u8 taskId)
 {

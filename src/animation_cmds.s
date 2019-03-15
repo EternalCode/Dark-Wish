@@ -791,6 +791,13 @@
 .byte 0
 .endm
 
+.macro waitthread id
+.byte 85
+.byte \id
+.byte 0
+.byte 0
+.endm
+
 .macro BLOCKCMD
 .byte 0xFE
 .endm

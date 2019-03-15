@@ -91,6 +91,8 @@ void ScriptCmd_blendsemitransparent(void);
 void ScriptCmd_runvoidfunc(void);
 void ScriptCmd_spritefeatherfall(void);
 void ScriptCmd_pickrandompos(void);
+void ScriptCmd_waitonthread(void);
+
 
 
 extern const struct Frame (**nullframe)[];
@@ -108,6 +110,7 @@ extern void TaskWaitAnimation(u8 taskId);
 extern void TaskWaitAffineAnimation(u8 taskId);
 extern void TaskMoveBG(u8 taskId);
 extern void TaskWaitAnimMessage(u8 taskId);
+extern void TaskWaitForScrThread(u8 taskId);
 extern void TaskCreateSmallFireworkGeneric(u8 taskId);
 extern void battle_loop(void);
 extern void InitAnimLinearTranslation(struct Sprite *sprite);
@@ -204,6 +207,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_runvoidfunc, // 82
     ScriptCmd_spritefeatherfall, // 83
     ScriptCmd_pickrandompos, // 84
+    ScriptCmd_waitonthread, // 85
 };
 
 
@@ -1809,6 +1813,16 @@ void ScriptCmd_pickrandompos()
     ANIMSCR_CMD_NEXT;
 }
 
+// wait for a particular script thread to finish
+void ScriptCmd_waitonthread()
+{
+    u8 taskId = CreateTask(TaskWaitForScrThread, 0);
+    tasks[taskId].priv[0] = ANIMSCR_READ_BYTE;
+    tasks[taskId].priv[1] = ANIMSCR_THREAD;
+    ANIMSCR_WAITING = true;
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
 
 void AnimationMain()
 {
