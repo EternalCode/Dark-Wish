@@ -780,6 +780,16 @@
 .byte \delay
 .endm
 
+.macro pickrandompos varx vary xRange yRange
+.byte 84
+.byte 0
+.hword \varx
+.hword \vary
+.hword \xRange
+.hword \yRange
+.byte 0
+.byte 0
+.endm
 
 .macro BLOCKCMD
 .byte 0xFE

@@ -90,6 +90,8 @@ void ScriptCmd_runspritefunc(void);
 void ScriptCmd_blendsemitransparent(void);
 void ScriptCmd_runvoidfunc(void);
 void ScriptCmd_spritefeatherfall(void);
+void ScriptCmd_pickrandompos(void);
+
 
 extern const struct Frame (**nullframe)[];
 extern const struct RotscaleFrame (**nullrsf)[];
@@ -201,6 +203,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_blendsemitransparent, // 81
     ScriptCmd_runvoidfunc, // 82
     ScriptCmd_spritefeatherfall, // 83
+    ScriptCmd_pickrandompos, // 84
 };
 
 
@@ -1781,6 +1784,31 @@ void ScriptCmd_spritefeatherfall()
     spr->callback = (SpriteCallback)SCB_SpriteFeatherFall;
     ANIMSCR_CMD_NEXT;
 }
+
+// command picks a random position of a centered sprite
+void ScriptCmd_pickrandompos()
+{
+    ANIMSCR_MOVE(1);
+    u16 targetX = ANIMSCR_READ_HWORD;
+    u16 targetY = ANIMSCR_READ_HWORD;
+    s16 x = VarGet(targetX);
+    s16 y = VarGet(targetY);
+    // xRange
+    u16 xRange = ANIMSCR_READ_HWORD;
+    xRange = VarGet(xRange);
+    // yRange
+    u16 yRange = ANIMSCR_READ_HWORD;
+    yRange = VarGet(yRange);
+
+    x -= xRange / 2;
+    y -= yRange / 2;
+    VarSet(targetX, rand_range(0, xRange) + x);
+    VarSet(targetY, rand_range(0, yRange) + y);
+
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
 
 void AnimationMain()
 {
