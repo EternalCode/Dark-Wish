@@ -299,6 +299,7 @@ extern const u8* SwordsDanceAnimation;
 extern const u8* CutAnimation;
 extern const u8* GustAnimation;
 extern const u8* WingAttackAnimation;
+extern const u8* WhirlwindAnimation;
 extern const u8* TackleAnimation;
 extern const u8* TakedownAnimation;
 extern const u8* FireworkAnimation;

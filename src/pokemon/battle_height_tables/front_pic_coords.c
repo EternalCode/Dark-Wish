@@ -169,7 +169,7 @@ const struct MonCoords gMonFrontPicCoords[] =
 	{
 		.width = 0,
 		.height = 0,
-		.y_offset = 0,
+		.y_offset = -12,
 	},
 	// zubat 28
 	{

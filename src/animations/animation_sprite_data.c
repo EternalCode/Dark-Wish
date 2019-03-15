@@ -541,12 +541,25 @@ BEGIN_AFFINE_ANIM(guillotineTiltRight)
 END_AFFINE()
 
 
-/* Razor wind whip up */
+/* Razor wind whip up + whirlwind */
 ASSETS(tornadopiece, s64x64 * 4, 430);
 
 MAKE_OAM(tornadopiece)
     OAM_AFFINE()
     OAM_PRIORITY(2)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+MAKE_OAM(tornadopieceTransparent)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SEMI_TRANSPARENT()
+    OAM_SIZE(o64x64)
+END_OAM()
+
+MAKE_OAM(tornadopieceTransparentAttack)
+    OAM_PRIORITY(1)
+    OAM_SEMI_TRANSPARENT()
     OAM_SIZE(o64x64)
 END_OAM()
 
@@ -563,11 +576,35 @@ BEGIN_FRAME_ANIM(tornadopieceFrame)
     JUMP_FRAME(0)
 END_ANIM()
 
+BEGIN_FRAME_ANIM(tornadopieceSlowerFrame)
+    SHOW_FRAME(0, s64x64, NOFLIP, 4)
+    SHOW_FRAME(1, s64x64, NOFLIP, 4)
+    SHOW_FRAME(2, s64x64, NOFLIP, 4)
+    SHOW_FRAME(3, s64x64, NOFLIP, 4)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(tornadopieceSlowestFrame)
+    SHOW_FRAME(0, s64x64, NOFLIP, 5)
+    SHOW_FRAME(1, s64x64, NOFLIP, 5)
+    SHOW_FRAME(2, s64x64, NOFLIP, 5)
+    SHOW_FRAME(3, s64x64, NOFLIP, 5)
+    JUMP_FRAME(0)
+END_ANIM()
+
 BEGIN_AFFINE_ANIM(tornadopiece)
     PLAY_AFFINE(180, 180, 0, 1)
     PLAY_AFFINE(-12, -12, 0, 30)
     PLAY_AFFINE(0, 0, 0, 4)
     PLAY_AFFINE(12, 12, 0, 30)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(tornadoInner)
+    PLAY_AFFINE(-100, -100, 0, 1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(tornadoSmall)
+    PLAY_AFFINE(-50, -50, 0, 1)
 END_AFFINE()
 
 

@@ -859,6 +859,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_REFLECTABLE | FLAG_TARGET | FLAG_AUTHENTIC,
     .procs = &basic_proc,
     .on_effect_cb = dragon_tail_on_effect,
+    .animation = (u8*)&WhirlwindAnimation,
     },
 
     {

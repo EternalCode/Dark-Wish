@@ -71,6 +71,7 @@
 #define MAKE_OAM(name) const struct OamData name ## Oam = {
 #define OAM_PRIORITY(p) .priority = p,
 #define OAM_SIZE(s) .size = s,
+#define OAM_SEMI_TRANSPARENT() .obj_mode = 1,
 #define OAM_AFFINE() .affine_mode = 1,
 #define OAM_HFLIP() .h_flip = 1,
 #define OAM_VFLIP() .v_flip = 1,
