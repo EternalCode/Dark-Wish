@@ -199,7 +199,6 @@ void ManualRotationAttempt(struct Sprite* sprite)
 }
 
 
-
 void SCB_SpriteMove64UpAndDeleteWhenAffineEnds(struct Sprite* sprite)
 {
     sprite->data[0]++;
@@ -209,4 +208,29 @@ void SCB_SpriteMove64UpAndDeleteWhenAffineEnds(struct Sprite* sprite)
         FreeSpriteOamMatrix(sprite);
         DestroySprite(sprite);
     }
+}
+
+
+void SCB_SpriteFeatherFall(struct Sprite* sprite)
+{
+    if (sprite->data[4] == 0) {
+        sprite->callback = oac_nullsub;
+        if (sprite->data[5]) {
+            FreeSpriteOamMatrix(sprite);
+            DestroySprite(sprite);
+        }
+        return;
+    }
+    if (sprite->data[7] < sprite->data[0]) {
+        sprite->data[7]++;
+        return;
+    }
+    sprite->data[7] = 0;
+    sprite->data[4]--;
+    // update X in sin X by frequency
+    sprite->data[6] = (sprite->data[6] + sprite->data[3]) & 0xFF;
+    // move X influenced by sin wave
+    sprite->pos1.x += Sin(sprite->data[6], sprite->data[2]);
+    // move Y
+    sprite->pos1.y += sprite->data[1];
 }

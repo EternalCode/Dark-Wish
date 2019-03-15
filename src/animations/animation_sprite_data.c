@@ -37,6 +37,8 @@
 #include "../../generated/images/battle_animations/sword.h"
 #include "../../generated/images/battle_animations/smokeball.h"
 #include "../../generated/images/battle_animations/smallrockcircle.h"
+#include "../../generated/images/battle_animations/feather.h"
+#include "../../generated/images/battle_animations/impact4.h"
 
 
 /* the impact sprite from tackle */
@@ -632,3 +634,35 @@ END_OAM()
 BEGIN_AFFINE_ANIM(smallrockcircle)
     PLAY_AFFINE(-8, -8, 0, 20)
 END_AFFINE()
+
+
+/* Feather particle from Wing Attack */
+ASSETS(feather, s32x16 * 5, 436);
+
+MAKE_OAM(feather)
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x16)
+    OAM_SHAPE(WIDE)
+END_OAM()
+
+BEGIN_FRAME_ANIM(featherFrame)
+    SHOW_FRAME(0, s32x16, NOFLIP, 16)
+    SHOW_FRAME(1, s32x16, NOFLIP, 16)
+    SHOW_FRAME(2, s32x16, NOFLIP, 16)
+    SHOW_FRAME(3, s32x16, NOFLIP, 16)
+    SHOW_FRAME(4, s32x16, NOFLIP, 16)
+    SHOW_FRAME(0, s32x16, NOFLIP, 16)
+    SHOW_FRAME(1, s32x16, NOFLIP, 8)
+    SHOW_FRAME(4, s32x16, NOFLIP, 4)
+END_ANIM()
+
+
+/* Impact sprite medium sized */
+ASSETS(impact4, s32x32, 437);
+ASSET_ALIAS(impact4, s32x32, 438, impact4_2);
+ASSET_ALIAS(impact4, s32x32, 439, impact4_3);
+
+MAKE_OAM(impact4)
+    OAM_PRIORITY(3)
+    OAM_SIZE(o32x32)
+END_OAM()
