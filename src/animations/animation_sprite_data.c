@@ -35,6 +35,8 @@
 #include "../../generated/images/battle_animations/impact3.h"
 #include "../../generated/images/battle_animations/blueglowball.h"
 #include "../../generated/images/battle_animations/sword.h"
+#include "../../generated/images/battle_animations/smokeball.h"
+#include "../../generated/images/battle_animations/smallrockcircle.h"
 
 
 /* the impact sprite from tackle */
@@ -598,4 +600,35 @@ END_OAM()
 BEGIN_AFFINE_ANIM(sword)
     PLAY_AFFINE(-200, -200, 0, 1)
     PLAY_AFFINE(10, 10, 0, 20)
+END_AFFINE()
+
+
+/* Smokeball from gust */
+ASSETS(smokeball, s32x32, 434);
+
+MAKE_OAM(smokeball)
+    OAM_AFFINE()
+    OAM_PRIORITY(3)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(smokeball)
+    PLAY_AFFINE(-80, -80, 0, 1)
+    PLAY_AFFINE(3, 3, 4, 8)
+    PLAY_AFFINE(-3, -3, -4, 8)
+    JUMP_AFFINE(1)
+END_AFFINE()
+
+
+/* Small rock debris */
+ASSETS(smallrockcircle, s8x8, 435);
+
+MAKE_OAM(smallrockcircle)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o8x8)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(smallrockcircle)
+    PLAY_AFFINE(-8, -8, 0, 20)
 END_AFFINE()

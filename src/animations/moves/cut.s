@@ -4,8 +4,6 @@
 .include "src/animation_cmds.s"
 
 .equ cutParticle, 0x9006
-.equ gripBot, 0x9007
-.equ impactParticle, 0x9008
 
 .global CutAnimation
 CutAnimation:

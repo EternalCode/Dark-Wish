@@ -830,6 +830,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_inv_tryhit_move = gust_on_invul_hit,
+    .animation = (u8*)&GustAnimation,
     },
 
     {
