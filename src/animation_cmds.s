@@ -373,7 +373,7 @@
 .byte 0
 .byte 0
 .byte 0
-.word script
+.word \script
 .endm
 
 .macro if1 condition btype script
@@ -707,8 +707,7 @@
 .byte \dir
 .byte \speed
 .byte \booldelete
-.byte \waveoffset
-.byte 0
+.hword \waveoffset
 .byte 0
 .endm
 

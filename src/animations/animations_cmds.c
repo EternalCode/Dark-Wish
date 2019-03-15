@@ -390,7 +390,7 @@ void ScriptCmd_divvar()
     ANIMSCR_MOVE(3);
     u16 var = ANIMSCR_READ_HWORD;
     u16 value = ANIMSCR_READ_HWORD;
-    VarSet(var, VarGet(var) / value);
+    VarSet(var, VarGet(var) / VarGet(value));
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1615,11 +1615,12 @@ void ScriptCmd_depthlessorbit()
         sprite->data[6] = 0;
     }
     sprite->data[5] = ANIMSCR_READ_BYTE; // bool to delete
-    sprite->data[1] = ANIMSCR_READ_BYTE; // wave offset (0 - 255)
+    sprite->data[1] = ANIMSCR_READ_HWORD; // wave offset (0 - 255) var
+    sprite->data[1] = VarGet(sprite->data[1]);
     sprite->data[7] = toOrbit->final_oam.priority;
     sprite->callback = AnimOrbitFastStepNoPriority;
     sprite->callback(sprite);
-    ANIMSCR_MOVE(2);
+    ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }
 
