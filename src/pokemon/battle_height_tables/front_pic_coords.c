@@ -1327,13 +1327,13 @@ const struct MonCoords gMonFrontPicCoords[] =
 	{
 		.width = 0,
 		.height = 0,
-		.y_offset = 0,
+		.y_offset = -4,
 	},
 	// avalugg 221
 	{
 		.width = 0,
 		.height = 0,
-		.y_offset = 0,
+		.y_offset = -8,
 	},
 	// cryogonal 222
 	{
