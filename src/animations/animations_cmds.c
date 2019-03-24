@@ -92,6 +92,7 @@ void ScriptCmd_runvoidfunc(void);
 void ScriptCmd_spritefeatherfall(void);
 void ScriptCmd_pickrandompos(void);
 void ScriptCmd_waitonthread(void);
+void ScriptCmd_fadebg2(void);
 
 
 
@@ -208,6 +209,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_spritefeatherfall, // 83
     ScriptCmd_pickrandompos, // 84
     ScriptCmd_waitonthread, // 85
+    ScriptCmd_fadebg2, // 86
 };
 
 
@@ -1587,6 +1589,14 @@ void ScriptCmd_fadeplatformbg()
 {
     ANIMSCR_MOVE(3);
     ANIMSCR_PALBUFF |= (1 << 0);
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Blend bg2. This will work if other sprites aren't in the process of blending */
+void ScriptCmd_fadebg2()
+{
+    ANIMSCR_MOVE(3);
+    ANIMSCR_PALBUFF |= (1 << 9);
     ANIMSCR_CMD_NEXT;
 }
 

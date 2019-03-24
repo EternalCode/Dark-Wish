@@ -574,6 +574,8 @@
 @ Defines for pal fading
 .equ LEFT, 1
 .equ RIGHT, 2
+.equ UP, 1
+.equ DOWN, 2
 @ -----------------------------------------------
 .macro movebg id xOffset yOffset duration direction boolwait
 .byte 62
@@ -794,6 +796,13 @@
 .macro waitthread id
 .byte 85
 .byte \id
+.byte 0
+.byte 0
+.endm
+
+.macro addfadebg2
+.byte 86
+.byte 0
 .byte 0
 .byte 0
 .endm
