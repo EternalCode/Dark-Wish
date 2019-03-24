@@ -42,6 +42,8 @@
 #include "../../generated/images/battle_animations/flybg.h"
 #include "../../generated/images/battle_animations/fly.h"
 #include "../../generated/images/battle_animations/bind.h"
+#include "../../generated/images/battle_animations/vinewhip.h"
+#include "../../generated/images/battle_animations/leafblades.h"
 
 
 /* the impact sprite from tackle */
@@ -723,7 +725,6 @@ BEGIN_AFFINE_ANIM(fly)
     PLAY_AFFINE(-10, -10, 0, 10)
 END_AFFINE()
 
-
 BEGIN_AFFINE_ANIM(flySquish)
     PLAY_AFFINE(-100, -100, 0, 1)
     PLAY_AFFINE(0, 3, 0, 40)
@@ -743,9 +744,38 @@ MAKE_OAM(bind)
     OAM_SIZE(o64x64)
 END_OAM()
 
-
 BEGIN_AFFINE_ANIM(bind)
     PLAY_AFFINE(-8, 0, 0, 10)
     PLAY_AFFINE(20, 0, 0, 4)
     LOOP_AFFINE(1)
 END_AFFINE()
+
+
+/* Vine whip sprite */
+ASSETS(vinewhip, s64x64 * 4, 442);
+
+MAKE_OAM(vinewhip)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+BEGIN_FRAME_ANIM(vinewhipFrames)
+    SHOW_FRAME(0, s64x64, NOFLIP, 4)
+    SHOW_FRAME(1, s64x64, NOFLIP, 4)
+    SHOW_FRAME(2, s64x64, NOFLIP, 3)
+    SHOW_FRAME(3, s64x64, NOFLIP, 2)
+END_ANIM()
+
+BEGIN_AFFINE_ANIM(vinewhip)
+    PLAY_AFFINE(10, 10, 0, 13)
+END_AFFINE()
+
+
+/* Leaf blades sprite */
+ASSETS(leafblades, s32x32 * 6, 443);
+
+MAKE_OAM(leafblades)
+    OAM_PRIORITY(2)
+    OAM_SIZE(o32x32)
+END_OAM()
