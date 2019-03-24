@@ -57,6 +57,11 @@ u8 fly_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
         QueueMessage(MOVE_FLY, user, STRING_ATTACK_USED, NULL);
         return false;
     }
+    if (!HAS_VOLATILE(user, VOLATILE_CHARGING)) {
+        struct action* a = prepend_action(ACTION_BANK, ACTION_BANK, ActionHighPriority, EventPlayAnimation);
+        a->action_bank = user;
+        a->script = (u32)&FlyWindUpAnimation;
+    }
     before_move_charge_frame(user, STRING_CHARGE_FLY);
     if (HAS_VOLATILE(user, VOLATILE_CHARGING)) {
         ADD_VOLATILE(user, VOLATILE_FLYING);

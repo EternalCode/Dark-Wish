@@ -39,6 +39,8 @@
 #include "../../generated/images/battle_animations/smallrockcircle.h"
 #include "../../generated/images/battle_animations/feather.h"
 #include "../../generated/images/battle_animations/impact4.h"
+#include "../../generated/images/battle_animations/flybg.h"
+#include "../../generated/images/battle_animations/fly.h"
 
 
 /* the impact sprite from tackle */
@@ -703,3 +705,29 @@ MAKE_OAM(impact4)
     OAM_PRIORITY(3)
     OAM_SIZE(o32x32)
 END_OAM()
+
+
+/* Fly sprite */
+ASSETS(fly, s64x64, 440);
+
+MAKE_OAM(fly)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(fly)
+    PLAY_AFFINE(-100, -100, 0, 1)
+    PLAY_AFFINE(10, 10, 0, 10)
+    PLAY_AFFINE(-10, -10, 0, 10)
+END_AFFINE()
+
+
+BEGIN_AFFINE_ANIM(flySquish)
+    PLAY_AFFINE(-100, -100, 0, 1)
+    PLAY_AFFINE(0, 3, 0, 40)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(flySmall)
+    PLAY_AFFINE(-80, -80, 0, 1)
+END_AFFINE()
