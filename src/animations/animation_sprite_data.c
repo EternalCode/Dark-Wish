@@ -44,6 +44,7 @@
 #include "../../generated/images/battle_animations/bind.h"
 #include "../../generated/images/battle_animations/vinewhip.h"
 #include "../../generated/images/battle_animations/leafblades.h"
+#include "../../generated/images/battle_animations/stomp.h"
 
 
 /* the impact sprite from tackle */
@@ -779,3 +780,18 @@ MAKE_OAM(leafblades)
     OAM_PRIORITY(2)
     OAM_SIZE(o32x32)
 END_OAM()
+
+
+/* Stomp foot sprite */
+ASSETS(stomp, s32x32, 444);
+
+MAKE_OAM(stomp)
+    OAM_PRIORITY(2)
+    OAM_SIZE(o32x32)
+END_OAM()
+// affine is applied to the target
+BEGIN_AFFINE_ANIM(stompSquish)
+    PLAY_AFFINE(0, -60, 0, 1)
+    PLAY_AFFINE(0, 0, 0, 19)
+    PLAY_AFFINE(0, 60, 0, 1)
+END_AFFINE()
