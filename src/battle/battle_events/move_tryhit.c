@@ -11,6 +11,7 @@ extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effec
 extern u16 RandRange(u16 min, u16 max);
 extern void set_attack_bm_inplace(u16 moveId, u8 bank);
 extern void ResetBankTurnBits(u8 bank);
+extern u8 ShowAttackerAnimation;
 
 enum TryHitMoveStatus move_tryhit(u8 attacker, u8 defender, u16 move)
 {
@@ -60,6 +61,15 @@ bool tryhit_semi_invulnerble(u8 attacker, u8 defender, u16 move)
         if (is_inv) {
             // if user's move doesn't hit invulnerable target
             QueueMessage(0, attacker, STRING_INVULNERABLE, 0);
+            // clear users volatiles if user used a 2 turn move and failed
+            CLEAR_VOLATILE(attacker, VOLATILE_FLYING);
+            CLEAR_VOLATILE(attacker, VOLATILE_BOUNCE);
+            CLEAR_VOLATILE(attacker, VOLATILE_DIVE);
+            CLEAR_VOLATILE(attacker, VOLATILE_DIG);
+            CLEAR_VOLATILE(attacker, VOLATILE_SEMI_INVULNERABLE);
+            struct action* a = prepend_action(ACTION_BANK, ACTION_BANK, ActionHighPriority, EventPlayAnimation);
+            a->action_bank = attacker;
+            a->script = (u32)&ShowAttackerAnimation;
             return false;
         }
     }
@@ -118,6 +128,15 @@ bool try_hit(u8 attacker)
         else
             QueueMessage(0, attacker, STRING_ATTACK_MISSED, 0);
     }
+    // clear users volatiles if user used a 2 turn move and failed
+    CLEAR_VOLATILE(attacker, VOLATILE_FLYING);
+    CLEAR_VOLATILE(attacker, VOLATILE_BOUNCE);
+    CLEAR_VOLATILE(attacker, VOLATILE_DIVE);
+    CLEAR_VOLATILE(attacker, VOLATILE_DIG);
+    CLEAR_VOLATILE(attacker, VOLATILE_SEMI_INVULNERABLE);
+    struct action* a = prepend_action(ACTION_BANK, ACTION_BANK, ActionHighPriority, EventPlayAnimation);
+    a->action_bank = attacker;
+    a->script = (u32)&ShowAttackerAnimation;
     return false;
 }
 
