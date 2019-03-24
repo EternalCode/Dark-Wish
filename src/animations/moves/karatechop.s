@@ -30,11 +30,12 @@ blendingPrep:
     rendersprite impactParticle targetx targety nullrsf
     setvar gLASTRESULT 0x019D
     startscript FireworkAnimationSmaller true
-    startscript scrQuakeSprite true
+    quakebg 1 2 0 2 2 false
     movesprite chopParticle 0 0xFFFE 5 true
     OPENCMD
     wait
     deletesprite chopParticle
+    deletesprite impactParticle
     pauseframes 30
     end
 
