@@ -268,26 +268,21 @@ bool damage_result_msg(u8 bank_index)
     bool effective = true;
     switch (B_MOVE_EFFECTIVENESS(bank_index)) {
         case TE_IMMUNE:
-            if (!B_MOVE_MULTI(bank_index))
-                QueueMessage(0, bank_index, STRING_MOVE_IMMUNE, 0);
+            QueueMessage(0, bank_index, STRING_MOVE_IMMUNE, 0);
             effective = false;
             break;
         case TE_NOT_VERY_EFFECTIVE:
-            if (!B_MOVE_MULTI(bank_index))
-                QueueMessage(0, 0, STRING_MOVE_NVE, 0);
+            QueueMessage(0, 0, STRING_MOVE_NVE, 0);
             break;
         case TE_SUPER_EFFECTIVE:
-            if (!B_MOVE_MULTI(bank_index))
-                QueueMessage(0, 0, STRING_MOVE_SE, 0);
+            QueueMessage(0, 0, STRING_MOVE_SE, 0);
             break;
         case TE_OHKO:
-            if (!B_MOVE_MULTI(bank_index))
-                QueueMessage(0, 0, STRING_OHKO, 0);
+            QueueMessage(0, 0, STRING_OHKO, 0);
             break;
         default:
             break;
     };
-
     if (effective) {
         // crit msg if crit
         if (B_MOVE_WILL_CRIT(bank_index)) {

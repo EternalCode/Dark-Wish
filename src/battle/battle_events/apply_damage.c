@@ -94,6 +94,7 @@ void event_move_damage(struct action* current_action)
 
     // HP bar damage
     do_damage(TARGET_OF(bank_index), dmg);
-    damage_result_msg(bank_index);
+    if (!B_MOVE_MULTI(bank_index))
+        damage_result_msg(bank_index);
     CURRENT_ACTION->event_state++;
 }

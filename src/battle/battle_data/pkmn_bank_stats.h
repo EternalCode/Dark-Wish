@@ -120,7 +120,7 @@ extern u16 stage_modify_stat(u16 stat, s8 mod, u8 id, u8 bank);
 #define B_MOVE_IGNORE_ATK(bank) (gBattleMaster->b_moves[bank].ignore_target_atk)
 #define B_MOVE_IGNORE_DEF(bank) (gBattleMaster->b_moves[bank].ignore_target_def)
 #define B_MOVE_IGNORE_EVASION(bank) (gBattleMaster->b_moves[bank].ignore_target_evasion)
-#define B_MOVE_MULTI(bank) ((gBattleMaster->b_moves[bank].hit_times > 1) || (gBattleMaster->b_moves[bank].hit_counter > 1))
+#define B_MOVE_MULTI(bank) ((gBattleMaster->b_moves[bank].hit_times >= 1) || (gBattleMaster->b_moves[bank].hit_counter >= 1))
 #define PROTECTION_TURNS(bank) (gPkmnBank[bank]->battleData.protect_used_turns)
 #define B_GENDER(bank) (gPkmnBank[bank]->battleData.gender)
 #define B_REDUCE_PP(bank) (gPkmnBank[bank]->battleData.reduce_pp)
