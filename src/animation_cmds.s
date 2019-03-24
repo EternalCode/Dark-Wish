@@ -207,6 +207,12 @@
 .hword \var
 .endm
 
+.macro nontransparent var
+.byte 31
+.byte 0
+.hword \var
+.endm
+
 @ -----------------------------------------------
 @ Defines so Darken and Lighten BG inclusion
 .equ INBG0, (1 << 0)
