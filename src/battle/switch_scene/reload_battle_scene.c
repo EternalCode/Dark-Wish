@@ -51,7 +51,7 @@ void return_to_battle()
             // show oams
             for (u8 i = 0; i < BANK_MAX; i++) {
                 // show pokemon OAMs
-                if (gPkmnBank[i]->objid < 0x3F) {
+                if (gPkmnBank[i]->objid < 0x3F && !HAS_VOLATILE(i, VOLATILE_SEMI_INVULNERABLE)) {
                     OBJID_SHOW(gPkmnBank[i]->objid);
                     gSprites[gPkmnBank[i]->objid].final_oam.h_flip = false;
                     gSprites[gPkmnBank[i]->objid].final_oam.v_flip = false;
@@ -166,6 +166,10 @@ void ReturnToBattleFromBag()
             // need to redraw gSprites
             create_sprites_battle_mons_wild();
             gSprites[gPkmnBank[OPPONENT_SINGLES_BANK]->objid].pos1.x = 178;
+            for (u8 i = 0; i < BANK_MAX; i++) {
+                if (HAS_VOLATILE(i, VOLATILE_SEMI_INVULNERABLE))
+                    OBJID_HIDE(gPkmnBank[i]->objid);
+            }
             // spawn the HP boxes
             spawn_hpbox_opponent(HPBOX_TAG_OPP_SW, HPBOX_OPP_SW_X, HPBOX_OPP_SW_Y, OPPONENT_SINGLES_BANK);
             spawn_hpbox_player(HPBOX_TAG_PLAYER_SINGLE, HPBOX_PLAYER_SINGLE_X, HPBOX_PLAYER_SINGLE_Y, PLAYER_SINGLES_BANK);
