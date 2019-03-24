@@ -962,6 +962,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&MegaKickAnimation,
     },
 
     {
@@ -976,6 +977,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_GRAVITY | FLAG_TARGET,
     .procs = &basic_proc,
     .on_move_fail = jump_kick_on_move_fail,
+    .animation = (u8*)&JumpKickAnimation,
     },
 
     {
@@ -990,6 +992,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 30,
+    .animation = (u8*)&RollingKickAnimation,
     },
 
     {
@@ -1002,6 +1005,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GROUND,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_acc_1,
+    .animation = (u8*)&SandAttackAnimation,
     },
 
     {
@@ -1016,6 +1020,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 30,
+    .animation = (u8*)&HeadbuttAnimation,
     },
 
     {
@@ -1029,6 +1034,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&HornAttackAnimation,
     },
 
     {

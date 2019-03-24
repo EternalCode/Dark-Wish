@@ -804,8 +804,8 @@ BEGIN_AFFINE_ANIM(stompSquish) // affine is applied to the target
 END_AFFINE()
 
 BEGIN_AFFINE_ANIM(doublekickBig) // affine on outter foot
-    PLAY_AFFINE(120, 120, 0, 1)
-    PLAY_AFFINE(-40, -40, 0, 4)
+    PLAY_AFFINE(200, 200, 0, 1)
+    PLAY_AFFINE(-60, -60, 0, 4)
 END_AFFINE()
 
 BEGIN_FRAME_ANIM(doublekickFrames)
