@@ -1003,6 +1003,7 @@ void ScriptCmd_sideofsprite()
     } else {
         ANIMSCR_CONDITION = SIDE_OF(ACTION_TARGET);
     }
+    VarSet(0x900D, ANIMSCR_CONDITION);
     ANIMSCR_CMD_NEXT;
 }
 
