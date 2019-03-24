@@ -46,6 +46,8 @@
 #include "../../generated/images/battle_animations/leafblades.h"
 #include "../../generated/images/battle_animations/stomp.h"
 #include "../../generated/images/battle_animations/impact5.h"
+#include "../../generated/images/battle_animations/megakickbg.h"
+#include "../../generated/images/battle_animations/megakickplayerbg.h"
 
 
 /* the impact sprite from tackle */
@@ -783,7 +785,7 @@ MAKE_OAM(leafblades)
 END_OAM()
 
 
-/* Stomp foot sprite, also used in double kick */
+/* Stomp foot sprite, also used in double kick, megakick */
 ASSETS(stomp, s64x64 * 2, 444);
 
 MAKE_OAM(stomp)
@@ -811,6 +813,10 @@ END_AFFINE()
 BEGIN_FRAME_ANIM(doublekickFrames)
     SHOW_FRAME(1, s64x64, NOFLIP, 1)
 END_ANIM()
+
+BEGIN_AFFINE_ANIM(megakickGrow) // affine on outter foot
+    PLAY_AFFINE(10, 10, 0, 20)
+END_AFFINE()
 
 
 /* Impact5 sprite, big red impact */
