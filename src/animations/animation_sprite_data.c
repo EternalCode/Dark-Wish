@@ -45,6 +45,7 @@
 #include "../../generated/images/battle_animations/vinewhip.h"
 #include "../../generated/images/battle_animations/leafblades.h"
 #include "../../generated/images/battle_animations/stomp.h"
+#include "../../generated/images/battle_animations/impact5.h"
 
 
 /* the impact sprite from tackle */
@@ -782,16 +783,40 @@ MAKE_OAM(leafblades)
 END_OAM()
 
 
-/* Stomp foot sprite */
-ASSETS(stomp, s32x32, 444);
+/* Stomp foot sprite, also used in double kick */
+ASSETS(stomp, s64x64 * 2, 444);
 
 MAKE_OAM(stomp)
     OAM_PRIORITY(2)
-    OAM_SIZE(o32x32)
+    OAM_SIZE(o64x64)
 END_OAM()
-// affine is applied to the target
-BEGIN_AFFINE_ANIM(stompSquish)
+
+MAKE_OAM(doublekick)
+    OAM_AFFINE()
+    OAM_PRIORITY(2)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(stompSquish) // affine is applied to the target
     PLAY_AFFINE(0, -60, 0, 1)
     PLAY_AFFINE(0, 0, 0, 19)
     PLAY_AFFINE(0, 60, 0, 1)
 END_AFFINE()
+
+BEGIN_AFFINE_ANIM(doublekickBig) // affine on outter foot
+    PLAY_AFFINE(120, 120, 0, 1)
+    PLAY_AFFINE(-40, -40, 0, 4)
+END_AFFINE()
+
+BEGIN_FRAME_ANIM(doublekickFrames)
+    SHOW_FRAME(1, s64x64, NOFLIP, 1)
+END_ANIM()
+
+
+/* Impact5 sprite, big red impact */
+ASSETS(impact5, s64x64, 445);
+
+MAKE_OAM(impact5)
+    OAM_PRIORITY(3)
+    OAM_SIZE(o64x64)
+END_OAM()
