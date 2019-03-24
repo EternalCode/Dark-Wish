@@ -187,8 +187,10 @@ FireworkAnimationNoBlend:
     fastsetbattlers
 
 FireworkPosInheritedNoBlend:
+    BLOCKCMD
     loadspritefull glowballSprite glowballPalette glowballOam
-
+    copyvar glowballParticle LASTRESULT
+    OPENCMD
     BLOCKCMD
     runtask TaskCreateSmallFireworkImpact glowcolor 3 targetx targety
     runtask TaskCreateSmallFireworkImpact glowcolor 3 targetx targety
