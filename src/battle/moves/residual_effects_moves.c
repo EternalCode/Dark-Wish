@@ -15,14 +15,15 @@ extern bool BankMonHasType(u8 bank, enum PokemonType type);
 
 u8 partial_dmg_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if (user == src) return true;
+    if (user != src) return true;
     if (acb->duration == 0) {
         CLEAR_VOLATILE(user, VOLATILE_BIND);
         CLEAR_VOLATILE(user, VOLATILE_TRAPPED);
-        return true;
-    }
-    if (do_damage_residual(user, 1, NULL)) {
-        do_damage(user, MAX(1, (TOTAL_HP(user) / 8)));
+    } else if (do_damage_residual(user, 1, NULL)) {
+        struct action* a = prepend_action(user, user, ActionAnimation, EventPlayAnimation);
+        a->move = acb->data_ptr;
+        a->script = (u32)gBattleMoves[a->move].animation;
+        do_damage(user, MAX(1, (TOTAL_HP(user) >> 3)));
         QueueMessage(acb->data_ptr, user, STRING_RESIDUAL_DMG, 0);
     }
     return true;
@@ -37,7 +38,7 @@ u8 partially_trapped_effect_cb(u8 user, u8 src, u16 move, struct anonymous_callb
         return true;
     ADD_VOLATILE(defender, VOLATILE_BIND);
     ADD_VOLATILE(defender, VOLATILE_TRAPPED);
-    u8 id = AddCallback(CB_ON_RESIDUAL, 0, RandRange(4, 6), src, (u32)partial_dmg_on_residual);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, RandRange(4, 6), defender, (u32)partial_dmg_on_residual);
     CB_MASTER[id].data_ptr = move;
     return true;
 }

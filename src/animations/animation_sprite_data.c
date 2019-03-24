@@ -41,6 +41,7 @@
 #include "../../generated/images/battle_animations/impact4.h"
 #include "../../generated/images/battle_animations/flybg.h"
 #include "../../generated/images/battle_animations/fly.h"
+#include "../../generated/images/battle_animations/bind.h"
 
 
 /* the impact sprite from tackle */
@@ -730,4 +731,21 @@ END_AFFINE()
 
 BEGIN_AFFINE_ANIM(flySmall)
     PLAY_AFFINE(-80, -80, 0, 1)
+END_AFFINE()
+
+
+/* Bind wrap sprite */
+ASSETS(bind, s64x64, 441);
+
+MAKE_OAM(bind)
+    OAM_AFFINE()
+    OAM_PRIORITY(2)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+
+BEGIN_AFFINE_ANIM(bind)
+    PLAY_AFFINE(-8, 0, 0, 10)
+    PLAY_AFFINE(20, 0, 0, 4)
+    LOOP_AFFINE(1)
 END_AFFINE()
