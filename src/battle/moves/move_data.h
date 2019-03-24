@@ -300,11 +300,16 @@ extern const u8* CutAnimation;
 extern const u8* GustAnimation;
 extern const u8* WingAttackAnimation;
 extern const u8* WhirlwindAnimation;
+extern const u8* FlyWindUpAnimation;
 extern const u8* FlyAnimation;
+extern const u8* BindAnimation;
+extern const u8* SlamAnimation;
+extern const u8* VineWhipAnimation;
+extern const u8* StompAnimation;
+extern const u8* DoubleKickAnimation;
 extern const u8* TackleAnimation;
 extern const u8* TakedownAnimation;
 extern const u8* FireworkAnimation;
-extern const u8* SlamAnimation;
 extern const u8* ShadowpunchAnimation;
 extern const u8* WatergunAnimation;
 

@@ -889,6 +889,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = partially_trapped_effect_cb,
+    .animation = (u8*)&BindAnimation,
     },
 
     {
@@ -916,6 +917,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&VineWhipAnimation,
     },
 
     {
@@ -931,6 +933,7 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .flinch_chance = 30,
     .on_modify_move = stomp_on_modify_move,
+    .animation = (u8*)&StompAnimation,
     },
 
     {
@@ -945,6 +948,7 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 2},
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&DoubleKickAnimation,
     },
 
     {
