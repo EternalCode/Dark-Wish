@@ -61,10 +61,7 @@ void do_damage(u8 bank_index, u16 dmg)
 bool do_damage_residual(u8 bank_index, u16 dmg, u32 ability_flags)
 {
     u8 ability = BANK_ABILITY(bank_index);
-    if (dmg && !HAS_ABILITY_FLAG(ability, (A_FLAG_INDIRECT_DMG_PREVENT | ability_flags))) {
-        return true;
-    }
-    return false;
+    return (dmg && !HAS_ABILITY_FLAG(ability, (A_FLAG_INDIRECT_DMG_PREVENT | ability_flags)));
 }
 
 void event_move_damage(struct action* current_action)
