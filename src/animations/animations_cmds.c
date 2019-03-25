@@ -1612,10 +1612,7 @@ void ScriptCmd_depthlessorbit()
     struct Sprite* sprite = &gSprites[spriteId];
     // spriteB
     spriteId = ANIMSCR_READ_HWORD;
-    spriteId = VarGet(spriteId);
-    struct Sprite* toOrbit = &gSprites[spriteId];
 
-    toOrbit->final_oam.priority = 2;
     sprite->data[0] = ANIMSCR_READ_HWORD; // duration
     sprite->data[0] = MAX(1, sprite->data[0]);
     sprite->data[2] = ANIMSCR_READ_BYTE; // width
