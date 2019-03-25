@@ -1049,6 +1049,7 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 5},
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&FuryAttackAnimation,
     },
 
     {
@@ -1062,6 +1063,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET | FLAG_OHKO,
     .procs = &basic_proc,
     .on_tryhit_move = ohko_tryhit_move,
+    .animation = (u8*)&HornDrillAnimation,
     },
 
     {
@@ -1090,6 +1092,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_30_procs,
     .on_modify_move = stomp_on_modify_move,
+    .animation = (u8*)&BodySlamAnimation,
     },
 
     {
@@ -1104,6 +1107,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = partially_trapped_effect_cb,
+    .animation = (u8*)&WrapAnimation,
     },
 
     {
@@ -1135,6 +1139,7 @@ struct move_data gBattleMoves[] = {
     .on_tryhit_move = thrash_on_tryhit_move,
     .on_move_fail = thrash_on_move_fail,
     .on_after_move = thrash_on_after_move,
+    .animation = (u8*)&ThrashAnimation,
     },
 
     /* Double edge*/
@@ -1149,6 +1154,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .recoil = 25,
+    .animation = (u8*)&DoubleEdgeAnimation,
     },
 
     {
@@ -1161,6 +1167,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_HITS_FOE_SIDE,
     .procs = &target_lower_def_1,
+    .animation = (u8*)&TailWhipAnimation,
     },
 
     {
@@ -1174,6 +1181,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &poison_30_procs,
+    .animation = (u8*)&PoisonStingAnimation,
     },
 
     {
@@ -1188,6 +1196,7 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 2},
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &poison_20_procs,
+    .animation = (u8*)&TwineedleAnimation,
     },
 
     {
@@ -1202,6 +1211,7 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 5},
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&PinMissileAnimation,
     },
 
     {
@@ -1214,6 +1224,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_def_1,
+    .animation = (u8*)&LeerAnimation,
     },
 
     {
@@ -1228,6 +1239,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_BITE | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 30,
+    .animation = (u8*)&BiteAnimation,
     },
 
     {

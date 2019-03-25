@@ -313,11 +313,24 @@ extern const u8* RollingKickAnimation;
 extern const u8* SandAttackAnimation;
 extern const u8* HeadbuttAnimation;
 extern const u8* HornAttackAnimation;
+extern const u8* FuryAttackAnimation;
+extern const u8* HornDrillAnimation;
 extern const u8* TackleAnimation;
+extern const u8* BodySlamAnimation;
+extern const u8* WrapAnimation;
 extern const u8* TakedownAnimation;
-extern const u8* FireworkAnimation;
+extern const u8* ThrashAnimation;
+extern const u8* DoubleEdgeAnimation;
+extern const u8* TailWhipAnimation;
+extern const u8* PoisonStingAnimation;
+extern const u8* TwineedleAnimation;
+extern const u8* PinMissileAnimation;
+extern const u8* LeerAnimation;
+extern const u8* BiteAnimation;
+
 extern const u8* ShadowpunchAnimation;
 extern const u8* WatergunAnimation;
+extern const u8* FireworkAnimation;
 
 /* User stats */
 extern struct move_procs user_lower_atk_1;
