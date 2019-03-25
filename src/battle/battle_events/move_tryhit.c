@@ -154,7 +154,7 @@ void event_move_tryhit_external(struct action* current_action)
     /* Flinch interrupts move */
     if (RandRange(0, 100) < B_FLINCH(bank_index)) {
         QueueMessage(0, bank_index, STRING_FLINCHED, 0);
-        B_FLINCH(bank_index) = 0;
+        //B_FLINCH(bank_index) = 0;
         CURRENT_ACTION->event_state = EventMoveFailed;
         for (u8 i = 0; i < BANK_MAX; i++) {
             u8 ability = gPkmnBank[i]->battleData.ability;
@@ -171,7 +171,7 @@ void event_move_tryhit_external(struct action* current_action)
         gBattleMaster->executing = temp_status;
         return;
     }
-    B_FLINCH(bank_index) = 0;
+    //B_FLINCH(bank_index) = 0;
 
     /* Move tryhit callbacks */
     switch (move_tryhit(bank_index, TARGET_OF(bank_index), move)) {
