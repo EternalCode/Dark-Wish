@@ -73,6 +73,8 @@ FireworkSmallerPosInherited:
 
 FireworkSmallerFinish:
     waittask TaskCreateSmallerFireworkImpact
+    showsprite target
+    hidebg 1
     spritebgclear target
     deletesprite glowballParticle
     end
