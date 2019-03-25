@@ -41,6 +41,8 @@ FadeBgsToBlack:
     setvar gLASTRESULT 0x00FA
     startscript FireworkAnimationNoBlend true
     pauseframes 3
+
+ShowFootAndGrowingAfterImage:
     BLOCKCMD
     setvar coA 16
     setvar coB 0
@@ -59,6 +61,8 @@ FadeBgsToBlack:
     waitthread 2
     deletesprite footParticle
     deletesprite footGrowParticle
+
+Restore:
     beginfade 1 0 FADETO true 16
     hidebg 2
     showsprite target
