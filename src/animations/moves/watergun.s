@@ -6,6 +6,7 @@
 .equ watergunParticle, 0x9006
 .equ watersplashParticle, 0x9008
 .equ impactParticle, 0x9009
+.equ spriteTemp, 0x900A
 .equ counter, 0x9007
 
 .global WatergunAnimation
@@ -30,22 +31,23 @@ WatergunLoop:
     compare counter 8
     if1 0x1 goto WatergunFinish
     loadsprite circularSprite circularPalette circularOam
-    spriteblend2 LASTRESULT 10 0x7354
-    animatesprite LASTRESULT circularAffine 0
-    rendersprite LASTRESULT attackerx attackery circularAffine
-    excludeblend LASTRESULT
-    spritecallback LASTRESULT SCB_SpriteDeleteWhenAffineEnds
+    copyvar spriteTemp LASTRESULT
+    spriteblend2 spriteTemp 10 0x7354
+    animatesprite spriteTemp circularAffine 0
+    rendersprite spriteTemp attackerx attackery circularAffine
+    excludeblend spriteTemp
+    spritecallback spriteTemp SCB_SpriteDeleteWhenAffineEnds
     sideof attacker
     if1 0x1 goto WatergunOpponent
-    horizontalArcTranslate 0 130 LASTRESULT target 35 PLAYERSIDE
-    runtask TaskTranslateSpriteHorizontalArc LASTRESULT 0 0 0
+    horizontalArcTranslate 0 130 spriteTemp target 35 PLAYERSIDE
+    runtask TaskTranslateSpriteHorizontalArc spriteTemp 0 0 0
     addvar counter 1
     OPENCMD
     goto WatergunLoop
 
 WatergunOpponent:
-    horizontalArcTranslate 0 130 LASTRESULT target 35 OPPONENTSIDE
-    runtask TaskTranslateSpriteHorizontalArcCos LASTRESULT 0 0 0
+    horizontalArcTranslate 0 130 spriteTemp target 35 OPPONENTSIDE
+    runtask TaskTranslateSpriteHorizontalArcCos spriteTemp 0 0 0
     addvar counter 1
     OPENCMD
     goto WatergunLoop
