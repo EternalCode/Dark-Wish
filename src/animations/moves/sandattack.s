@@ -18,7 +18,6 @@ SandAttackAnimation:
     setvar counter 0
     addvar attackery 16
 
-
 loopSand:
     compare counter 6
     if1 0x1 goto finish

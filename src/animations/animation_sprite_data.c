@@ -49,6 +49,7 @@
 #include "../../generated/images/battle_animations/megakickbg.h"
 #include "../../generated/images/battle_animations/megakickplayerbg.h"
 #include "../../generated/images/battle_animations/sandattack.h"
+#include "../../generated/images/battle_animations/star.h"
 
 
 /* the impact sprite from tackle */
@@ -844,3 +845,18 @@ BEGIN_FRAME_ANIM(sandattackFrames)
     SHOW_FRAME(3, s32x32, NOFLIP, 3)
     SHOW_FRAME(4, s32x32, NOFLIP, 2)
 END_ANIM()
+
+
+/* Headbutt star sprite */
+ASSETS(star, s16x16, 447);
+
+MAKE_OAM(star)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o16x16)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(star)
+    PLAY_AFFINE(0, 0, 0, 1)
+    PLAY_AFFINE(-8, -8, 0, 16)
+END_AFFINE()
