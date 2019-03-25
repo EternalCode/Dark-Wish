@@ -284,6 +284,7 @@ extern u8 block_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* 
 extern u8 fairy_lock_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 
 /* Move Animation scripts */
+extern const u8* PoundAnimation;
 extern const u8* KaratechopAnimation;
 extern const u8* DoubleSlapAnimation;
 extern const u8* CometpunchAnimation;
