@@ -50,6 +50,7 @@
 #include "../../generated/images/battle_animations/megakickplayerbg.h"
 #include "../../generated/images/battle_animations/sandattack.h"
 #include "../../generated/images/battle_animations/star.h"
+#include "../../generated/images/battle_animations/horn.h"
 
 
 /* the impact sprite from tackle */
@@ -860,3 +861,19 @@ BEGIN_AFFINE_ANIM(star)
     PLAY_AFFINE(0, 0, 0, 1)
     PLAY_AFFINE(-8, -8, 0, 16)
 END_AFFINE()
+
+
+/* Horn attack horn sprite */
+ASSETS(horn, s32x32, 448);
+
+MAKE_OAM(horn)
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+MAKE_OAM(hornFlipped)
+    OAM_VFLIP()
+    OAM_HFLIP()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
