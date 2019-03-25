@@ -51,6 +51,7 @@
 #include "../../generated/images/battle_animations/sandattack.h"
 #include "../../generated/images/battle_animations/star.h"
 #include "../../generated/images/battle_animations/horn.h"
+#include "../../generated/images/battle_animations/furyattack.h"
 
 
 /* the impact sprite from tackle */
@@ -875,5 +876,21 @@ MAKE_OAM(hornFlipped)
     OAM_VFLIP()
     OAM_HFLIP()
     OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+
+/* Fury attack orange spike sprite */
+ASSETS(furyattack, s32x32, 449);
+
+MAKE_OAM(furyattack)
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+MAKE_OAM(furyattackFlipped)
+    OAM_PRIORITY(1)
+    OAM_HFLIP()
+    OAM_VFLIP()
     OAM_SIZE(o32x32)
 END_OAM()
