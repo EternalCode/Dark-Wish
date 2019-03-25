@@ -48,6 +48,7 @@
 #include "../../generated/images/battle_animations/impact5.h"
 #include "../../generated/images/battle_animations/megakickbg.h"
 #include "../../generated/images/battle_animations/megakickplayerbg.h"
+#include "../../generated/images/battle_animations/sandattack.h"
 
 
 /* the impact sprite from tackle */
@@ -826,3 +827,20 @@ MAKE_OAM(impact5)
     OAM_PRIORITY(3)
     OAM_SIZE(o64x64)
 END_OAM()
+
+
+/* Sand attack dust sprite */
+ASSETS(sandattack, s32x32 * 5, 446);
+
+MAKE_OAM(sandattack)
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_FRAME_ANIM(sandattackFrames)
+    SHOW_FRAME(0, s32x32, NOFLIP, 5)
+    SHOW_FRAME(1, s32x32, NOFLIP, 5)
+    SHOW_FRAME(2, s32x32, NOFLIP, 4)
+    SHOW_FRAME(3, s32x32, NOFLIP, 3)
+    SHOW_FRAME(4, s32x32, NOFLIP, 2)
+END_ANIM()
