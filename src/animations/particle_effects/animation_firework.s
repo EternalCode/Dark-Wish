@@ -5,7 +5,6 @@
 
 .equ glowballParticle, 0x9006
 .equ glowcolor, 0x9007
-.equ inheritedFireWorkSprite, 0x9013
 
 .global FireworkAnimation
 FireworkAnimation:
@@ -151,33 +150,6 @@ LinearFireworkFinishrev:
     deletesprite glowballParticle
     end
 
-.global ApplyFireworkAnimation
-    ApplyFireworkAnimation:
-        copyvar glowcolor gLASTRESULT
-        BLOCKCMD
-        spriteblend 8 8
-        hidebg 1
-        spritetobg target 8 8
-        showbg 1
-        OPENCMD
-
-        BLOCKCMD
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 3 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 3 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 2 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 2 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 1 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 1 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 0 targetx targety
-        applyfirework pokeballSprite pokeballPalette pokeballOam pokeballLeftTiltAffine 0 targetx targety
-        OPENCMD
-
-        waittask TaskCreateSmallFireworkGeneric
-        spritebgclear target
-        deletesprite inheritedFireWorkSprite
-        end
-
-    .pool
 
 .global FireworkAnimationNoBlend
 FireworkAnimationNoBlend:
