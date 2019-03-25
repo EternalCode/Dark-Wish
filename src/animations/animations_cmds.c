@@ -1638,7 +1638,6 @@ void ScriptCmd_depthlessorbit()
     sprite->data[5] = ANIMSCR_READ_BYTE; // bool to delete
     sprite->data[1] = ANIMSCR_READ_HWORD; // wave offset (0 - 255) var
     sprite->data[1] = VarGet(sprite->data[1]);
-    sprite->data[7] = toOrbit->final_oam.priority;
     sprite->callback = AnimOrbitFastStepNoPriority;
     sprite->callback(sprite);
     ANIMSCR_MOVE(1);
@@ -1703,6 +1702,8 @@ void ScriptCmd_spritesetposition()
     posy = VarGet(posy);
     sprite->pos1.x = posx;
     sprite->pos1.y = posy;
+    sprite->pos2.x = 0;
+    sprite->pos2.y = 0;
     ANIMSCR_CMD_NEXT;
 }
 
