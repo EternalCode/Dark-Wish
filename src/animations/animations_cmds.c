@@ -1570,6 +1570,7 @@ void ScriptCmd_fireworkeffect()
     // initial velocities
     t->priv[5] = left ? -rand_range(1, 3) : rand_range(1, 3);
     t->priv[6] = -(rand_range(1, 4));
+    VarSet(0x900D, spriteId);
     ANIMSCR_CMD_NEXT;
 }
 
