@@ -24,9 +24,9 @@ void SCBMoveSpriteErrorCorrection(struct Sprite* spr)
 {
     totalFramesPast++;
     if (totalFramesPast % xerror == 0)
-        spr->pos1.x += deltaX > 0 ? 1 : -1;
+        spr->pos1.x += deltaX >= 0 ? 1 : -1;
     if (totalFramesPast % yerror == 0)
-        spr->pos1.y += deltaY > 0 ? 1 : -1;
+        spr->pos1.y += deltaY >= 0 ? 1 : -1;
     if (framesPast < framesCount) {
         spr->pos1.x += deltaX;
         spr->pos1.y += deltaY;

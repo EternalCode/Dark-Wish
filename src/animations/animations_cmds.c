@@ -1456,13 +1456,12 @@ void ScriptCmd_movespritedst()
     s32 y = s2->pos1.y - sprite->pos1.y;
     s16 xDelta = Div(x, steps);
     s16 yDelta = Div(y, steps);
-
     sprite->callback = SCBMoveSpriteErrorCorrection;
     sprite->data[0] = steps;
     sprite->data[1] = xDelta;
     sprite->data[2] = yDelta;
-    sprite->data[3] = steps / (x - (xDelta * steps)); // error minimization increment intervals
-    sprite->data[4] = steps / (y - (yDelta * steps)); // error minimization increment intervals
+    sprite->data[3] = Div(steps, (x - (xDelta * steps))); // error minimization increment intervals
+    sprite->data[4] = Div(steps, (y - (yDelta * steps))); // error minimization increment intervals
 
     // to wait for finish, make sure to put use a waitanim command as the next command.
     ANIMSCR_MOVE(2);
