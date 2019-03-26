@@ -282,6 +282,8 @@ extern u8 memento_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback
 extern u8 lunar_dance_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern u8 block_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern u8 fairy_lock_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
+extern u8 wrap_partially_trapped_effect_cb(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
+
 
 /* Move Animation scripts */
 extern const u8* PoundAnimation;
@@ -319,6 +321,7 @@ extern const u8* HornDrillAnimation;
 extern const u8* TackleAnimation;
 extern const u8* BodySlamAnimation;
 extern const u8* WrapAnimation;
+extern const u8* WrapResidualAnimation;
 extern const u8* TakedownAnimation;
 extern const u8* ThrashAnimation;
 extern const u8* DoubleEdgeAnimation;

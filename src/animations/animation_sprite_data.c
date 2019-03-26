@@ -54,6 +54,7 @@
 #include "../../generated/images/battle_animations/furyattack.h"
 #include "../../generated/images/battle_animations/impact6.h"
 #include "../../generated/images/battle_animations/impact7.h"
+#include "../../generated/images/battle_animations/wrap.h"
 
 
 /* the impact sprite from tackle */
@@ -927,4 +928,48 @@ END_AFFINE()
 BEGIN_AFFINE_ANIM(impact7)
     PLAY_AFFINE(0, 0, 5, 30)
     PLAY_AFFINE(0, 0, 5, 30)
+END_AFFINE()
+
+
+/* Wrap effect */
+ASSETS(wrap, s64x64 * 4, 452);
+
+MAKE_OAM(wrap)
+    OAM_PRIORITY(0)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+MAKE_OAM(wrapFlipped)
+    OAM_VFLIP()
+    OAM_PRIORITY(0)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+BEGIN_FRAME_ANIM(wrapFrames)
+    SHOW_FRAME(0, s64x64, NOFLIP, 3)
+    SHOW_FRAME(1, s64x64, NOFLIP, 4)
+    SHOW_FRAME(2, s64x64, NOFLIP, 4)
+    SHOW_FRAME(3, s64x64, NOFLIP, 5)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(wrapFlippedFrames)
+    SHOW_FRAME(0, s64x64, VFLIP, 3)
+    SHOW_FRAME(1, s64x64, VFLIP, 4)
+    SHOW_FRAME(2, s64x64, VFLIP, 4)
+    SHOW_FRAME(3, s64x64, VFLIP, 5)
+END_ANIM()
+
+BEGIN_AFFINE_ANIM(wrap) // applied to wrap target
+
+    PLAY_AFFINE(-10, 0, 0, 3)
+    PLAY_AFFINE(0, 0, 0, 3)
+    PLAY_AFFINE(10, 0, 0, 3)
+    PLAY_AFFINE(0, 0, 0, 3)
+
+    PLAY_AFFINE(-10, 0, 0, 3)
+    PLAY_AFFINE(0, 0, 0, 3)
+    PLAY_AFFINE(10, 0, 0, 3)
+    PLAY_AFFINE(0, 0, 0, 3)
+
+
 END_AFFINE()
