@@ -960,7 +960,6 @@ BEGIN_FRAME_ANIM(wrapFlippedFrames)
 END_ANIM()
 
 BEGIN_AFFINE_ANIM(wrap) // applied to wrap target
-
     PLAY_AFFINE(-10, 0, 0, 3)
     PLAY_AFFINE(0, 0, 0, 3)
     PLAY_AFFINE(10, 0, 0, 3)
@@ -970,6 +969,16 @@ BEGIN_AFFINE_ANIM(wrap) // applied to wrap target
     PLAY_AFFINE(0, 0, 0, 3)
     PLAY_AFFINE(10, 0, 0, 3)
     PLAY_AFFINE(0, 0, 0, 3)
+END_AFFINE()
 
 
+/* bimpact1 sprite transformed for pound */
+MAKE_OAM(impactSmall)
+    OAM_AFFINE()
+    OAM_PRIORITY(3)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(impactSmall)
+    PLAY_AFFINE(-100, -100, 0, 1)
 END_AFFINE()
