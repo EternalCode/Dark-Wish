@@ -2,5 +2,6 @@ charmap.txt text eol=lf
 *.s text eol=lf
 *.c text eol=lf
 *.h text eol=lf
-
+*.s text eol=lf
+*.grit text eol=lf
 *.png binary
