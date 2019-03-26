@@ -1252,6 +1252,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_SOUND | FLAG_AUTHENTIC | FLAG_TARGET,
     .procs = &target_lower_atk_1,
+    .animation = (u8*)&GrowlAnimation,
     },
 
     {
@@ -1266,6 +1267,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_REFLECTABLE | FLAG_SOUND | FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = dragon_tail_on_effect,
+    .animation = (u8*)&RoarAnimation,
     },
 
     {
@@ -1278,6 +1280,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_SOUND | FLAG_AUTHENTIC | FLAG_PROTECT | FLAG_TARGET,
     .procs = &sing_procs,
+    .animation = (u8*)&SingAnimation,
     },
 
     {
@@ -1290,6 +1293,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &supersonic_procs,
+    .animation = (u8*)&SupersonicAnimation,
     },
 
     {
@@ -1303,6 +1307,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_damage_move = sonic_boom_on_dmg,
+    .animation = (u8*)&SonicBoomAnimation,
     },
 
     {
@@ -1317,6 +1322,7 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .before_move = disable_on_before_move,
     .on_effect_cb = disable_on_effect_cb,
+    .animation = (u8*)&DisableAnimation,
     },
 
     {
@@ -1330,6 +1336,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spDef_1,
+    .animation = (u8*)&AcidAnimation,
     },
 
     {
@@ -1343,6 +1350,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &burn_10_procs,
+    .animation = (u8*)&EmberAnimation,
     },
 
     {
@@ -1356,6 +1364,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &burn_10_procs,
+    .animation = (u8*)&FlamethrowerAnimation,
 	},
 
 	{
@@ -1369,6 +1378,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = mist_on_effect,
+    .animation = (u8*)&MistAnimation,
     },
 
     {
@@ -1396,6 +1406,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&HydroPumpAnimation,
     },
 
     {
@@ -1411,6 +1422,7 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_base_power_move = whirlpool_on_base_power,
     .on_inv_tryhit_move = whirlpool_on_tryhit_invul,
+    .animation = (u8*)&SurfAnimation,
     },
 
     {
@@ -1424,6 +1436,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ICE,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &freeze_10_procs,
+    .animation = (u8*)&IceBeamAnimation,
     },
 
     {
@@ -1438,6 +1451,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &freeze_10_procs,
     .on_modify_move = blizzard_on_modify_move,
+    .animation = (u8*)&BlizzardAnimation,
     },
 
     {
@@ -1451,6 +1465,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &confuse_10_procs,
+    .animation = (u8*)&PsybeamAnimation,
     },
 
     {
@@ -1464,6 +1479,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &bubble_beam_procs,
+    .animation = (u8*)&BubbleBeamAnimation,
     },
 
     {
@@ -1477,6 +1493,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ICE,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &aurora_beam_procs,
+    .animation = (u8*)&AuroraBeamAnimation,
     },
 
     {
@@ -1490,6 +1507,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_RECHARGE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&HyperBeamAnimation,
     },
 
     {
@@ -1503,6 +1521,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FLYING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&PeckAnimation,
     },
 
     {
@@ -1516,6 +1535,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FLYING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&DrillPeckAnimation,
     },
 
     {
@@ -1530,6 +1550,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.recoil = 25,
+    .animation = (u8*)&SubmissionAnimation,
     },
 
     {
@@ -1543,6 +1564,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = low_kick_on_base_power_move,
+    .animation = (u8*)&LowKickAnimation,
     },
 
     {
@@ -1558,6 +1580,7 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .before_turn = counter_before_turn,
     .on_tryhit_move = counter_on_tryhit,
+    .animation = (u8*)&CounterAnimation,
     },
 
     {
@@ -1571,6 +1594,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.on_damage_move = seismic_toss_on_damage_move,
+    .animation = (u8*)&SeismicTossAnimation,
     },
 
     {
@@ -1584,6 +1608,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&StrengthAnimation,
     },
 
     {
@@ -1598,6 +1623,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_HEAL | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .drain = 50,
     .procs = &basic_proc,
+    .animation = (u8*)&AbsorbAnimation,
     },
 
     {
@@ -1612,6 +1638,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_HEAL | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .drain = 50,
     .procs = &basic_proc,
+    .animation = (u8*)&MegaDrainAnimation,
     },
 
     {
@@ -1626,6 +1653,7 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .drain = 100, // leech seed should drain 100% of dmg dealt
     .on_tryhit_move = leech_seed_on_tryhit,
+    .animation = (u8*)&LeechSeedAnimation,
     },
 
     {
@@ -1639,6 +1667,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = growth_on_effect,
+    .animation = (u8*)&GrowthAnimation,
     },
 
     {
@@ -1653,6 +1682,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&RazorLeafAnimation,
     },
 
     {
@@ -1667,6 +1697,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CHARGE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .before_move = solarbeam_before_move,
+    .animation = (u8*)&SolarBeamAnimation,
     },
 
     {
@@ -1679,6 +1710,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_POWDER | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &poison_100_procs,
+    .animation = (u8*)&PoisonPowderAnimation,
     },
 
     {
@@ -1691,6 +1723,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_POWDER | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_100_procs,
+    .animation = (u8*)&StunSporeAnimation,
     },
 
     {
@@ -1703,6 +1736,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_POWDER | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &sing_procs,
+    .animation = (u8*)&SleepPowderAnimation,
     },
 
     {
@@ -1719,6 +1753,7 @@ struct move_data gBattleMoves[] = {
     .on_tryhit_move = thrash_on_tryhit_move,
     .on_move_fail = thrash_on_move_fail,
     .on_after_move = thrash_on_after_move,
+    .animation = (u8*)&PetalDanceAnimation,
     },
 
     {
@@ -1731,6 +1766,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_HITS_FOE_SIDE,
     .procs = &target_lower_spd_2,
+    .animation = (u8*)&StringShotAnimation,
     },
 
     {
@@ -1744,6 +1780,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_damage_move = dragon_rage_on_dmg,
+    .animation = (u8*)&DragonRageAnimation,
     },
 
     {
@@ -1758,6 +1795,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = partially_trapped_effect_cb,
+    .animation = (u8*)&FireSpinAnimation,
     },
 
     {
@@ -1771,6 +1809,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ELECTRIC,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_10_procs,
+    .animation = (u8*)&ThunderShockAnimation,
     },
 
     {
@@ -1784,6 +1823,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ELECTRIC,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_10_procs,
+    .animation = (u8*)&ThunderboltAnimation,
     },
 
     {
@@ -1796,6 +1836,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ELECTRIC,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_100_procs,
+    .animation = (u8*)&ThunderWaveAnimation,
     },
 
     {
@@ -1811,6 +1852,7 @@ struct move_data gBattleMoves[] = {
     .procs = &paralyze_30_procs,
     .on_modify_move = hurricane_on_modify_move,
     .on_inv_tryhit_move = hurricane_on_tryhit_inv,
+    .animation = (u8*)&ThunderAnimation,
     },
 
     {
@@ -1824,6 +1866,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ROCK,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
+    .animation = (u8*)&RockThrowAnimation,
     },
 
     {
@@ -1839,6 +1882,7 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_base_power_move = earthquake_on_base_power,
     .on_inv_tryhit_move = magnitude_on_tryhit_invul,
+    .animation = (u8*)&EarthquakeAnimation,
     },
 
     {
@@ -1852,6 +1896,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_OHKO | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = ohko_tryhit_move,
+    .animation = (u8*)&FissureAnimation,
     },
 
     {
@@ -1867,7 +1912,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .before_move = dig_before_move,
     .on_inv_tryhit_move = magnitude_on_tryhit_invul,
-    },
+    .animation = (u8*)&DigAnimation,
+	},
 
     {
     /*Toxic*/
@@ -1879,7 +1925,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &toxic_procs,
-    },
+    .animation = (u8*)&ToxicAnimation,
+	},
 
     {
     /*Confusion*/
@@ -1892,7 +1939,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &confuse_10_procs,
-    },
+    .animation = (u8*)&ConfusionAnimation,
+	},
 
     {
     /*Psychic*/
@@ -1905,7 +1953,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &psychic_procs,
-    },
+    .animation = (u8*)&PsychicAnimation,
+	},
 
     {
     /*Hypnosis*/
@@ -1917,7 +1966,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_PROTECT | FLAG_MIRROR | FLAG_REFLECTABLE | FLAG_TARGET,
     .procs = &sing_procs,
-    },
+    .animation = (u8*)&HypnosisAnimation,
+	},
 
     {
     /*Meditate*/
@@ -1929,7 +1979,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_SNATCH,
     .procs = &user_raise_atk_1,
-    },
+    .animation = (u8*)&MeditateAnimation,
+	},
 
     {
     /*Agility*/
@@ -1941,7 +1992,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_SNATCH,
     .procs = &user_raise_spd_2,
-    },
+    .animation = (u8*)&AgilityAnimation,
+	},
 
     {
     /*Quick Attack*/
@@ -1955,7 +2007,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&QuickAttackAnimation,
+	},
 
     {
     /*Rage*/
@@ -1969,7 +2022,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = rage_on_effect,
-    },
+    .animation = (u8*)&RageAnimation,
+	},
 
     {
     /*Teleport*/
@@ -1982,7 +2036,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = dragon_tail_on_effect,
-    },
+    .animation = (u8*)&TeleportAnimation,
+	},
 
     {
     /*Night Shade*/
@@ -1995,7 +2050,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_damage_move = seismic_toss_on_damage_move,
-    },
+    .animation = (u8*)&NightShadeAnimation,
+	},
 
     {
     /*Mimic*/
@@ -2008,7 +2064,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = mimic_on_effect,
-    },
+    .animation = (u8*)&MimicAnimation,
+	},
 
     {
     /*Screech*/
@@ -2020,7 +2077,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SOUND | FLAG_AUTHENTIC | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_def_2,
-    },
+    .animation = (u8*)&ScreechAnimation,
+	},
 
     {
     /*Double Team*/
@@ -2032,7 +2090,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &user_raise_evn_1,
-    },
+    .animation = (u8*)&DoubleTeamAnimation,
+	},
 
     {
     /*Recover*/
@@ -2045,7 +2104,8 @@ struct move_data gBattleMoves[] = {
 	.heal = 50,
     .m_flags = FLAG_SNATCH | FLAG_HEAL | FLAG_ONSELF,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&RecoverAnimation,
+	},
 
     {
     /*Harden*/
@@ -2057,7 +2117,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &user_raise_def_1,
-    },
+    .animation = (u8*)&HardenAnimation,
+	},
 
     {
     /*Minimize*/
@@ -2070,7 +2131,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &user_raise_evn_1,
     .on_effect_cb = minimize_on_effect_cb,
-    },
+    .animation = (u8*)&MinimizeAnimation,
+	},
 
     {
     /*Smokescreen*/
@@ -2082,7 +2144,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_acc_1,
-    },
+    .animation = (u8*)&SmokescreenAnimation,
+	},
 
     {
     /*Confuse Ray*/
@@ -2094,7 +2157,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GHOST,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &confuse_100_procs,
-    },
+    .animation = (u8*)&ConfuseRayAnimation,
+	},
 
     {
     /*Withdraw*/
@@ -2106,7 +2170,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &user_raise_def_1,
-    },
+    .animation = (u8*)&WithdrawAnimation,
+	},
 
     {
     /*Defense Curl*/
@@ -2118,7 +2183,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &user_raise_def_1,
-    },
+    .animation = (u8*)&DefenseCurlAnimation,
+	},
 
     {
     /*Barrier*/
@@ -2130,7 +2196,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &user_raise_def_2,
-    },
+    .animation = (u8*)&BarrierAnimation,
+	},
 
     {
     /*Light Screen*/
@@ -2143,7 +2210,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = light_screen_on_effect,
-    },
+    .animation = (u8*)&LightScreenAnimation,
+	},
 
     {
     /*Haze*/
@@ -2156,7 +2224,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = haze_effect,
-    },
+    .animation = (u8*)&HazeAnimation,
+	},
 
     {
     /*Reflect*/
@@ -2169,7 +2238,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = reflect_on_effect,
-    },
+    .animation = (u8*)&ReflectAnimation,
+	},
 
     {
     /*Focus Energy*/
@@ -2182,7 +2252,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &focus_energy_proc,
     .on_tryhit_move = focus_energy_on_tryhit,
-    },
+    .animation = (u8*)&FocusEnergyAnimation,
+	},
 
     {
     /*Bide*/
@@ -2196,7 +2267,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_PROTECT | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = bide_on_effect,
-    },
+    .animation = (u8*)&BideAnimation,
+	},
 
     {
     /*Metronome*/
@@ -2209,7 +2281,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_modify_move = metronome_on_modify_move,
-    },
+    .animation = (u8*)&MetronomeAnimation,
+	},
 
     {
     /*Mirror Move*/
@@ -2222,7 +2295,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_modify_move = mirror_move_on_modify_move,
-    },
+    .animation = (u8*)&MirrorMoveAnimation,
+	},
 
     /*Self-Destruct*/
     {
@@ -2236,7 +2310,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_HITS_ADJACENT,
     .procs = &basic_proc,
     .on_tryhit_move = self_destruct_on_tryhit,
-    },
+    .animation = (u8*)&SelfDestructAnimation,
+	},
 
     {
     /*Egg Bomb*/
@@ -2249,7 +2324,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&EggBombAnimation,
+	},
 
     {
     /*Lick*/
@@ -2262,7 +2338,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GHOST,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_30_procs,
-    },
+    .animation = (u8*)&LickAnimation,
+	},
 
     {
     /*Smog*/
@@ -2275,7 +2352,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &poison_40_procs,
-    },
+    .animation = (u8*)&SmogAnimation,
+	},
 
     {
     /*Sludge*/
@@ -2288,7 +2366,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &poison_30_procs,
-    },
+    .animation = (u8*)&SludgeAnimation,
+	},
 
     {
     /*Bone Club*/
@@ -2302,7 +2381,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 10,
-    },
+    .animation = (u8*)&BoneClubAnimation,
+	},
 
     {
     /*Fire Blast*/
@@ -2315,7 +2395,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &burn_10_procs,
-    },
+    .animation = (u8*)&FireBlastAnimation,
+	},
 
     {
     /*Waterfall*/
@@ -2329,7 +2410,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 20,
-    },
+    .animation = (u8*)&WaterfallAnimation,
+	},
 
     {
     /*Clamp*/
@@ -2343,7 +2425,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = partially_trapped_effect_cb,
-    },
+    .animation = (u8*)&ClampAnimation,
+	},
 
     {
     /*Swift*/
@@ -2356,7 +2439,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&SwiftAnimation,
+	},
 
     {
     /*Skull Bash*/
@@ -2370,7 +2454,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_CHARGE | FLAG_PROTECT | FLAG_TARGET | FLAG_MIRROR,
     .procs = &basic_proc,
     .before_move = skull_bash_before_move,
-    },
+    .animation = (u8*)&SkullBashAnimation,
+	},
 
     {
     /*Spike Cannon*/
@@ -2384,7 +2469,8 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 5},
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&SpikeCannonAnimation,
+	},
 
     {
     /*Constrict*/
@@ -2397,7 +2483,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spe_1_10,
-    },
+    .animation = (u8*)&ConstrictAnimation,
+	},
 
     {
     /*Amnesia*/
@@ -2409,7 +2496,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_SNATCH,
     .procs = &user_raise_spDef_2,
-    },
+    .animation = (u8*)&AmnesiaAnimation,
+	},
 
     {
     /*Kinesis*/
@@ -2421,7 +2509,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_acc_1,
-    },
+    .animation = (u8*)&KinesisAnimation,
+	},
 
     /*Soft-Boiled*/
     {
@@ -2434,7 +2523,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_HEAL,
 	.heal = 50,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&SoftBoiledAnimation,
+	},
 
     {
     /*High Jump Kick*/
@@ -2448,7 +2538,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_GRAVITY | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_move_fail = jump_kick_on_move_fail,
-    },
+    .animation = (u8*)&HighJumpKickAnimation,
+	},
 
     {
     /*Glare*/
@@ -2460,7 +2551,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_100_procs,
-    },
+    .animation = (u8*)&GlareAnimation,
+	},
 
     {
     /*Dream Eater*/
@@ -2475,7 +2567,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .drain = 50,
     .on_tryhit_move = dream_eater_on_tryhit,
-    },
+    .animation = (u8*)&DreamEaterAnimation,
+	},
 
     {
     /*Poison Gas*/
@@ -2487,7 +2580,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &poison_100_procs,
-    },
+    .animation = (u8*)&PoisonGasAnimation,
+	},
 
     {
     /*Barrage*/
@@ -2501,7 +2595,8 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 5},
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BarrageAnimation,
+	},
 
     {
     /*Leech Life*/
@@ -2515,7 +2610,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_HEAL | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .drain = 50,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&LeechLifeAnimation,
+	},
 
     {
     /*Lovely Kiss*/
@@ -2527,7 +2623,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &sing_procs,
-    },
+    .animation = (u8*)&LovelyKissAnimation,
+	},
 
     {
     /*Sky Attack*/
@@ -2543,7 +2640,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .before_move = sky_attack_before_move,
     .flinch_chance = 30,
-    },
+    .animation = (u8*)&SkyAttackAnimation,
+	},
 
     {
     /*Transform*/
@@ -2555,7 +2653,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&TransformAnimation,
+	},
 
     {
     /*Bubble*/
@@ -2568,7 +2667,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &bubble_beam_procs,
-    },
+    .animation = (u8*)&BubbleAnimation,
+	},
 
     {
     /*Dizzy Punch*/
@@ -2581,7 +2681,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_PUNCH | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &confuse_20_procs,
-    },
+    .animation = (u8*)&DizzyPunchAnimation,
+	},
 
     {
     /*Spore*/
@@ -2593,7 +2694,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_POWDER | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &sing_procs,
-    },
+    .animation = (u8*)&SporeAnimation,
+	},
 
     {
     /*Flash*/
@@ -2605,7 +2707,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_acc_1,
-    },
+    .animation = (u8*)&FlashAnimation,
+	},
 
     {
     /*Psywave*/
@@ -2618,7 +2721,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.on_damage_move = psywave_on_damage_move,
-    },
+    .animation = (u8*)&PsywaveAnimation,
+	},
 
     {
     /*Splash*/
@@ -2630,7 +2734,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&SplashAnimation,
+	},
 
     {
     /*Acid Armor*/
@@ -2642,7 +2747,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_SNATCH,
     .procs = &user_raise_def_2,
-    },
+    .animation = (u8*)&AcidArmorAnimation,
+	},
 
     {
     /*Crabhammer*/
@@ -2656,7 +2762,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&CrabhammerAnimation,
+	},
 
     {
     /*Explosion*/
@@ -2670,7 +2777,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_HITS_ADJACENT,
     .procs = &basic_proc,
     .on_tryhit_move = self_destruct_on_tryhit,
-    },
+    .animation = (u8*)&ExplosionAnimation,
+	},
 
     {
     /*Fury Swipes*/
@@ -2684,7 +2792,8 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 5},
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&FurySwipesAnimation,
+	},
 
     {
     /*Bonemerang*/
@@ -2698,7 +2807,8 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 2},
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BonemerangAnimation,
+	},
 
     {
     /*Rest*/
@@ -2711,7 +2821,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_HEAL | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_tryhit_move = rest_on_tryhit_move,
-    },
+    .animation = (u8*)&RestAnimation,
+	},
 
     {
     /*Rock Slide*/
@@ -2725,7 +2836,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 30,
-    },
+    .animation = (u8*)&RockSlideAnimation,
+	},
 
     {
     /*Hyper Fang*/
@@ -2739,7 +2851,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_BITE | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 10,
-    },
+    .animation = (u8*)&HyperFangAnimation,
+	},
 
     {
     /*Sharpen*/
@@ -2751,7 +2864,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SNATCH,
     .procs = &user_raise_atk_1,
-    },
+    .animation = (u8*)&SharpenAnimation,
+	},
 
     {
     /*Conversion*/
@@ -2764,7 +2878,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = conversion_on_effect,
-    },
+    .animation = (u8*)&ConversionAnimation,
+	},
 
     {
     /*Tri Attack*/
@@ -2778,7 +2893,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = tri_attack_on_effect,
-    },
+    .animation = (u8*)&TriAttackAnimation,
+	},
 
     {
     /*Super Fang*/
@@ -2791,7 +2907,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_modify_move = natures_madness_on_modify_move,
-    },
+    .animation = (u8*)&SuperFangAnimation,
+	},
 
     {
     /*Slash*/
@@ -2805,7 +2922,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&SlashAnimation,
+	},
 
     {
     /*Substitute*/
@@ -2817,7 +2935,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SNATCH,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&SubstituteAnimation,
+	},
 
     {
     /*Struggle*/
@@ -2832,7 +2951,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .recoil = 25,
     .recoil_struggle = true,
-    },
+    .animation = (u8*)&StruggleAnimation,
+	},
 
     {
     /*Sketch*/
@@ -2845,7 +2965,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = mimic_on_effect,
-    },
+    .animation = (u8*)&SketchAnimation,
+	},
 
     {
     /*Triple Kick*/
@@ -2860,7 +2981,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = triple_kick_on_base_power,
-    },
+    .animation = (u8*)&TripleKickAnimation,
+	},
 
     {
     /*Thief*/
@@ -2873,7 +2995,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&ThiefAnimation,
+	},
 
     {
     /*Spider Web*/
@@ -2885,7 +3008,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&SpiderWebAnimation,
+	},
 
     {
     /*Mind Reader*/
@@ -2898,7 +3022,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = mind_reader_on_effect,
-    },
+    .animation = (u8*)&MindReaderAnimation,
+	},
 
     {
     /*Nightmare*/
@@ -2911,7 +3036,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = nightmare_on_tryhit,
-    },
+    .animation = (u8*)&NightmareAnimation,
+	},
 
     {
     /*Flame Wheel*/
@@ -2924,7 +3050,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_DEFROST | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &burn_10_procs,
-    },
+    .animation = (u8*)&FlameWheelAnimation,
+	},
 
     {
     /*Snore*/
@@ -2939,7 +3066,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .flinch_chance = 30,
     .on_tryhit_move = snore_on_tryhit,
-    },
+    .animation = (u8*)&SnoreAnimation,
+	},
 
     {
     /*Curse*/
@@ -2952,7 +3080,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = curse_on_tryhit,
-    },
+    .animation = (u8*)&CurseAnimation,
+	},
 
     {
     /*Flail*/
@@ -2965,9 +3094,11 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = flail_on_base_power,
-    },
+    .animation = (u8*)&FlailAnimation,
+	},
 
     {
+    /* Conversion 2 */
     .name = _("Conversion 2"),
     .accuracy = 101,
     .description = (pchar*)Conversion_2_desc,
@@ -2977,7 +3108,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = conversion_two_on_effect,
-    },
+    .animation = (u8*)&Conversion2Animation,
+	},
 
     {
     /*Aeroblast*/
@@ -2991,7 +3123,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FLYING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&AeroblastAnimation,
+	},
 
     {
     /*Cotton Spore*/
@@ -3004,7 +3137,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_POWDER | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spd_2,
     .on_effect_cb = cotton_spore_on_tryhit_move,
-    },
+    .animation = (u8*)&CottonSporeAnimation,
+	},
 
     {
     /*Reversal*/
@@ -3016,7 +3150,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&ReversalAnimation,
+	},
 
     {
     /*Spite*/
@@ -3029,7 +3164,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = spite_on_effect,
-    },
+    .animation = (u8*)&SpiteAnimation,
+	},
 
     {
     /*Powder Snow*/
@@ -3042,7 +3178,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ICE,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &freeze_10_procs,
-    },
+    .animation = (u8*)&PowderSnowAnimation,
+	},
 
     {
     /*Protect*/
@@ -3057,7 +3194,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_tryhit_move = protection_on_tryhit,
     .on_effect_cb = protect_on_effect,
-    },
+    .animation = (u8*)&ProtectAnimation,
+	},
 
     {
     /*Mach Punch*/
@@ -3071,7 +3209,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_PUNCH | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&MachPunchAnimation,
+	},
 
     {
     /*Scary Face*/
@@ -3083,7 +3222,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spd_2,
-    },
+    .animation = (u8*)&ScaryFaceAnimation,
+	},
 
     {
     /*Feint Attack*/
@@ -3096,7 +3236,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&FeintAttackAnimation,
+	},
 
     {
     /*Sweet Kiss*/
@@ -3108,7 +3249,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FAIRY,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &confuse_100_procs,
-    },
+    .animation = (u8*)&SweetKissAnimation,
+	},
 
     {
     /*Belly Drum*/
@@ -3121,7 +3263,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = belly_drum_effect,
-    },
+    .animation = (u8*)&BellyDrumAnimation,
+	},
 
     {
     /*Sludge Bomb*/
@@ -3134,9 +3277,11 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &poison_30_procs,
-    },
+    .animation = (u8*)&SludgeBombAnimation,
+	},
 
     {
+    /* Mud-Slap*/
     .name = _("Mud-Slap"),
     .accuracy = 100,
     .base_power = 20,
@@ -3146,7 +3291,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GROUND,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_acc_1,
-    },
+    .animation = (u8*)&MudSlapAnimation,
+	},
 
     {
     /*Octazooka*/
@@ -3159,7 +3305,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_acc_1_chance_50,
-    },
+    .animation = (u8*)&OctazookaAnimation,
+	},
 
     {
     /*Spikes*/
@@ -3171,7 +3318,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GROUND,
     .m_flags = FLAG_REFLECTABLE,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&SpikesAnimation,
+	},
 
     {
     /*Zap Cannon*/
@@ -3184,7 +3332,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ELECTRIC,
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_100_procs,
-    },
+    .animation = (u8*)&ZapCannonAnimation,
+	},
 
     {
     /*Foresight*/
@@ -3197,7 +3346,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = foresight_effect,
-    },
+    .animation = (u8*)&ForesightAnimation,
+	},
 
     {
     /*Destiny Bond*/
@@ -3210,7 +3360,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = destiny_bond_on_effect,
-    },
+    .animation = (u8*)&DestinyBondAnimation,
+	},
 
     {
     /*Perish Song*/
@@ -3225,7 +3376,8 @@ struct move_data gBattleMoves[] = {
     .before_move = perish_song_before_move,
     .on_effect_cb = perish_song_on_effect,
     .on_after_move = perish_song_on_after_move,
-    },
+    .animation = (u8*)&PerishSongAnimation,
+	},
 
     {
     /*Icy Wind*/
@@ -3238,7 +3390,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ICE,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spd_1,
-    },
+    .animation = (u8*)&IcyWindAnimation,
+	},
 
     {
     /*Detect*/
@@ -3253,7 +3406,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_tryhit_move = protection_on_tryhit,
     .on_effect_cb = protect_on_effect,
-    },
+    .animation = (u8*)&DetectAnimation,
+	},
 
     {
     /*Bone Rush*/
@@ -3267,7 +3421,8 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 5},
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BoneRushAnimation,
+	},
 
     {
     /* Lock-on */
@@ -3280,7 +3435,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = mind_reader_on_effect,
-    },
+    .animation = (u8*)&LockOnAnimation,
+	},
 
     {
     /*Outrage*/
@@ -3296,7 +3452,8 @@ struct move_data gBattleMoves[] = {
     .on_tryhit_move = thrash_on_tryhit_move,
     .on_move_fail = thrash_on_move_fail,
     .on_after_move = thrash_on_after_move,
-    },
+    .animation = (u8*)&OutrageAnimation,
+	},
 
     {
     /*Sandstorm*/
@@ -3309,7 +3466,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = sandstorm_on_effect,
-    },
+    .animation = (u8*)&SandstormAnimation,
+	},
 
     {
     /*Giga drain*/
@@ -3323,7 +3481,8 @@ struct move_data gBattleMoves[] = {
 	.drain = 50,
     .m_flags = FLAG_HEAL | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&GigaDrainAnimation,
+	},
 
     {
     /*Endure*/
@@ -3338,7 +3497,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_tryhit_move = protection_on_tryhit,
     .on_effect_cb = endure_on_effect,
-    },
+    .animation = (u8*)&EndureAnimation,
+	},
 
     {
     /*Charm*/
@@ -3350,7 +3510,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FAIRY,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_atk_2,
-    },
+    .animation = (u8*)&CharmAnimation,
+	},
 
     {
     /*Rollout*/
@@ -3366,7 +3527,8 @@ struct move_data gBattleMoves[] = {
     .before_move = rollout_on_before_move,
     .on_move_fail = rollout_on_move_fail,
     .on_base_power_move = rollout_on_base_power_move,
-    },
+    .animation = (u8*)&RolloutAnimation,
+	},
 
     {
     /*False Swipe*/
@@ -3380,7 +3542,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_damage_move = false_swipe_on_damage,
-    },
+    .animation = (u8*)&FalseSwipeAnimation,
+	},
 
     {
     /*Swagger*/
@@ -3392,7 +3555,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_raise_atk_2_confuse,
-    },
+    .animation = (u8*)&SwaggerAnimation,
+	},
 
     {
     /*Milk Drink*/
@@ -3405,7 +3569,8 @@ struct move_data gBattleMoves[] = {
 	.heal = 50,
     .m_flags = FLAG_SNATCH | FLAG_HEAL,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&MilkDrinkAnimation,
+	},
 
     {
     /*Spark*/
@@ -3418,7 +3583,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ELECTRIC,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_30_procs,
-    },
+    .animation = (u8*)&SparkAnimation,
+	},
 
     {
     /*Fury Cutter*/
@@ -3432,7 +3598,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = fury_cutter_on_base_power_move,
-    },
+    .animation = (u8*)&FuryCutterAnimation,
+	},
 
     {
     /*Steel Wing*/
@@ -3445,7 +3612,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_STEEL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &user_raise_def_1_10,
-    },
+    .animation = (u8*)&SteelWingAnimation,
+	},
 
     {
     /*Mean Look*/
@@ -3458,7 +3626,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = mean_look_on_effect,
-    },
+    .animation = (u8*)&MeanLookAnimation,
+	},
 
     {
     /*Attract*/
@@ -3471,7 +3640,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = attract_on_effect,
-    },
+    .animation = (u8*)&AttractAnimation,
+	},
 
     {
     /*Sleep Talk*/
@@ -3485,7 +3655,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .before_move = sleep_talk_before_move,
     .on_modify_move = sleep_talk_on_modify_move,
-    },
+    .animation = (u8*)&SleepTalkAnimation,
+	},
 
     {
     /*Heal Bell*/
@@ -3498,7 +3669,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_AUTHENTIC | FLAG_SOUND | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = heal_bell_on_effect,
-    },
+    .animation = (u8*)&HealBellAnimation,
+	},
 
     {
     /*Return*/
@@ -3511,7 +3683,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_damage_move = frustration_on_damage,
-    },
+    .animation = (u8*)&ReturnAnimation,
+	},
 
     {
     /*Present*/
@@ -3524,7 +3697,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.on_modify_move = present_on_modify_move,
-    },
+    .animation = (u8*)&PresentAnimation,
+	},
 
     {
     /*Frustration*/
@@ -3537,7 +3711,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_damage_move = return_on_damage,
-    },
+    .animation = (u8*)&FrustrationAnimation,
+	},
 
     {
     /*Safeguard*/
@@ -3550,7 +3725,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = safe_guard_on_effect,
-    },
+    .animation = (u8*)&SafeguardAnimation,
+	},
 
     {
     /*Pain Split*/
@@ -3563,7 +3739,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = pain_split_on_effect,
-    },
+    .animation = (u8*)&PainSplitAnimation,
+	},
 
     {
     /*Sacred Fire*/
@@ -3576,7 +3753,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_DEFROST | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_burn_50,
-    },
+    .animation = (u8*)&SacredFireAnimation,
+	},
 
     {
     /*Magnitude*/
@@ -3589,7 +3767,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_HITS_ADJACENT,
     .procs = &basic_proc,
     .on_base_power_move = magnitude_on_base_power,
-    },
+    .animation = (u8*)&MagnitudeAnimation,
+	},
 
     {
     /*Dynamic Punch*/
@@ -3602,7 +3781,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_PUNCH | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &confuse_100_procs,
-    },
+    .animation = (u8*)&DynamicPunchAnimation,
+	},
 
     {
     /*Megahorn*/
@@ -3615,7 +3795,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&MegahornAnimation,
+	},
 
     {
     /*Dragon Breath*/
@@ -3628,7 +3809,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DRAGON,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_30_procs,
-    },
+    .animation = (u8*)&DragonBreathAnimation,
+	},
 
     {
     /*Baton Pass*/
@@ -3640,7 +3822,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BatonPassAnimation,
+	},
 
     {
     /*Encore*/
@@ -3654,7 +3837,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_tryhit_move = encore_on_tryhit,
     .on_effect_cb = encore_on_effect,
-    },
+    .animation = (u8*)&EncoreAnimation,
+	},
 
     {
     /*Pursuit*/
@@ -3669,7 +3853,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .before_turn = pursuit_on_before_turn,
     .on_base_power_move = pursuit_on_basepower,
-    },
+    .animation = (u8*)&PursuitAnimation,
+	},
 
     {
     /*Rapid Spin*/
@@ -3682,7 +3867,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&RapidSpinAnimation,
+	},
 
     {
     /*Sweet Scent*/
@@ -3694,7 +3880,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_evn_2,
-    },
+    .animation = (u8*)&SweetScentAnimation,
+	},
 
     {
     /*Iron Tail*/
@@ -3707,7 +3894,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_STEEL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_def_1_30,
-    },
+    .animation = (u8*)&IronTailAnimation,
+	},
 
     {
     /*Metal Claw*/
@@ -3720,7 +3908,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_STEEL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &user_raise_atk_1_10,
-    },
+    .animation = (u8*)&MetalClawAnimation,
+	},
 
     {
     /*Vital Throw*/
@@ -3734,7 +3923,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&VitalThrowAnimation,
+	},
 
     {
     /*Morning Sun*/
@@ -3748,7 +3938,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .heal = 50,
     .before_move = synthesis_before_move,
-    },
+    .animation = (u8*)&MorningSunAnimation,
+	},
 
     {
     /*Synthesis*/
@@ -3762,7 +3953,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .heal = 50,
     .before_move = synthesis_before_move,
-    },
+    .animation = (u8*)&SynthesisAnimation,
+	},
 
     {
     /*Moonlight*/
@@ -3775,7 +3967,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_HEAL | FLAG_ONSELF,
     .procs = &basic_proc,
     .before_move = synthesis_before_move,
-    },
+    .animation = (u8*)&MoonlightAnimation,
+	},
 
     {
     /*Hidden Power*/
@@ -3789,7 +3982,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_modify_move = hidden_power_on_modify_move,
-    },
+    .animation = (u8*)&HiddenPowerAnimation,
+	},
 
     {
     /*Cross Chop*/
@@ -3803,7 +3997,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_TARGET | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&CrossChopAnimation,
+	},
 
     {
     /*Twister*/
@@ -3818,7 +4013,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_damage_move = twister_on_damage,
     .on_inv_tryhit_move = sky_uppercut_on_invulnerable_move,
-    },
+    .animation = (u8*)&TwisterAnimation,
+	},
 
     {
     /*Rain Dance*/
@@ -3831,7 +4027,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = rain_dance_on_effect,
-    },
+    .animation = (u8*)&RainDanceAnimation,
+	},
 
     {
     /*Sunny Day*/
@@ -3844,7 +4041,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = sunny_day_on_effect,
-    },
+    .animation = (u8*)&SunnyDayAnimation,
+	},
 
     {
     /*Crunch*/
@@ -3857,7 +4055,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_BITE | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_def_20_procs,
-    },
+    .animation = (u8*)&CrunchAnimation,
+	},
 
     {
     /*Mirror Coat*/
@@ -3873,7 +4072,8 @@ struct move_data gBattleMoves[] = {
     .before_turn = mirror_coat_before_turn,
     .on_tryhit_move = mirror_coat_on_tryhit,
 
-    },
+    .animation = (u8*)&MirrorCoatAnimation,
+	},
 
     {
     /*Psych Up*/
@@ -3886,7 +4086,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = psych_up_on_effect,
-    },
+    .animation = (u8*)&PsychUpAnimation,
+	},
 
     {
     /*Extreme Speed*/
@@ -3901,7 +4102,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.priority = 1,
-    },
+    .animation = (u8*)&ExtremeSpeedAnimation,
+	},
 
     {
     /*Ancient Power*/
@@ -3915,7 +4117,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_modify_move = ancient_power_on_modify_move,
-    },
+    .animation = (u8*)&AncientPowerAnimation,
+	},
 
     {
     /*Shadow Ball*/
@@ -3928,7 +4131,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GHOST,
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &shadow_ball_procs,
-    },
+    .animation = (u8*)&ShadowBallAnimation,
+	},
 
     {
     /*Future Sight*/
@@ -3942,7 +4146,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = future_sight_on_tryhit,
-    },
+    .animation = (u8*)&FutureSightAnimation,
+	},
 
     {
     /*Rock Smash*/
@@ -3955,7 +4160,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_def_50_procs,
-    },
+    .animation = (u8*)&RockSmashAnimation,
+	},
 
     {
     /*Whirlpool*/
@@ -3971,7 +4177,8 @@ struct move_data gBattleMoves[] = {
     .on_effect_cb = partially_trapped_effect_cb,
     .on_base_power_move = whirlpool_on_base_power,
     .on_inv_tryhit_move = whirlpool_on_tryhit_invul,
-    },
+    .animation = (u8*)&WhirlpoolAnimation,
+	},
 
     {
     /*Beat Up*/
@@ -3984,7 +4191,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .before_turn = beatup_before_turn,
-    },
+    .animation = (u8*)&BeatUpAnimation,
+	},
 
     {
     /*Fake Out*/
@@ -4000,7 +4208,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_tryhit_move = fakeout_on_tryhit,
     .flinch_chance = 100,
-    },
+    .animation = (u8*)&FakeOutAnimation,
+	},
 
     {
     /*Uproar*/
@@ -4013,7 +4222,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SOUND | FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&UpRoarAnimation,
+	},
 
     {
     /*Stockpile*/
@@ -4028,7 +4238,8 @@ struct move_data gBattleMoves[] = {
     .on_tryhit_move = stockpile_on_tryhit_move,
     .before_move = stockpile_before_move,
     .on_after_move = stockpile_on_after_move,
-    },
+    .animation = (u8*)&StockpileAnimation,
+	},
 
     {
     /*Spit Up*/
@@ -4042,7 +4253,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_tryhit_move = spit_up_on_tryhit_move,
     .on_base_power_move = spit_up_on_base_power_move,
-    },
+    .animation = (u8*)&SpitUpAnimation,
+	},
 
     {
     /*Swallow*/
@@ -4055,7 +4267,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_HEAL | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_tryhit_move = swallow_on_tryhit_move,
-    },
+    .animation = (u8*)&SwallowAnimation,
+	},
 
     {
     /*Heat Wave*/
@@ -4068,7 +4281,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &burn_10_procs,
-    },
+    .animation = (u8*)&HeatWaveAnimation,
+	},
 
     {
     /*Hail*/
@@ -4081,7 +4295,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = hail_on_effect,
-    },
+    .animation = (u8*)&HailAnimation,
+	},
 
     {
     /*Torment*/
@@ -4094,7 +4309,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = torment_on_effect,
-    },
+    .animation = (u8*)&TormentAnimation,
+	},
 
     {
     /*Flatter*/
@@ -4106,9 +4322,11 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &flatter_procs,
-    },
+    .animation = (u8*)&FlatterAnimation,
+	},
 
     {
+    /* Will-O-Wisp */
     .name = _("Will-O-Wisp"),
     .accuracy = 85,
     .description = (pchar*)Will_O_Wisp_desc,
@@ -4117,7 +4335,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &burn_100_procs,
-    },
+    .animation = (u8*)&WillOWispAnimation,
+	},
 
     {
     /*Memento*/
@@ -4130,7 +4349,8 @@ struct move_data gBattleMoves[] = {
     .m_flags =  FLAG_MIRROR | FLAG_PROTECT | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = memento_on_effect,
-    },
+    .animation = (u8*)&MementoAnimation,
+	},
 
     {
     /*Facade*/
@@ -4144,7 +4364,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = facade_on_base_power_move,
-    },
+    .animation = (u8*)&FacadeAnimation,
+	},
 
     {
     /*Focus Punch*/
@@ -4159,7 +4380,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_PUNCH | FLAG_CONTACT | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .before_turn = focus_punch_before_turn,
-    },
+    .animation = (u8*)&FocusPunchAnimation,
+	},
 
     {
     /*Smelling Salts*/
@@ -4174,7 +4396,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_effect_cb = smelling_salts_on_effect,
     .on_base_power_move = smelling_salts_on_base_power,
-    },
+    .animation = (u8*)&SmellingSaltsAnimation,
+	},
 
     {
     /*Follow Me*/
@@ -4188,7 +4411,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = rage_powder_on_effect,
-    },
+    .animation = (u8*)&FollowMeAnimation,
+	},
 
     {
     /*Nature Power*/
@@ -4201,7 +4425,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = nature_power_on_tryhit,
-    },
+    .animation = (u8*)&NaturePowerAnimation,
+	},
 
     {
     /*Charge*/
@@ -4214,7 +4439,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &user_raise_spDef_1,
     .on_effect_cb = charge_on_effect,
-    },
+    .animation = (u8*)&ChargeAnimation,
+	},
 
     {
     /*Taunt*/
@@ -4228,7 +4454,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_effect_cb = taunt_on_effect,
     .before_move = taunt_on_before_move,
-    },
+    .animation = (u8*)&TauntAnimation,
+	},
 
     {
     /*Helping Hand*/
@@ -4241,7 +4468,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_AUTHENTIC | FLAG_HITS_ALLY,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&HelpingHandAnimation,
+	},
 
     {
     /*Trick*/
@@ -4253,7 +4481,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&TrickAnimation,
+	},
 
     {
     /*Role Play*/
@@ -4266,7 +4495,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = role_play_on_effect,
-    },
+    .animation = (u8*)&RolePlayAnimation,
+	},
 
     {
     /*Wish*/
@@ -4279,7 +4509,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH,
     .procs = &basic_proc,
     .on_effect_cb = wish_on_effect,
-    },
+    .animation = (u8*)&WishAnimation,
+	},
 
     {
     /*Assist*/
@@ -4292,7 +4523,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_modify_move = assist_on_modify_move,
-    },
+    .animation = (u8*)&AssistAnimation,
+	},
 
     {
     /*Ingrain*/
@@ -4305,7 +4537,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = ingrain_on_effect,
-    },
+    .animation = (u8*)&IngrainAnimation,
+	},
 
     {
     /*Superpower*/
@@ -4318,7 +4551,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &dec_user_atk_def_procs,
-    },
+    .animation = (u8*)&SuperpowerAnimation,
+	},
 
     {
     /*Magic Coat*/
@@ -4332,7 +4566,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = magic_coat_on_tryhit,
-    },
+    .animation = (u8*)&MagicCoatAnimation,
+	},
 
     {
     /*Recycle*/
@@ -4344,7 +4579,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SNATCH,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&RecycleAnimation,
+	},
 
     {
     /*Revenge*/
@@ -4359,7 +4595,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = avalanche_on_base_power,
-    },
+    .animation = (u8*)&RevengeAnimation,
+	},
 
     {
     /*Brick Break*/
@@ -4373,7 +4610,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = brickbreak_on_tryhit,
-    },
+    .animation = (u8*)&BrickBreakAnimation,
+	},
 
     {
     /*Yawn*/
@@ -4387,7 +4625,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_tryhit_move = yawn_on_tryhit,
     .on_effect_cb = yawn_on_effect,
-    },
+    .animation = (u8*)&YawnAnimation,
+	},
 
     {
     /*Knock Off*/
@@ -4400,7 +4639,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&KnockOffAnimation,
+	},
 
     {
     /*Endeavor*/
@@ -4414,7 +4654,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_tryhit_move = endeavor_on_tryhit,
     .on_damage_move = endeavor_on_dmg,
-    },
+    .animation = (u8*)&EndeavorAnimation,
+	},
 
     {
     /*Eruption*/
@@ -4428,7 +4669,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_HITS_ADJACENT,
     .procs = &basic_proc,
     .on_base_power_move = water_spout_on_base_power_move,
-    },
+    .animation = (u8*)&EruptionAnimation,
+	},
 
     {
     /*Skill Swap*/
@@ -4441,7 +4683,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = skill_swap_on_effect,
-    },
+    .animation = (u8*)&SkillSwapAnimation,
+	},
 
     {
     /*Imprison*/
@@ -4454,7 +4697,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH |  FLAG_AUTHENTIC | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = imprison_on_effect,
-    },
+    .animation = (u8*)&ImprisonAnimation,
+	},
 
     {
     /*Refresh*/
@@ -4467,7 +4711,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = refresh_on_effect,
-    },
+    .animation = (u8*)&RefreshAnimation,
+	},
 
     {
     /*Grudge*/
@@ -4480,7 +4725,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = grudge_on_effect,
-    },
+    .animation = (u8*)&GrudgeAnimation,
+	},
 
     {
     /*Snatch*/
@@ -4494,7 +4740,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = snatch_on_effect,
-    },
+    .animation = (u8*)&SnatchAnimation,
+	},
 
     {
     /*Secret Power*/
@@ -4508,7 +4755,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_modify_move = secret_power_on_modify,
-    },
+    .animation = (u8*)&SecretPowerAnimation,
+	},
 
     {
     /*Dive*/
@@ -4522,7 +4770,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CHARGE | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .before_move = dive_before_move,
-    },
+    .animation = (u8*)&DiveAnimation,
+	},
 
     {
     /*Arm Thrust*/
@@ -4536,7 +4785,8 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 5},
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&ArmThrustAnimation,
+	},
 
     {
     /*Camouflage*/
@@ -4549,7 +4799,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH |  FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = camouflage_on_effect,
-    },
+    .animation = (u8*)&CamouflageAnimation,
+	},
 
     {
     /*Tail Glow*/
@@ -4561,7 +4812,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &inc_user_spa_3_procs,
-    },
+    .animation = (u8*)&TailGlowAnimation,
+	},
 
     {
     /*Luster Purge*/
@@ -4574,7 +4826,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &dec_SpD_50_procs,
-    },
+    .animation = (u8*)&LusterPurgeAnimation,
+	},
 
     {
     /*Mist Ball*/
@@ -4587,7 +4840,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &dec_SpA_50_procs,
-    },
+    .animation = (u8*)&MistBallAnimation,
+	},
 
     {
     /*Feather Dance*/
@@ -4599,7 +4853,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FLYING,
     .m_flags = FLAG_DANCE | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_atk_2,
-    },
+    .animation = (u8*)&FeatherDanceAnimation,
+	},
 
     {
     /*Teeter Dance*/
@@ -4611,7 +4866,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_DANCE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &confuse_100_procs,
-    },
+    .animation = (u8*)&TeeterDanceAnimation,
+	},
 
     {
     /*Blaze Kick*/
@@ -4625,7 +4881,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &burn_10_procs,
-    },
+    .animation = (u8*)&BlazeKickAnimation,
+	},
 
     {
     /*Mud Sport*/
@@ -4638,7 +4895,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = mud_sport_on_effect,
-    },
+    .animation = (u8*)&MudSportAnimation,
+	},
 
     {
     /*Ice Ball*/
@@ -4654,7 +4912,8 @@ struct move_data gBattleMoves[] = {
     .before_move = rollout_on_before_move,
     .on_move_fail = rollout_on_move_fail,
     .on_base_power_move = rollout_on_base_power_move,
-    },
+    .animation = (u8*)&IceBallAnimation,
+	},
 
     {
     /*Needle Arm*/
@@ -4668,7 +4927,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 30,
-    },
+    .animation = (u8*)&NeedleArmAnimation,
+	},
 
     {
     /*Slack Off*/
@@ -4682,7 +4942,8 @@ struct move_data gBattleMoves[] = {
 	.heal = 50,
     .procs = &basic_proc,
 
-    },
+    .animation = (u8*)&SlackOffAnimation,
+	},
 
     {
     /*Hyper Voice*/
@@ -4695,7 +4956,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SOUND | FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&HyperVoiceAnimation,
+	},
 
     {
     /*Poison Fang*/
@@ -4708,7 +4970,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_BITE | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &bad_poison_50_procs,
-    },
+    .animation = (u8*)&PoisonFangAnimation,
+	},
 
     {
     /*Crush Claw*/
@@ -4721,7 +4984,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_def_50_procs,
-    },
+    .animation = (u8*)&CrushClawAnimation,
+	},
 
     {
     /*Blast Burn*/
@@ -4734,7 +4998,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_RECHARGE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BlastBurnAnimation,
+	},
 
     {
     /*Hydro Cannon*/
@@ -4748,7 +5013,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_RECHARGE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&HydroCannonAnimation,
+	},
 
     {
     /*Meteor Mash*/
@@ -4761,7 +5027,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_STEEL,
     .m_flags = FLAG_PUNCH | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &raise_user_atk_20,
-    },
+    .animation = (u8*)&MeteorMashAnimation,
+	},
 
     {
     /*Astonish*/
@@ -4775,7 +5042,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 30,
-    },
+    .animation = (u8*)&AstonishAnimation,
+	},
 
     {
     /*Weather Ball*/
@@ -4789,7 +5057,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_modify_move = weather_ball_on_modify_move,
-    },
+    .animation = (u8*)&WeatherBallAnimation,
+	},
 
     {
     /*Aromatherapy*/
@@ -4801,8 +5070,9 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
-    .on_effect_cb = aromatherapy_on_effect
-    },
+    .on_effect_cb = aromatherapy_on_effect,
+    .animation = (u8*)&AromatherapyAnimation,
+	},
 
     {
     /*Fake Tears*/
@@ -4814,7 +5084,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spDef_2,
-    },
+    .animation = (u8*)&FakeTearsAnimation,
+	},
 
     {
     /*Air Cutter*/
@@ -4828,7 +5099,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FLYING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&AirCutterAnimation,
+	},
 
     {
     /*Overheat*/
@@ -4841,7 +5113,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &user_lower_spAtk_2,
-    },
+    .animation = (u8*)&OverheatAnimation,
+	},
 
     {
     /*Odor Sleuth*/
@@ -4854,7 +5127,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = odor_sleuth_effect,
-    },
+    .animation = (u8*)&OdorSleuthAnimation,
+	},
 
     {
     /*Rock Tomb*/
@@ -4867,7 +5141,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ROCK,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = & target_lower_spd_1,
-    },
+    .animation = (u8*)&RockTombAnimation,
+	},
 
     {
     /*Silver Wind*/
@@ -4880,7 +5155,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &ancient_power_procs,
-    },
+    .animation = (u8*)&SilverWindAnimation,
+	},
 
     {
     /*Metal Sound*/
@@ -4892,7 +5168,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_STEEL,
     .m_flags = FLAG_SOUND | FLAG_AUTHENTIC | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spDef_2,
-    },
+    .animation = (u8*)&MetalSoundAnimation,
+	},
 
     {
     /*Grass Whistle*/
@@ -4904,7 +5181,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_SOUND | FLAG_AUTHENTIC | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &sing_procs,
-    },
+    .animation = (u8*)&GrassWhistleAnimation,
+	},
 
     {
     /*Tickle*/
@@ -4916,7 +5194,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &low_targ_atk_def,
-    },
+    .animation = (u8*)&TickleAnimation,
+	},
 
     {
     /*Cosmic Power*/
@@ -4928,7 +5207,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &raise_user_Def_SpD,
-    },
+    .animation = (u8*)&CosmicPowerAnimation,
+	},
 
     {
     /*Water Spout*/
@@ -4942,7 +5222,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_HITS_ADJACENT,
     .procs = &basic_proc,
     .on_base_power_move = water_spout_on_base_power_move,
-    },
+    .animation = (u8*)&WaterSpoutAnimation,
+	},
 
     {
     /*Signal Beam*/
@@ -4955,7 +5236,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &confuse_10_procs,
-    },
+    .animation = (u8*)&SignalBeamAnimation,
+	},
 
     {
     /*Shadow Punch*/
@@ -4969,7 +5251,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_PUNCH | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .animation = (u8*)&ShadowpunchAnimation,
-    },
+	},
 
     {
     /*Extrasensory*/
@@ -4983,7 +5265,8 @@ struct move_data gBattleMoves[] = {
     .m_flags =  FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 10,
-    },
+    .animation = (u8*)&ExtrasensoryAnimation,
+	},
 
     {
     /*Sky Uppercut*/
@@ -4997,7 +5280,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_PUNCH | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_inv_tryhit_move = sky_uppercut_on_invulnerable_move,
-    },
+    .animation = (u8*)&SkyUppercutAnimation,
+	},
 
     {
     /*Sand Tomb*/
@@ -5011,7 +5295,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = partially_trapped_effect_cb,
-    },
+    .animation = (u8*)&SandTombAnimation,
+	},
 
     {
     /*Sheer Cold*/
@@ -5024,7 +5309,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET | FLAG_OHKO,
     .procs = &basic_proc,
     .on_tryhit_move = ohko_tryhit_move,
-    },
+    .animation = (u8*)&SheerColdAnimation,
+	},
 
     {
     /*Muddy Water*/
@@ -5037,7 +5323,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &low_tar_Acc,
-    },
+    .animation = (u8*)&MuddyWaterAnimation,
+	},
 
     {
     /*Bullet Seed*/
@@ -5051,7 +5338,8 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 5},
     .m_flags = FLAG_BULLET | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BulletSeedAnimation,
+	},
 
     {
     /*Aerial Ace*/
@@ -5064,7 +5352,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FLYING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&AerialAceAnimation,
+	},
 
     {
     /*Icicle Spear*/
@@ -5078,7 +5367,8 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 5},
     .m_flags = FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&IcicleSpearAnimation,
+	},
 
    {
     /*Iron Defense*/
@@ -5090,7 +5380,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_STEEL,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &user_raise_def_2,
-    },
+    .animation = (u8*)&IronDefenseAnimation,
+	},
 
     {
     /*Block*/
@@ -5103,7 +5394,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = block_on_effect,
-    },
+    .animation = (u8*)&BlockAnimation,
+	},
 
     {
     /*Howl*/
@@ -5115,7 +5407,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &user_raise_atk_1,
-    },
+    .animation = (u8*)&HowlAnimation,
+	},
 
     {
     /*Dragon Claw*/
@@ -5128,7 +5421,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DRAGON,
     .m_flags = FLAG_CONTACT | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&DragonClawAnimation,
+	},
 
     {
     /*Frenzy Plant*/
@@ -5141,7 +5435,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_RECHARGE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&FrenzyPlantAnimation,
+	},
 
     {
     /*Bulk Up*/
@@ -5153,7 +5448,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_SNATCH,
     .procs = &bulk_up_procs,
-    },
+    .animation = (u8*)&BulkUpAnimation,
+	},
 
     {
     /*Bounce*/
@@ -5167,7 +5463,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CHARGE | FLAG_GRAVITY | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .before_move = bounce_before_move,
-    },
+    .animation = (u8*)&BounceAnimation,
+	},
 
     {
     /*Mud Shot*/
@@ -5180,7 +5477,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GROUND,
     .m_flags = FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spd_1,
-    },
+    .animation = (u8*)&MudShotAnimation,
+	},
 
     {
     /*Poison Tail*/
@@ -5194,7 +5492,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &poison_10_procs,
-    },
+    .animation = (u8*)&PoisonTailAnimation,
+	},
 
     {
     /*Covet*/
@@ -5207,7 +5506,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&CovetAnimation,
+	},
 
     {
     /*Volt Tackle*/
@@ -5221,7 +5521,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_10_procs,
 	.recoil = 33,
-    },
+    .animation = (u8*)&VoltTackleAnimation,
+	},
 
     {
     /*Magical Leaf*/
@@ -5234,7 +5535,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&MagicalLeafAnimation,
+	},
 
     {
     /*Water Sport*/
@@ -5247,7 +5549,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = water_sport_on_effect,
-    },
+    .animation = (u8*)&WaterSportAnimation,
+	},
 
     {
     /*Calm Mind*/
@@ -5259,7 +5562,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_SNATCH,
     .procs = &user_raise_spAtk_spDef_1,
-    },
+    .animation = (u8*)&CalmMindAnimation,
+	},
 
     {
     /*Leaf Blade*/
@@ -5273,7 +5577,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_CONTACT | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&LeafBladeAnimation,
+	},
 
     {
     /*Dragon Dance*/
@@ -5285,6 +5590,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DRAGON,
     .m_flags = FLAG_ONSELF | FLAG_SNATCH,
 	.procs = &dragon_dance_procs,
+	.animation = (u8*)&DragonDanceAnimation,
 	},
 
     {
@@ -5299,7 +5605,8 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 5},
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&RockBlastAnimation,
+	},
 
     {
     /*Shock Wave*/
@@ -5312,7 +5619,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ELECTRIC,
     .m_flags = FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&ShockWaveAnimation,
+	},
 
     {
     /*Water Pulse*/
@@ -5325,7 +5633,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_PULSE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &confuse_20_procs,
-    },
+    .animation = (u8*)&WaterPulseAnimation,
+	},
 
     {
     /*Doom Desire*/
@@ -5339,7 +5648,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = doom_desire_on_tryhit,
-    },
+    .animation = (u8*)&DoomDesireAnimation,
+	},
 
     {
     /*Psycho Boost*/
@@ -5352,7 +5662,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &user_lower_spAtk_2,
-    },
+    .animation = (u8*)&PsychoBoostAnimation,
+	},
 
     {
     /*Roost*/
@@ -5366,7 +5677,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .heal = 50,
     .on_effect_cb = roost_on_effect,
-    },
+    .animation = (u8*)&RoostAnimation,
+	},
 
     {
     /*Gravity*/
@@ -5379,7 +5691,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = gravity_on_effect,
-    },
+    .animation = (u8*)&GravityAnimation,
+	},
 
     {
     /*Miracle Eye*/
@@ -5392,9 +5705,11 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = miracle_eye_effect,
-    },
+    .animation = (u8*)&MiracleEyeAnimation,
+	},
 
     {
+    /*Wake-up Slap */
     .name = _("Wake-Up Slap"),
     .accuracy = 100,
     .base_power = 70,
@@ -5406,7 +5721,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_effect_cb = wake_up_slap_on_effect,
     .on_base_power_move = wake_up_slap_on_base_power,
-    },
+    .animation = (u8*)&WakeUpSlapAnimation,
+	},
 
     {
     /*Hammer Arm*/
@@ -5419,7 +5735,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_PUNCH | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &user_lower_spd_1,
-    },
+    .animation = (u8*)&HammerArmAnimation,
+	},
 
     {
     /*Gyro Ball*/
@@ -5432,7 +5749,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_BULLET | FLAG_CONTACT | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = gyro_ball_on_base_power,
-    },
+    .animation = (u8*)&GyroBallAnimation,
+	},
 
     {
     /*Healing Wish*/
@@ -5445,7 +5763,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_HEAL | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = lunar_dance_on_effect,
-    },
+    .animation = (u8*)&HealingWishAnimation,
+	},
 
     {
     /*Brine*/
@@ -5459,7 +5778,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = brine_on_base_power_move,
-    },
+    .animation = (u8*)&BrineAnimation,
+	},
 
     {
     /*Natural Gift*/
@@ -5471,7 +5791,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&NaturalGiftAnimation,
+	},
 
     {
     /*Feint*/
@@ -5486,7 +5807,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .before_move = feint_on_before_move,
-    },
+    .animation = (u8*)&FeintAnimation,
+	},
 
     {
     /*Pluck*/
@@ -5499,7 +5821,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FLYING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&PluckAnimation,
+	},
 
     {
     /*Tailwind*/
@@ -5512,7 +5835,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = tailwind_on_effect,
-    },
+    .animation = (u8*)&TailwindAnimation,
+	},
 
     {
     /*Acupressure*/
@@ -5525,7 +5849,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_HITS_ALLY_OR_SELF,
     .procs = &basic_proc,
     .on_effect_cb = accupressure_on_effect,
-    },
+    .animation = (u8*)&AcupressureAnimation,
+	},
 
     {
     /*Metal Burst*/
@@ -5539,9 +5864,11 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .before_turn = metal_burst_before_turn,
     .on_tryhit_move = metal_burst_on_tryhit,
-    },
+    .animation = (u8*)&MetalBurstAnimation,
+	},
 
     {
+    /* U-turn*/
     .name = _("U-turn"),
     .accuracy = 100,
     .base_power = 70,
@@ -5552,7 +5879,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = volt_switch_on_effect,
-    },
+    .animation = (u8*)&UturnAnimation,
+	},
 
     {
     /*Close Combat*/
@@ -5565,7 +5893,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &user_lower_def_spDef_1,
-    },
+    .animation = (u8*)&CloseCombatAnimation,
+	},
 
     {
     /*Payback*/
@@ -5579,7 +5908,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = payback_on_base_power,
-    },
+    .animation = (u8*)&PaybackAnimation,
+	},
 
     {
     /*Assurance*/
@@ -5593,7 +5923,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = assurance_on_base_power,
-    },
+    .animation = (u8*)&AssuranceAnimation,
+	},
 
     {
     /*Embargo*/
@@ -5605,7 +5936,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&EmbargoAnimation,
+	},
 
     {
     /*Fling*/
@@ -5617,7 +5949,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&FlingAnimation,
+	},
 
     {
     /*Psycho Shift*/
@@ -5630,7 +5963,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = psycho_shift_effect,
-    },
+    .animation = (u8*)&PsychoShiftAnimation,
+	},
 
     {
     /*Trump Card*/
@@ -5643,7 +5977,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = trump_card_on_base_power,
-    },
+    .animation = (u8*)&TrumpCardAnimation,
+	},
 
     {
     /*Heal Block*/
@@ -5656,7 +5991,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_REFLECTABLE | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = heal_block_on_effect,
-    },
+    .animation = (u8*)&HealBlockAnimation,
+	},
 
     {
     /*Wring Out*/
@@ -5669,7 +6005,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = crush_grip_on_base_power_move,
-    },
+    .animation = (u8*)&WringOutAnimation,
+	},
 
     {
     /*Power Trick*/
@@ -5681,7 +6018,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_SNATCH,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&PowerTrickAnimation,
+	},
 
     {
     /*Gastro Acid*/
@@ -5694,7 +6032,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = gastro_acid_effect,
-    },
+    .animation = (u8*)&GastroAcidAnimation,
+	},
 
     {
     /*Lucky Chant*/
@@ -5707,7 +6046,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = lucky_chant_on_effect,
-    },
+    .animation = (u8*)&LuckyChantAnimation,
+	},
 
     {
     /*Me First*/
@@ -5720,7 +6060,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = me_first_on_tryhit,
-    },
+    .animation = (u8*)&MeFirstAnimation,
+	},
 
     {
     /*Copycat*/
@@ -5733,7 +6074,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_modify_move = copycat_on_modify_move,
-    },
+    .animation = (u8*)&CopycatAnimation,
+	},
 
     {
     /*Power Swap*/
@@ -5745,7 +6087,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&PowerSwapAnimation,
+	},
 
     {
     /*Guard Swap*/
@@ -5757,7 +6100,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&GuardSwapAnimation,
+	},
 
     {
     /*Punishment*/
@@ -5770,7 +6114,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = punishment_on_base_power_move,
-    },
+    .animation = (u8*)&PunishmentAnimation,
+	},
 
     {
     /*Last Resort*/
@@ -5784,7 +6129,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = last_resort_tryhit,
-    },
+    .animation = (u8*)&LastResortAnimation,
+	},
 
     {
     /*Worry Seed*/
@@ -5797,7 +6143,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = worry_seed_effect,
-    },
+    .animation = (u8*)&WorrySeedAnimation,
+	},
 
     {
     /*Sucker Punch*/
@@ -5811,7 +6158,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&SuckerPunchAnimation,
+	},
 
     {
     /*Toxic Spikes*/
@@ -5823,7 +6171,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_REFLECTABLE,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&ToxicSpikesAnimation,
+	},
 
     {
     /*Aqua Ring*/
@@ -5836,7 +6185,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = aqua_ring_effect_cb,
-    },
+    .animation = (u8*)&AquaRingAnimation,
+	},
 
     {
     /*Magnet Rise*/
@@ -5849,7 +6199,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_GRAVITY | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = magnet_rise_on_effect,
-    },
+    .animation = (u8*)&MagnetRiseAnimation,
+	},
 
     {
     /*Flare Blitz*/
@@ -5863,7 +6214,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_DEFROST | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &burn_10_procs,
 	.recoil = 30,
-    },
+    .animation = (u8*)&FlareBlitzAnimation,
+	},
 
     {
     /*Force Palm*/
@@ -5876,7 +6228,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_30_procs,
-    },
+    .animation = (u8*)&ForcePalmAnimation,
+	},
 
     {
     /*Aura Sphere*/
@@ -5889,7 +6242,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_PULSE | FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&AuraSphereAnimation,
+	},
 
     {
     /*Rock Polish*/
@@ -5901,7 +6255,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ROCK,
     .m_flags = FLAG_SNATCH,
     .procs = &user_raise_spd_2,
-    },
+    .animation = (u8*)&RockPolishAnimation,
+	},
 
     {
     /*Poison Jab*/
@@ -5914,7 +6269,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&PoisonJabAnimation,
+	},
 
     {
     /*Dark Pulse*/
@@ -5928,7 +6284,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_PULSE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 20,
-    },
+    .animation = (u8*)&DarkPulseAnimation,
+	},
 
     {
     /*Night Slash*/
@@ -5942,7 +6299,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&NightShadeAnimation,
+	},
 
     {
     /*Aqua Tail*/
@@ -5955,7 +6313,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&AquaTailAnimation,
+	},
 
     {
     /*Seed Bomb*/
@@ -5968,7 +6327,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&SeedBombAnimation,
+	},
 
     {
     /*Air Slash*/
@@ -5983,9 +6343,11 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .flinch_chance = 30,
 	.priority =1,
-    },
+    .animation = (u8*)&AirSlashAnimation,
+	},
 
     {
+    /*X-Scissor */
     .name = _("X-Scissor"),
     .accuracy = 100,
     .base_power = 80,
@@ -5995,7 +6357,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&XScissorAnimation,
+	},
 
     {
     /*Bug Buzz*/
@@ -6008,7 +6371,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_SOUND | FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &bug_buzz_procs,
-    },
+    .animation = (u8*)&BugBuzzAnimation,
+	},
 
     {
     /*Dragon Pulse*/
@@ -6021,7 +6385,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DRAGON,
     .m_flags = FLAG_PULSE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&DragonPulseAnimation,
+	},
 
     {
     /*Dragon Rush*/
@@ -6036,7 +6401,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .flinch_chance = 20,
     .on_modify_move = stomp_on_modify_move,
-    },
+    .animation = (u8*)&DragonRushAnimation,
+	},
 
     {
     /*Power Gem*/
@@ -6049,7 +6415,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ROCK,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&PowerGemAnimation,
+	},
 
     {
     /* Drain Punch*/
@@ -6063,7 +6430,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_PUNCH | FLAG_HEAL | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .drain = 50,
-    },
+    .animation = (u8*)&DrainPunchAnimation,
+	},
 
     {
     /*Vacuum Wave*/
@@ -6077,7 +6445,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&VacuumWaveAnimation,
+	},
 
     {
     /*Focus Blast*/
@@ -6090,7 +6459,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spDef_1_10,
-    },
+    .animation = (u8*)&FocusBlastAnimation,
+	},
 
     {
     /*Energy Ball*/
@@ -6103,7 +6473,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spDef_1_10,
-    },
+    .animation = (u8*)&EnergyBallAnimation,
+	},
 
     {
     /*Brave Bird*/
@@ -6116,7 +6487,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FLYING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BraveBirdAnimation,
+	},
 
     {
     /*Earth Power*/
@@ -6129,7 +6501,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GROUND,
     .m_flags = FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spDef_1_10,
-    },
+    .animation = (u8*)&EarthPowerAnimation,
+	},
 
     {
     /*Switcheroo*/
@@ -6141,7 +6514,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&SwitcherooAnimation,
+	},
 
     {
     /*Giga Impact*/
@@ -6154,7 +6528,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_RECHARGE | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&GigaImpactAnimation,
+	},
 
     {
     /*Nasty Plot*/
@@ -6166,7 +6541,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &user_raise_spAtk_2,
-    },
+    .animation = (u8*)&NastyPlotAnimation,
+	},
 
     {
     /*Bullet Punch*/
@@ -6180,7 +6556,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_STEEL,
     .m_flags = FLAG_PUNCH | FLAG_CONTACT | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BulletPunchAnimation,
+	},
 
     {
     /*Avalanche*/
@@ -6195,7 +6572,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = avalanche_on_base_power,
-    },
+    .animation = (u8*)&AvalancheAnimation,
+	},
 
     {
     /*Ice Shard*/
@@ -6209,7 +6587,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ICE,
     .m_flags = FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&IceShardAnimation,
+	},
 
     {
     /*Shadow Claw*/
@@ -6223,7 +6602,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GHOST,
     .m_flags = FLAG_CONTACT | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&ShadowClawAnimation,
+	},
 
     {
     /*Thunder Fang*/
@@ -6237,7 +6617,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_BITE | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_10_procs,
     .flinch_chance = 10,
-    },
+    .animation = (u8*)&ThunderFangAnimation,
+	},
 
     {
     /*Ice Fang*/
@@ -6251,7 +6632,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_BITE | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &freeze_10_procs,
     .flinch_chance = 10,
-    },
+    .animation = (u8*)&IceFangAnimation,
+	},
 
     {
     /*Fire Fang*/
@@ -6265,7 +6647,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_BITE | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &burn_10_procs,
     .flinch_chance = 10,
-    },
+    .animation = (u8*)&FireFangAnimation,
+	},
 
     {
     /*Shadow Sneak*/
@@ -6280,7 +6663,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.priority =1,
-    },
+    .animation = (u8*)&ShadowSneakAnimation,
+	},
 
     {
     /*Mud Bomb*/
@@ -6293,7 +6677,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GROUND,
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &low_tar_acc_30,
-    },
+    .animation = (u8*)&MudBombAnimation,
+	},
 
     {
     /*Psycho Cut*/
@@ -6307,7 +6692,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&PsychoCutAnimation,
+	},
 
     {
     /*Zen Headbutt*/
@@ -6321,7 +6707,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 20,
-    },
+    .animation = (u8*)&ZenHeadbuttAnimation,
+	},
 
     {
     /*Mirror Shot*/
@@ -6334,7 +6721,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_STEEL,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &low_tar_acc_30,
-    },
+    .animation = (u8*)&MirrorShotAnimation,
+	},
 
     {
     /*Flash Cannon*/
@@ -6347,7 +6735,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_STEEL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spDef_1_10,
-    },
+    .animation = (u8*)&FlashCannonAnimation,
+	},
 
     {
     /*Rock Climb*/
@@ -6360,7 +6749,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &confuse_30_procs,
-    },
+    .animation = (u8*)&RockClimbAnimation,
+	},
 
     {
     /*Defog*/
@@ -6372,7 +6762,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FLYING,
     .m_flags = FLAG_AUTHENTIC | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &low_tar_evn_1,
-    },
+    .animation = (u8*)&DefogAnimation,
+	},
 
     {
     /*Trick Room*/
@@ -6386,7 +6777,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = trick_room_on_effect,
-    },
+    .animation = (u8*)&TrickRoomAnimation,
+	},
 
     {
     /*Draco Meteor*/
@@ -6399,7 +6791,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DRAGON,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &user_lower_spAtk_2,
-    },
+    .animation = (u8*)&DracoMeteorAnimation,
+	},
 
     {
     /*Discharge*/
@@ -6412,7 +6805,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ELECTRIC,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_30_procs,
-    },
+    .animation = (u8*)&DischargeAnimation,
+	},
 
     {
     /*Lava Plume*/
@@ -6425,7 +6819,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &burn_30_procs,
-    },
+    .animation = (u8*)&LavaPlumeAnimation,
+	},
 
     {
     /*Leaf Storm*/
@@ -6438,7 +6833,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &user_lower_spAtk_2,
-    },
+    .animation = (u8*)&LeafStormAnimation,
+	},
 
     {
     /*Power Whip*/
@@ -6451,7 +6847,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_CONTACT | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&PowerWhipAnimation,
+	},
 
     {
     /*Rock Wrecker*/
@@ -6464,7 +6861,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ROCK,
     .m_flags = FLAG_RECHARGE | FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&RockWreckerAnimation,
+	},
 
     {
     /*Cross Poison*/
@@ -6478,7 +6876,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_CONTACT | FLAG_PROTECT | FLAG_TARGET,
     .procs = &poison_10_procs,
-    },
+    .animation = (u8*)&CrossPoisonAnimation,
+	},
 
     {
     /*Gunk Shot*/
@@ -6491,7 +6890,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &poison_30_procs,
-    },
+    .animation = (u8*)&GunkShotAnimation,
+	},
 
     {
     /*Iron Head*/
@@ -6505,7 +6905,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 30,
-    },
+    .animation = (u8*)&IronHeadAnimation,
+	},
 
     {
     /*Magnet Bomb*/
@@ -6518,7 +6919,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_STEEL,
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&MagnetBombAnimation,
+	},
 
     {
     /*Stone Edge*/
@@ -6532,7 +6934,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ROCK,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&StoneEdgeAnimation,
+	},
 
     {
     /*Captivate*/
@@ -6545,7 +6948,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_HITS_FOE_SIDE,
     .procs = &target_lower_spAtk_2,
     .on_tryhit_move = captivate_on_tryhit,
-    },
+    .animation = (u8*)&CaptivateAnimation,
+	},
 
     {
     /*Stealth Rock*/
@@ -6557,7 +6961,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ROCK,
     .m_flags = FLAG_REFLECTABLE,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&StealthRockAnimation,
+	},
 
     {
     /*Grass Knot*/
@@ -6570,7 +6975,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = low_kick_on_base_power_move,
-    },
+    .animation = (u8*)&GrassKnotAnimation,
+	},
 
     {
     /*Bug Bite*/
@@ -6583,7 +6989,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BugBiteAnimation,
+	},
 
     {
     /*Charge Beam*/
@@ -6596,7 +7003,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ELECTRIC,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &charge_beam_procs,
-    },
+    .animation = (u8*)&ChargeBeamAnimation,
+	},
 
     {
     /*Wood Hammer*/
@@ -6610,7 +7018,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.recoil = 25,
-    },
+    .animation = (u8*)&WoodHammerAnimation,
+	},
 
     {
     /*Aqua Jet*/
@@ -6624,7 +7033,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&AquaJetAnimation,
+	},
 
     {
     /*Attack Order*/
@@ -6638,7 +7048,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&AttackOrderAnimation,
+	},
 
     {
     /*Defend Order*/
@@ -6650,7 +7061,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &raise_user_Def_SpD,
-    },
+    .animation = (u8*)&DefendOrderAnimation,
+	},
 
     {
     /*Heal Order*/
@@ -6663,7 +7075,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_HEAL | FLAG_ONSELF,
     .procs = &basic_proc,
 	.heal = 50,
-    },
+    .animation = (u8*)&HealOrderAnimation,
+	},
 
     {
     /*Head Smash*/
@@ -6677,7 +7090,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.recoil = 50,
-    },
+    .animation = (u8*)&HeadSmashAnimation,
+	},
 
     {
     /*Double Hit*/
@@ -6691,7 +7105,8 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 2},
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&DoubleHitAnimation,
+	},
 
     {
     /*Magma Storm*/
@@ -6705,7 +7120,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = partially_trapped_effect_cb,
-    },
+    .animation = (u8*)&MagmaStormAnimation,
+	},
 
     {
     /*Dark Void*/
@@ -6717,7 +7133,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &sing_procs,
-    },
+    .animation = (u8*)&DarkVoidAnimation,
+	},
 
     {
     /*Ominous Wind*/
@@ -6730,7 +7147,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GHOST,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &ancient_power_procs,
-    },
+    .animation = (u8*)&OminousWindAnimation,
+	},
 
     {
     /*Hone Claws*/
@@ -6742,7 +7160,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &raise_user_Atk_Acc,
-    },
+    .animation = (u8*)&HoneClawsAnimation,
+	},
 
     {
     /*Wide Guard*/
@@ -6757,7 +7176,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_tryhit_move = protection_on_tryhit,
     .on_effect_cb = wide_guard_on_effect,
-    },
+    .animation = (u8*)&WideGuardAnimation,
+	},
 
     {
     /*Guard Split*/
@@ -6770,7 +7190,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = guard_split_on_effect,
-    },
+    .animation = (u8*)&GuardSplitAnimation,
+	},
 
     {
     /*Power Split*/
@@ -6783,7 +7204,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = power_split_on_effect,
-    },
+    .animation = (u8*)&PowerSplitAnimation,
+	},
 
     {
     /*Psyshock*/
@@ -6796,7 +7218,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_CATEGORY_OVERRIDE | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&PsyshockAnimation,
+	},
 
     {
     /*Venoshock*/
@@ -6810,7 +7233,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = venoshock_on_base_power_move,
-    },
+    .animation = (u8*)&VenoShockAnimation,
+	},
 
     {
     /*Autotomize*/
@@ -6823,7 +7247,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH,
     .procs = &user_raise_spd_2,
     .on_effect_cb = autotomize_on_effect,
-    },
+    .animation = (u8*)&AutomizeAnimation,
+	},
 
     {
     /*Rage Powder*/
@@ -6837,7 +7262,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_POWDER | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = rage_powder_on_effect,
-    },
+    .animation = (u8*)&RagePowderAnimation,
+	},
 
     {
     /*Telekinesis*/
@@ -6850,7 +7276,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_GRAVITY | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = telekinesis_on_effect,
-    },
+    .animation = (u8*)&TelekinesisAnimation,
+	},
 
     {
     /*Magic Room*/
@@ -6862,7 +7289,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&MagicRoomAnimation,
+	},
 
     {
     /*Smack Down*/
@@ -6877,7 +7305,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_effect_cb = smackdown_on_effect,
     .on_inv_tryhit_move = smackdown_on_invul_tryhit,
-    },
+    .animation = (u8*)&SmackDownAnimation,
+	},
 
     {
     /*Storm Throw*/
@@ -6891,7 +7320,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_modify_move = storm_throw_on_modify_move,
-    },
+    .animation = (u8*)&StormThrowAnimation,
+	},
 
     {
     /*Flame Burst*/
@@ -6904,7 +7334,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&FlameBurstAnimation,
+	},
 
     {
     /*Sludge Wave*/
@@ -6917,7 +7348,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &poison_10_procs,
-    },
+    .animation = (u8*)&SludgeWaveAnimation,
+	},
 
     {
     /*Quiver Dance*/
@@ -6929,7 +7361,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_SNATCH | FLAG_DANCE  | FLAG_ONSELF,
     .procs = &raise_user_SpD_SpA_Spd,
-    },
+    .animation = (u8*)&QuiverDnaceAnimation,
+	},
 
     {
     /*Heavy Slam*/
@@ -6942,7 +7375,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = heavy_slam_on_base_power_move,
-    },
+    .animation = (u8*)&HeavySlamAnimation,
+	},
 
     {
     /*Synchronoise*/
@@ -6956,7 +7390,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_HITS_ADJACENT,
     .procs = &basic_proc,
     .on_tryhit_move = synchonoise_on_tryhit,
-    },
+    .animation = (u8*)&SynchronoiseAnimation,
+	},
 
     {
     /*Electro Ball*/
@@ -6969,7 +7404,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_BULLET | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = electro_ball_on_base_power,
-    },
+    .animation = (u8*)&ElectroBallAnimation,
+	},
 
     {
     /*Soak*/
@@ -6982,7 +7418,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = soak_on_effect,
-    },
+    .animation = (u8*)&SoakAnimation,
+	},
 
     {
     /*Flame Charge*/
@@ -6995,7 +7432,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &user_raise_spd_1,
-    },
+    .animation = (u8*)&FlameChargeAnimation,
+	},
 
     {
     /*Coil*/
@@ -7007,7 +7445,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &raise_user_Atk_Def_Acc,
-    },
+    .animation = (u8*)&FlameChargeCoilAnimation,
+	},
 
     {
     /*Low Sweep*/
@@ -7020,7 +7459,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spd_1,
-    },
+    .animation = (u8*)&LowSweepAnimation,
+	},
 
     {
     /*Acid Spray*/
@@ -7033,7 +7473,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET | FLAG_BULLET,
     .procs = &target_lower_spDef_2,
-    },
+    .animation = (u8*)&AcidSprayAnimation,
+	},
 
     {
     /*Foul Play*/
@@ -7046,7 +7487,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET | FLAG_STEAL_OFFENSIVE,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&FoulPlayAnimation,
+	},
 
     {
     /*Simple Beam*/
@@ -7058,7 +7500,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&SimpleBeamAnimation,
+	},
 
     {
     /*Entrainment*/
@@ -7070,7 +7513,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&EntrainmentAnimation,
+	},
 
     {
     /*After You*/
@@ -7083,7 +7527,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = after_you_tryhit,
-    },
+    .animation = (u8*)&AfterYouAnimation,
+	},
 
     {
     /*Round*/
@@ -7096,7 +7541,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SOUND | FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&RoundAnimation,
+	},
 
     {
     /*Echoed Voice*/
@@ -7110,7 +7556,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SOUND | FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = echoed_voice_on_base_power_move,
-    },
+    .animation = (u8*)&EchoedVoiceAnimation,
+	},
 
     {
     /*Chip Away*/
@@ -7124,7 +7571,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .before_move = chip_away_on_before_move,
-    },
+    .animation = (u8*)&ChipAwayAnimation,
+	},
 
     {
     /*Clear Smog*/
@@ -7138,7 +7586,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = clear_smog_effect,
-    },
+    .animation = (u8*)&ClearSmogAnimation,
+	},
 
     {
     /*Stored Power*/
@@ -7152,7 +7601,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = stored_power_on_base_power_move,
-    },
+    .animation = (u8*)&StoredPowerAnimation,
+	},
 
     {
     /*Quick Guard*/
@@ -7166,7 +7616,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = quick_guard_on_effect,
-    },
+    .animation = (u8*)&QuickGuardAnimation,
+	},
 
     {
     /*Scald*/
@@ -7179,7 +7630,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_DEFROST | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &burn_30_procs,
-    },
+    .animation = (u8*)&ScaldAnimation,
+	},
 
     {
     /*Shell Smash*/
@@ -7191,7 +7643,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &shell_smash_procs,
-    },
+    .animation = (u8*)&ShellSmashAnimation,
+	},
 
     {
     /*Heal Pulse*/
@@ -7205,7 +7658,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
 	.heal = 50,
     .on_tryhit_move = heal_pulse_on_tryhit_move,
-    },
+    .animation = (u8*)&HealPulseAnimation,
+	},
 
     {
     /*Hex*/
@@ -7219,7 +7673,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = hex_on_base_power_move,
-    },
+    .animation = (u8*)&HexAnimation,
+	},
 
     {
     /*Sky Drop*/
@@ -7234,7 +7689,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .before_move = skydrop_before_move,
     .on_damage_move = skydrop_on_damage,
-    },
+    .animation = (u8*)&SkyDropAnimation,
+	},
 
     {
     /*Circle Throw*/
@@ -7249,7 +7705,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = dragon_tail_on_effect,
-    },
+    .animation = (u8*)&CircleThrowAnimation,
+	},
 
     {
     /*Incinerate*/
@@ -7262,7 +7719,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&IncinerateAnimation,
+	},
 
     {
     /*Quash*/
@@ -7275,7 +7733,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = quash_on_tryhit,
-    },
+    .animation = (u8*)&QuashAnimation,
+	},
 
     {
     /*Acrobatics*/
@@ -7289,7 +7748,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = acrobatics_on_base_power_move,
-    },
+    .animation = (u8*)&AcrobaticsAnimation,
+	},
 
     {
     /*Reflect Type*/
@@ -7302,7 +7762,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = reflect_type_on_effect,
-    },
+    .animation = (u8*)&ReflectTypeAnimation,
+	},
 
     {
     /*Retaliate*/
@@ -7315,7 +7776,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&RetaliateAnimation,
+	},
 
     {
     /*Final Gambit*/
@@ -7329,7 +7791,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_damage_move = final_gambit_on_damage,
     .on_after_move = final_gambit_on_after_move,
-    },
+    .animation = (u8*)&FinalGambitAnimation,
+	},
 
     {
     /*Bestow*/
@@ -7341,7 +7804,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_AUTHENTIC | FLAG_MIRROR,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BestowAnimation,
+	},
 
     {
     /*Inferno*/
@@ -7354,7 +7818,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &burn_100_procs,
-    },
+    .animation = (u8*)&InfernoAnimation,
+	},
 
     {
     /*Volt Switch*/
@@ -7368,7 +7833,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = volt_switch_on_effect,
-    },
+    .animation = (u8*)&VoltSwitchAnimation,
+	},
 
     {
     /*Struggle Bug*/
@@ -7381,7 +7847,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = & target_lower_spAtk_1,
-    },
+    .animation = (u8*)&StruggleBugAnimation,
+	},
 
     {
     /*Frost Breath*/
@@ -7395,7 +7862,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.crit_ratio = 1,
-    },
+    .animation = (u8*)&FrostBeathAnimation,
+	},
 
     {
     /*Dragon Tail*/
@@ -7410,7 +7878,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.on_effect_cb = dragon_tail_on_effect,
-    },
+    .animation = (u8*)&DragonTailAnimation,
+	},
 
     {
     /*Work Up*/
@@ -7422,7 +7891,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &raise_user_SpA_Atk,
-    },
+    .animation = (u8*)&WorkUpAnimation,
+	},
 
     {
     /*Electroweb*/
@@ -7435,7 +7905,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ELECTRIC,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spd_1,
-    },
+    .animation = (u8*)&ElectrowebAnimation,
+	},
 
     {
     /*Wild Charge*/
@@ -7449,7 +7920,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.recoil = 25,
-    },
+    .animation = (u8*)&WildChargeAnimation,
+	},
 
     {
     /*Drill Run*/
@@ -7463,7 +7935,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GROUND,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&DrillRunAnimation,
+	},
 
     {
     /*Dual Chop*/
@@ -7478,7 +7951,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.crit_ratio = 1,
-    },
+    .animation = (u8*)&DualChopAnimation,
+	},
 
     {
     /*Horn Leech*/
@@ -7492,7 +7966,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_HEAL | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.drain = 25,
-    },
+    .animation = (u8*)&HornLeechAnimation,
+	},
 
     {
     /*Sacred Sword*/
@@ -7506,7 +7981,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .before_move = chip_away_on_before_move,
-    },
+    .animation = (u8*)&SacredSwordAnimation,
+	},
 
     {
     /*Razor Shell*/
@@ -7519,7 +7995,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_def_50_procs,
-    },
+    .animation = (u8*)&RazorShellAnimation,
+	},
 
     {
     /*Leaf Tornado*/
@@ -7532,7 +8009,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_acc_1_chance_50,
-    },
+    .animation = (u8*)&LeafTornadoAnimation,
+	},
 
     {
     /*Steamroller*/
@@ -7547,7 +8025,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .flinch_chance = 30,
     .on_modify_move = stomp_on_modify_move,
-    },
+    .animation = (u8*)&SteamrollerAnimation,
+	},
 
     {
     /*Cotton Guard*/
@@ -7559,7 +8038,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_SNATCH,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&CottonGuardAnimation,
+	},
 
     {
     /*Night Daze*/
@@ -7572,7 +8052,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &low_tar_acc_40,
-    },
+    .animation = (u8*)&NightDazeAnimation,
+	},
 
     {
     /*Psystrike*/
@@ -7585,7 +8066,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET  | FLAG_CATEGORY_OVERRIDE,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&PsystrikeAnimation,
+	},
 
     {
     /*Tail Slap*/
@@ -7599,7 +8081,8 @@ struct move_data gBattleMoves[] = {
     .multi_hit = {2, 5},
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&TailSlapAnimation,
+	},
 
     {
     /*Hurricane*/
@@ -7614,7 +8097,8 @@ struct move_data gBattleMoves[] = {
     .procs = &confuse_30_procs,
     .on_modify_move = hurricane_on_modify_move,
     .on_inv_tryhit_move = hurricane_on_tryhit_inv,
-    },
+    .animation = (u8*)&HurricaneAnimation,
+	},
 
     {
     /*Head Charge*/
@@ -7628,7 +8112,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.recoil = 25,
-    },
+    .animation = (u8*)&HeadChargeAnimation,
+	},
 
     {
     /*Fiery Dance*/
@@ -7641,7 +8126,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIRE,
     .m_flags = FLAG_DANCE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &raise_user_SpA_50,
-    },
+    .animation = (u8*)&FieryDanceAnimation,
+	},
 
     {
     /*Icicle Crash*/
@@ -7655,7 +8141,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 30,
-    },
+    .animation = (u8*)&IcicleCrashAnimation,
+	},
 
     {
     /*Flying Press*/
@@ -7670,7 +8157,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_modify_move = flying_press_on_modify_move,
     .on_base_power_move = flying_press_on_base_power,
-    },
+    .animation = (u8*)&FlyingPressAnimation,
+	},
 
     {
     /*Belch*/
@@ -7683,7 +8171,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BlechAnimation,
+	},
 
     {
     /*Rototiller*/
@@ -7696,7 +8185,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = rototiller_on_effect,
-    },
+    .animation = (u8*)&RototillerAnimation,
+	},
 
     {
     /*Sticky Web*/
@@ -7708,7 +8198,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_REFLECTABLE,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&StickyWebAnimation,
+	},
 
     {
     /*Fell Stinger*/
@@ -7722,7 +8213,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_after_move = fell_stinger_after_move,
-    },
+    .animation = (u8*)&FellStingerAnimation,
+	},
 
     {
     /*Phantom Force*/
@@ -7736,7 +8228,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CHARGE | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .before_move = phantom_force_on_before_move,
-    },
+    .animation = (u8*)&PhantomHitAnimation,
+	},
 
     {
     /*Noble Roar*/
@@ -7748,7 +8241,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SOUND | FLAG_AUTHENTIC | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &low_target_atk_SpA,
-    },
+    .animation = (u8*)&NobleRoarAnimation,
+	},
 
     {
     /*Ion Deluge*/
@@ -7762,7 +8256,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = ion_deluge_on_effect,
-    },
+    .animation = (u8*)&IonDelugeAnimation,
+	},
 
     {
     /*Petal Blizzard*/
@@ -7775,10 +8270,11 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&PetalBlizzardAnimation,
+	},
 
-    /* Freeze Dry */
     {
+    /* Freeze Dry */
     .name = _("Freeze-Dry"),
     .accuracy = 100,
     .base_power = 70,
@@ -7788,7 +8284,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ICE,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&FreezeDryAnimation,
+	},
 
     {
     /*Disarming Voice*/
@@ -7801,7 +8298,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FAIRY,
     .m_flags = FLAG_SOUND | FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&DisarmingVoiceAnimation,
+	},
 
     {
     /*Parting Shot*/
@@ -7814,7 +8312,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SOUND | FLAG_AUTHENTIC | FLAG_REFLECTABLE |FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = parting_shot_on_effect,
-    },
+    .animation = (u8*)&PartingShotAnimation,
+	},
 
     {
     /* Topsy-Turvy*/
@@ -7827,7 +8326,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = topsy_turvy_on_effect,
-    },
+    .animation = (u8*)&TopsyTurvyAnimation,
+	},
 
     {
     /* Draining Kiss*/
@@ -7841,7 +8341,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_HEAL | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
 	.drain = 50,
-    },
+    .animation = (u8*)&DrainingKissAnimation,
+	},
 
     {
     /*Grassy Terrain*/
@@ -7854,7 +8355,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = grassy_terrain_on_effect,
-    },
+    .animation = (u8*)&GrassyTerrainAnimation,
+	},
 
     {
     /*Misty Terrain*/
@@ -7867,7 +8369,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = misty_terrain_on_effect,
-    },
+    .animation = (u8*)&MistyTerrainAnimation,
+	},
 
     {
     /*Play Rough*/
@@ -7880,7 +8383,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FAIRY,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &low_target_atk_10,
-    },
+    .animation = (u8*)&PlayRoughAnimation,
+	},
 
     {
     /*Fairy Wind*/
@@ -7893,7 +8397,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FAIRY,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&FairyWindAnimation,
+	},
 
     {
     /*Moonblast*/
@@ -7906,7 +8411,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FAIRY,
     .m_flags = FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &low_tar_spAtk_30,
-    },
+    .animation = (u8*)&MoonblastAnimation,
+	},
 
     {
     /*Boomburst*/
@@ -7919,7 +8425,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_SOUND | FLAG_MIRROR | FLAG_PROTECT | FLAG_HITS_ADJACENT,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BoomburstAnimation,
+	},
 
     {
     /*Fairy Lock*/
@@ -7932,7 +8439,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_HITS_ALL,
     .procs = &basic_proc,
     .on_effect_cb = fairy_lock_on_effect,
-    },
+    .animation = (u8*)&FairyLockAnimation,
+	},
 
     {
     /* King's sheild */
@@ -7947,7 +8455,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_tryhit_move = protection_on_tryhit,
     .on_effect_cb = protect_on_effect,
-    },
+    .animation = (u8*)&KingsShieldAnimation,
+	},
 
     {
     /*Play Nice*/
@@ -7959,7 +8468,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_AUTHENTIC | FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_TARGET,
     .procs = &target_lower_atk_1,
-    },
+    .animation = (u8*)&PlayNiceAnimation,
+	},
 
     {
     /*Spiky Shield*/
@@ -7974,7 +8484,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .on_tryhit_move = protection_on_tryhit,
     .on_effect_cb = protect_on_effect,
-    },
+    .animation = (u8*)&SpikyShieldAnimation,
+	},
 
     {
     /*Aromatic Mist*/
@@ -7986,7 +8497,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FAIRY,
     .m_flags = FLAG_AUTHENTIC | FLAG_HITS_ALLY,
     .procs = &target_raise_spDef_1,
-    },
+    .animation = (u8*)&AromaticMistAnimation,
+	},
 
     {
     /*Eerie Impulse*/
@@ -7998,7 +8510,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ELECTRIC,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_spAtk_2,
-    },
+    .animation = (u8*)&EerieImpulseAnimation,
+	},
 
     {
     /*Venom Drench*/
@@ -8010,7 +8523,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &venom_drench,
-    },
+    .animation = (u8*)&VenomDrenchAnimation,
+	},
 
     {
     /*Powder*/
@@ -8024,7 +8538,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_POWDER | FLAG_REFLECTABLE | FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_tryhit_move = powder_on_tryhit_move,
-    },
+    .animation = (u8*)&PowderAnimation,
+	},
 
     {
     /*Magnetic Flux*/
@@ -8037,7 +8552,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_AUTHENTIC | FLAG_HITS_MY_SIDE,
     .procs = &raise_user_Def_SpD,
     .on_modify_move = gear_up_on_modify_move,
-    },
+    .animation = (u8*)&MagneticFluxAnimation,
+	},
 
     {
     /*Electric Terrain*/
@@ -8050,7 +8566,8 @@ struct move_data gBattleMoves[] = {
     .m_flags =FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = electric_terrain_on_effect,
-    },
+    .animation = (u8*)&ElectricTerrainAnimation,
+	},
 
     {
     /*Dazzling Gleam*/
@@ -8063,9 +8580,11 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FAIRY,
     .m_flags = FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&DazzlingGleamAnimation,
+	},
 
     {
+    /* Baby-Doll-Eyes */
     .name = _("Puppy Eyes"),
     .accuracy = 100,
     .description = (pchar*)Baby_Doll_Eyes_desc,
@@ -8075,7 +8594,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FAIRY,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_atk_1,
-    },
+    .animation = (u8*)&BabyDollEyesAnimation,
+	},
 
     {
     /*Nuzzle*/
@@ -8088,7 +8608,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ELECTRIC,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &paralyze_100_procs,
-    },
+    .animation = (u8*)&NuzzleAnimation,
+	},
 
     {
     /*Hold Back*/
@@ -8102,7 +8623,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_damage_move = false_swipe_on_damage,
-    },
+    .animation = (u8*)&HoldBackAnimation,
+	},
 
     {
     /*Infestation*/
@@ -8116,9 +8638,11 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = partially_trapped_effect_cb,
-    },
+    .animation = (u8*)&InfestationAnimation,
+	},
 
     {
+    /*Power-up Punch */
     .name = _("Power-Up hit"),
     .accuracy = 100,
     .base_power = 40,
@@ -8128,7 +8652,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_FIGHTING,
     .m_flags = FLAG_PUNCH | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &user_raise_atk_1,
-    },
+    .animation = (u8*)&PowerUpPunchAnimation,
+	},
 
     {
     /*Shore Up*/
@@ -8142,7 +8667,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .heal = 50,
     .on_modify_move = shore_up_on_modify_move,
-    },
+    .animation = (u8*)&ShoreUpAnimation,
+	},
 
     {
     /*High Horsepower*/
@@ -8155,7 +8681,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GROUND,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&HighHorsePowerAnimation,
+	},
 
     {
     /*Strength Sap*/
@@ -8168,7 +8695,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_HEAL | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET | FLAG_REFLECTABLE,
     .procs = &target_lower_atk_1,
     .on_effect_cb = strength_sap_on_effect,
-    },
+    .animation = (u8*)&StrengthSapAnimation,
+	},
 
     {
     /*Spotlight*/
@@ -8182,7 +8710,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = rage_powder_on_effect,
-    },
+    .animation = (u8*)&SpotlightAnimation,
+	},
 
     {
     /*Toxic Thread*/
@@ -8194,7 +8723,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_POISON,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &toxic_thread,
-    },
+    .animation = (u8*)&ToxicThreadAnimation,
+	},
 
     {
     /*Laser Focus*/
@@ -8207,7 +8737,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = laser_focus_on_effect,
-    },
+    .animation = (u8*)&LaserFocusAnimation,
+	},
 
     {
     /*Throat Chop*/
@@ -8222,7 +8753,8 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .before_move = throat_chop_on_before_move,
     .on_effect_cb = throat_chop_on_effect_cb,
-    },
+    .animation = (u8*)&ThroatChopAnimation,
+	},
 
     {
     /*Anchor Shot*/
@@ -8236,7 +8768,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = block_on_effect,
-    },
+    .animation = (u8*)&AnchorShotAnimation,
+	},
 
     {
     /*Psychic Terrain*/
@@ -8249,7 +8782,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_ONSELF,
     .procs = &basic_proc,
     .on_effect_cb = psychic_terrain_on_effect,
-    },
+    .animation = (u8*)&PsychicTerrainAnimation,
+	},
 
     {
     /*Lunge*/
@@ -8262,7 +8796,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_BUG,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_atk_1,
-    },
+    .animation = (u8*)&LungeAnimation,
+	},
 
     {
     /*Power Trip*/
@@ -8276,7 +8811,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = stored_power_on_base_power_move,
-    },
+    .animation = (u8*)&PowerTripAnimation,
+	},
 
     {
     /*Burn Up*/
@@ -8292,7 +8828,8 @@ struct move_data gBattleMoves[] = {
     .on_tryhit_move = burn_up_on_tryhit,
     .on_effect_cb = burn_up_on_effect,
 
-    },
+    .animation = (u8*)&BurnUpAnimation,
+	},
 
     {
     /*Trop Kick*/
@@ -8305,7 +8842,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GRASS,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_atk_1,
-    },
+    .animation = (u8*)&TropKickAnimation,
+	},
 
     {
     /*Dragon Hammer*/
@@ -8318,7 +8856,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DRAGON,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&DragonHammerAnimation,
+	},
 
     {
     /*Brutal Swing*/
@@ -8331,7 +8870,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_DARK,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_HITS_ALL,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&BrutalSwingAnimation,
+	},
 
     {
     /*Shell Trap*/
@@ -8346,7 +8886,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .before_turn = shell_trap_before_turn,
-    },
+    .animation = (u8*)&ShellTrapAnimation,
+	},
 
     {
     /*Psychic Fangs*/
@@ -8359,7 +8900,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_PSYCHIC,
     .m_flags = FLAG_BITE | FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&PsychicFangsAnimation,
+	},
 
     {
     /*Stomping Tantrum*/
@@ -8373,7 +8915,8 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .on_base_power_move = stomping_tantrum_on_base_power_move,
-    },
+    .animation = (u8*)&StompingTantrumAnimation,
+	},
 
     {
     /*Accelerock*/
@@ -8387,7 +8930,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_ROCK,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    },
+    .animation = (u8*)&AccelerockAnimation,
+	},
 
     {
     /*Liquidation*/
@@ -8400,7 +8944,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_WATER,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &target_lower_def_20_procs,
-    },
+    .animation = (u8*)&LiquidationAnimation,
+	},
 
     {
     /*Tearful Look*/
@@ -8412,7 +8957,8 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_TARGET,
     .procs = &low_target_atk_SpA,
-    },
+    .animation = (u8*)&TearfulLookAnimation,
+	},
 
     {
     /*Zing Zap*/
@@ -8426,5 +8972,6 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
     .flinch_chance = 30,
-    },
+    .animation = (u8*)&ZingZapAnimation,
+	},
 };
