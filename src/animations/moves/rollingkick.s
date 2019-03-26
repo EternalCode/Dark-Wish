@@ -13,10 +13,9 @@ RollingKickAnimation:
     copyvar footParticle LASTRESULT
     loadspritefull impact1Sprite impact1Palette impact1Oam
     copyvar impactParticle LASTRESULT
-    movesprite attacker 0 2 5 true
-    wait
-    pauseframes 10
     BLOCKCMD
+    addvar attackery 10
+    spritesetposition attacker attackerx attackery
     depthlessorbit attacker attacker 17 10 10 1 16 true false 0
     depthlessorbit footParticle target 33 20 20 1 8 false true 64
     rendersprite footParticle targetx targety nullrsf
