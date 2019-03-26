@@ -1,4 +1,5 @@
 #include <pokeagb/pokeagb.h>
+#include "move_data.h"
 #include "../battle_data/pkmn_bank.h"
 #include "../battle_data/pkmn_bank_stats.h"
 #include "../battle_data/battle_state.h"
@@ -39,6 +40,36 @@ u8 partially_trapped_effect_cb(u8 user, u8 src, u16 move, struct anonymous_callb
     ADD_VOLATILE(defender, VOLATILE_BIND);
     ADD_VOLATILE(defender, VOLATILE_TRAPPED);
     u8 id = AddCallback(CB_ON_RESIDUAL, 0, RandRange(4, 6), defender, (u32)partial_dmg_on_residual);
+    CB_MASTER[id].data_ptr = move;
+    return true;
+}
+
+u8 wrap_partial_dmg_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
+{
+    if (user != src) return true;
+    if (acb->duration == 0) {
+        CLEAR_VOLATILE(user, VOLATILE_BIND);
+        CLEAR_VOLATILE(user, VOLATILE_TRAPPED);
+    } else if (do_damage_residual(user, 1, NULL)) {
+        struct action* a = prepend_action(user, user, ActionAnimation, EventPlayAnimation);
+        a->move = acb->data_ptr;
+        a->script = (u32)&WrapResidualAnimation;
+        do_damage(user, MAX(1, (TOTAL_HP(user) >> 3)));
+        QueueMessage(acb->data_ptr, user, STRING_RESIDUAL_DMG, 0);
+    }
+    return true;
+}
+
+u8 wrap_partially_trapped_effect_cb(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
+{
+    if (user != src) return true;
+    u8 defender = TARGET_OF(user);
+    // the bind effect timer does not reset upon using bind again
+    if (has_callback_src((u32)partial_dmg_on_residual, defender))
+        return true;
+    ADD_VOLATILE(defender, VOLATILE_BIND);
+    ADD_VOLATILE(defender, VOLATILE_TRAPPED);
+    u8 id = AddCallback(CB_ON_RESIDUAL, 0, RandRange(4, 6), defender, (u32)wrap_partial_dmg_on_residual);
     CB_MASTER[id].data_ptr = move;
     return true;
 }

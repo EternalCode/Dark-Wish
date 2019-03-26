@@ -1106,7 +1106,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_CONTACT | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &basic_proc,
-    .on_effect_cb = partially_trapped_effect_cb,
+    .on_effect_cb = wrap_partially_trapped_effect_cb,
     .animation = (u8*)&WrapAnimation,
     },
 
