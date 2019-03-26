@@ -1,4 +1,4 @@
-#include <pokeagb\pokeagb.h>
+#include <pokeagb/pokeagb.h>
 #include "animation_sprite_macros.h"
 #include "../../generated/images/battle_animations/impact1.h"
 #include "../../generated/images/battle_animations/burn.h"
