@@ -49,12 +49,6 @@
 #include "../../generated/images/battle_animations/megakickbg.h"
 #include "../../generated/images/battle_animations/megakickplayerbg.h"
 #include "../../generated/images/battle_animations/sandattack.h"
-#include "../../generated/images/battle_animations/star.h"
-#include "../../generated/images/battle_animations/horn.h"
-#include "../../generated/images/battle_animations/furyattack.h"
-#include "../../generated/images/battle_animations/impact6.h"
-#include "../../generated/images/battle_animations/impact7.h"
-#include "../../generated/images/battle_animations/wrap.h"
 
 
 /* the impact sprite from tackle */
@@ -205,11 +199,6 @@ END_OAM()
 BEGIN_AFFINE_ANIM(glowball)
     PLAY_AFFINE(0, 0, 0, 1)
     PLAY_AFFINE(-10, -10, 0, 30)
-END_AFFINE()
-
-BEGIN_AFFINE_ANIM(glowball2)
-    PLAY_AFFINE(0, 0, 0, 1)
-    PLAY_AFFINE(-10, -10, 0, 20)
 END_AFFINE()
 
 BEGIN_AFFINE_ANIM(glowballSmaller)
@@ -856,120 +845,13 @@ BEGIN_FRAME_ANIM(sandattackFrames)
     SHOW_FRAME(4, s32x32, NOFLIP, 2)
 END_ANIM()
 
-
-/* Headbutt star sprite */
-ASSETS(star, s16x16, 447);
-
-MAKE_OAM(star)
+/* bimpact1 sprite transformed for pound */
+MAKE_OAM(impactSmall)
     OAM_AFFINE()
-    OAM_PRIORITY(1)
-    OAM_SIZE(o16x16)
-END_OAM()
-
-BEGIN_AFFINE_ANIM(star)
-    PLAY_AFFINE(0, 0, 0, 1)
-    PLAY_AFFINE(-8, -8, 0, 16)
-END_AFFINE()
-
-
-/* Horn attack horn sprite */
-ASSETS(horn, s32x32, 448);
-
-MAKE_OAM(horn)
-    OAM_PRIORITY(1)
+	OAM_PRIORITY(3)
     OAM_SIZE(o32x32)
 END_OAM()
 
-MAKE_OAM(hornFlipped)
-    OAM_VFLIP()
-    OAM_HFLIP()
-    OAM_PRIORITY(1)
-    OAM_SIZE(o32x32)
-END_OAM()
-
-
-/* Fury attack orange spike sprite */
-ASSETS(furyattack, s32x32, 449);
-
-MAKE_OAM(furyattack)
-    OAM_PRIORITY(1)
-    OAM_SIZE(o32x32)
-END_OAM()
-
-MAKE_OAM(furyattackFlipped)
-    OAM_PRIORITY(1)
-    OAM_HFLIP()
-    OAM_VFLIP()
-    OAM_SIZE(o32x32)
-END_OAM()
-
-
-/* Impact6 and impact7 sprite used in horndrill */
-ASSETS(impact6, s64x64, 450);
-ASSETS(impact7, s64x64, 451);
-
-MAKE_OAM(impact6)
-    OAM_AFFINE()
-    OAM_PRIORITY(0)
-    OAM_SIZE(o64x64)
-END_OAM()
-
-MAKE_OAM(impact7)
-    OAM_AFFINE()
-    OAM_PRIORITY(1)
-    OAM_SIZE(o64x64)
-END_OAM()
-
-BEGIN_AFFINE_ANIM(impact6)
-    PLAY_AFFINE(0, 0, 3, 30)
-    PLAY_AFFINE(0, 0, 3, 30)
-END_AFFINE()
-
-BEGIN_AFFINE_ANIM(impact7)
-    PLAY_AFFINE(0, 0, 5, 30)
-    PLAY_AFFINE(0, 0, 5, 30)
-END_AFFINE()
-
-
-/* Wrap effect */
-ASSETS(wrap, s64x64 * 4, 452);
-
-MAKE_OAM(wrap)
-    OAM_PRIORITY(0)
-    OAM_SIZE(o64x64)
-END_OAM()
-
-MAKE_OAM(wrapFlipped)
-    OAM_VFLIP()
-    OAM_PRIORITY(0)
-    OAM_SIZE(o64x64)
-END_OAM()
-
-BEGIN_FRAME_ANIM(wrapFrames)
-    SHOW_FRAME(0, s64x64, NOFLIP, 3)
-    SHOW_FRAME(1, s64x64, NOFLIP, 4)
-    SHOW_FRAME(2, s64x64, NOFLIP, 4)
-    SHOW_FRAME(3, s64x64, NOFLIP, 5)
-END_ANIM()
-
-BEGIN_FRAME_ANIM(wrapFlippedFrames)
-    SHOW_FRAME(0, s64x64, VFLIP, 3)
-    SHOW_FRAME(1, s64x64, VFLIP, 4)
-    SHOW_FRAME(2, s64x64, VFLIP, 4)
-    SHOW_FRAME(3, s64x64, VFLIP, 5)
-END_ANIM()
-
-BEGIN_AFFINE_ANIM(wrap) // applied to wrap target
-
-    PLAY_AFFINE(-10, 0, 0, 3)
-    PLAY_AFFINE(0, 0, 0, 3)
-    PLAY_AFFINE(10, 0, 0, 3)
-    PLAY_AFFINE(0, 0, 0, 3)
-
-    PLAY_AFFINE(-10, 0, 0, 3)
-    PLAY_AFFINE(0, 0, 0, 3)
-    PLAY_AFFINE(10, 0, 0, 3)
-    PLAY_AFFINE(0, 0, 0, 3)
-
-
+BEGIN_AFFINE_ANIM(impactSmall)
+    PLAY_AFFINE(-100, -100, 0, 1)
 END_AFFINE()
