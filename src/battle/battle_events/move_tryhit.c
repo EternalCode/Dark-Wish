@@ -203,4 +203,6 @@ void event_move_tryhit_external(struct action* current_action)
     } else {
         CURRENT_ACTION->event_state = EventMoveFailed;
     }
+    // display "Pokemon used move!"
+    QueueMessage(CURRENT_MOVE(ACTION_BANK), ACTION_BANK, STRING_ATTACK_USED, 0);
 }
