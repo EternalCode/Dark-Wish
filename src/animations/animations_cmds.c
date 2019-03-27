@@ -840,19 +840,23 @@ void ScriptCmd_palfade()
 #define frequency sprite->data[7]
 void SCBWaveMovement(struct Sprite* sprite)
 {
-    sprite->pos1.x +=xDelta;
+    sprite->pos1.x += xDelta;
     sprite->pos1.y += yDelta;
     bouncesPast += 1;
-    u8 xerror = deltaError >> 8;
-    u8 yerror = deltaError & 0xFF;
-    if (bouncesPast % xerror == 0)
-        sprite->pos1.x += xDelta > 0 ? 1 : -1;
-    if (bouncesPast % yerror == 0)
-        sprite->pos1.y += yDelta > 0 ? 1 : -1;
+    s8 xerror = deltaError >> 8;
+    s8 yerror = deltaError & 0xFF;
+    u8 absX = ABS(xerror);
+    u8 absY = ABS(yerror);
+    if (bouncesPast % absX == 0 && absX > 0) {
+        sprite->pos1.x += xerror > 0 ? 1 : - 1;
+    }
+    if (bouncesPast % absY == 0 && absY > 0) {
+        sprite->pos1.y += yerror > 0 ? 1 : -1;
+    }
     if (bouncesPast > bounces)
         sprite->callback = oac_nullsub;
     // apply sin curve to Y position
-    if (yDelta < 0)
+    if (yDelta < 0 || yerror < 0)
         sprite->pos1.y -= Sin(X, amplitude);
     else
         sprite->pos1.y += Sin(X, amplitude);
@@ -881,8 +885,8 @@ void SpriteCmd_movewave()
     s32 y = s2->pos1.y - sprite->pos1.y;
     xDelta = Div(x, bounces);
     yDelta = Div(y, bounces);
-    u16 xerr = ABS((bounces / (x - (xDelta * bounces)))); // error minimization increment intervals
-    u16 yerr = ABS((bounces / (y - (yDelta * bounces)))); // error minimization increment intervals
+    s16 xerr = Div(bounces, (x - (xDelta * bounces))); // error minimization increment intervals
+    s16 yerr = Div(bounces, (y - (yDelta * bounces))); // error minimization increment intervals
     deltaError = ((xerr << 8) | (yerr & 0xFF));
     // Animate sprite bounce given parameters
     sprite->callback = SCBWaveMovement;
