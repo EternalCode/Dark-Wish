@@ -55,6 +55,7 @@
 #include "../../generated/images/battle_animations/impact6.h"
 #include "../../generated/images/battle_animations/impact7.h"
 #include "../../generated/images/battle_animations/wrap.h"
+#include "../../generated/images/battle_animations/crosspoison.h"
 
 
 /* the impact sprite from tackle */
@@ -982,3 +983,43 @@ END_OAM()
 BEGIN_AFFINE_ANIM(impactSmall)
     PLAY_AFFINE(-100, -100, 0, 1)
 END_AFFINE()
+
+/* Cross Poison */
+ASSETS(crosspoison, s32x32, 453);
+
+MAKE_OAM(crosspoison)
+	OAM_PRIORITY(3)
+	OAM_SIZE(o32x32)
+END_OAM()
+
+MAKE_OAM(crosspoisonFlip)
+	OAM_PRIORITY(3)
+	OAM_HFLIP()
+	OAM_SIZE(o32x32)
+END_OAM()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
