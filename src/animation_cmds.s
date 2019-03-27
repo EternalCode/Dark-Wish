@@ -813,7 +813,7 @@
 .byte 0
 .endm
 
-.macro superscale var xscale yscale rotation
+.macro superscale var xscale yscale
 .byte 87
 .byte 0
 .hword \var
