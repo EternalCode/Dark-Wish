@@ -55,6 +55,8 @@
 #include "../../generated/images/battle_animations/impact6.h"
 #include "../../generated/images/battle_animations/impact7.h"
 #include "../../generated/images/battle_animations/wrap.h"
+#include "../../generated/images/battle_animations/confuseray.h"
+#include "../../generated/images/battle_animations/innerray.h"
 
 
 /* the impact sprite from tackle */
@@ -981,4 +983,29 @@ END_OAM()
 
 BEGIN_AFFINE_ANIM(impactSmall)
     PLAY_AFFINE(-100, -100, 0, 1)
+END_AFFINE()
+
+
+/* confuse ray sprite */
+ASSETS(confuseray, s32x32, 453);
+ASSETS(innerray, s16x16, 454);
+
+MAKE_OAM(confuseray)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+MAKE_OAM(innerray)
+    OAM_AFFINE()
+    OAM_PRIORITY(0)
+    OAM_SIZE(o16x16)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(confuseray)
+    PLAY_AFFINE(-5, -5, 0, 16)
+    PLAY_AFFINE(0, 0, 0, 4)
+    PLAY_AFFINE(5, 5, 0, 16)
+    PLAY_AFFINE(0, 0, 0, 4)
+    JUMP_AFFINE(0)
 END_AFFINE()
