@@ -171,7 +171,9 @@ void event_move_tryhit_external(struct action* current_action)
         gBattleMaster->executing = temp_status;
         return;
     }
-    //B_FLINCH(bank_index) = 0;
+
+    // display "Pokemon used move!"
+    QueueMessage(CURRENT_MOVE(ACTION_BANK), ACTION_BANK, STRING_ATTACK_USED, 0);
 
     /* Move tryhit callbacks */
     switch (move_tryhit(bank_index, TARGET_OF(bank_index), move)) {
@@ -203,6 +205,5 @@ void event_move_tryhit_external(struct action* current_action)
     } else {
         CURRENT_ACTION->event_state = EventMoveFailed;
     }
-    // display "Pokemon used move!"
-    QueueMessage(CURRENT_MOVE(ACTION_BANK), ACTION_BANK, STRING_ATTACK_USED, 0);
+
 }
