@@ -55,6 +55,7 @@
 #include "../../generated/images/battle_animations/impact6.h"
 #include "../../generated/images/battle_animations/impact7.h"
 #include "../../generated/images/battle_animations/wrap.h"
+#include "../../generated/images/battle_animations/crosspoison.h"
 #include "../../generated/images/battle_animations/confuseray.h"
 #include "../../generated/images/battle_animations/innerray.h"
 
@@ -986,6 +987,21 @@ BEGIN_AFFINE_ANIM(impactSmall)
 END_AFFINE()
 
 
+/* Cross Poison */
+ASSETS(crosspoison, s32x32, 453);
+
+MAKE_OAM(crosspoison)
+	OAM_PRIORITY(3)
+	OAM_SIZE(o32x32)
+END_OAM()
+
+MAKE_OAM(crosspoisonFlip)
+	OAM_PRIORITY(3)
+	OAM_HFLIP()
+	OAM_SIZE(o32x32)
+END_OAM()
+
+
 /* confuse ray sprite */
 ASSETS(confuseray, s32x32, 453);
 ASSETS(innerray, s16x16, 454);
@@ -1009,3 +1025,4 @@ BEGIN_AFFINE_ANIM(confuseray)
     PLAY_AFFINE(0, 0, 0, 4)
     JUMP_AFFINE(0)
 END_AFFINE()
+
