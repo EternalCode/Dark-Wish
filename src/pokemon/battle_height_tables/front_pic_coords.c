@@ -19,7 +19,7 @@ const struct MonCoords gMonFrontPicCoords[] =
 	{
 		.width = 0,
 		.height = 0,
-		.y_offset = 0,
+		.y_offset = -6,
 	},
 	// kingdra 3
 	{
