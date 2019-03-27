@@ -93,6 +93,7 @@ void ScriptCmd_spritefeatherfall(void);
 void ScriptCmd_pickrandompos(void);
 void ScriptCmd_waitonthread(void);
 void ScriptCmd_fadebg2(void);
+void ScriptCmd_spritedoublesize(void);
 
 
 
@@ -210,6 +211,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_pickrandompos, // 84
     ScriptCmd_waitonthread, // 85
     ScriptCmd_fadebg2, // 86
+    ScriptCmd_spritedoublesize, // 87
 };
 
 
@@ -1836,6 +1838,32 @@ void ScriptCmd_waitonthread()
     ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
 }
+
+// mark a sprite as double size
+void ScriptCmd_spritedoublesize()
+{
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    u16 scaleX = ANIMSCR_READ_HWORD;
+    scaleX = VarGet(scaleX);
+    u16 scaleY = ANIMSCR_READ_HWORD;
+    scaleY = VarGet(scaleY);
+    gSprites[spriteId].affineAnimPaused = true;
+    gSprites[spriteId].final_oam.affine_mode = 3;
+    CalcCenterToCornerVec(&gSprites[spriteId], gSprites[spriteId].final_oam.shape, gSprites[spriteId].final_oam.size, 3);
+    struct ObjAffineSrcData src = {scaleX, scaleY, 0};
+    struct OamMatrix matrix;
+
+    u32 matrixId = gSprites[spriteId].final_oam.matrix_num;
+    ObjAffineSet(&src, &matrix, 1, 2);
+    gOamMatrices[matrixId].a = matrix.a;
+    gOamMatrices[matrixId].b = matrix.b;
+    gOamMatrices[matrixId].c = matrix.c;
+    gOamMatrices[matrixId].d = matrix.d;
+    ANIMSCR_CMD_NEXT;
+}
+
 
 void AnimationMain()
 {
