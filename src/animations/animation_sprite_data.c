@@ -55,6 +55,7 @@
 #include "../../generated/images/battle_animations/impact6.h"
 #include "../../generated/images/battle_animations/impact7.h"
 #include "../../generated/images/battle_animations/wrap.h"
+#include "../../generated/images/battle_animations/bite.h"
 
 
 /* the impact sprite from tackle */
@@ -982,3 +983,19 @@ END_OAM()
 BEGIN_AFFINE_ANIM(impactSmall)
     PLAY_AFFINE(-100, -100, 0, 1)
 END_AFFINE()
+
+/* bite sprite */
+ASSETS(bite, s64x64, 453);
+
+MAKE_OAM(bite)
+    OAM_PRIORITY(3)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+MAKE_OAM(biteflipped)
+	OAM_VFLIP()
+    OAM_PRIORITY(3)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+
