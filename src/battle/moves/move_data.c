@@ -2157,6 +2157,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GHOST,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &confuse_100_procs,
+    .on_tryhit_move = pseudostatus_only_movetryhit,
     .animation = (u8*)&ConfuseRayAnimation,
 	},
 
