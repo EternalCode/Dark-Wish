@@ -92,6 +92,6 @@ void event_before_move(struct action* current_action)
         return;
     }
     // display "Pokemon used move!"
-    QueueMessage(CURRENT_MOVE(ACTION_BANK), ACTION_BANK, STRING_ATTACK_USED, 0);
+    //QueueMessage(CURRENT_MOVE(ACTION_BANK), ACTION_BANK, STRING_ATTACK_USED, 0);
     current_action->event_state++;
 }

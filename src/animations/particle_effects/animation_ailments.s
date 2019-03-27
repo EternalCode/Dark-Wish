@@ -169,6 +169,7 @@ finishConfused:
     waittask TaskMoveSinLeftAndRight
     pauseframes 10
     deletesprite initialSprite
+    spritepriority target 3
     end
 .pool
 
