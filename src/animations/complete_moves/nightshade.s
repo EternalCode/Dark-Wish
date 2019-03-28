@@ -48,11 +48,9 @@ NightShadeAnimation:
     hidebg 2
     beginfade 2 0x0000 FADEFROM true 16
     setprioritybg 1 1
-
     clearblending
     spritebgclear attacker
     nontransparent attacker
-
     end
 
 GrowSprite:

@@ -276,7 +276,7 @@ END_AFFINE()
 
 
 /* impact2 sprite */
-ASSETS(impact2, s16x16, 411);
+ASSETS(impact2, s32x32, 411);
 
 MAKE_OAM(impact2)
     OAM_SIZE(o32x32)
@@ -908,7 +908,7 @@ MAKE_OAM(furyattackFlipped)
 END_OAM()
 
 
-/* Impact6 and impact7 sprite used in horndrill */
+/* Impact6 and impact7 sprite used in horndrill and slam */
 ASSETS(impact6, s64x64, 450);
 ASSETS(impact7, s64x64, 451);
 
@@ -933,6 +933,19 @@ BEGIN_AFFINE_ANIM(impact7)
     PLAY_AFFINE(0, 0, 5, 30)
     PLAY_AFFINE(0, 0, 5, 30)
 END_AFFINE()
+
+MAKE_OAM(impact6Slam)
+    OAM_AFFINE()
+    OAM_SIZE(o64x64)
+    OAM_PRIORITY(3)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(impact6Slam)
+    PLAY_AFFINE(20, -80, 0, 1)
+    PLAY_AFFINE(-10, -10, 0, 10)
+END_AFFINE()
+
+
 
 
 /* Wrap effect */
