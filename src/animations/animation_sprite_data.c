@@ -58,6 +58,7 @@
 #include "../../generated/images/battle_animations/crosspoison.h"
 #include "../../generated/images/battle_animations/confuseray.h"
 #include "../../generated/images/battle_animations/innerray.h"
+#include "../../generated/images/battle_animations/nightshade.h"
 
 
 /* the impact sprite from tackle */
@@ -1025,4 +1026,3 @@ BEGIN_AFFINE_ANIM(confuseray)
     PLAY_AFFINE(0, 0, 0, 4)
     JUMP_AFFINE(0)
 END_AFFINE()
-
