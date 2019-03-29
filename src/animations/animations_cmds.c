@@ -31,7 +31,7 @@ void ScriptCmd_excludeblend(void);
 void ScriptCmd_includeblend(void);
 void SpriteCmd_darkensprites(void);
 void SpriteCmd_lightensprites(void);
-void ScripCmd_clearpalbuff(void);
+void ScriptCmd_clearpalbuff(void);
 void ScriptCmd_palbufferspriteandbgs(void);
 void ScriptCmd_palfade(void);
 void SpriteCmd_movewave(void);
@@ -148,7 +148,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_excludeblend, // 21
     SpriteCmd_darkensprites, // 22
     SpriteCmd_lightensprites, // 23
-    ScripCmd_clearpalbuff, // 24
+    ScriptCmd_clearpalbuff, // 24
     ScriptCmd_palbufferspriteandbgs, // 25
     ScriptCmd_palfade, // 26
     SpriteCmd_movewave, // 27
@@ -783,7 +783,7 @@ void SpriteCmd_lightensprites()
 }
 
 /* clears the current thread's palette buffer */
-void ScripCmd_clearpalbuff()
+void ScriptCmd_clearpalbuff()
 {
     ANIMSCR_MOVE(3);
     ANIMSCR_PALBUFF = 0;

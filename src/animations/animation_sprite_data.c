@@ -60,6 +60,8 @@
 #include "../../generated/images/battle_animations/innerray.h"
 #include "../../generated/images/battle_animations/nightshade.h"
 #include "../../generated/images/battle_animations/squarefist.h"
+#include "../../generated/images/battle_animations/doubleedgebg_opponent.h"
+#include "../../generated/images/battle_animations/doubleedgebg_player.h"
 
 
 /* the impact sprite from tackle */
@@ -927,6 +929,16 @@ END_OAM()
 
 MAKE_OAM(impact7)
     OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+MAKE_OAM(impact6Original)
+    OAM_PRIORITY(0)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+MAKE_OAM(impact7Original)
     OAM_PRIORITY(1)
     OAM_SIZE(o64x64)
 END_OAM()
