@@ -813,12 +813,15 @@
 .byte 0
 .endm
 
-.macro superscale var xscale yscale
+.macro superscale var xscale yscale rotation
 .byte 87
 .byte 0
 .hword \var
 .hword \xscale
 .hword \yscale
+.hword \rotation
+.byte 0
+.byte 0
 .endm
 
 .macro BLOCKCMD

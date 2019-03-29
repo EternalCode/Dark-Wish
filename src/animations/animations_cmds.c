@@ -1852,7 +1852,9 @@ void ScriptCmd_spritedoublesize()
     gSprites[spriteId].affineAnimPaused = true;
     gSprites[spriteId].final_oam.affine_mode = 3;
     CalcCenterToCornerVec(&gSprites[spriteId], gSprites[spriteId].final_oam.shape, gSprites[spriteId].final_oam.size, 3);
-    struct ObjAffineSrcData src = {scaleX, scaleY, 0};
+    s16 rotation = ANIMSCR_READ_HWORD;
+    rotation = VarGet(rotation);
+    struct ObjAffineSrcData src = {scaleX, scaleY, rotation << 8};
     struct OamMatrix matrix;
 
     u32 matrixId = gSprites[spriteId].final_oam.matrix_num;
@@ -1861,6 +1863,7 @@ void ScriptCmd_spritedoublesize()
     gOamMatrices[matrixId].b = matrix.b;
     gOamMatrices[matrixId].c = matrix.c;
     gOamMatrices[matrixId].d = matrix.d;
+    ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
 }
 
