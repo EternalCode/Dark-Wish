@@ -59,6 +59,7 @@
 #include "../../generated/images/battle_animations/confuseray.h"
 #include "../../generated/images/battle_animations/innerray.h"
 #include "../../generated/images/battle_animations/nightshade.h"
+#include "../../generated/images/battle_animations/squarefist.h"
 
 
 /* the impact sprite from tackle */
@@ -801,7 +802,7 @@ MAKE_OAM(leafblades)
 END_OAM()
 
 
-/* Stomp foot sprite, also used in double kick, megakick */
+/* Stomp foot sprite, also used in double kick, megakick, thrash */
 ASSETS(stomp, s64x64 * 2, 444);
 
 MAKE_OAM(stomp)
@@ -812,6 +813,12 @@ END_OAM()
 MAKE_OAM(doublekick)
     OAM_AFFINE()
     OAM_PRIORITY(2)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+MAKE_OAM(thrashfoot)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
     OAM_SIZE(o64x64)
 END_OAM()
 
@@ -934,6 +941,11 @@ BEGIN_AFFINE_ANIM(impact7)
     PLAY_AFFINE(0, 0, 5, 30)
 END_AFFINE()
 
+BEGIN_AFFINE_ANIM(impact7Thrash)
+    PLAY_AFFINE(0, 0, 0, 1)
+    PLAY_AFFINE(60, 60, 0, 3)
+END_AFFINE()
+
 MAKE_OAM(impact6Slam)
     OAM_AFFINE()
     OAM_SIZE(o64x64)
@@ -1038,4 +1050,18 @@ BEGIN_AFFINE_ANIM(confuseray)
     PLAY_AFFINE(5, 5, 0, 16)
     PLAY_AFFINE(0, 0, 0, 4)
     JUMP_AFFINE(0)
+END_AFFINE()
+
+
+/* Square fist sprite */
+ASSETS(squarefist, s64x64, 455);
+
+MAKE_OAM(squarefist)
+    .affine_mode = 3,
+    OAM_PRIORITY(1)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(squarefist)
+    PLAY_AFFINE(0, 0, 20, 1)
 END_AFFINE()

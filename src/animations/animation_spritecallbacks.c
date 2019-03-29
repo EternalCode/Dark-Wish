@@ -98,8 +98,14 @@ void AnimOrbitFastStepNoPriority(struct Sprite *sprite)
         if (sprite->data[5]) {
             FreeSpriteOamMatrix(sprite);
             obj_free(sprite);
+            return;
         }
         sprite->callback = (oac_nullsub);
+    }
+    // calcuate the center
+    if (sprite->final_oam.affine_mode) {
+        dprintf("runniadfasdfasdfasdfng this\n");
+        CalcCenterToCornerVec(sprite, sprite->final_oam.shape, sprite->final_oam.size, sprite->final_oam.affine_mode);
     }
 }
 
