@@ -11,17 +11,21 @@
 .global PoisonStingAnimation
 PoisonStingAnimation:
     fastsetbattlers
+    BLOCKCMD
     loadspritefull poisonSprite poisonPalette poisonOam
     copyvar poisonParticle LASTRESULT
     loadspritefull poisonstingSprite poisonstingPalette poisonstingOam
     copyvar poisonstingParticle LASTRESULT
     spritepriority poisonstingParticle 3
     spritepriority attacker 2
+    OPENCMD
     spritetobg target 8 8
+    BLOCKCMD
     spritesetposition poisonstingParticle attackerx attackery
     getangle attackerx attackery targetx targety angleBuffer
     applycustomaffine poisonstingParticle 256 256 angleBuffer
     showsprite poisonstingParticle
+    OPENCMD
     spritemovedst 16 poisonstingParticle target
     pauseframes 7
     spriteblend2 poisonstingParticle 10 0x6A1A
@@ -30,7 +34,10 @@ PoisonStingAnimation:
     pauseframes 6
     addpalbuffer target false
     fadespritebg 2 0x6C50 FADETO false 10
+    BLOCKCMD
     blendsemitransparent 12 4
+    quakebg 1 2 0 2 2 false
+    OPENCMD
     call createPoisonBubble
     spritecallback tempSprite SCB_SpriteDeleteAfter20Frames
     call createPoisonBubble
