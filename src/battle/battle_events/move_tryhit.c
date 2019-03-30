@@ -173,7 +173,8 @@ void event_move_tryhit_external(struct action* current_action)
     }
 
     // display "Pokemon used move!"
-    QueueMessage(CURRENT_MOVE(ACTION_BANK), ACTION_BANK, STRING_ATTACK_USED, 0);
+    if (!B_MOVE_MULTI(ACTION_BANK) || gBattleMaster->b_moves[ACTION_BANK].hit_counter == 1)
+        QueueMessage(CURRENT_MOVE(ACTION_BANK), ACTION_BANK, STRING_ATTACK_USED, 0);
 
     /* Move tryhit callbacks */
     switch (move_tryhit(bank_index, TARGET_OF(bank_index), move)) {
