@@ -56,6 +56,7 @@ extern struct TextColor textGreen;
 extern void CpuFastSet(void* src, void* dst, u32 mode);
 extern s32	Div(s32 num, s32 divisor);
 extern u32	Sqrt(u32 num);
+extern u16 ArcTan2(s16 x, s16 y);
 extern void ObjAffineSet(struct ObjAffineSrcData *src, void *dest, s32 count, s32 offset);
 
 /* Game clock */
