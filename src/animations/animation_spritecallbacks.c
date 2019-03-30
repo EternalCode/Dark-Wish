@@ -61,6 +61,16 @@ void SCB_SpriteDeleteWhenAffineEnds(struct Sprite* sprite)
 {
     if (sprite->affineAnimEnded) {
         FreeSpriteOamMatrix(sprite);
+        obj_free(sprite);
+        DestroySprite(sprite);
+    }
+}
+
+void SCB_SpriteDeleteWhenAnimEnds(struct Sprite* sprite)
+{
+    if (sprite->animEnded) {
+        FreeSpriteOamMatrix(sprite);
+        obj_free(sprite);
         DestroySprite(sprite);
     }
 }
