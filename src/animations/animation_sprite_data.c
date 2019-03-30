@@ -63,6 +63,7 @@
 #include "../../generated/images/battle_animations/doubleedgebg_opponent.h"
 #include "../../generated/images/battle_animations/doubleedgebg_player.h"
 #include "../../generated/images/battle_animations/poisonsting.h"
+#include "../../generated/images/battle_animations/pinmissile.h"
 
 
 /* the impact sprite from tackle */
@@ -1086,5 +1087,15 @@ ASSETS(poisonsting, s16x16, 456);
 MAKE_OAM(poisonsting)
     OAM_AFFINE()
     OAM_PRIORITY(1)
+    OAM_SIZE(o16x16)
+END_OAM()
+
+
+/* Pinmissile barb */
+ASSETS(pinmissile, s16x16, 457);
+
+MAKE_OAM(pinmissile)
+    OAM_AFFINE()
+    OAM_PRIORITY(0)
     OAM_SIZE(o16x16)
 END_OAM()
