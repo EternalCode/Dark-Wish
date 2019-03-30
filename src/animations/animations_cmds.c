@@ -94,6 +94,8 @@ void ScriptCmd_pickrandompos(void);
 void ScriptCmd_waitonthread(void);
 void ScriptCmd_fadebg2(void);
 void ScriptCmd_spritedoublesize(void);
+void ScriptCmd_getanglebetweenpts(void);
+void ScriptCmd_applycustomaffine(void);
 
 
 
@@ -122,6 +124,7 @@ extern void AnimOrbitFastStep(struct Sprite *sprite);
 extern void AnimOrbitFastStepNoPriority(struct Sprite *sprite);
 extern void AnimOrbitShrinkNoPriority(struct Sprite *sprite);
 extern void SCB_SpriteFeatherFall(struct Sprite *sprite);
+
 
 const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_loadspritefull, // 0
@@ -212,6 +215,8 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_waitonthread, // 85
     ScriptCmd_fadebg2, // 86
     ScriptCmd_spritedoublesize, // 87
+    ScriptCmd_getanglebetweenpts, // 88
+    ScriptCmd_applycustomaffine, // 89
 };
 
 
@@ -1446,7 +1451,8 @@ void ScriptCmd_playmessage()
     ANIMSCR_CMD_NEXT;
 }
 
-// move sprite to another sprite linearly
+
+// move sprite to another sprite linearly with a delay
 void ScriptCmd_movespritedst()
 {
     u8 steps = ANIMSCR_READ_BYTE;
@@ -1456,6 +1462,7 @@ void ScriptCmd_movespritedst()
     u16 spriteId2 = ANIMSCR_READ_HWORD;
     spriteId2 = VarGet(spriteId2);
     struct Sprite* s2 = &gSprites[spriteId2];
+    u8 delay = ANIMSCR_READ_BYTE;
 
     // calculate delta distances per movement
     s32 x = s2->pos1.x - sprite->pos1.x;
@@ -1466,13 +1473,20 @@ void ScriptCmd_movespritedst()
     sprite->data[0] = steps;
     sprite->data[1] = xDelta;
     sprite->data[2] = yDelta;
-    sprite->data[3] = Div(steps, (x - (xDelta * steps))); // error minimization increment intervals
-    sprite->data[4] = Div(steps, (y - (yDelta * steps))); // error minimization increment intervals
-
-    // to wait for finish, make sure to put use a waitanim command as the next command.
-    ANIMSCR_MOVE(2);
+    if ((x - (xDelta * steps)) > 0)
+        sprite->data[3] = Div(steps, (x - (xDelta * steps))); // error minimization increment intervals
+    else
+        sprite->data[3] = 0;
+    if ((y - (yDelta * steps)) > 0)
+        sprite->data[4] = Div(steps, (y - (yDelta * steps))); // error minimization increment intervals
+    else
+        sprite->data[4] = 0;
+    dprintf("finish divs %d, %d\n", sprite->data[3], sprite->data[4]);
+    sprite->data[7] = delay;
+    ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }
+
 
 // blend sprites, on all layers including BG 3
 /* Given a coefficient for the amount of blending for the sprites and BG 0. Apply blending */
@@ -1863,6 +1877,66 @@ void ScriptCmd_spritedoublesize()
     gOamMatrices[matrixId].b = matrix.b;
     gOamMatrices[matrixId].c = matrix.c;
     gOamMatrices[matrixId].d = matrix.d;
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+// gen angle between two pairs of coords
+void ScriptCmd_getanglebetweenpts()
+{
+    ANIMSCR_MOVE(1);
+    u16 pos1x = ANIMSCR_READ_HWORD;
+    pos1x = VarGet(pos1x);
+    u16 pos1y = ANIMSCR_READ_HWORD;
+    pos1y = VarGet(pos1y);
+
+    u16 pos2x = ANIMSCR_READ_HWORD;
+    pos2x = VarGet(pos2x);
+    u16 pos2y = ANIMSCR_READ_HWORD;
+    pos2y = VarGet(pos2y);
+
+    s16 x = (pos1x - pos2x);
+    s16 y = (pos1y - pos2y);
+    dprintf("dists are %d, %d\n", x, y);
+    u16 angleBuffer = ANIMSCR_READ_HWORD;
+    u16 angle = -ArcTan2(x, y);
+    angle += (192 << 8);
+    angle = angle >> 8;
+
+    VarSet(angleBuffer, angle);
+    dprintf("angle calc'd to be %d\n", angle);
+    ANIMSCR_CMD_NEXT;
+}
+
+
+
+// apply a custom affine matrix transformation to a sprite
+void ScriptCmd_applycustomaffine()
+{
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    u16 scaleX = ANIMSCR_READ_HWORD;
+    scaleX = VarGet(scaleX);
+    u16 scaleY = ANIMSCR_READ_HWORD;
+    scaleY = VarGet(scaleY);
+    u16 rotation = ANIMSCR_READ_HWORD;
+    rotation = VarGet(rotation);
+
+    gSprites[spriteId].affineAnimPaused = true;
+    gSprites[spriteId].final_oam.affine_mode = 3;
+    CalcCenterToCornerVec(&gSprites[spriteId], gSprites[spriteId].final_oam.shape,
+        gSprites[spriteId].final_oam.size, 3);
+    struct ObjAffineSrcData src = {scaleX, scaleY, rotation << 8};
+    struct OamMatrix matrix;
+
+    u32 matrixId = gSprites[spriteId].final_oam.matrix_num;
+    ObjAffineSet(&src, &matrix, 1, 2);
+    gOamMatrices[matrixId].a = matrix.a;
+    gOamMatrices[matrixId].b = matrix.b;
+    gOamMatrices[matrixId].c = matrix.c;
+    gOamMatrices[matrixId].d = matrix.d;
+
     ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
 }
