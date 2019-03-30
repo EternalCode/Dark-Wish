@@ -56,23 +56,23 @@ NightShadeAnimation:
 GrowSprite:
     compare counter 128
     if1 0x1 goto finishGrow
-    superscale attacker counter counter
+    superscale attacker counter counter 256
     subvar counter amount
     goto GrowSprite
 
 finishGrow:
-    superscale attacker 128 128
+    superscale attacker 128 128 256
     end
 
 ShrinkSprite:
     compare counter 256
     if1 0x1 goto finishShrink
-    superscale attacker counter counter
+    superscale attacker counter counter 256
     addvar counter amount
     goto ShrinkSprite
 
 finishShrink:
-    superscale attacker 256 256
+    superscale attacker 256 256 256
     end
 
 .pool
