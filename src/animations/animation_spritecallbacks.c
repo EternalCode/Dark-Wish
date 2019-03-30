@@ -19,14 +19,26 @@ void SCB_SpriteBlink(struct Sprite* sprite)
 #define yerror spr->data[4]
 #define totalFramesPast spr->data[5]
 #define framesPast spr->data[6]
+#define delay spr->data[7]
 
 void SCBMoveSpriteErrorCorrection(struct Sprite* spr)
 {
+    if ((delay > 0) && (framesPast % delay)) {
+        framesPast++;
+        framesCount++;
+        return;
+    }
     totalFramesPast++;
-    if (totalFramesPast % xerror == 0)
-        spr->pos1.x += deltaX >= 0 ? 1 : -1;
-    if (totalFramesPast % yerror == 0)
-        spr->pos1.y += deltaY >= 0 ? 1 : -1;
+    u16 absXerr = ABS(xerror);
+    u16 absYerr = ABS(yerror);
+    if (absXerr > 0) {
+        if (totalFramesPast % absXerr == 0)
+            spr->pos1.x += xerror > 0 ? 1 : -1;
+    }
+    if (absYerr > 0) {
+        if (totalFramesPast % absYerr == 0)
+            spr->pos1.y += yerror > 0 ? 1 : -1;
+    }
     if (framesPast < framesCount) {
         spr->pos1.x += deltaX;
         spr->pos1.y += deltaY;
@@ -43,6 +55,7 @@ void SCBMoveSpriteErrorCorrection(struct Sprite* spr)
 #undef yerror
 #undef totalFramesPast
 #undef framesPast
+#undef delay
 
 void SCB_SpriteDeleteWhenAffineEnds(struct Sprite* sprite)
 {
@@ -56,6 +69,15 @@ void SCB_SpriteDeleteAfter10Frames(struct Sprite* sprite)
 {
     sprite->data[0]++;
     if (sprite->data[0] == 10) {
+        FreeSpriteOamMatrix(sprite);
+        DestroySprite(sprite);
+    }
+}
+
+void SCB_SpriteDeleteAfter20Frames(struct Sprite* sprite)
+{
+    sprite->data[0]++;
+    if (sprite->data[0] == 20) {
         FreeSpriteOamMatrix(sprite);
         DestroySprite(sprite);
     }
@@ -101,11 +123,6 @@ void AnimOrbitFastStepNoPriority(struct Sprite *sprite)
             return;
         }
         sprite->callback = (oac_nullsub);
-    }
-    // calcuate the center
-    if (sprite->final_oam.affine_mode) {
-        dprintf("runniadfasdfasdfasdfng this\n");
-        CalcCenterToCornerVec(sprite, sprite->final_oam.shape, sprite->final_oam.size, sprite->final_oam.affine_mode);
     }
 }
 
