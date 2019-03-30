@@ -1130,17 +1130,34 @@ MAKE_OAM(growl)
     OAM_SIZE(o32x32)
 END_OAM()
 
-BEGIN_AFFINE_ANIM(growlTop)
+BEGIN_AFFINE_ANIM(growlTop) // straight up
     PLAY_AFFINE(0, 0, 128, 1)
 END_AFFINE()
 
-BEGIN_AFFINE_ANIM(growlLeft)
+BEGIN_AFFINE_ANIM(growlLeft) // 45 degrees left
+    PLAY_AFFINE(0, 0, 160, 1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(growlRight) // 315 degrees right (45 degrees right)
+    PLAY_AFFINE(0, 0, 96, 1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(growlHorizontal) // 90 degrees
+    PLAY_AFFINE(0, 0, 64, 1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(growlDownRight) // 135 degrees
     PLAY_AFFINE(0, 0, 32, 1)
 END_AFFINE()
 
-BEGIN_AFFINE_ANIM(growlRight)
-    PLAY_AFFINE(0, 0, 224, 1)
+BEGIN_AFFINE_ANIM(growlDiagonalRight)
+    PLAY_AFFINE(0, 0, 96, 1)
 END_AFFINE()
+
+BEGIN_AFFINE_ANIM(growlDiagonalRightUp)
+    PLAY_AFFINE(0, 0, 48, 1)
+END_AFFINE()
+
 
 
 
