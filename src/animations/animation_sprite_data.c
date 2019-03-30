@@ -64,6 +64,7 @@
 #include "../../generated/images/battle_animations/doubleedgebg_player.h"
 #include "../../generated/images/battle_animations/poisonsting.h"
 #include "../../generated/images/battle_animations/pinmissile.h"
+#include "../../generated/images/battle_animations/leer.h"
 
 
 /* the impact sprite from tackle */
@@ -1110,9 +1111,9 @@ MAKE_OAM(leer)
 END_OAM()
 
 BEGIN_FRAME_ANIM(leerFrames)
-    SHOW_FRAME(0, s32x32, NOFLIP, 3)
-    SHOW_FRAME(1, s32x32, NOFLIP, 3)
-    SHOW_FRAME(2, s32x32, NOFLIP, 3)
-    SHOW_FRAME(3, s32x32, NOFLIP, 3)
+    SHOW_FRAME(0, s32x32, NOFLIP, 4)
+    SHOW_FRAME(1, s32x32, NOFLIP, 4)
+    SHOW_FRAME(2, s32x32, NOFLIP, 8)
+    SHOW_FRAME(3, s32x32, NOFLIP, 6)
     SHOW_FRAME(4, s32x32, NOFLIP, 3)
 END_ANIM()
