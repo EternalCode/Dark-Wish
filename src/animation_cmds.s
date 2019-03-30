@@ -713,6 +713,7 @@
 .byte 0
 .endm
 
+
 .macro depthlessorbit spriteA spriteB duration width height dir speed boolwait booldelete waveoffset
 .byte 76
 .byte \boolwait
@@ -854,6 +855,14 @@
 .byte 0
 .byte 0
 .endm
+
+.macro addfadebg1
+.byte 90
+.byte 0
+.byte 0
+.byte 0
+.endm
+
 
 .macro BLOCKCMD
 .byte 0xFE

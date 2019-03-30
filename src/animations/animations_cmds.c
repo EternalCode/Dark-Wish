@@ -96,6 +96,7 @@ void ScriptCmd_fadebg2(void);
 void ScriptCmd_spritedoublesize(void);
 void ScriptCmd_getanglebetweenpts(void);
 void ScriptCmd_applycustomaffine(void);
+void ScriptCmd_fadebg1(void);
 
 
 
@@ -217,6 +218,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_spritedoublesize, // 87
     ScriptCmd_getanglebetweenpts, // 88
     ScriptCmd_applycustomaffine, // 89
+    ScriptCmd_fadebg1, // 90
 };
 
 
@@ -469,6 +471,7 @@ void ScriptCmd_RunAnimAvailableThread()
                 for (u8 varId = 0; varId < ANIM_VAR_COUNT; varId++) {
                     gAnimationCore->corevars[i][varId] = gAnimationCore->corevars[ANIMSCR_THREAD][varId];
                 }
+                gAnimationCore->palbuffer[i] = gAnimationCore->palbuffer[ANIMSCR_THREAD];
             } else {
                 for (u8 varId = 0; varId < ANIM_VAR_COUNT; varId++) {
                     gAnimationCore->corevars[i][varId] = 0;
@@ -1621,6 +1624,14 @@ void ScriptCmd_fadebg2()
     ANIMSCR_CMD_NEXT;
 }
 
+/* Blend bg1. This will work if other sprites aren't in the process of blending */
+void ScriptCmd_fadebg1()
+{
+    ANIMSCR_MOVE(3);
+    ANIMSCR_PALBUFF |= (1 << 4);
+    ANIMSCR_CMD_NEXT;
+}
+
 
 // Make spriteA orbit spriteB with given customizations
 void ScriptCmd_depthlessorbit()
@@ -1897,14 +1908,12 @@ void ScriptCmd_getanglebetweenpts()
 
     s16 x = (pos1x - pos2x);
     s16 y = (pos1y - pos2y);
-    dprintf("dists are %d, %d\n", x, y);
     u16 angleBuffer = ANIMSCR_READ_HWORD;
     u16 angle = -ArcTan2(x, y);
     angle += (192 << 8);
     angle = angle >> 8;
 
     VarSet(angleBuffer, angle);
-    dprintf("angle calc'd to be %d\n", angle);
     ANIMSCR_CMD_NEXT;
 }
 
