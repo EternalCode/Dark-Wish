@@ -62,6 +62,7 @@
 #include "../../generated/images/battle_animations/squarefist.h"
 #include "../../generated/images/battle_animations/doubleedgebg_opponent.h"
 #include "../../generated/images/battle_animations/doubleedgebg_player.h"
+#include "../../generated/images/battle_animations/poisonsting.h"
 
 
 /* the impact sprite from tackle */
@@ -1077,3 +1078,13 @@ END_OAM()
 BEGIN_AFFINE_ANIM(squarefist)
     PLAY_AFFINE(0, 0, 20, 1)
 END_AFFINE()
+
+
+/* Poisonsting barb */
+ASSETS(poisonsting, s16x16, 456);
+
+MAKE_OAM(poisonsting)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o16x16)
+END_OAM()
