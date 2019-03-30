@@ -65,6 +65,8 @@
 #include "../../generated/images/battle_animations/poisonsting.h"
 #include "../../generated/images/battle_animations/pinmissile.h"
 #include "../../generated/images/battle_animations/leer.h"
+#include "../../generated/images/battle_animations/growl.h"
+#include "../../generated/images/battle_animations/buffcircle.h"
 
 
 /* the impact sprite from tackle */
@@ -1102,7 +1104,7 @@ MAKE_OAM(pinmissile)
 END_OAM()
 
 
-/* Lear glisten sprite */
+/* Leer glisten sprite */
 ASSETS(leer, s32x32 * 5, 458);
 
 MAKE_OAM(leer)
@@ -1117,3 +1119,37 @@ BEGIN_FRAME_ANIM(leerFrames)
     SHOW_FRAME(3, s32x32, NOFLIP, 6)
     SHOW_FRAME(4, s32x32, NOFLIP, 3)
 END_ANIM()
+
+
+/* Growl roar particle */
+ASSETS(growl, s32x32, 459);
+
+MAKE_OAM(growl)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(growlTop)
+    PLAY_AFFINE(0, 0, 128, 1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(growlLeft)
+    PLAY_AFFINE(0, 0, 32, 1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(growlRight)
+    PLAY_AFFINE(0, 0, 224, 1)
+END_AFFINE()
+
+
+
+
+/* Buff circle sprite that grows */
+ASSETS(buffcircle, s64x64, 460);
+
+MAKE_OAM(buffcircle)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o64x64)
+END_OAM()
