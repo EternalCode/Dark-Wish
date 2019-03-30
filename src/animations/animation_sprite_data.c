@@ -1099,3 +1099,20 @@ MAKE_OAM(pinmissile)
     OAM_PRIORITY(0)
     OAM_SIZE(o16x16)
 END_OAM()
+
+
+/* Lear glisten sprite */
+ASSETS(leer, s32x32 * 5, 458);
+
+MAKE_OAM(leer)
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_FRAME_ANIM(leerFrames)
+    SHOW_FRAME(0, s32x32, NOFLIP, 3)
+    SHOW_FRAME(1, s32x32, NOFLIP, 3)
+    SHOW_FRAME(2, s32x32, NOFLIP, 3)
+    SHOW_FRAME(3, s32x32, NOFLIP, 3)
+    SHOW_FRAME(4, s32x32, NOFLIP, 3)
+END_ANIM()
