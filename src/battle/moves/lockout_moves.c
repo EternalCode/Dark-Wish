@@ -11,6 +11,14 @@ extern u8 CountBankMovePP(u16 moveId, u8 bank);
 extern void set_attack_bm_inplace(u8 bank, u8 index, s8 priority);
 extern bool BankKnowsMove(u16 moveId, u8 bank);
 
+enum BeforeMoveStatus {
+    CANT_USE_MOVE = 0,
+    USE_MOVE_NORMAL,
+    TARGET_MOVE_IMMUNITY,
+    SILENT_FAIL,
+    SILENT_CONTINUE,
+};
+
 const static u16 encore_disallow[] = {
     MOVE_ASSIST, MOVE_COPYCAT, MOVE_ENCORE, MOVE_MEFIRST,
     MOVE_METRONOME, MOVE_MIMIC, MOVE_MIRRORMOVE,
@@ -153,11 +161,11 @@ u8 disable_on_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* 
     if (has_callback_src((u32)disable_on_disable_move, user) || HAS_VOLATILE(user, VOLATILE_DISABLE)) {
         u8 id = get_callback_src((u32)disable_on_disable_move, user);
         if (move == CB_MASTER[id].data_ptr) {
-            QueueMessage(CURRENT_MOVE(user), user, STRING_ATTACK_USED, 0);
-            return false;
+            QueueMessage(move, user, STRING_DISABLED_USED, 0);
+            return SILENT_FAIL;
         }
     }
-    return true;
+    return USE_MOVE_NORMAL;
 }
 
 u8 disable_on_effect_cb(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
