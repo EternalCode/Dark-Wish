@@ -16,6 +16,7 @@
 
 .global ShadowpunchAnimation
 ShadowpunchAnimation:
+    BLOCKCMD
     fastsetbattlers
     loadspritefull fistSprite fistPalette fistOam
     copyvar fistParticle LASTRESULT
@@ -39,10 +40,11 @@ ShadowpunchAnimation:
     clonebattler attacker attackerx attackery tag2
     copyvar attacker3 LASTRESULT
     semitransparent attacker3
+    OPENCMD
     spritetobg target 8 8
     showbg 1
-    hidehpbars
     blendsemitransparent 12 4
+    hidehpbars
 
     // fade attacker dark
     addpalbuffer attacker false
