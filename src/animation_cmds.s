@@ -863,6 +863,17 @@
 .byte 0
 .endm
 
+.macro clonebattler var x y tag
+.byte 91
+.byte 0
+.hword \var
+.hword \x
+.hword \y
+.hword \tag
+.byte 0
+.byte 0
+.endm
+
 
 .macro BLOCKCMD
 .byte 0xFE

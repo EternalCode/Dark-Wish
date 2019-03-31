@@ -1324,7 +1324,7 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .before_move = disable_on_before_move,
     .on_effect_cb = disable_on_effect_cb,
-    .animation = (u8*)&DisableAnimation,
+    // disable animation is called in disable_on_effect_cb
     },
 
     {
@@ -1979,7 +1979,7 @@ struct move_data gBattleMoves[] = {
     .pp = 40,
     .category = MOVE_STATUS,
     .type = TYPE_PSYCHIC,
-    .m_flags = FLAG_SNATCH,
+    .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &user_raise_atk_1,
     .animation = (u8*)&MeditateAnimation,
 	},
@@ -1992,7 +1992,7 @@ struct move_data gBattleMoves[] = {
     .pp = 30,
     .category = MOVE_STATUS,
     .type = TYPE_PSYCHIC,
-    .m_flags = FLAG_SNATCH,
+    .m_flags = FLAG_SNATCH | FLAG_ONSELF,
     .procs = &user_raise_spd_2,
     .animation = (u8*)&AgilityAnimation,
 	},

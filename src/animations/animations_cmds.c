@@ -97,6 +97,7 @@ void ScriptCmd_spritedoublesize(void);
 void ScriptCmd_getanglebetweenpts(void);
 void ScriptCmd_applycustomaffine(void);
 void ScriptCmd_fadebg1(void);
+void ScriptCmd_clonebattler(void);
 
 
 
@@ -219,6 +220,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_getanglebetweenpts, // 88
     ScriptCmd_applycustomaffine, // 89
     ScriptCmd_fadebg1, // 90
+    ScriptCmd_clonebattler, // 91
 };
 
 
@@ -1012,12 +1014,10 @@ void ScriptCmd_sideofsprite()
     ANIMSCR_MOVE(1);
     u16 spriteId = ANIMSCR_READ_HWORD;
     spriteId = VarGet(spriteId) & 0xFF;
-    if (gPkmnBank[ACTION_BANK]->objid == spriteId) {
-        ANIMSCR_CONDITION = SIDE_OF(ACTION_BANK);
-    } else {
-        ANIMSCR_CONDITION = SIDE_OF(ACTION_TARGET);
+    for (u8 i = 0; i < BANK_MAX; i++) {
+        if (gPkmnBank[i]->objid == spriteId)
+            ANIMSCR_CONDITION = SIDE_OF(i);
     }
-    VarSet(0x900D, ANIMSCR_CONDITION);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1409,6 +1409,16 @@ void ScriptCmd_copyactionpriv()
 }
 
 // blend a sprite without using the fade structure
+void GrayScaleBg3()
+{
+    BlendPalette(0, 16, 12, 0x35AD);
+}
+
+void UnfadeBg3()
+{
+    BlendPalette(0, 16, 0, 0);
+}
+
 void ScriptCmd_spriteblend2()
 {
     ANIMSCR_MOVE(1);
@@ -1492,6 +1502,11 @@ void ScriptCmd_movespritedst()
 
 // blend sprites, on all layers including BG 3
 /* Given a coefficient for the amount of blending for the sprites and BG 0. Apply blending */
+void AddBg2Blend()
+{
+    REG_BLDCNT |= BLDCNT_BG2_SRC;
+}
+
 void ScriptCmd_spritesblendall()
 {
     // alignment for read
@@ -1917,7 +1932,6 @@ void ScriptCmd_getanglebetweenpts()
 }
 
 
-
 // apply a custom affine matrix transformation to a sprite
 void ScriptCmd_applycustomaffine()
 {
@@ -1945,6 +1959,52 @@ void ScriptCmd_applycustomaffine()
     gOamMatrices[matrixId].c = matrix.c;
     gOamMatrices[matrixId].d = matrix.d;
 
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+// apply a custom affine matrix transformation to a sprite
+extern void* get_pal_pkmn(struct Pokemon* p, u16 species);
+extern const struct OamData opp_oam;
+void ScriptCmd_clonebattler()
+{
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    u16 x = ANIMSCR_READ_HWORD;
+    x = VarGet(x);
+    u16 y = ANIMSCR_READ_HWORD;
+    y = VarGet(y);
+    u16 tag = ANIMSCR_READ_HWORD;
+    tag = VarGet(tag);
+    // get side of the battler to be cloned
+    u8 side = 0;
+    u8 bank = 0;
+    for (u8 i = 0; i < BANK_MAX; i++) {
+        if (gPkmnBank[i]->objid == spriteId) {
+            side = SIDE_OF(i);
+            bank = i;
+            break;
+        }
+    }
+    struct Pokemon* pkmn = gPkmnBank[bank]->this_pkmn;
+    u16 species = pokemon_getattr(pkmn, REQUEST_SPECIES, NULL);
+    void* pkmnPal = get_pal_pkmn(pkmn, species);
+    void* pkmnGfx;
+    if (side == 0) {
+        // backsprite
+        pkmnGfx = (void*)gMonBackPicTable[species].data;
+    } else {
+        // front sprite
+        pkmnGfx = (void*)gMonStillFrontPicTable[species].data;
+    }
+
+    struct SpritePalette pkmnSpritePal = {pkmnPal, tag};
+    struct CompressedSpriteSheet pkmnSpriteGfx = {pkmnGfx, 2048, tag};
+    LoadCompressedSpriteSheetUsingHeap(&pkmnSpriteGfx);
+    LoadCompressedSpritePaletteUsingHeap(&pkmnSpritePal);
+    struct Template pkmnTemp = {tag, tag, &opp_oam, nullframe, &pkmnSpriteGfx, nullrsf, (SpriteCallback)oac_nullsub};
+    VarSet(0x900D, CreateSprite(&pkmnTemp, x, y, 0));
     ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
 }

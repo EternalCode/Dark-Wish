@@ -244,6 +244,7 @@ void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type,
             case STRING_STOP_LEARNING_MOVE:
             case STRING_CONFIRM_FORGET:
             case STRING_FORGOT_SELECTED_MOVE:
+            case STRING_DISABLED_USED:
                 fdecoder_battle(battle_strings[id], user_bank, moveId, move_effect_id);
                 break;
             case STRING_IMMUNE_ABILITY:

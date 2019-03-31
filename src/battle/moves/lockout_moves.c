@@ -1,4 +1,6 @@
 #include <pokeagb/pokeagb.h>
+#include "move_data.h"
+#include "../battle_events/battle_events.h"
 #include "../battle_data/pkmn_bank.h"
 #include "../battle_data/pkmn_bank_stats.h"
 #include "../battle_data/battle_state.h"
@@ -8,6 +10,14 @@ extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effec
 extern u8 CountBankMovePP(u16 moveId, u8 bank);
 extern void set_attack_bm_inplace(u8 bank, u8 index, s8 priority);
 extern bool BankKnowsMove(u16 moveId, u8 bank);
+
+enum BeforeMoveStatus {
+    CANT_USE_MOVE = 0,
+    USE_MOVE_NORMAL,
+    TARGET_MOVE_IMMUNITY,
+    SILENT_FAIL,
+    SILENT_CONTINUE,
+};
 
 const static u16 encore_disallow[] = {
     MOVE_ASSIST, MOVE_COPYCAT, MOVE_ENCORE, MOVE_MEFIRST,
@@ -149,10 +159,13 @@ u8 disable_on_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* 
 {
     if (user != TARGET_OF(src)) return true;
     if (has_callback_src((u32)disable_on_disable_move, user) || HAS_VOLATILE(user, VOLATILE_DISABLE)) {
-        QueueMessage(CURRENT_MOVE(user), user, STRING_ATTACK_USED, 0);
-        return false;
+        u8 id = get_callback_src((u32)disable_on_disable_move, user);
+        if (move == CB_MASTER[id].data_ptr) {
+            QueueMessage(move, user, STRING_DISABLED_USED, 0);
+            return SILENT_FAIL;
+        }
     }
-    return true;
+    return USE_MOVE_NORMAL;
 }
 
 u8 disable_on_effect_cb(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
@@ -168,6 +181,9 @@ u8 disable_on_effect_cb(u8 user, u8 src, u16 move, struct anonymous_callback* ac
     u8 id = AddCallback(CB_ON_DISABLE_MOVE, 0, 4, target, (u32)disable_on_disable_move);
     ADD_VOLATILE(target, VOLATILE_DISABLE);
     CB_MASTER[id].data_ptr = LAST_MOVE(target);
+    struct action* a = prepend_action(user, TARGET_OF(user), ActionAnimation, EventPlayAnimation);
+    a->move = move;
+    a->script = (u32)&DisableAnimation;
     QueueMessage(LAST_MOVE(target), target, STRING_DISABLED, 0);
 	return true;
 }

@@ -70,8 +70,12 @@
 #include "../../generated/images/battle_animations/notes.h"
 #include "../../generated/images/battle_animations/supersonic.h"
 #include "../../generated/images/battle_animations/aquajet.h"
+#include "../../generated/images/battle_animations/sonicboom.h"
+#include "../../generated/images/battle_animations/flamethrower.h"
+#include "../../generated/images/battle_animations/playerwind.h"
 #include "../../generated/images/battle_animations/barrage.h"
 #include "../../generated/images/battle_animations/barragesmoke.h"
+
 
 
 /* the impact sprite from tackle */
@@ -219,6 +223,13 @@ MAKE_OAM(glowball)
     OAM_PRIORITY(1)
 END_OAM()
 
+MAKE_OAM(shadowpunchGlowBall)
+    OAM_AFFINE()
+    OAM_SEMI_TRANSPARENT()
+    OAM_SIZE(o16x16)
+    OAM_PRIORITY(1)
+END_OAM()
+
 BEGIN_AFFINE_ANIM(glowball)
     PLAY_AFFINE(0, 0, 0, 1)
     PLAY_AFFINE(-10, -10, 0, 30)
@@ -237,6 +248,11 @@ END_AFFINE()
 BEGIN_AFFINE_ANIM(glowballRev)
     PLAY_AFFINE(-300, -300, 0, 1)
     PLAY_AFFINE(10, 10, 0, 30)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(glowballRev2)
+    PLAY_AFFINE(-250, -250, 0, 1)
+    PLAY_AFFINE(8, 8, 0, 20)
 END_AFFINE()
 
 
@@ -1050,8 +1066,8 @@ MAKE_OAM(crosspoisonFlip)
 END_OAM()
 
 /* confuse ray sprite */
-ASSETS(confuseray, s32x32, 453);
-ASSETS(innerray, s16x16, 454);
+ASSETS(confuseray, s32x32, 454);
+ASSETS(innerray, s16x16, 455);
 
 MAKE_OAM(confuseray)
     OAM_AFFINE()
@@ -1075,7 +1091,7 @@ END_AFFINE()
 
 
 /* Square fist sprite */
-ASSETS(squarefist, s64x64, 455);
+ASSETS(squarefist, s64x64, 456);
 
 MAKE_OAM(squarefist)
     .affine_mode = 3,
@@ -1089,7 +1105,7 @@ END_AFFINE()
 
 
 /* Poisonsting barb */
-ASSETS(poisonsting, s16x16, 456);
+ASSETS(poisonsting, s16x16, 457);
 
 MAKE_OAM(poisonsting)
     OAM_AFFINE()
@@ -1099,7 +1115,7 @@ END_OAM()
 
 
 /* Pinmissile barb */
-ASSETS(pinmissile, s16x16, 457);
+ASSETS(pinmissile, s16x16, 458);
 
 MAKE_OAM(pinmissile)
     OAM_AFFINE()
@@ -1109,9 +1125,15 @@ END_OAM()
 
 
 /* Leer glisten sprite */
-ASSETS(leer, s32x32 * 5, 458);
+ASSETS(leer, s32x32 * 5, 459);
 
 MAKE_OAM(leer)
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+MAKE_OAM(disable)
+    OAM_AFFINE()
     OAM_PRIORITY(1)
     OAM_SIZE(o32x32)
 END_OAM()
@@ -1124,9 +1146,19 @@ BEGIN_FRAME_ANIM(leerFrames)
     SHOW_FRAME(4, s32x32, NOFLIP, 3)
 END_ANIM()
 
+BEGIN_FRAME_ANIM(disableFrame) // third frame is used in disable
+    SHOW_FRAME(3, s32x32, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_AFFINE_ANIM(disable)
+    PLAY_AFFINE(0, 0, 0, 4)
+    PLAY_AFFINE(-10, -10, 0, 8)
+END_AFFINE()
+
 
 /* Growl roar particle */
-ASSETS(growl, s32x32, 459);
+ASSETS(growl, s32x32, 460);
 
 MAKE_OAM(growl)
     OAM_AFFINE()
@@ -1164,7 +1196,7 @@ END_AFFINE()
 
 
 /* Buff circle sprite that grows */
-ASSETS(buffcircle, s64x64, 460);
+ASSETS(buffcircle, s64x64, 461);
 
 MAKE_OAM(buffcircle)
     OAM_AFFINE()
@@ -1174,9 +1206,9 @@ END_OAM()
 
 
 /* Sing music notes */
-ASSETS(notes, s16x16 * 6, 461);
-ASSET_ALIAS(notes, s16x16 * 6, 462, notes2);
-ASSET_ALIAS(notes, s16x16 * 6, 463, notes3);
+ASSETS(notes, s16x16 * 6, 462);
+ASSET_ALIAS(notes, s16x16 * 6, 463, notes2);
+ASSET_ALIAS(notes, s16x16 * 6, 464, notes3);
 
 MAKE_OAM(notes)
     OAM_PRIORITY(1)
@@ -1216,7 +1248,7 @@ END_ANIM()
 
 
 /* Supersonic circle sprite */
-ASSETS(supersonic, s16x32, 464);
+ASSETS(supersonic, s16x32, 465);
 
 MAKE_OAM(supersonic)
     OAM_AFFINE()
@@ -1230,8 +1262,9 @@ BEGIN_AFFINE_ANIM(supersonic)
     PLAY_AFFINE(5, 5, 0, 30)
 END_AFFINE()
 
+
 /* Aqua Jet */
-ASSETS(aquajet, s64x64 * 4, 465);
+ASSETS(aquajet, s64x64 * 4, 466);
 
 MAKE_OAM(aquajet)
 	OAM_PRIORITY(3)
@@ -1246,8 +1279,50 @@ BEGIN_FRAME_ANIM(aquajetFrames)
 	JUMP_FRAME(0)
 END_ANIM()
 
+/* Sonicboom sprite */
+ASSETS(sonicboom, s32x32 * 2, 467);
+
+MAKE_OAM(sonicboom)
+    OAM_AFFINE()
+    OAM_PRIORITY(2)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_FRAME_ANIM(sonicboomOpponent)
+    SHOW_FRAME(1, s32x32, NOFLIP, 50)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_AFFINE_ANIM(sonicboom)
+    PLAY_AFFINE(-160, -160, 0, 1)
+    PLAY_AFFINE(8, 8, 0, 20)
+END_AFFINE()
+
+
+/* Flamethrower sprite */
+ASSETS(flamethrower, s32x32 * 4, 468);
+
+MAKE_OAM(flamethrower)
+    OAM_AFFINE()
+    OAM_SEMI_TRANSPARENT()
+    OAM_PRIORITY(2)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_FRAME_ANIM(flamethrowerFrames)
+    SHOW_FRAME(0, s32x32, NOFLIP, 8)
+    SHOW_FRAME(1, s32x32, NOFLIP, 8)
+    SHOW_FRAME(2, s32x32, NOFLIP, 8)
+    SHOW_FRAME(3, s32x32, NOFLIP, 6)
+END_ANIM()
+
+BEGIN_AFFINE_ANIM(flamethrower)
+    PLAY_AFFINE(-170, -170, 0, 1)
+    PLAY_AFFINE(5, 5, 0, 34)
+END_AFFINE()
+
 /* Barrage */
-ASSETS(barrage, s32x32, 466);
+ASSETS(barrage, s32x32, 469);
 
 MAKE_OAM(barrage)
 	OAM_PRIORITY(3)
@@ -1255,8 +1330,8 @@ MAKE_OAM(barrage)
 END_OAM()
 
 /* Barrage Smoke */
-ASSETS(barragesmoke, s32x16 * 2, 467);
-ASSET_ALIAS(barragesmoke, s32x16 * 2, 468, barragesmoke2);
+ASSETS(barragesmoke, s32x16 * 2, 470);
+ASSET_ALIAS(barragesmoke, s32x16 * 2, 471, barragesmoke2);
 
 MAKE_OAM(barragesmoke)
 	OAM_PRIORITY(3)

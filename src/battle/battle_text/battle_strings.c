@@ -227,7 +227,7 @@ const pchar str_run_away[] = _("{ATTACKING_MON} fled using\n{ABILITY_ARBITRARY}!
 const pchar str_anticipation[] = _("{FOE}{ATTACKING_MON}’s {ABILITY_ARBITRARY} made\nit shudder!");
 const pchar str_frisk[] = _("{FOE}{ATTACKING_MON} frisked {BANK_NAME}\nand found it’s {BANK_ITEM}");
 const pchar str_learn_move[] = _("{PSLOT_MON} learnt {MOVE_NAME_TWO}!\p");
-
+const pchar str_disabled_use[] = _("{FOE}{ATTACKING_MON}’s {ATTACK_NAME}\nis disabled!");
 
 // stat names
 const pchar str_stat_atk[] = _("attack");
@@ -474,5 +474,6 @@ const pchar* battle_strings[STRINGS_TABLE_MAX] = {
    (pchar*)&str_stop_learning_move, // 215
    (pchar*)&str_confirm_forget, // 216
    (pchar*)&str_forgot_selected_move, // 217
+   (pchar*)&str_disabled_use, // 218
 
 };
