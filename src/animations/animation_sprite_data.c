@@ -70,6 +70,7 @@
 #include "../../generated/images/battle_animations/notes.h"
 #include "../../generated/images/battle_animations/supersonic.h"
 #include "../../generated/images/battle_animations/aquajet.h"
+#include "../../generated/images/battle_animations/barrage.h"
 
 
 /* the impact sprite from tackle */
@@ -1229,7 +1230,7 @@ BEGIN_AFFINE_ANIM(supersonic)
 END_AFFINE()
 
 /* Aqua Jet */
-ASSETS(aquajet, s64x64 * 4, 454);
+ASSETS(aquajet, s64x64 * 4, 465);
 
 MAKE_OAM(aquajet)
 	OAM_PRIORITY(3)
@@ -1243,3 +1244,11 @@ BEGIN_FRAME_ANIM(aquajetFrames)
     SHOW_FRAME(3, s64x64, NOFLIP, 3)
 	JUMP_FRAME(0)
 END_ANIM()
+
+/* Barrage */
+ASSETS(barrage, s32x32, 466);
+
+MAKE_OAM(barrage)
+	OAM_PRIORITY(3)
+	OAM_SIZE(o32x32)
+END_OAM()
