@@ -69,6 +69,7 @@
 #include "../../generated/images/battle_animations/buffcircle.h"
 #include "../../generated/images/battle_animations/notes.h"
 #include "../../generated/images/battle_animations/supersonic.h"
+#include "../../generated/images/battle_animations/aquajet.h"
 
 
 /* the impact sprite from tackle */
@@ -1046,7 +1047,6 @@ MAKE_OAM(crosspoisonFlip)
 	OAM_SIZE(o32x32)
 END_OAM()
 
-
 /* confuse ray sprite */
 ASSETS(confuseray, s32x32, 453);
 ASSETS(innerray, s16x16, 454);
@@ -1227,3 +1227,19 @@ BEGIN_AFFINE_ANIM(supersonic)
     PLAY_AFFINE(-150, -150, 0, 1)
     PLAY_AFFINE(5, 5, 0, 30)
 END_AFFINE()
+
+/* Aqua Jet */
+ASSETS(aquajet, s64x64 * 4, 454);
+
+MAKE_OAM(aquajet)
+	OAM_PRIORITY(3)
+	OAM_SIZE(o64x64)
+END_OAM()
+
+BEGIN_FRAME_ANIM(aquajetFrames)
+    SHOW_FRAME(0, s64x64, NOFLIP, 3)
+    SHOW_FRAME(1, s64x64, NOFLIP, 3)
+    SHOW_FRAME(2, s64x64, NOFLIP, 3)
+    SHOW_FRAME(3, s64x64, NOFLIP, 3)
+	JUMP_FRAME(0)
+END_ANIM()
