@@ -1476,15 +1476,14 @@ void ScriptCmd_movespritedst()
     sprite->data[0] = steps;
     sprite->data[1] = xDelta;
     sprite->data[2] = yDelta;
-    if ((x - (xDelta * steps)) > 0)
+    if ((x - (xDelta * steps)) != 0)
         sprite->data[3] = Div(steps, (x - (xDelta * steps))); // error minimization increment intervals
     else
         sprite->data[3] = 0;
-    if ((y - (yDelta * steps)) > 0)
+    if ((y - (yDelta * steps)) != 0)
         sprite->data[4] = Div(steps, (y - (yDelta * steps))); // error minimization increment intervals
     else
         sprite->data[4] = 0;
-    dprintf("finish divs %d, %d\n", sprite->data[3], sprite->data[4]);
     sprite->data[7] = delay;
     ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
