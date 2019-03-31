@@ -68,6 +68,7 @@
 #include "../../generated/images/battle_animations/growl.h"
 #include "../../generated/images/battle_animations/buffcircle.h"
 #include "../../generated/images/battle_animations/notes.h"
+#include "../../generated/images/battle_animations/supersonic.h"
 
 
 /* the impact sprite from tackle */
@@ -1172,8 +1173,8 @@ END_OAM()
 
 /* Sing music notes */
 ASSETS(notes, s16x16 * 6, 461);
-ASSET_ALIAS(notes, s16x16 * 6, 463, notes2);
-ASSET_ALIAS(notes, s16x16 * 6, 464, notes3);
+ASSET_ALIAS(notes, s16x16 * 6, 462, notes2);
+ASSET_ALIAS(notes, s16x16 * 6, 463, notes3);
 
 MAKE_OAM(notes)
     OAM_PRIORITY(1)
@@ -1210,3 +1211,19 @@ BEGIN_FRAME_ANIM(note6Frame)
     SHOW_FRAME(5, s16x16, NOFLIP, 30)
     JUMP_FRAME(0)
 END_ANIM()
+
+
+/* Supersonic circle sprite */
+ASSETS(supersonic, s16x32, 464);
+
+MAKE_OAM(supersonic)
+    OAM_AFFINE()
+    OAM_SHAPE(TALL)
+    OAM_SIZE(o16x32)
+    OAM_PRIORITY(3)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(supersonic)
+    PLAY_AFFINE(-150, -150, 0, 1)
+    PLAY_AFFINE(5, 5, 0, 30)
+END_AFFINE()

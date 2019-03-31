@@ -1294,6 +1294,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &supersonic_procs,
+    .on_tryhit_move = pseudostatus_only_movetryhit,
     .animation = (u8*)&SupersonicAnimation,
     },
 
