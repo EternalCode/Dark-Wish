@@ -56,6 +56,8 @@
 #include "../../generated/images/battle_animations/impact7.h"
 #include "../../generated/images/battle_animations/wrap.h"
 #include "../../generated/images/battle_animations/crosspoison.h"
+#include "../../generated/images/battle_animations/aquajet.h"
+#include "../../generated/images/battle_animations/aquajetsplash.h"
 
 
 /* the impact sprite from tackle */
@@ -998,10 +1000,21 @@ MAKE_OAM(crosspoisonFlip)
 	OAM_SIZE(o32x32)
 END_OAM()
 
+/* Aqua Jet */
+ASSETS(aquajet, s64x64 * 4, 454);
 
+MAKE_OAM(aquajet)
+	OAM_PRIORITY(3)
+	OAM_SIZE(o64x64)
+END_OAM()
 
-
-
+BEGIN_FRAME_ANIM(aquajetFrames)
+    SHOW_FRAME(0, s64x64, NOFLIP, 3)
+    SHOW_FRAME(1, s64x64, NOFLIP, 3)
+    SHOW_FRAME(2, s64x64, NOFLIP, 3)
+    SHOW_FRAME(3, s64x64, NOFLIP, 3)
+	JUMP_FRAME(0)
+END_ANIM()
 
 
 
