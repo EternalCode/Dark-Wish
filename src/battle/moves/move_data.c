@@ -1324,7 +1324,7 @@ struct move_data gBattleMoves[] = {
     .procs = &basic_proc,
     .before_move = disable_on_before_move,
     .on_effect_cb = disable_on_effect_cb,
-    .animation = (u8*)&DisableAnimation,
+    // disable animation is called in disable_on_effect_cb
     },
 
     {
