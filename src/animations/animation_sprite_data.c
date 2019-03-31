@@ -70,6 +70,7 @@
 #include "../../generated/images/battle_animations/notes.h"
 #include "../../generated/images/battle_animations/supersonic.h"
 #include "../../generated/images/battle_animations/aquajet.h"
+#include "../../generated/images/battle_animations/sonicboom.h"
 
 
 /* the impact sprite from tackle */
@@ -1228,8 +1229,9 @@ BEGIN_AFFINE_ANIM(supersonic)
     PLAY_AFFINE(5, 5, 0, 30)
 END_AFFINE()
 
+
 /* Aqua Jet */
-ASSETS(aquajet, s64x64 * 4, 454);
+ASSETS(aquajet, s64x64 * 4, 465);
 
 MAKE_OAM(aquajet)
 	OAM_PRIORITY(3)
@@ -1243,3 +1245,23 @@ BEGIN_FRAME_ANIM(aquajetFrames)
     SHOW_FRAME(3, s64x64, NOFLIP, 3)
 	JUMP_FRAME(0)
 END_ANIM()
+
+
+/* Sonicboom sprite */
+ASSETS(sonicboom, s32x32 * 2, 466);
+
+MAKE_OAM(sonicboom)
+    OAM_AFFINE()
+    OAM_PRIORITY(2)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_FRAME_ANIM(sonicboomOpponent)
+    SHOW_FRAME(1, s32x32, NOFLIP, 50)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_AFFINE_ANIM(sonicboom)
+    PLAY_AFFINE(-160, -160, 0, 1)
+    PLAY_AFFINE(8, 8, 0, 20)
+END_AFFINE()
