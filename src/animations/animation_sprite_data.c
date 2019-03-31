@@ -71,6 +71,7 @@
 #include "../../generated/images/battle_animations/supersonic.h"
 #include "../../generated/images/battle_animations/aquajet.h"
 #include "../../generated/images/battle_animations/sonicboom.h"
+#include "../../generated/images/battle_animations/flamethrower.h"
 
 
 /* the impact sprite from tackle */
@@ -1264,4 +1265,27 @@ END_ANIM()
 BEGIN_AFFINE_ANIM(sonicboom)
     PLAY_AFFINE(-160, -160, 0, 1)
     PLAY_AFFINE(8, 8, 0, 20)
+END_AFFINE()
+
+
+/* Flamethrower sprite */
+ASSETS(flamethrower, s32x32 * 4, 467);
+
+MAKE_OAM(flamethrower)
+    OAM_AFFINE()
+    OAM_SEMI_TRANSPARENT()
+    OAM_PRIORITY(2)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_FRAME_ANIM(flamethrowerFrames)
+    SHOW_FRAME(0, s32x32, NOFLIP, 8)
+    SHOW_FRAME(1, s32x32, NOFLIP, 8)
+    SHOW_FRAME(2, s32x32, NOFLIP, 8)
+    SHOW_FRAME(3, s32x32, NOFLIP, 6)
+END_ANIM()
+
+BEGIN_AFFINE_ANIM(flamethrower)
+    PLAY_AFFINE(-170, -170, 0, 1)
+    PLAY_AFFINE(5, 5, 0, 34)
 END_AFFINE()
