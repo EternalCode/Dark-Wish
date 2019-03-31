@@ -8,22 +8,22 @@
 const bool USE_TESTS = true; // Change to false to not execute the test environment
 
 /* Player data */
-const static u16 playerSpecies = SPECIES_HORSEA;
-const static u16 playerMove1 = MOVE_SLAM;
-const static u16 playerMove2 = MOVE_TACKLE;
-const static u16 playerMove3 = MOVE_HYDROCANNON;
-const static u16 playerMove4 = MOVE_TAKEDOWN;
-const static u8 playerLevel = 4;
+const static u16 playerSpecies = SPECIES_ABOMASNOW;
+const static u16 playerMove1 = MOVE_SHADOWPUNCH;
+const static u16 playerMove2 = MOVE_AGILITY;
+const static u16 playerMove3 = MOVE_GUST;
+const static u16 playerMove4 = MOVE_SANDATTACK;
+const static u8 playerLevel = 25;
 const static u16 playerItem = ITEM_ORANBERRY;
-const u8 gPlayerAbility = ABILITY_ANTICIPATION;
+const u8 gPlayerAbility = ABILITY_TORRENT;
 
 /* Opponent data */
-const static u16 opponentSpecies = SPECIES_VULPIX;
-const static u16 opponentMove1 = MOVE_TACKLE;
-const static u16 opponentMove2 = MOVE_TACKLE;
-const static u16 opponentMove3 = MOVE_TACKLE;
-const static u16 opponentMove4 = MOVE_TACKLE;
-const static u8 opponentLevel = 8;
+const static u16 opponentSpecies = SPECIES_SEADRA;
+const static u16 opponentMove1 = MOVE_SHADOWPUNCH;
+const static u16 opponentMove2 = MOVE_SHADOWPUNCH;
+const static u16 opponentMove3 = MOVE_SHADOWPUNCH;
+const static u16 opponentMove4 = MOVE_SHADOWPUNCH;
+const static u8 opponentLevel = 25;
 const static u16 opponentItem = ITEM_SITRUSBERRY;
 const u8 gOpponentAbility = ABILITY_BLAZE;
 

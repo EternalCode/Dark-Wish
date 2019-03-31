@@ -72,6 +72,7 @@
 #include "../../generated/images/battle_animations/aquajet.h"
 #include "../../generated/images/battle_animations/sonicboom.h"
 #include "../../generated/images/battle_animations/flamethrower.h"
+#include "../../generated/images/battle_animations/playerwind.h"
 
 
 /* the impact sprite from tackle */
@@ -219,6 +220,13 @@ MAKE_OAM(glowball)
     OAM_PRIORITY(1)
 END_OAM()
 
+MAKE_OAM(shadowpunchGlowBall)
+    OAM_AFFINE()
+    OAM_SEMI_TRANSPARENT()
+    OAM_SIZE(o16x16)
+    OAM_PRIORITY(1)
+END_OAM()
+
 BEGIN_AFFINE_ANIM(glowball)
     PLAY_AFFINE(0, 0, 0, 1)
     PLAY_AFFINE(-10, -10, 0, 30)
@@ -237,6 +245,11 @@ END_AFFINE()
 BEGIN_AFFINE_ANIM(glowballRev)
     PLAY_AFFINE(-300, -300, 0, 1)
     PLAY_AFFINE(10, 10, 0, 30)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(glowballRev2)
+    PLAY_AFFINE(-250, -250, 0, 1)
+    PLAY_AFFINE(8, 8, 0, 20)
 END_AFFINE()
 
 
