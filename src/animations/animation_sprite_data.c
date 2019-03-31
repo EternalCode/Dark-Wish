@@ -56,8 +56,20 @@
 #include "../../generated/images/battle_animations/impact7.h"
 #include "../../generated/images/battle_animations/wrap.h"
 #include "../../generated/images/battle_animations/crosspoison.h"
+#include "../../generated/images/battle_animations/confuseray.h"
+#include "../../generated/images/battle_animations/innerray.h"
+#include "../../generated/images/battle_animations/nightshade.h"
+#include "../../generated/images/battle_animations/squarefist.h"
+#include "../../generated/images/battle_animations/doubleedgebg_opponent.h"
+#include "../../generated/images/battle_animations/doubleedgebg_player.h"
+#include "../../generated/images/battle_animations/poisonsting.h"
+#include "../../generated/images/battle_animations/pinmissile.h"
+#include "../../generated/images/battle_animations/leer.h"
+#include "../../generated/images/battle_animations/growl.h"
+#include "../../generated/images/battle_animations/buffcircle.h"
+#include "../../generated/images/battle_animations/notes.h"
+#include "../../generated/images/battle_animations/supersonic.h"
 #include "../../generated/images/battle_animations/aquajet.h"
-#include "../../generated/images/battle_animations/aquajetsplash.h"
 
 
 /* the impact sprite from tackle */
@@ -173,11 +185,11 @@ END_OAM()
 BEGIN_AFFINE_ANIM(sleep)
     PLAY_AFFINE(-150, -150, -30, 1)
     PLAY_AFFINE(2, 2, 2, 5)
-    PLAY_AFFINE(0, 0, 8, 0)
+    PLAY_AFFINE(0, 0, 0, 8)
     PLAY_AFFINE(2, 2, 2, 5)
-    PLAY_AFFINE(0, 0, 8, 0)
+    PLAY_AFFINE(0, 0, 0, 8)
     PLAY_AFFINE(2, 2, 2, 5)
-    PLAY_AFFINE(0, 0, 8, 0)
+    PLAY_AFFINE(0, 0, 0, 8)
 END_AFFINE()
 
 
@@ -275,7 +287,7 @@ END_AFFINE()
 
 
 /* impact2 sprite */
-ASSETS(impact2, s16x16, 411);
+ASSETS(impact2, s32x32, 411);
 
 MAKE_OAM(impact2)
     OAM_SIZE(o32x32)
@@ -800,7 +812,7 @@ MAKE_OAM(leafblades)
 END_OAM()
 
 
-/* Stomp foot sprite, also used in double kick, megakick */
+/* Stomp foot sprite, also used in double kick, megakick, thrash */
 ASSETS(stomp, s64x64 * 2, 444);
 
 MAKE_OAM(stomp)
@@ -811,6 +823,12 @@ END_OAM()
 MAKE_OAM(doublekick)
     OAM_AFFINE()
     OAM_PRIORITY(2)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+MAKE_OAM(thrashfoot)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
     OAM_SIZE(o64x64)
 END_OAM()
 
@@ -907,7 +925,7 @@ MAKE_OAM(furyattackFlipped)
 END_OAM()
 
 
-/* Impact6 and impact7 sprite used in horndrill */
+/* Impact6 and impact7 sprite used in horndrill and slam */
 ASSETS(impact6, s64x64, 450);
 ASSETS(impact7, s64x64, 451);
 
@@ -923,6 +941,16 @@ MAKE_OAM(impact7)
     OAM_SIZE(o64x64)
 END_OAM()
 
+MAKE_OAM(impact6Original)
+    OAM_PRIORITY(0)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+MAKE_OAM(impact7Original)
+    OAM_PRIORITY(1)
+    OAM_SIZE(o64x64)
+END_OAM()
+
 BEGIN_AFFINE_ANIM(impact6)
     PLAY_AFFINE(0, 0, 3, 30)
     PLAY_AFFINE(0, 0, 3, 30)
@@ -932,6 +960,24 @@ BEGIN_AFFINE_ANIM(impact7)
     PLAY_AFFINE(0, 0, 5, 30)
     PLAY_AFFINE(0, 0, 5, 30)
 END_AFFINE()
+
+BEGIN_AFFINE_ANIM(impact7Thrash)
+    PLAY_AFFINE(0, 0, 0, 1)
+    PLAY_AFFINE(60, 60, 0, 3)
+END_AFFINE()
+
+MAKE_OAM(impact6Slam)
+    OAM_AFFINE()
+    OAM_SIZE(o64x64)
+    OAM_PRIORITY(3)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(impact6Slam)
+    PLAY_AFFINE(20, -80, 0, 1)
+    PLAY_AFFINE(-10, -10, 0, 10)
+END_AFFINE()
+
+
 
 
 /* Wrap effect */
@@ -986,6 +1032,7 @@ BEGIN_AFFINE_ANIM(impactSmall)
     PLAY_AFFINE(-100, -100, 0, 1)
 END_AFFINE()
 
+
 /* Cross Poison */
 ASSETS(crosspoison, s32x32, 453);
 
@@ -999,6 +1046,187 @@ MAKE_OAM(crosspoisonFlip)
 	OAM_HFLIP()
 	OAM_SIZE(o32x32)
 END_OAM()
+
+/* confuse ray sprite */
+ASSETS(confuseray, s32x32, 453);
+ASSETS(innerray, s16x16, 454);
+
+MAKE_OAM(confuseray)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+MAKE_OAM(innerray)
+    OAM_AFFINE()
+    OAM_PRIORITY(0)
+    OAM_SIZE(o16x16)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(confuseray)
+    PLAY_AFFINE(-5, -5, 0, 16)
+    PLAY_AFFINE(0, 0, 0, 4)
+    PLAY_AFFINE(5, 5, 0, 16)
+    PLAY_AFFINE(0, 0, 0, 4)
+    JUMP_AFFINE(0)
+END_AFFINE()
+
+
+/* Square fist sprite */
+ASSETS(squarefist, s64x64, 455);
+
+MAKE_OAM(squarefist)
+    .affine_mode = 3,
+    OAM_PRIORITY(1)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(squarefist)
+    PLAY_AFFINE(0, 0, 20, 1)
+END_AFFINE()
+
+
+/* Poisonsting barb */
+ASSETS(poisonsting, s16x16, 456);
+
+MAKE_OAM(poisonsting)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o16x16)
+END_OAM()
+
+
+/* Pinmissile barb */
+ASSETS(pinmissile, s16x16, 457);
+
+MAKE_OAM(pinmissile)
+    OAM_AFFINE()
+    OAM_PRIORITY(0)
+    OAM_SIZE(o16x16)
+END_OAM()
+
+
+/* Leer glisten sprite */
+ASSETS(leer, s32x32 * 5, 458);
+
+MAKE_OAM(leer)
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_FRAME_ANIM(leerFrames)
+    SHOW_FRAME(0, s32x32, NOFLIP, 4)
+    SHOW_FRAME(1, s32x32, NOFLIP, 4)
+    SHOW_FRAME(2, s32x32, NOFLIP, 8)
+    SHOW_FRAME(3, s32x32, NOFLIP, 6)
+    SHOW_FRAME(4, s32x32, NOFLIP, 3)
+END_ANIM()
+
+
+/* Growl roar particle */
+ASSETS(growl, s32x32, 459);
+
+MAKE_OAM(growl)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(growlTop) // straight up
+    PLAY_AFFINE(0, 0, 128, 1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(growlLeft) // 45 degrees left
+    PLAY_AFFINE(0, 0, 160, 1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(growlRight) // 315 degrees right (45 degrees right)
+    PLAY_AFFINE(0, 0, 96, 1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(growlHorizontal) // 90 degrees
+    PLAY_AFFINE(0, 0, 64, 1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(growlDownRight) // 135 degrees
+    PLAY_AFFINE(0, 0, 32, 1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(growlDiagonalRight)
+    PLAY_AFFINE(0, 0, 96, 1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(growlDiagonalRightUp)
+    PLAY_AFFINE(0, 0, 48, 1)
+END_AFFINE()
+
+
+/* Buff circle sprite that grows */
+ASSETS(buffcircle, s64x64, 460);
+
+MAKE_OAM(buffcircle)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+
+/* Sing music notes */
+ASSETS(notes, s16x16 * 6, 461);
+ASSET_ALIAS(notes, s16x16 * 6, 462, notes2);
+ASSET_ALIAS(notes, s16x16 * 6, 463, notes3);
+
+MAKE_OAM(notes)
+    OAM_PRIORITY(1)
+    OAM_SEMI_TRANSPARENT()
+    OAM_SIZE(o16x16)
+END_OAM()
+
+BEGIN_FRAME_ANIM(note1Frame)
+    SHOW_FRAME(0, s16x16, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(note2Frame)
+    SHOW_FRAME(1, s16x16, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(note3Frame)
+    SHOW_FRAME(2, s16x16, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(note4Frame)
+    SHOW_FRAME(3, s16x16, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(note5Frame)
+    SHOW_FRAME(4, s16x16, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(note6Frame)
+    SHOW_FRAME(5, s16x16, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+
+/* Supersonic circle sprite */
+ASSETS(supersonic, s16x32, 464);
+
+MAKE_OAM(supersonic)
+    OAM_AFFINE()
+    OAM_SHAPE(TALL)
+    OAM_SIZE(o16x32)
+    OAM_PRIORITY(3)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(supersonic)
+    PLAY_AFFINE(-150, -150, 0, 1)
+    PLAY_AFFINE(5, 5, 0, 30)
+END_AFFINE()
 
 /* Aqua Jet */
 ASSETS(aquajet, s64x64 * 4, 454);
@@ -1015,24 +1243,3 @@ BEGIN_FRAME_ANIM(aquajetFrames)
     SHOW_FRAME(3, s64x64, NOFLIP, 3)
 	JUMP_FRAME(0)
 END_ANIM()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

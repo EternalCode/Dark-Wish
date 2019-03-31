@@ -646,6 +646,15 @@
 .byte 0
 .endm
 
+.macro spritemovedstdelay steps vara varb delay
+.byte 68
+.byte \steps
+.hword \vara
+.hword \varb
+.byte \delay
+.byte 0
+.endm
+
 .macro spritepriority var priority
 .byte 69
 .byte \priority
@@ -703,6 +712,7 @@
 .byte 0
 .byte 0
 .endm
+
 
 .macro depthlessorbit spriteA spriteB duration width height dir speed boolwait booldelete waveoffset
 .byte 76
@@ -812,6 +822,47 @@
 .byte 0
 .byte 0
 .endm
+
+.macro superscale var xscale yscale rotation
+.byte 87
+.byte 0
+.hword \var
+.hword \xscale
+.hword \yscale
+.hword \rotation
+.byte 0
+.byte 0
+.endm
+
+// buffer angle between point a and point b
+.macro getangle aX aY bX bY buffer
+.byte 88
+.byte 0
+.hword \aX
+.hword \aY
+.hword \bX
+.hword \bY
+.hword \buffer
+.endm
+
+.macro applycustomaffine var xscale yscale rotation
+.byte 89
+.byte 0
+.hword \var
+.hword \xscale
+.hword \yscale
+.hword \rotation
+.byte 0
+.byte 0
+.endm
+
+.macro addfadebg1
+.byte 90
+.byte 0
+.byte 0
+.byte 0
+.endm
+
 
 .macro BLOCKCMD
 .byte 0xFE

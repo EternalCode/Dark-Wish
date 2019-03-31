@@ -29,6 +29,14 @@ u32	Sqrt(u32 num)
     return 0;
 }
 
+u16 ArcTan2(u16 angle)
+{
+    __asm__("swi 0xA");
+    __asm__("bx lr");
+    return 0;
+}
+
+
 void ObjAffineSet(struct ObjAffineSrcData *src, void *dest, s32 count, s32 offset)
 {
     __asm__("swi 0xF");

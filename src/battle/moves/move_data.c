@@ -1280,6 +1280,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_SOUND | FLAG_AUTHENTIC | FLAG_PROTECT | FLAG_TARGET,
     .procs = &sing_procs,
+    .on_tryhit_move = status_only_movetryhit,
     .animation = (u8*)&SingAnimation,
     },
 
@@ -1293,6 +1294,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_AUTHENTIC | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &supersonic_procs,
+    .on_tryhit_move = pseudostatus_only_movetryhit,
     .animation = (u8*)&SupersonicAnimation,
     },
 
@@ -2157,6 +2159,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_GHOST,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .procs = &confuse_100_procs,
+    .on_tryhit_move = pseudostatus_only_movetryhit,
     .animation = (u8*)&ConfuseRayAnimation,
 	},
 

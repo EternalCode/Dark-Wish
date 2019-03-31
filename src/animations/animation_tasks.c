@@ -17,6 +17,17 @@ void TaskWaitAnimMessage(u8 taskId)
         DestroyTask(taskId);
 }
 
+void TaskSpriteDeleteAfterFrames(u8 taskId)
+{
+    tasks[taskId].priv[2]--;
+    if (!tasks[taskId].priv[2]) {
+        // delete sprite
+        FreeSpriteOamMatrix(&gSprites[tasks[taskId].priv[1]]);
+        DestroySprite(&gSprites[tasks[taskId].priv[1]]);
+        DestroyTask(taskId);
+    }
+}
+
 #define id t->priv[0]
 #define deltaX t->priv[1]
 #define deltaY t->priv[2]
@@ -866,6 +877,7 @@ void TaskTranslateSpriteHorizontalArc(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
     struct Sprite* sprite = &gSprites[t->priv[1]];
+    sprite->data[0]--;
     if (!sprite->data[0] || !sprite->inUse) {
         DestroyTask(taskId);
         return;
@@ -881,7 +893,6 @@ void TaskTranslateSpriteHorizontalArc(u8 taskId)
             sprite->pos1.x += 1;
         }
     }
-    sprite->data[0]--;
 }
 
 // meant to be used in conjunction with ScriptCmd_confighorizontalarctranslate
@@ -1066,6 +1077,67 @@ void TaskAnimYesNo(u8 taskId)
     };
 }
 
+
+void TaskSpriteFaceSprite(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    struct Sprite* a = &gSprites[t->priv[1]];
+    struct Sprite* b = &gSprites[t->priv[3]];
+
+    if (!a->inUse) {
+        DestroyTask(taskId);
+        return;
+    }
+
+    s16 x = (a->pos1.x - b->pos1.x);
+    s16 y = (a->pos1.y - b->pos1.y);
+    u16 angle = -ArcTan2(x, y);
+    angle += (192 << 8);
+
+    a->affineAnimPaused = true;
+    a->final_oam.affine_mode = 3;
+    CalcCenterToCornerVec(a, a->final_oam.shape, a->final_oam.size, 3);
+    struct ObjAffineSrcData src = {256, 256, angle};
+    struct OamMatrix matrix;
+
+    u32 matrixId = a->final_oam.matrix_num;
+    ObjAffineSet(&src, &matrix, 1, 2);
+    gOamMatrices[matrixId].a = matrix.a;
+    gOamMatrices[matrixId].b = matrix.b;
+    gOamMatrices[matrixId].c = matrix.c;
+    gOamMatrices[matrixId].d = matrix.d;
+}
+
+void TaskSpriteSingColors(u8 taskId)
+{
+    tasks[taskId].priv[0]++;
+    u8 spriteId = tasks[taskId].priv[1];
+    if (tasks[taskId].priv[0] % 16 == 0) {
+        u16 color = 0;
+        switch (rand() % 4) {
+            case 0:
+                color = 0x0FFF;
+                break;
+            case 1:
+                color = 0x33EA;
+                break;
+            case 2:
+                color = 0x7ECC;
+            default:
+                color = 0x59BF;
+                break;
+        };
+        u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
+        BlendPalette((pal_slot * 16) + (16 * 16), 16, 12, color);
+    }
+    if (tasks[taskId].priv[0] == 60) {
+        // delete sprite
+        FreeSpriteOamMatrix(&gSprites[spriteId]);
+        obj_free(&gSprites[spriteId]);
+        DestroySprite(&gSprites[spriteId]);
+        DestroyTask(taskId);
+    }
+}
 
 
 #undef gtargetx

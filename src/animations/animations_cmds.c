@@ -31,7 +31,7 @@ void ScriptCmd_excludeblend(void);
 void ScriptCmd_includeblend(void);
 void SpriteCmd_darkensprites(void);
 void SpriteCmd_lightensprites(void);
-void ScripCmd_clearpalbuff(void);
+void ScriptCmd_clearpalbuff(void);
 void ScriptCmd_palbufferspriteandbgs(void);
 void ScriptCmd_palfade(void);
 void SpriteCmd_movewave(void);
@@ -93,6 +93,10 @@ void ScriptCmd_spritefeatherfall(void);
 void ScriptCmd_pickrandompos(void);
 void ScriptCmd_waitonthread(void);
 void ScriptCmd_fadebg2(void);
+void ScriptCmd_spritedoublesize(void);
+void ScriptCmd_getanglebetweenpts(void);
+void ScriptCmd_applycustomaffine(void);
+void ScriptCmd_fadebg1(void);
 
 
 
@@ -122,6 +126,7 @@ extern void AnimOrbitFastStepNoPriority(struct Sprite *sprite);
 extern void AnimOrbitShrinkNoPriority(struct Sprite *sprite);
 extern void SCB_SpriteFeatherFall(struct Sprite *sprite);
 
+
 const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_loadspritefull, // 0
     ScriptCmd_deletesprite, // 1
@@ -147,7 +152,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_excludeblend, // 21
     SpriteCmd_darkensprites, // 22
     SpriteCmd_lightensprites, // 23
-    ScripCmd_clearpalbuff, // 24
+    ScriptCmd_clearpalbuff, // 24
     ScriptCmd_palbufferspriteandbgs, // 25
     ScriptCmd_palfade, // 26
     SpriteCmd_movewave, // 27
@@ -210,6 +215,10 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_pickrandompos, // 84
     ScriptCmd_waitonthread, // 85
     ScriptCmd_fadebg2, // 86
+    ScriptCmd_spritedoublesize, // 87
+    ScriptCmd_getanglebetweenpts, // 88
+    ScriptCmd_applycustomaffine, // 89
+    ScriptCmd_fadebg1, // 90
 };
 
 
@@ -462,6 +471,7 @@ void ScriptCmd_RunAnimAvailableThread()
                 for (u8 varId = 0; varId < ANIM_VAR_COUNT; varId++) {
                     gAnimationCore->corevars[i][varId] = gAnimationCore->corevars[ANIMSCR_THREAD][varId];
                 }
+                gAnimationCore->palbuffer[i] = gAnimationCore->palbuffer[ANIMSCR_THREAD];
             } else {
                 for (u8 varId = 0; varId < ANIM_VAR_COUNT; varId++) {
                     gAnimationCore->corevars[i][varId] = 0;
@@ -781,7 +791,7 @@ void SpriteCmd_lightensprites()
 }
 
 /* clears the current thread's palette buffer */
-void ScripCmd_clearpalbuff()
+void ScriptCmd_clearpalbuff()
 {
     ANIMSCR_MOVE(3);
     ANIMSCR_PALBUFF = 0;
@@ -840,19 +850,23 @@ void ScriptCmd_palfade()
 #define frequency sprite->data[7]
 void SCBWaveMovement(struct Sprite* sprite)
 {
-    sprite->pos1.x +=xDelta;
+    sprite->pos1.x += xDelta;
     sprite->pos1.y += yDelta;
     bouncesPast += 1;
-    u8 xerror = deltaError >> 8;
-    u8 yerror = deltaError & 0xFF;
-    if (bouncesPast % xerror == 0)
-        sprite->pos1.x += xDelta > 0 ? 1 : -1;
-    if (bouncesPast % yerror == 0)
-        sprite->pos1.y += yDelta > 0 ? 1 : -1;
+    s8 xerror = deltaError >> 8;
+    s8 yerror = deltaError & 0xFF;
+    u8 absX = ABS(xerror);
+    u8 absY = ABS(yerror);
+    if (bouncesPast % absX == 0 && absX > 0) {
+        sprite->pos1.x += xerror > 0 ? 1 : - 1;
+    }
+    if (bouncesPast % absY == 0 && absY > 0) {
+        sprite->pos1.y += yerror > 0 ? 1 : -1;
+    }
     if (bouncesPast > bounces)
         sprite->callback = oac_nullsub;
     // apply sin curve to Y position
-    if (yDelta < 0)
+    if (yDelta < 0 || yerror < 0)
         sprite->pos1.y -= Sin(X, amplitude);
     else
         sprite->pos1.y += Sin(X, amplitude);
@@ -881,8 +895,8 @@ void SpriteCmd_movewave()
     s32 y = s2->pos1.y - sprite->pos1.y;
     xDelta = Div(x, bounces);
     yDelta = Div(y, bounces);
-    u16 xerr = ABS((bounces / (x - (xDelta * bounces)))); // error minimization increment intervals
-    u16 yerr = ABS((bounces / (y - (yDelta * bounces)))); // error minimization increment intervals
+    s16 xerr = Div(bounces, (x - (xDelta * bounces))); // error minimization increment intervals
+    s16 yerr = Div(bounces, (y - (yDelta * bounces))); // error minimization increment intervals
     deltaError = ((xerr << 8) | (yerr & 0xFF));
     // Animate sprite bounce given parameters
     sprite->callback = SCBWaveMovement;
@@ -1440,7 +1454,8 @@ void ScriptCmd_playmessage()
     ANIMSCR_CMD_NEXT;
 }
 
-// move sprite to another sprite linearly
+
+// move sprite to another sprite linearly with a delay
 void ScriptCmd_movespritedst()
 {
     u8 steps = ANIMSCR_READ_BYTE;
@@ -1450,6 +1465,7 @@ void ScriptCmd_movespritedst()
     u16 spriteId2 = ANIMSCR_READ_HWORD;
     spriteId2 = VarGet(spriteId2);
     struct Sprite* s2 = &gSprites[spriteId2];
+    u8 delay = ANIMSCR_READ_BYTE;
 
     // calculate delta distances per movement
     s32 x = s2->pos1.x - sprite->pos1.x;
@@ -1460,13 +1476,19 @@ void ScriptCmd_movespritedst()
     sprite->data[0] = steps;
     sprite->data[1] = xDelta;
     sprite->data[2] = yDelta;
-    sprite->data[3] = Div(steps, (x - (xDelta * steps))); // error minimization increment intervals
-    sprite->data[4] = Div(steps, (y - (yDelta * steps))); // error minimization increment intervals
-
-    // to wait for finish, make sure to put use a waitanim command as the next command.
-    ANIMSCR_MOVE(2);
+    if ((x - (xDelta * steps)) != 0)
+        sprite->data[3] = Div(steps, (x - (xDelta * steps))); // error minimization increment intervals
+    else
+        sprite->data[3] = 0;
+    if ((y - (yDelta * steps)) != 0)
+        sprite->data[4] = Div(steps, (y - (yDelta * steps))); // error minimization increment intervals
+    else
+        sprite->data[4] = 0;
+    sprite->data[7] = delay;
+    ANIMSCR_MOVE(1);
     ANIMSCR_CMD_NEXT;
 }
+
 
 // blend sprites, on all layers including BG 3
 /* Given a coefficient for the amount of blending for the sprites and BG 0. Apply blending */
@@ -1598,6 +1620,14 @@ void ScriptCmd_fadebg2()
 {
     ANIMSCR_MOVE(3);
     ANIMSCR_PALBUFF |= (1 << 9);
+    ANIMSCR_CMD_NEXT;
+}
+
+/* Blend bg1. This will work if other sprites aren't in the process of blending */
+void ScriptCmd_fadebg1()
+{
+    ANIMSCR_MOVE(3);
+    ANIMSCR_PALBUFF |= (1 << 4);
     ANIMSCR_CMD_NEXT;
 }
 
@@ -1832,6 +1862,93 @@ void ScriptCmd_waitonthread()
     ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
 }
+
+// mark a sprite as double size
+void ScriptCmd_spritedoublesize()
+{
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    u16 scaleX = ANIMSCR_READ_HWORD;
+    scaleX = VarGet(scaleX);
+    u16 scaleY = ANIMSCR_READ_HWORD;
+    scaleY = VarGet(scaleY);
+    gSprites[spriteId].affineAnimPaused = true;
+    gSprites[spriteId].final_oam.affine_mode = 3;
+    CalcCenterToCornerVec(&gSprites[spriteId], gSprites[spriteId].final_oam.shape, gSprites[spriteId].final_oam.size, 3);
+    s16 rotation = ANIMSCR_READ_HWORD;
+    rotation = VarGet(rotation);
+    struct ObjAffineSrcData src = {scaleX, scaleY, rotation << 8};
+    struct OamMatrix matrix;
+
+    u32 matrixId = gSprites[spriteId].final_oam.matrix_num;
+    ObjAffineSet(&src, &matrix, 1, 2);
+    gOamMatrices[matrixId].a = matrix.a;
+    gOamMatrices[matrixId].b = matrix.b;
+    gOamMatrices[matrixId].c = matrix.c;
+    gOamMatrices[matrixId].d = matrix.d;
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
+// gen angle between two pairs of coords
+void ScriptCmd_getanglebetweenpts()
+{
+    ANIMSCR_MOVE(1);
+    u16 pos1x = ANIMSCR_READ_HWORD;
+    pos1x = VarGet(pos1x);
+    u16 pos1y = ANIMSCR_READ_HWORD;
+    pos1y = VarGet(pos1y);
+
+    u16 pos2x = ANIMSCR_READ_HWORD;
+    pos2x = VarGet(pos2x);
+    u16 pos2y = ANIMSCR_READ_HWORD;
+    pos2y = VarGet(pos2y);
+
+    s16 x = (pos1x - pos2x);
+    s16 y = (pos1y - pos2y);
+    u16 angleBuffer = ANIMSCR_READ_HWORD;
+    u16 angle = -ArcTan2(x, y);
+    angle += (192 << 8);
+    angle = angle >> 8;
+
+    VarSet(angleBuffer, angle);
+    ANIMSCR_CMD_NEXT;
+}
+
+
+
+// apply a custom affine matrix transformation to a sprite
+void ScriptCmd_applycustomaffine()
+{
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    u16 scaleX = ANIMSCR_READ_HWORD;
+    scaleX = VarGet(scaleX);
+    u16 scaleY = ANIMSCR_READ_HWORD;
+    scaleY = VarGet(scaleY);
+    u16 rotation = ANIMSCR_READ_HWORD;
+    rotation = VarGet(rotation);
+
+    gSprites[spriteId].affineAnimPaused = true;
+    gSprites[spriteId].final_oam.affine_mode = 3;
+    CalcCenterToCornerVec(&gSprites[spriteId], gSprites[spriteId].final_oam.shape,
+        gSprites[spriteId].final_oam.size, 3);
+    struct ObjAffineSrcData src = {scaleX, scaleY, rotation << 8};
+    struct OamMatrix matrix;
+
+    u32 matrixId = gSprites[spriteId].final_oam.matrix_num;
+    ObjAffineSet(&src, &matrix, 1, 2);
+    gOamMatrices[matrixId].a = matrix.a;
+    gOamMatrices[matrixId].b = matrix.b;
+    gOamMatrices[matrixId].c = matrix.c;
+    gOamMatrices[matrixId].d = matrix.d;
+
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
+}
+
 
 void AnimationMain()
 {

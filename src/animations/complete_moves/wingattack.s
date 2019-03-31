@@ -60,7 +60,6 @@ WingAttackAnimation:
     OPENCMD
     end
 
-.global FeathersFall
 FeathersFall:
     loadspritefull featherSprite featherPalette featherOam
     BLOCKCMD
