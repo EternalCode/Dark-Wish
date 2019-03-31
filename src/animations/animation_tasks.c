@@ -1108,5 +1108,37 @@ void TaskSpriteFaceSprite(u8 taskId)
     gOamMatrices[matrixId].d = matrix.d;
 }
 
+void TaskSpriteSingColors(u8 taskId)
+{
+    tasks[taskId].priv[0]++;
+    u8 spriteId = tasks[taskId].priv[1];
+    if (tasks[taskId].priv[0] % 16 == 0) {
+        u16 color = 0;
+        switch (rand() % 4) {
+            case 0:
+                color = 0x0FFF;
+                break;
+            case 1:
+                color = 0x33EA;
+                break;
+            case 2:
+                color = 0x7ECC;
+            default:
+                color = 0x59BF;
+                break;
+        };
+        u8 pal_slot = gSprites[spriteId].final_oam.palette_num;
+        BlendPalette((pal_slot * 16) + (16 * 16), 16, 12, color);
+    }
+    if (tasks[taskId].priv[0] == 60) {
+        // delete sprite
+        FreeSpriteOamMatrix(&gSprites[spriteId]);
+        obj_free(&gSprites[spriteId]);
+        DestroySprite(&gSprites[spriteId]);
+        DestroyTask(taskId);
+    }
+}
+
+
 #undef gtargetx
 #undef gtargety

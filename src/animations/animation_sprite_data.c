@@ -67,6 +67,7 @@
 #include "../../generated/images/battle_animations/leer.h"
 #include "../../generated/images/battle_animations/growl.h"
 #include "../../generated/images/battle_animations/buffcircle.h"
+#include "../../generated/images/battle_animations/notes.h"
 
 
 /* the impact sprite from tackle */
@@ -182,11 +183,11 @@ END_OAM()
 BEGIN_AFFINE_ANIM(sleep)
     PLAY_AFFINE(-150, -150, -30, 1)
     PLAY_AFFINE(2, 2, 2, 5)
-    PLAY_AFFINE(0, 0, 8, 0)
+    PLAY_AFFINE(0, 0, 0, 8)
     PLAY_AFFINE(2, 2, 2, 5)
-    PLAY_AFFINE(0, 0, 8, 0)
+    PLAY_AFFINE(0, 0, 0, 8)
     PLAY_AFFINE(2, 2, 2, 5)
-    PLAY_AFFINE(0, 0, 8, 0)
+    PLAY_AFFINE(0, 0, 0, 8)
 END_AFFINE()
 
 
@@ -1159,9 +1160,6 @@ BEGIN_AFFINE_ANIM(growlDiagonalRightUp)
 END_AFFINE()
 
 
-
-
-
 /* Buff circle sprite that grows */
 ASSETS(buffcircle, s64x64, 460);
 
@@ -1170,3 +1168,45 @@ MAKE_OAM(buffcircle)
     OAM_PRIORITY(1)
     OAM_SIZE(o64x64)
 END_OAM()
+
+
+/* Sing music notes */
+ASSETS(notes, s16x16 * 6, 461);
+ASSET_ALIAS(notes, s16x16 * 6, 463, notes2);
+ASSET_ALIAS(notes, s16x16 * 6, 464, notes3);
+
+MAKE_OAM(notes)
+    OAM_PRIORITY(1)
+    OAM_SEMI_TRANSPARENT()
+    OAM_SIZE(o16x16)
+END_OAM()
+
+BEGIN_FRAME_ANIM(note1Frame)
+    SHOW_FRAME(0, s16x16, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(note2Frame)
+    SHOW_FRAME(1, s16x16, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(note3Frame)
+    SHOW_FRAME(2, s16x16, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(note4Frame)
+    SHOW_FRAME(3, s16x16, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(note5Frame)
+    SHOW_FRAME(4, s16x16, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(note6Frame)
+    SHOW_FRAME(5, s16x16, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
