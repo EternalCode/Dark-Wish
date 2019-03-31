@@ -71,6 +71,7 @@
 #include "../../generated/images/battle_animations/supersonic.h"
 #include "../../generated/images/battle_animations/aquajet.h"
 #include "../../generated/images/battle_animations/barrage.h"
+#include "../../generated/images/battle_animations/barragesmoke.h"
 
 
 /* the impact sprite from tackle */
@@ -1252,3 +1253,23 @@ MAKE_OAM(barrage)
 	OAM_PRIORITY(3)
 	OAM_SIZE(o32x32)
 END_OAM()
+
+/* Barrage Smoke */
+ASSETS(barragesmoke, s32x16 * 2, 467);
+ASSET_ALIAS(barragesmoke, s32x16 * 2, 468, barragesmoke2);
+
+MAKE_OAM(barragesmoke)
+	OAM_PRIORITY(3)
+	OAM_SHAPE(WIDE)
+	OAM_SIZE(o32x16)
+END_OAM()
+
+BEGIN_FRAME_ANIM(barragesmokeFrames)
+    SHOW_FRAME(0, s32x16, NOFLIP, 3)
+    SHOW_FRAME(1, s32x16, NOFLIP, 5)
+END_ANIM()
+
+BEGIN_FRAME_ANIM(barragesmoke2Frames)
+    SHOW_FRAME(0, s32x16, HFLIP, 3)
+    SHOW_FRAME(1, s32x16, HFLIP, 5)
+END_ANIM()

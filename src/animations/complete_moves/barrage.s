@@ -4,12 +4,18 @@
 .include "src/animation_cmds.s"
 
 .equ barrage, 0x9006
+.equ smoke, 0x9007
+.equ smoke2, 0x9008
 
 .global BarrageAnimation
 BarrageAnimation:
 	fastsetbattlers
 	loadspritefull barrageSprite barragePalette barrageOam
 	copyvar barrage LASTRESULT
+	loadspritefull barragesmokeSprite barragesmokePalette barragesmokeOam
+	copyvar smoke LASTRESULT
+	loadspritefull barragesmokeSprite barragesmoke2Palette barragesmokeOam
+	copyvar smoke2 LASTRESULT
 	spritetobg target 8 8
 	spriteblend 4 12
 	BLOCKCMD
@@ -23,10 +29,21 @@ Finish:
 	waittask TaskTranslateSpriteHorizontalArcCos
     waittask TaskTranslateSpriteHorizontalArc
 	BLOCKCMD
+	addvar targety 15
+	semitransparent smoke
+	rendersprite smoke targetx targety nullrsf
+	setframessprite 0 smoke barragesmokeFrames
+	semitransparent smoke2
+	rendersprite smoke2 targetx targety nullrsf
+	setframessprite 0 smoke2 barragesmoke2Frames
+	movesprite smoke 5 0 30 true
+	movesprite smoke2 0xFFFB 0 30 true
     quakebg 1 0 4 5 2 true
 	quakebg 3 0 4 5 2 true
 	OPENCMD
 	pauseframes 10
+	deletesprite smoke
+	deletesprite smoke2
 	deletesprite barrage
 	spritebgclear target
     end
