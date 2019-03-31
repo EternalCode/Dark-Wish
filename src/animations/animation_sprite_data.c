@@ -1129,6 +1129,12 @@ MAKE_OAM(leer)
     OAM_SIZE(o32x32)
 END_OAM()
 
+MAKE_OAM(disable)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
 BEGIN_FRAME_ANIM(leerFrames)
     SHOW_FRAME(0, s32x32, NOFLIP, 4)
     SHOW_FRAME(1, s32x32, NOFLIP, 4)
@@ -1136,6 +1142,16 @@ BEGIN_FRAME_ANIM(leerFrames)
     SHOW_FRAME(3, s32x32, NOFLIP, 6)
     SHOW_FRAME(4, s32x32, NOFLIP, 3)
 END_ANIM()
+
+BEGIN_FRAME_ANIM(disableFrame) // third frame is used in disable
+    SHOW_FRAME(3, s32x32, NOFLIP, 30)
+    JUMP_FRAME(0)
+END_ANIM()
+
+BEGIN_AFFINE_ANIM(disable)
+    PLAY_AFFINE(0, 0, 0, 4)
+    PLAY_AFFINE(-10, -10, 0, 8)
+END_AFFINE()
 
 
 /* Growl roar particle */
