@@ -1280,6 +1280,7 @@ struct move_data gBattleMoves[] = {
     .type = TYPE_NORMAL,
     .m_flags = FLAG_REFLECTABLE | FLAG_MIRROR | FLAG_SOUND | FLAG_AUTHENTIC | FLAG_PROTECT | FLAG_TARGET,
     .procs = &sing_procs,
+    .on_tryhit_move = status_only_movetryhit,
     .animation = (u8*)&SingAnimation,
     },
 
