@@ -1409,6 +1409,16 @@ void ScriptCmd_copyactionpriv()
 }
 
 // blend a sprite without using the fade structure
+void GrayScaleBg3()
+{
+    BlendPalette(0, 16, 12, 0x35AD);
+}
+
+void UnfadeBg3()
+{
+    BlendPalette(0, 16, 0, 0);
+}
+
 void ScriptCmd_spriteblend2()
 {
     ANIMSCR_MOVE(1);
