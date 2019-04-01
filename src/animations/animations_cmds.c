@@ -1254,14 +1254,14 @@ void ScriptCmd_confighorizontalarctranslate()
             y = -((spriteDst->pos1.y - sprite->pos1.y) + sprite->pos1.y); // normal player side
             break;
         default:
-            y = -sprite->pos1.y; // normal opponent's side
+            y = ((sprite->pos1.y - spriteDst->pos1.y) + spriteDst->pos1.y); // normal player side
             break;
     };
     sprite->data[0] = speed; // intervals to travel distance
     sprite->data[1] = endAngle;
     sprite->data[2] = Div((x * 256), speed);
     sprite->data[3] = sprite->pos1.y;
-    sprite->data[4] = speed / (x - ((sprite->data[2] / 256) * speed)); // error minimization increment intervals
+    sprite->data[4] = Div(speed, (x - ((sprite->data[2] / 256) * speed))); // error minimization increment intervals
     sprite->data[5] = y;
     // calc frequency required
     sprite->data[6] = ABS(endAngle - startAngle) /  speed; // frequency step

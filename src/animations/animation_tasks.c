@@ -877,22 +877,49 @@ void TaskTranslateSpriteHorizontalArc(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
     struct Sprite* sprite = &gSprites[t->priv[1]];
-    sprite->data[0]--;
-    if (!sprite->data[0] || !sprite->inUse) {
-        DestroyTask(taskId);
-        return;
-    }
-    sprite->data[7] += sprite->data[6]; // frequency step
-    // amplitude must be a percentage from total amplitude * current sin(x) / sin(pi/2)
-    u32 percent = (Sin2(sprite->data[7]) * 100) / Sin2(90);
-    sprite->pos1.y = PERCENT(sprite->data[5], percent) + sprite->data[3];
-    sprite->pos1.x += (sprite->data[2] / 256);
-    // add 1px to the X as an error correction, if conditions align
-    if (sprite->data[4] != 0) {
-        if ((sprite->data[0] % sprite->data[4]) == 0) {
-            sprite->pos1.x += 1;
+    switch (t->priv[10]) {
+        case 0:
+            // port sprite data to task
+            t->priv[0] = sprite->data[0]; // speed
+            t->priv[3] = sprite->data[1]; // end angle
+            t->priv[4] = sprite->data[2]; // deltaX
+            t->priv[5] = sprite->data[3]; // sprite y initial
+            t->priv[6] = sprite->data[4]; // x error
+            t->priv[7] = sprite->data[5]; // y stretch
+            t->priv[8] = sprite->data[6]; // frequency step
+            t->priv[9] = sprite->data[7]; // start angle
+            t->priv[10]++;
+            break;
+        case 1:
+        {
+            t->priv[0]--;
+            if (!t->priv[0] || !sprite->inUse) {
+                if (t->priv[2]) {
+                    FreeSpriteOamMatrix(sprite);
+                    obj_free(sprite);
+                    DestroySprite(sprite);
+                }
+                DestroyTask(taskId);
+                return;
+            }
+            t->priv[9] += t->priv[8];
+            u32 sinVal = Sin2(t->priv[9]);
+            if (sinVal < 0)
+                sinVal = -sinVal + Sin2(90);
+            u32 percent = (sinVal * 100) / Sin2(90);
+            sprite->pos1.y = Div(t->priv[7] * percent, 100) + t->priv[5];
+            sprite->pos1.x += (t->priv[4] / 256);
+
+            // add 1px offset to the X as an error correction, if conditions align
+            if (t->priv[6] != 0) {
+                u16 absErrorX = ABS(t->priv[6]);
+                if ((t->priv[0] % absErrorX) == 0) {
+                    sprite->pos1.x += t->priv[6] > 0 ? 1 : -1;
+                }
+            }
+            break;
         }
-    }
+    };
 }
 
 // meant to be used in conjunction with ScriptCmd_confighorizontalarctranslate
@@ -900,22 +927,49 @@ void TaskTranslateSpriteHorizontalArcCos(u8 taskId)
 {
     struct Task* t = &tasks[taskId];
     struct Sprite* sprite = &gSprites[t->priv[1]];
-    if (!sprite->data[0] || !sprite->inUse) {
-        DestroyTask(taskId);
-        return;
-    }
-    sprite->data[7] += sprite->data[6]; // frequency step
-    // amplitude must be a percentage from total amplitude * current sin(x) / sin(pi/2)
-    u32 percent = (Cos2(sprite->data[7]) * 100) / Cos2(0);
-    sprite->pos1.y = PERCENT(sprite->data[5], percent) + (sprite->data[3] * 2);
-    sprite->pos1.x += (sprite->data[2] / 256);
-    // add 1px to the X as an error correction, if conditions align
-    if (sprite->data[4] != 0) {
-        if ((sprite->data[0] % sprite->data[4]) == 0) {
-            sprite->pos1.x -= 1;
+    switch (t->priv[10]) {
+        case 0:
+            // port sprite data to task
+            t->priv[0] = sprite->data[0]; // speed
+            t->priv[3] = sprite->data[1]; // end angle
+            t->priv[4] = sprite->data[2]; // deltaX
+            t->priv[5] = sprite->data[3]; // sprite y initial
+            t->priv[6] = sprite->data[4]; // x error
+            t->priv[7] = sprite->data[5]; // y stretch
+            t->priv[8] = sprite->data[6]; // frequency step
+            t->priv[9] = sprite->data[7]; // start angle
+            t->priv[10]++;
+            break;
+        case 1:
+        {
+            t->priv[0]--;
+            if (!t->priv[0] || !sprite->inUse) {
+                if (t->priv[2]) {
+                    FreeSpriteOamMatrix(sprite);
+                    obj_free(sprite);
+                    DestroySprite(sprite);
+                }
+                DestroyTask(taskId);
+                return;
+            }
+            t->priv[9] += t->priv[8];
+            u32 cosVal = Cos2(t->priv[9]);
+            if (cosVal < 0)
+                cosVal = -cosVal + Cos2(0);
+            u32 percent = (cosVal * 100) / Cos2(0);
+
+            sprite->pos1.y = t->priv[5] - Div(t->priv[7] * percent, 100) + t->priv[5];
+            sprite->pos1.x += (t->priv[4] / 256);
+            // add 1px offset to the X as an error correction, if conditions align
+            if (t->priv[6] != 0) {
+                u16 absErrorX = ABS(t->priv[6]);
+                if ((t->priv[0] % absErrorX) == 0) {
+                    sprite->pos1.x += t->priv[6] > 0 ? 1 : -1;
+                }
+            }
+            break;
         }
-    }
-    sprite->data[0]--;
+    };
 }
 
 #undef startX
