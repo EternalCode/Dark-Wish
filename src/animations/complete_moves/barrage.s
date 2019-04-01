@@ -14,7 +14,7 @@ BarrageAnimation:
 	copyvar barrage LASTRESULT
 	loadspritefull barragesmokeSprite barragesmokePalette barragesmokeOam
 	copyvar smoke LASTRESULT
-	loadspritefull barragesmokeSprite barragesmoke2Palette barragesmokeOam
+	loadspritefull barragesmoke2Sprite barragesmoke2Palette barragesmokeOam
 	copyvar smoke2 LASTRESULT
 	spritetobg target 8 8
 	spriteblend 4 12
