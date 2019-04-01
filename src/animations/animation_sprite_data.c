@@ -101,7 +101,7 @@ END_AFFINE()
 
 
 /* poison ailment sprite */
-ASSETS(poison, s16x16, 402);
+ASSETS(poison, s16x16 * 3, 402);
 
 MAKE_OAM(poison)
     OAM_SIZE(o16x16)
