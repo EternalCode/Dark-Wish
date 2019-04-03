@@ -67,18 +67,31 @@ call_via_r3:
 an_table:
 .word 0x083A6864, 0x083A686C, 0x083A6874, 0x083A687C, 0x083A6A30, 0x083A6A38, 0x083A6A40, 0x083A6A48, 0x083A68C8, 0x083A68D4, 0x083A68E0, 0x083A68EC, 0x083A6904, 0x083A68F8, 0x083A6910, 0x083A691C, 0x083A6928, 0x083A6934, 0x083A6940, 0x083A694C, 0x083A6964, 0x083A6970, 0x083A697C, 0x083A6988, 0x083A6994, 0x083A69A0, 0x083A69AC, 0x083A69B8, 0x083A69C4, 0x083A69D0, 0x083A69DC, 0x083A69E8, 0x083A69F4, 0x083A6A50, 0x083A6A5C, 0x083A6A68, 0x083A6A74, 0x083A6A80, 0x083A6A8C, 0x083A6A98, 0x083A6AA4, 0x083A6AB0, 0x083A6ABC, 0x083A6AC8, 0x083A6AD4, 0x083A6AE0, 0x083A6AEC, 0x083A6AF8, 0x083A6B04, 0x083A6B10, 0x083A6B1C, 0x083A6B28, 0x083A6B34, 0x083A6B40, 0x083A6B4C, 0x083A6B58, 0x083A6B64, 0x083A6B70, 0x083A6B7C, 0x083A6B88, 0x083A6B94, 0x083A6BA0, 0x083A6BAC, 0x083A6BB8, 0x083A6BC4, 0x083A6BD0, 0x083A6BDC, 0x083A6BE8, 0x083A6BF4, 0x083A6C00, 0x083A6C0C, 0x083A6C18, 0x083A6C24, 0x083A6C30, 0x083A6C6C, 0x083A6C74, 0x083A6C7C, 0x083A6C84, 0x083A6C8C, 0x083A6C98, 0x083A6CA4, 0x083A6CB0, 0x083A6CBC, 0x083A6CC8, 0x083A6CD4, 0x083A6CE0, 0x083A6CEC, 0x083A6CF8, 0x083A6D04, 0x083A6D10, 0x083A6D1C, 0x083A6D24, 0x083A6D30, 0x083A6D38, 0x083A6D40, 0x083A6D48, 0x083A6D50, 0x083A6D58, 0x083A6D60, 0x083A6D68, 0x083A6D70, 0x083A6D78, 0x083A6D80, 0x083A6D88, 0x083A6D94, 0x083A6DA4, 0x083A6DB4, 0x083A6DBC, 0x083A6DC4, 0x083A6DCC, 0x083A6DD4, 0x083A6DE0, 0x083A6DEC, 0x083A6DF4, 0x083A6DFC, 0x083A6E04, 0x083A6E0C, 0x083A6E18, 0x083A6E24, 0x083A6E30, 0x083A6E3C, 0x083A6E48, 0x083A6E54, 0x083A6E60, 0x083A6E9C, 0x083A6EA8, 0x083A6EB4, 0x083A6EC0, 0x083A6ECC, 0x083A6ED8, 0x083A6EE4, 0x083A6EF0, 0x083A6EFC, 0x083A6F08, 0x083A6F14, 0x083A6F20, 0x083A6F2C, 0x083A6F38, 0x083A6F44, 0x083A6F50, 0x083A6F5C, 0x083A6F68, 0x083A6F74, 0x083A6F80, 0x083A6F8C, 0x083A6F98, 0x083A6FA4, 0x083A6FB0, 0x083A6FBC, 0x083A6FC8, 0x083A6FD4, 0x083A6FE0, 0x083A6FEC, 0x083A6FF4, 0x083A6FFC, 0x083A6898, 0x083A68A4, 0x083A68B0, 0x083A68BC, 0x083A7004, 0x083A6A00, 0x083A6A0C, 0x083A6A18, 0x083A6A24, 0x083A700C, 0x083A7018, 0x083A6C3C, 0x083A6C48, 0x083A6C54, 0x083A6C60, (entry_0), (entry_1), (entry_2), (entry_3), (entry_4), (entry_5), (entry_6), (entry_7), (entry_8), (entry_9), (entry_10), (entry_11)
 
-entry_0:  .word (routine_0 + 1), (routine_1 + 1), an_stop
-entry_1:  .word (routine_2 + 1), (routine_1 + 1), an_stop
-entry_2:  .word (routine_3 + 1), (routine_4 + 1), an_stop
-entry_3:  .word (routine_5 + 1), (routine_4 + 1), an_stop
-entry_4:  .word (routine_6 + 1), (routine_7 + 1), an_stop
-entry_5:  .word (routine_8 + 1), (routine_7 + 1), an_stop
-entry_6:  .word (routine_9 + 1), (routine_10 + 1), an_stop
-entry_7:  .word (routine_11 + 1), (routine_10 + 1), an_stop
-entry_8:  .word (routine_12 + 1), (routine_13 + 1), an_stop
-entry_9:  .word (routine_14 + 1), (routine_13 + 1), an_stop
-entry_10: .word (routine_15 + 1), (routine_16 + 1), an_stop
-entry_11: .word (routine_17 + 1), (routine_16 + 1), an_stop
+.global entry_0
+    entry_0:  .word (routine_0 + 1), (routine_1 + 1), an_stop
+
+.global entry_1
+    entry_1:  .word (routine_2 + 1), (routine_1 + 1), an_stop
+.global entry_2
+    entry_2:  .word (routine_3 + 1), (routine_4 + 1), an_stop
+.global entry_3
+    entry_3:  .word (routine_5 + 1), (routine_4 + 1), an_stop
+.global entry_4
+    entry_4:  .word (routine_6 + 1), (routine_7 + 1), an_stop
+.global entry_5
+    entry_5:  .word (routine_8 + 1), (routine_7 + 1), an_stop
+.global entry_6
+    entry_6:  .word (routine_9 + 1), (routine_10 + 1), an_stop
+.global entry_7
+    entry_7:  .word (routine_11 + 1), (routine_10 + 1), an_stop
+.global entry_8
+    entry_8:  .word (routine_12 + 1), (routine_13 + 1), an_stop
+.global entry_9
+    entry_9:  .word (routine_14 + 1), (routine_13 + 1), an_stop
+.global entry_10
+    entry_10: .word (routine_15 + 1), (routine_16 + 1), an_stop
+.global entry_11
+    entry_11: .word (routine_17 + 1), (routine_16 + 1), an_stop
 
 .align 2
 routine_0:

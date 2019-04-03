@@ -1,3 +1,21 @@
+
+.org 0x0806343C
+    .word gFaceDirectionAnimNums
+.pool
+
+.org 0x0806344C
+    .word gMoveDirectionAnimNums
+.pool
+
+.org 0x08063668
+    .word gTrainerFacingDirectionMovementTypes
+.pool
+
+.org 0x08063EB8
+    ldr r1, =(GetFaceDirectionMovementAction|1)
+    bx r1
+.pool
+
 // redirections
 .org 0x0805C104
     ldr r1, =(PlayerWalkDirection|1)
@@ -21,15 +39,15 @@
 
 // repoint animation table
 .org 0x08064540
-    .word (an_table)
+    .word (gMovementActionFuncs)
 .pool
 
 .org 0x08064584
-    .word (an_table)
+    .word (gMovementActionFuncs)
 .pool
 
 .org 0x080645B4
-    .word (an_table)
+    .word (gMovementActionFuncs)
 .pool
 
 // hook

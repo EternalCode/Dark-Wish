@@ -99,7 +99,7 @@ bool TryStartStepBasedScript(struct MapPosition* playerPos, u16 metatileBehavior
 bool ProcessPlayerFieldInput(struct FieldInput *input)
 {
     struct MapPosition playerPos;
-    u8 playerDirection = gEventObjects[gPlayerAvatar.spriteId].direction & 0xF;
+    u8 playerDirection = gEventObjects[gPlayerAvatar.spriteId].facingDirection & 0xF;
     GetPlayerPosition(&playerPos);
     u16 metatileBehavior = MapGridGetMetatileBehaviorAt(playerPos.x, playerPos.y);
 

@@ -8,37 +8,11 @@
 #define DIR_UP_AND_RIGHT 0x08
 
 extern void dprintf(const char * str, ...);
+extern void GetPlayerPosition(struct MapPosition* p);
 u8 GetPlayerSidewaysstairsAction(u8 dir, u8 behaviour, u8 type);
-
-/* Sideways stairs movement state IDs */
-const u8 walk_entry_0[5] = {0x10, 0x10, 0x11, 0xAC, 0xAB};
-const u8 walk_entry_1[5] = {0x10, 0x10, 0x11, 0xAC, 0x13};
-const u8 walk_entry_2[5] = {0x10, 0x10, 0x11, 0x12, 0xAB};
-const u8 walk_entry_3[5] = {0x10, 0x10, 0x11, 0xAA, 0xAD};
-const u8 walk_entry_4[5] = {0x10, 0x10, 0x11, 0x12, 0xAD};
-const u8 walk_entry_5[5] = {0x10, 0x10, 0x11, 0xAA, 0x13};
-
-const u8 bike_entry_0[5] = {0x31, 0x31, 0x32, 0xB4, 0xB3};
-const u8 bike_entry_1[5] = {0x31, 0x31, 0x32, 0xB4, 0x34};
-const u8 bike_entry_2[5] = {0x31, 0x31, 0x32, 0x33, 0xB3};
-const u8 bike_entry_3[5] = {0x31, 0x31, 0x32, 0xB2, 0xB5};
-const u8 bike_entry_4[5] = {0x31, 0x31, 0x32, 0x33, 0xB5};
-const u8 bike_entry_5[5] = {0x31, 0x31, 0x32, 0xB2, 0x34};
-
-const u8 run_entry_0[5] = {0x3D, 0x3D, 0x3E, 0xB1, 0xAF};
-const u8 run_entry_1[5] = {0x3D, 0x3D, 0x3E, 0xB1, 0x40};
-const u8 run_entry_2[5] = {0x3D, 0x3D, 0x3E, 0x3F, 0xAF};
-const u8 run_entry_3[5] = {0x3D, 0x3D, 0x3E, 0xAE, 0xB0};
-const u8 run_entry_4[5] = {0x3D, 0x3D, 0x3E, 0x3F, 0xB0};
-const u8 run_entry_5[5] = {0x3D, 0x3D, 0x3E, 0xAE, 0x40};
-
-const u8* walk_table[6] = {(u8*)(walk_entry_0), (u8*)(walk_entry_1), (u8*)(walk_entry_2), (u8*)(walk_entry_3), (u8*)(walk_entry_4), (u8*)(walk_entry_5)};
-const u8* bike_table[6] = {(u8*)(bike_entry_0), (u8*)(bike_entry_1), (u8*)(bike_entry_2), (u8*)(bike_entry_3), (u8*)(bike_entry_4), (u8*)(bike_entry_5)};
-const u8* run_table[6] = {(u8*)(run_entry_0), (u8*)(run_entry_1), (u8*)(run_entry_2), (u8*)(run_entry_3), (u8*)(run_entry_4), (u8*)(run_entry_5)};
 
 void PlayerSetAnimId(u8 movementActionId, u8 copyableMovement)
 {
-    if (movementActionId)
     if (!PlayerIsAnimActive()) {
         PlayerSetCopyableMovement(copyableMovement);
         EventObjectSetHeldMovement(&gEventObjects[gPlayerAvatar.eventObjectId], movementActionId);
@@ -49,11 +23,22 @@ void PlayerWalkDirection(u8 dir)
 {
     struct EventObject* playerObject = &gEventObjects[gPlayerAvatar.spriteId];
     u32 behaviour = MapGridGetMetatileBehaviorAt(playerObject->currentCoords.x, playerObject->currentCoords.y);
-    u8 movement = 0;
-    if (behaviour < 0xB0 || behaviour > 0xB5) {
-        movement = GetWalkNormalMovementAction(dir);
-    } else {
-        movement = GetPlayerSidewaysstairsAction(dir, behaviour, 0);
+    u8 movement = GetWalkNormalMovementAction(dir);
+    dprintf("behaviour is %x, DIR is %d\n", behaviour, dir);
+    if (dir >= 3 && dir <= 4) {
+        struct MapPosition playerPos;
+        GetPlayerPosition(&playerPos);
+        GetInFrontOfPlayerPosition(&playerPos);
+        u8 behaviourFront = MapGridGetMetatileBehaviorAt(playerPos.x, playerPos.y);
+        // right stairs you should climb if next tile is 0xB1
+        if (behaviourFront == 0xB1 && dir == 4) {
+            movement = GetPlayerSidewaysstairsAction(dir, behaviourFront, 0);
+        } else if (behaviourFront == 0xB0 && dir == 3) {
+            // left stairs you should climb if next tile is B0
+            movement = GetPlayerSidewaysstairsAction(dir, behaviourFront, 0);
+        } else if (behaviour == 0xB0 || behaviour == 0xB1) {
+            movement = GetPlayerSidewaysstairsAction(dir, behaviour, 0);
+        }
     }
     PlayerSetAnimId(movement, 2);
 }
@@ -64,10 +49,14 @@ void PlayerRunDirection(u8 dir)
     struct EventObject* playerObject = &gEventObjects[gPlayerAvatar.spriteId];
     u32 behaviour = MapGridGetMetatileBehaviorAt(playerObject->currentCoords.x, playerObject->currentCoords.y);
     u8 movement = 0;
-    if (behaviour < 0xB0 || behaviour > 0xB5) {
-        movement = GetPlayerRunMovementAction(dir);
-    } else {
+    if (behaviour == 0xB0 && (dir >= 3 && dir <= 4)) {
+        // left ascending stairs
         movement = GetPlayerSidewaysstairsAction(dir, behaviour, 1);
+    } else if (behaviour == 0xB1 && (dir >= 3 && dir <= 4)) {
+        // right ascending stairs
+        movement = GetPlayerSidewaysstairsAction(dir, behaviour, 1);
+    } else {
+        movement = GetPlayerRunMovementAction(dir);
     }
     PlayerSetAnimId(movement, 2);
 }
@@ -78,8 +67,12 @@ void PlayerBikeDirection(u8 dir)
     struct EventObject* playerObject = &gEventObjects[gPlayerAvatar.spriteId];
     u32 behaviour = MapGridGetMetatileBehaviorAt(playerObject->currentCoords.x, playerObject->currentCoords.y);
     u8 movement = 0;
-    if (behaviour < 0xB0 || behaviour > 0xB5) {
-        movement = GetPlayerBikeMovementAction(dir);
+    if (behaviour == 0xB0 && (dir >= 3 && dir <= 4)) {
+        // left ascending stairs
+        movement = GetPlayerSidewaysstairsAction(dir, behaviour, 2);
+    } else if (behaviour == 0xB1 && (dir >= 3 && dir <= 4)) {
+        // right ascending stairs
+        movement = GetPlayerSidewaysstairsAction(dir, behaviour, 2);
     } else {
         movement = GetPlayerSidewaysstairsAction(dir, behaviour, 2);
     }
@@ -93,15 +86,34 @@ u8 GetPlayerSidewaysstairsAction(u8 dir, u8 behaviour, u8 type)
     switch(type) {
         case 0:
             //walk table
-            return walk_table[behaviour - 0xB0][direction];
+            if (behaviour == 0xB0) {
+                // left ascending stair
+                if (direction == 3) {
+                    // move diagonally left up
+                    return 0xB6;
+                } else {
+                    // move diagonally right up
+                    return 0xB7;
+                }
+            } else {
+                if (direction == 3) {
+                    // move diagonally left down
+                    return 0xB8;
+                } else {
+                    // move diagonally right down
+                    return 0xB9;
+                }
+            }
             break;
         case 1:
             // run table
-            return run_table[behaviour - 0xB0][direction];
+            return 0xB6;
+            //return run_table[behaviour - 0xB0][direction];
             break;
         case 2:
             // bike table
-            return bike_table[behaviour - 0xB0][direction];
+            return 0xB6;
+            //return bike_table[behaviour - 0xB0][direction];
             break;
     };
     return 0;
