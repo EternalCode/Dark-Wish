@@ -28,8 +28,8 @@ extern void AddOpponentPokemonToPlayer(void);
 extern u8 PokemonCountUsableMoves(struct Pokemon* p);
 
 /* EventObjects and sprite fetching */
-#define EVENTID_DIR(i) (gEventObjects[i].direction & 0xF)
-#define EVENTOBJ_DIR(n) (n->direction & 0xF)
+#define EVENTID_DIR(i) (gEventObjects[i].facingDirection & 0xF)
+#define EVENTOBJ_DIR(n) (n->facingDirection & 0xF)
 struct Sprite* GetSpriteFromGfxTag(u16 tag);
 extern void ClearSpriteData(struct Sprite* s);
 

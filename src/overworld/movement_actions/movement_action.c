@@ -1,19 +1,6 @@
 #include <pokeagb/pokeagb.h>
 #include "../../global.h"
 
-extern u8 (* entry_0[])(struct EventObject *, struct Sprite *);
-extern u8 (* entry_1[])(struct EventObject *, struct Sprite *);
-extern u8 (* entry_2[])(struct EventObject *, struct Sprite *);
-extern u8 (* entry_3[])(struct EventObject *, struct Sprite *);
-extern u8 (* entry_4[])(struct EventObject *, struct Sprite *);
-extern u8 (* entry_5[])(struct EventObject *, struct Sprite *);
-extern u8 (* entry_6[])(struct EventObject *, struct Sprite *);
-extern u8 (* entry_7[])(struct EventObject *, struct Sprite *);
-extern u8 (* entry_8[])(struct EventObject *, struct Sprite *);
-extern u8 (* entry_9[])(struct EventObject *, struct Sprite *);
-extern u8 (* entry_10[])(struct EventObject *, struct Sprite *);
-extern u8 (* entry_11[])(struct EventObject *, struct Sprite *);
-
 // struct Coords16 sDirectionToVectors[] = {
 //     {0, 0}, // no movement 0
 //     {0, 1}, // move down 1
@@ -51,6 +38,18 @@ const u8 gMoveDirectionAnimNums[] = {
     7, // FACE UP RIGHT
 };
 
+const u8 gMoveDirectionFastAnimNums[] = {
+    8, // None
+    8, // FACE DOWN
+    9, // FACE UP
+    10, // FACE LEFT
+    11, // FACE RIGHT
+    10, // FACE DOWN LEFT
+    11, // FACE DOWN RIGHT
+    10, // FACE UP LEFT
+    11, // FACE UP RIGHT
+};
+
 const u8 gTrainerFacingDirectionMovementTypes[] = {
     8, //MOVEMENT_TYPE_FACE_DOWN,
     8, //MOVEMENT_TYPE_FACE_DOWN,
@@ -75,11 +74,46 @@ const u8 gFaceDirectionMovementActions[] = {
     3,
 };
 
+
+const u8 gRunningDirectionAnimNums[] = {
+    20, // movement no dir
+    20, // DIR_SOUTH
+    21, // DIR_NORTH
+    22, // DIR_WEST
+    23, // DIR_EAST
+    22, // DIR_SOUTHWEST
+    23, // DIR_SOUTHEAST
+    22, // DIR_NORTHWEST
+    23, // DIR_NORTHEAST
+};
+
+u8 (*const gOppositeDirectionBlockedMetatileFuncs[])(u8) = {
+    MetatileBehavior_IsSouthBlocked,
+    MetatileBehavior_IsNorthBlocked,
+    MetatileBehavior_IsWestBlocked,
+    MetatileBehavior_IsEastBlocked,
+    MetatileBehavior_IsWestBlocked,
+    MetatileBehavior_IsEastBlocked,
+    MetatileBehavior_IsWestBlocked,
+    MetatileBehavior_IsEastBlocked,
+};
+
+u8 (*const gDirectionBlockedMetatileFuncs[])(u8) = {
+    MetatileBehavior_IsNorthBlocked,
+    MetatileBehavior_IsSouthBlocked,
+    MetatileBehavior_IsEastBlocked,
+    MetatileBehavior_IsWestBlocked,
+    MetatileBehavior_IsEastBlocked,
+    MetatileBehavior_IsWestBlocked,
+    MetatileBehavior_IsEastBlocked,
+    MetatileBehavior_IsWestBlocked,
+};
+
+
 u8 GetFaceDirectionMovementAction(u32 direction)
 {
     return gFaceDirectionMovementActions[direction];
 }
-
 
 u8 MovementAction_PauseSpriteAnim(struct EventObject *eventObject, struct Sprite *sprite)
 {
@@ -87,7 +121,7 @@ u8 MovementAction_PauseSpriteAnim(struct EventObject *eventObject, struct Sprite
     return true;
 }
 
-u8 MovementAction_WalkNormalDiagonalStep1(struct EventObject *eventObject, struct Sprite *sprite)
+u8 MovementAction_step1(struct EventObject *eventObject, struct Sprite *sprite)
 {
     if (npc_obj_ministep_stop_on_arrival(eventObject, sprite)) {
         sprite->data[2] = 2;
@@ -96,52 +130,152 @@ u8 MovementAction_WalkNormalDiagonalStep1(struct EventObject *eventObject, struc
     return false;
 }
 
+// Bike diagonal
+u8 MovementAction_BikeNormalDiagonalUpLeft_Step0(struct EventObject *eventObject, struct Sprite *sprite)
+{
+    an_run_any(eventObject, sprite, DIR_NORTHWEST, 2);
+    return MovementAction_step1(eventObject, sprite);
+}
+
+u8 MovementAction_BikeNormalDiagonalDownRight_Step0(struct EventObject *eventObject, struct Sprite *sprite)
+{
+    an_run_any(eventObject, sprite, DIR_SOUTHEAST, 2);
+    return MovementAction_step1(eventObject, sprite);
+}
+
+u8 MovementAction_BikeNormalDiagonalDownLeft_Step0(struct EventObject *eventObject, struct Sprite *sprite)
+{
+    an_run_any(eventObject, sprite, DIR_SOUTHWEST, 2);
+    return MovementAction_step1(eventObject, sprite);
+}
+
+u8 MovementAction_BikeNormalDiagonalUpRight_Step0(struct EventObject *eventObject, struct Sprite *sprite)
+{
+    an_run_any(eventObject, sprite, DIR_NORTHEAST, 2);
+    return MovementAction_step1(eventObject, sprite);
+}
+
+u8 (*const gMovementActionFuncs_BikeNormalDiagonalUpLeft[])(struct EventObject *, struct Sprite *) = {
+    MovementAction_BikeNormalDiagonalUpLeft_Step0,
+    MovementAction_step1,
+    MovementAction_PauseSpriteAnim,
+};
+
+u8 (*const gMovementActionFuncs_BikeNormalDiagonalDownRight[])(struct EventObject *, struct Sprite *) = {
+    MovementAction_BikeNormalDiagonalDownRight_Step0,
+    MovementAction_step1,
+    MovementAction_PauseSpriteAnim,
+};
+
+u8 (*const gMovementActionFuncs_BikeNormalDiagonalDownLeft[])(struct EventObject *, struct Sprite *) = {
+    MovementAction_BikeNormalDiagonalDownLeft_Step0,
+    MovementAction_step1,
+    MovementAction_PauseSpriteAnim,
+};
+
+u8 (*const gMovementActionFuncs_BikeNormalDiagonalUpRight[])(struct EventObject *, struct Sprite *) = {
+    MovementAction_BikeNormalDiagonalUpRight_Step0,
+    MovementAction_step1,
+    MovementAction_PauseSpriteAnim,
+};
+
+
+// Run diagonal
+u8 MovementAction_RunUpLeft_Step0(struct EventObject *eventObject, struct Sprite *sprite)
+{
+    StartRunningAnim(eventObject, sprite, DIR_NORTHWEST);
+    return MovementAction_step1(eventObject, sprite);
+}
+
+u8 MovementAction_RunDownRight_Step0(struct EventObject *eventObject, struct Sprite *sprite)
+{
+    StartRunningAnim(eventObject, sprite, DIR_SOUTHEAST);
+    return MovementAction_step1(eventObject, sprite);
+}
+
+u8 MovementAction_RunDownLeft_Step0(struct EventObject *eventObject, struct Sprite *sprite)
+{
+    StartRunningAnim(eventObject, sprite, DIR_SOUTHWEST);
+    return MovementAction_step1(eventObject, sprite);
+}
+
+u8 MovementAction_RunUpRight_Step0(struct EventObject *eventObject, struct Sprite *sprite)
+{
+    StartRunningAnim(eventObject, sprite, DIR_NORTHEAST);
+    return MovementAction_step1(eventObject, sprite);
+}
+
+u8 (*const gMovementActionFuncs_RunDiagonalUpLeft[])(struct EventObject *, struct Sprite *) = {
+    MovementAction_RunUpLeft_Step0,
+    MovementAction_step1,
+    MovementAction_PauseSpriteAnim,
+};
+
+u8 (*const gMovementActionFuncs_RunDiagonalDownRight[])(struct EventObject *, struct Sprite *) = {
+    MovementAction_RunDownRight_Step0,
+    MovementAction_step1,
+    MovementAction_PauseSpriteAnim,
+};
+
+u8 (*const gMovementActionFuncs_RunDiagonalDownLeft[])(struct EventObject *, struct Sprite *) = {
+    MovementAction_RunDownLeft_Step0,
+    MovementAction_step1,
+    MovementAction_PauseSpriteAnim,
+};
+
+u8 (*const gMovementActionFuncs_RunDiagonalUpRight[])(struct EventObject *, struct Sprite *) = {
+    MovementAction_RunUpRight_Step0,
+    MovementAction_step1,
+    MovementAction_PauseSpriteAnim,
+};
+
+
+// Walk Diagonal
 u8 MovementAction_WalkNormalDiagonalUpLeft_Step0(struct EventObject *eventObject, struct Sprite *sprite)
 {
     an_run_any(eventObject, sprite, DIR_NORTHWEST, 0);
-    return MovementAction_WalkNormalDiagonalStep1(eventObject, sprite);
+    return MovementAction_step1(eventObject, sprite);
 }
 
 u8 MovementAction_WalkNormalDiagonalDownRight_Step0(struct EventObject *eventObject, struct Sprite *sprite)
 {
     an_run_any(eventObject, sprite, DIR_SOUTHEAST, 0);
-    return MovementAction_WalkNormalDiagonalStep1(eventObject, sprite);
+    return MovementAction_step1(eventObject, sprite);
 }
 
 u8 MovementAction_WalkNormalDiagonalDownLeft_Step0(struct EventObject *eventObject, struct Sprite *sprite)
 {
     an_run_any(eventObject, sprite, DIR_SOUTHWEST, 0);
-    return MovementAction_WalkNormalDiagonalStep1(eventObject, sprite);
+    return MovementAction_step1(eventObject, sprite);
 }
 
 u8 MovementAction_WalkNormalDiagonalUpRight_Step0(struct EventObject *eventObject, struct Sprite *sprite)
 {
     an_run_any(eventObject, sprite, DIR_NORTHEAST, 0);
-    return MovementAction_WalkNormalDiagonalStep1(eventObject, sprite);
+    return MovementAction_step1(eventObject, sprite);
 }
-
 
 u8 (*const gMovementActionFuncs_WalkNormalDiagonalUpLeft[])(struct EventObject *, struct Sprite *) = {
     MovementAction_WalkNormalDiagonalUpLeft_Step0,
-    MovementAction_WalkNormalDiagonalStep1,
+    MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
 u8 (*const gMovementActionFuncs_WalkNormalDiagonalDownRight[])(struct EventObject *, struct Sprite *) = {
     MovementAction_WalkNormalDiagonalDownRight_Step0,
-    MovementAction_WalkNormalDiagonalStep1,
+    MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
 u8 (*const gMovementActionFuncs_WalkNormalDiagonalDownLeft[])(struct EventObject *, struct Sprite *) = {
     MovementAction_WalkNormalDiagonalDownLeft_Step0,
-    MovementAction_WalkNormalDiagonalStep1,
+    MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
 u8 (*const gMovementActionFuncs_WalkNormalDiagonalUpRight[])(struct EventObject *, struct Sprite *) = {
     MovementAction_WalkNormalDiagonalUpRight_Step0,
-    MovementAction_WalkNormalDiagonalStep1,
+    MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
@@ -159,7 +293,7 @@ u8 (** gMovementActionFuncs[])(struct EventObject *, struct Sprite *) = {
     (void*)0x083A6AB0, (void*)0x083A6ABC, (void*)0x083A6AC8, (void*)0x083A6AD4, // RideWaterCurrent 0x29 - 0x2C
     (void*)0x083A6AE0, (void*)0x083A6AEC, (void*)0x083A6AF8, (void*)0x083A6B04, // WalkFastestDir 0x2D - 0x30
     (void*)0x083A6B10, (void*)0x083A6B1C, (void*)0x083A6B28, (void*)0x083A6B34, // SlideDir 0x31 - 0x34
-    (void*)0x083A6B40, (void*)0x083A6B4C, (void*)0x083A6B58, (void*)0x083A6B64, // PlayerRunDir 0x35 - 0x38
+    (void*)0x083A6B40, (void*)0x083A6B4C, (void*)0x083A6B58, (void*)0x083A6B64, // Bike speed? 0x35 - 0x38
     (void*)0x083A6B70, // StartAnimInDirection 0x39
     (void*)0x083A6B7C, (void*)0x083A6B88, (void*)0x083A6B94, (void*)0x083A6BA0, // JumpSpecialDir 0x3A - 0x3D
     (void*)0x083A6BAC, // FacePlayer 0x3E
@@ -201,12 +335,27 @@ u8 (** gMovementActionFuncs[])(struct EventObject *, struct Sprite *) = {
     (void*)0x083A6A18, (void*)0x083A6A24, (void*)0x083A700C, (void*)0x083A7018, // 0xA2 - 0xA5
     (void*)0x083A6C3C, (void*)0x083A6C48, (void*)0x083A6C54, (void*)0x083A6C60, // 0xA6 - 0xA9
     /* Diagonal walk */
-    entry_0, entry_1, entry_2, entry_3, // 0xAA - 0xAD
-    entry_4, entry_5, entry_6, entry_7, // 0xAE - 0xB1
-    entry_8, entry_9, entry_10, entry_11, // 0xB2 - 0xB5
-    // 0xB6 - 0xB9
+
+    NULL, NULL, NULL, NULL, // 0xAA - 0xAD
+    NULL, NULL, NULL, NULL, // 0xAE - 0xB1
+    NULL, NULL, NULL, NULL, // 0xB2 - 0xB5
+
+    // 0xB6 - 0xB9 walk stairs
     gMovementActionFuncs_WalkNormalDiagonalUpLeft, // Move up left - B0 behaviour left movement
-    gMovementActionFuncs_WalkNormalDiagonalDownRight,// Move down right - B0 behaviour right movement
+    gMovementActionFuncs_WalkNormalDiagonalDownRight, // Move down right - B0 behaviour right movement
     gMovementActionFuncs_WalkNormalDiagonalDownLeft, // Move down left  - B1 behaviour left movement
-    gMovementActionFuncs_WalkNormalDiagonalUpRight,// Move up right - B1 behaviour right movement
+    gMovementActionFuncs_WalkNormalDiagonalUpRight, // Move up right - B1 behaviour right movement
+
+    // 0xBA - 0xBD run stairs
+    gMovementActionFuncs_RunDiagonalUpLeft, // Move up left - B0 behaviour left movement
+    gMovementActionFuncs_RunDiagonalDownRight, // Move down right - B0 behaviour right movement
+    gMovementActionFuncs_RunDiagonalDownLeft, // Move down left  - B1 behaviour left movement
+    gMovementActionFuncs_RunDiagonalUpRight, // Move up right - B1 behaviour right movement
+
+    // 0xBE - 0xC1 Bike stairs
+    gMovementActionFuncs_BikeNormalDiagonalUpLeft, // Move up left - B0 behaviour left movement
+    gMovementActionFuncs_BikeNormalDiagonalDownRight, // Move down right - B0 behaviour right movement
+    gMovementActionFuncs_BikeNormalDiagonalDownLeft, // Move down left  - B1 behaviour left movement
+    gMovementActionFuncs_BikeNormalDiagonalUpRight, // Move up right - B1 behaviour right movement
+
 };

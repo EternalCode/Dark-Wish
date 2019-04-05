@@ -1,3 +1,4 @@
+// redirections
 
 .org 0x0806343C
     .word gFaceDirectionAnimNums
@@ -7,8 +8,29 @@
     .word gMoveDirectionAnimNums
 .pool
 
+.org 0x0806345C
+    .word gMoveDirectionFastAnimNums
+.pool
+
+.org 0x0806352C
+    .word gRunningDirectionAnimNums
+.pool
+
 .org 0x08063668
     .word gTrainerFacingDirectionMovementTypes
+.pool
+
+.org 0x080638F8
+    .word gDirectionBlockedMetatileFuncs
+.pool
+
+.org 0x080638F4
+    .word gOppositeDirectionBlockedMetatileFuncs
+.pool
+
+.org 0x0805BB1C
+    ldr r1, =(CheckForPlayerAvatarCollision|1)
+    bx r1
 .pool
 
 .org 0x08063EB8
@@ -16,9 +38,13 @@
     bx r1
 .pool
 
-// redirections
 .org 0x0805C104
     ldr r1, =(PlayerWalkDirection|1)
+    bx r1
+.pool
+
+.org 0x0805C17C
+    ldr r1, =(PlayerRunDirection|1)
     bx r1
 .pool
 
@@ -27,10 +53,6 @@
     bx r1
 .pool
 
-.org 0x0805C17C
-    ldr r1, =(PlayerRunDirection|1)
-    bx r1
-.pool
 
 .org 0x080BD3A0
     ldr r1, =(GetBikeCollisionType|1)
@@ -50,8 +72,4 @@
     .word (gMovementActionFuncs)
 .pool
 
-// hook
-.org 0x0805BB5C
-    ldr r0, =(change_movement|1)
-    bx r0
 .pool
