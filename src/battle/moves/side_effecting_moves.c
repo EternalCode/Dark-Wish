@@ -1,10 +1,13 @@
 #include <pokeagb/pokeagb.h>
+#include "move_data.h"
 #include "../battle_data/pkmn_bank.h"
 #include "../battle_data/pkmn_bank_stats.h"
 #include "../battle_data/battle_state.h"
+#include "../battle_events/battle_events.h"
 
 extern void dprintf(const char * str, ...);
 extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effect);
+
 
 /* Tailwind */
 u16 tailwind_on_speed(u8 user, u8 src, u16 stat, struct anonymous_callback* acb)
@@ -231,6 +234,9 @@ u8 mist_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
     AddCallback(CB_ON_BEFORE_STAT_MOD, 0, 5, user, (u32)mist_on_before_stat_mod);
+    struct action* a = prepend_action(user, user, ActionHighPriority, EventPlayAnimation);
+    a->action_bank = user;
+    a->script = (u32)&MistAnimation;
     QueueMessage(MOVE_MIST, user, STRING_PROTECTED_TEAM, NULL);
     return true;
 }

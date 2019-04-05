@@ -1380,7 +1380,6 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_SNATCH | FLAG_TARGET,
     .procs = &basic_proc,
     .on_effect_cb = mist_on_effect,
-    .animation = (u8*)&MistAnimation,
     },
 
     {

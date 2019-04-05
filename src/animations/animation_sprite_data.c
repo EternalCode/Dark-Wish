@@ -75,6 +75,8 @@
 #include "../../generated/images/battle_animations/playerwind.h"
 #include "../../generated/images/battle_animations/barrage.h"
 #include "../../generated/images/battle_animations/barragesmoke.h"
+#include "../../generated/images/battle_animations/protect.h"
+#include "../../generated/images/battle_animations/mist.h"
 
 
 
@@ -1348,3 +1350,22 @@ BEGIN_FRAME_ANIM(barragesmoke2Frames)
     SHOW_FRAME(0, s32x16, HFLIP, 3)
     SHOW_FRAME(1, s32x16, HFLIP, 5)
 END_ANIM()
+
+
+/* Protect barrier also used in mist */
+ASSETS(protect, s64x64, 472);
+
+MAKE_OAM(protect)
+    OAM_PRIORITY(1)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+
+/* mist sprite */
+ASSETS(mist, s64x32, 473);
+
+MAKE_OAM(mist)
+    OAM_PRIORITY(1)
+    OAM_SHAPE(WIDE)
+    OAM_SIZE(o64x32)
+END_OAM()
