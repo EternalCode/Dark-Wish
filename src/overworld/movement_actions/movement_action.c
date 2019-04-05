@@ -155,25 +155,25 @@ u8 MovementAction_BikeNormalDiagonalUpRight_Step0(struct EventObject *eventObjec
     return MovementAction_step1(eventObject, sprite);
 }
 
-u8 (*const gMovementActionFuncs_BikeNormalDiagonalUpLeft[])(struct EventObject *, struct Sprite *) = {
+u8 (* gMovementActionFuncs_BikeNormalDiagonalUpLeft[])(struct EventObject *, struct Sprite *) = {
     MovementAction_BikeNormalDiagonalUpLeft_Step0,
     MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
-u8 (*const gMovementActionFuncs_BikeNormalDiagonalDownRight[])(struct EventObject *, struct Sprite *) = {
+u8 (* gMovementActionFuncs_BikeNormalDiagonalDownRight[])(struct EventObject *, struct Sprite *) = {
     MovementAction_BikeNormalDiagonalDownRight_Step0,
     MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
-u8 (*const gMovementActionFuncs_BikeNormalDiagonalDownLeft[])(struct EventObject *, struct Sprite *) = {
+u8 (* gMovementActionFuncs_BikeNormalDiagonalDownLeft[])(struct EventObject *, struct Sprite *) = {
     MovementAction_BikeNormalDiagonalDownLeft_Step0,
     MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
-u8 (*const gMovementActionFuncs_BikeNormalDiagonalUpRight[])(struct EventObject *, struct Sprite *) = {
+u8 (* gMovementActionFuncs_BikeNormalDiagonalUpRight[])(struct EventObject *, struct Sprite *) = {
     MovementAction_BikeNormalDiagonalUpRight_Step0,
     MovementAction_step1,
     MovementAction_PauseSpriteAnim,
@@ -205,25 +205,25 @@ u8 MovementAction_RunUpRight_Step0(struct EventObject *eventObject, struct Sprit
     return MovementAction_step1(eventObject, sprite);
 }
 
-u8 (*const gMovementActionFuncs_RunDiagonalUpLeft[])(struct EventObject *, struct Sprite *) = {
+u8 (* gMovementActionFuncs_RunDiagonalUpLeft[])(struct EventObject *, struct Sprite *) = {
     MovementAction_RunUpLeft_Step0,
     MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
-u8 (*const gMovementActionFuncs_RunDiagonalDownRight[])(struct EventObject *, struct Sprite *) = {
+u8 (* gMovementActionFuncs_RunDiagonalDownRight[])(struct EventObject *, struct Sprite *) = {
     MovementAction_RunDownRight_Step0,
     MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
-u8 (*const gMovementActionFuncs_RunDiagonalDownLeft[])(struct EventObject *, struct Sprite *) = {
+u8 (* gMovementActionFuncs_RunDiagonalDownLeft[])(struct EventObject *, struct Sprite *) = {
     MovementAction_RunDownLeft_Step0,
     MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
-u8 (*const gMovementActionFuncs_RunDiagonalUpRight[])(struct EventObject *, struct Sprite *) = {
+u8 (* gMovementActionFuncs_RunDiagonalUpRight[])(struct EventObject *, struct Sprite *) = {
     MovementAction_RunUpRight_Step0,
     MovementAction_step1,
     MovementAction_PauseSpriteAnim,
@@ -255,25 +255,25 @@ u8 MovementAction_WalkNormalDiagonalUpRight_Step0(struct EventObject *eventObjec
     return MovementAction_step1(eventObject, sprite);
 }
 
-u8 (*const gMovementActionFuncs_WalkNormalDiagonalUpLeft[])(struct EventObject *, struct Sprite *) = {
+u8 (* gMovementActionFuncs_WalkNormalDiagonalUpLeft[])(struct EventObject *, struct Sprite *) = {
     MovementAction_WalkNormalDiagonalUpLeft_Step0,
     MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
-u8 (*const gMovementActionFuncs_WalkNormalDiagonalDownRight[])(struct EventObject *, struct Sprite *) = {
+u8 (* gMovementActionFuncs_WalkNormalDiagonalDownRight[])(struct EventObject *, struct Sprite *) = {
     MovementAction_WalkNormalDiagonalDownRight_Step0,
     MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
-u8 (*const gMovementActionFuncs_WalkNormalDiagonalDownLeft[])(struct EventObject *, struct Sprite *) = {
+u8 (* gMovementActionFuncs_WalkNormalDiagonalDownLeft[])(struct EventObject *, struct Sprite *) = {
     MovementAction_WalkNormalDiagonalDownLeft_Step0,
     MovementAction_step1,
     MovementAction_PauseSpriteAnim,
 };
 
-u8 (*const gMovementActionFuncs_WalkNormalDiagonalUpRight[])(struct EventObject *, struct Sprite *) = {
+u8 (* gMovementActionFuncs_WalkNormalDiagonalUpRight[])(struct EventObject *, struct Sprite *) = {
     MovementAction_WalkNormalDiagonalUpRight_Step0,
     MovementAction_step1,
     MovementAction_PauseSpriteAnim,
