@@ -28,6 +28,15 @@ void SCBMoveSpriteErrorCorrection(struct Sprite* spr)
         framesCount++;
         return;
     }
+    if (framesPast <= framesCount) {
+        spr->pos1.x += deltaX;
+        spr->pos1.y += deltaY;
+        framesPast++;
+    } else {
+        FreeSpriteOamMatrix(spr);
+        obj_free(spr);
+        return;
+    }
     totalFramesPast++;
     u16 absXerr = ABS(xerror);
     u16 absYerr = ABS(yerror);
@@ -38,14 +47,6 @@ void SCBMoveSpriteErrorCorrection(struct Sprite* spr)
     if (absYerr > 0) {
         if (totalFramesPast % absYerr == 0)
             spr->pos1.y += yerror > 0 ? 1 : -1;
-    }
-    if (framesPast < framesCount) {
-        spr->pos1.x += deltaX;
-        spr->pos1.y += deltaY;
-        framesPast++;
-    } else {
-        FreeSpriteOamMatrix(spr);
-        obj_free(spr);
     }
 }
 #undef framesCount
