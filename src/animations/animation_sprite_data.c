@@ -1369,3 +1369,26 @@ MAKE_OAM(mist)
     OAM_SHAPE(WIDE)
     OAM_SIZE(o64x32)
 END_OAM()
+
+
+/* hydropump sprite */
+ASSETS(hydropump, s32x32 * 4, 468);
+
+MAKE_OAM(hydropump)
+    OAM_AFFINE()
+    OAM_SEMI_TRANSPARENT()
+    OAM_PRIORITY(2)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_FRAME_ANIM(hydropumpFrames)
+    SHOW_FRAME(0, s32x32, NOFLIP, 8)
+    SHOW_FRAME(1, s32x32, NOFLIP, 8)
+    SHOW_FRAME(2, s32x32, NOFLIP, 8)
+    SHOW_FRAME(3, s32x32, NOFLIP, 6)
+END_ANIM()
+
+BEGIN_AFFINE_ANIM(hydropump)
+    PLAY_AFFINE(-68, -68, 0, 1)
+    PLAY_AFFINE(2, 2, 0, 34)
+END_AFFINE()
