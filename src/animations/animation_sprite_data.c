@@ -77,6 +77,7 @@
 #include "../../generated/images/battle_animations/barragesmoke.h"
 #include "../../generated/images/battle_animations/protect.h"
 #include "../../generated/images/battle_animations/mist.h"
+#include "../../generated/images/battle_animations/hydropump.h"
 
 
 
@@ -1377,7 +1378,7 @@ ASSETS(hydropump, s32x32 * 4, 468);
 MAKE_OAM(hydropump)
     OAM_AFFINE()
     OAM_SEMI_TRANSPARENT()
-    OAM_PRIORITY(2)
+    OAM_PRIORITY(1)
     OAM_SIZE(o32x32)
 END_OAM()
 
