@@ -7,6 +7,13 @@
 
 .global SurfAnimation
 SurfAnimation:
+    fastsetbattlers
+    // load the surf wave...probably using 2 parts
+    semitransparent LASTRESULT
+    // load surf bg
+    spritetobg target 8 8
+    blendsemitransparent 8 8
+    
     end
 
 .pool
