@@ -174,7 +174,10 @@ void UpdateAppHeaderText()
 {
     // currently open app name
     rboxid_clear_pixels(0, 0);
-    rboxid_print(0, 1, 0, 2, &textWhite, 0, DexApps[gUltraDex->currentOpenApp].appName);
+    if (gUltraDex->currentOpenApp == 0)
+        rboxid_print(0, 1, 0, 2, &textWhite, 0, DexApps[gUltraDex->currentOpenApp].appName);
+    else
+        rboxid_print(0, 1, 0, 2, &textWhite, 0, DexApps[gUltraDex->currentOpenApp + 1].appName);
     rboxid_update(0, 3);
     rboxid_tilemap_update(0);
     // time
@@ -251,7 +254,10 @@ void C1UltraDexBoot()
             gMain.state++;
             break;
         case 4:
-            BuildGradient(0x71ED, 0x6791);
+        {
+            u16* c1 = (u16*)ULTRADEX_COLOR1;
+            u16* c2 = (u16*)ULTRADEX_COLOR2;
+            BuildGradient(*c1, *c2);
             BuildGradientPalette();
             LoadPalette(gUltraDex->sharedGfx->gradient_palette, 0, 32);
             memset(gUltraDex->sharedGfx->gradient_palette, 0, 32 * 20);
@@ -259,6 +265,7 @@ void C1UltraDexBoot()
             interrupts_enable(INTERRUPT_VBLANK | INTERRUPT_HBLANK);
             gMain.state++;
             break;
+        }
         case 5:
             bgid_mark_for_sync(0);
             bgid_mark_for_sync(1);
