@@ -3,42 +3,63 @@
 .align 2
 .include "src/animation_cmds.s"
 
-.equ impact2Particle, 0x900B
+.equ impactParticle, 0x9006
 
 .global SlamAnimation
 SlamAnimation:
-	startscript FireworkAnimation false
 	fastsetbattlers
-	loadspritefull impact2Sprite impact2Palette impact2Oam
-	copyvar impact2Particle LASTRESULT
+	setvar gLASTRESULT 0x57FF
+	startscript FireworkAnimation true
+	loadspritefull impact6Sprite impact6Palette impact6SlamOam
+	copyvar impactParticle LASTRESULT
+	spriteblend 4 12
 	hidehpbars
+	BLOCKCMD
 	sideof attacker
-	if1 0x1 goto SlamAnimationOpponentsSide
+	if2 0x0 call SlamMovementPlayerSide
+	if2 0x1 call SlamMovementOpponentSide
+	animatesprite impactParticle impact6SlamAffine 0
+	subvar targety 24
+	OPENCMD
+	BLOCKCMD
+	rendersprite impactParticle targetx targety impact6SlamAffine
+	movesprite impactParticle 0 4 6 true
+	OPENCMD
+	wait
+	BLOCKCMD
+	deletesprite impactParticle
+	sideof attacker
+	if2 0x0 call SlamPlayerReturnMovement
+	if2 0x1 call SlamOpponentReturnMovement
+	OPENCMD
+	wait
+	waitthread 1
+	showsprite target
+	hidebg 1
+	spritebgclear target
+	clearblending
+	showhpbars
+	end
+
+SlamMovementPlayerSide:
 	movesprite attacker 5 3 2 false
-	rendersprite impact2Particle targetx targety nullrsf
-	movebg 1 5 3 2 false
-	movesprite impact2Particle 1 3 3 true
-	wait
-	deletesprite impact2Particle
+	movebg 1 5 3 2 RIGHT false
+	return
+
+SlamMovementOpponentSide:
+	movesprite attacker 0xFFFB 3 2 false
+	movebg 1 5 0xFFFD 2 LEFT false
+	return
+
+SlamPlayerReturnMovement:
 	movesprite attacker 0xFFFB 0xFFFD 2 true
-	movebg 1 0xFFFB 0xFFFD 2 false
-	wait
-	waittask TaskCreateSmallFireworkImpact
-	showhpbars
-	end
-	
-SlamAnimationOpponentsSide:
-	movesprite attacker 0xFFFB 0xFFFD 2 false
-	rendersprite impact2Particle targetx targety nullrsf
-	movebg 1 0xFFFB 0xFFFD 2 false
-	movesprite impact2Particle 1 3 3 true
-	wait
-	deletesprite impact2Particle
-	movesprite attacker 5 3 2 true
-	movebg 1 5 3 2 false
-	wait
-	waittask TaskCreateSmallFireworkImpact
-	showhpbars
-	end
+	movebg 1 5 3 2 LEFT false
+	return
+
+SlamOpponentReturnMovement:
+	movesprite attacker 5 0xFFFD 2 true
+	movebg 1 5 0xFFFD 2 RIGHT false
+	return
+
 
 .pool

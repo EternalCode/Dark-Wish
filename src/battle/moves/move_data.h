@@ -283,6 +283,8 @@ extern u8 lunar_dance_on_effect(u8 user, u8 src, u16 move, struct anonymous_call
 extern u8 block_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern u8 fairy_lock_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 extern u8 wrap_partially_trapped_effect_cb(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
+extern u8 status_only_movetryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
+extern u8 pseudostatus_only_movetryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb);
 
 
 /* Move Animation scripts */

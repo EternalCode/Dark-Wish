@@ -19,21 +19,34 @@ void SCB_SpriteBlink(struct Sprite* sprite)
 #define yerror spr->data[4]
 #define totalFramesPast spr->data[5]
 #define framesPast spr->data[6]
+#define delay spr->data[7]
 
 void SCBMoveSpriteErrorCorrection(struct Sprite* spr)
 {
-    totalFramesPast++;
-    if (totalFramesPast % xerror == 0)
-        spr->pos1.x += deltaX >= 0 ? 1 : -1;
-    if (totalFramesPast % yerror == 0)
-        spr->pos1.y += deltaY >= 0 ? 1 : -1;
-    if (framesPast < framesCount) {
+    if ((delay > 0) && (framesPast % delay)) {
+        framesPast++;
+        framesCount++;
+        return;
+    }
+    if (framesPast <= framesCount) {
         spr->pos1.x += deltaX;
         spr->pos1.y += deltaY;
         framesPast++;
     } else {
         FreeSpriteOamMatrix(spr);
         obj_free(spr);
+        return;
+    }
+    totalFramesPast++;
+    u16 absXerr = ABS(xerror);
+    u16 absYerr = ABS(yerror);
+    if (absXerr > 0) {
+        if (totalFramesPast % absXerr == 0)
+            spr->pos1.x += xerror > 0 ? 1 : -1;
+    }
+    if (absYerr > 0) {
+        if (totalFramesPast % absYerr == 0)
+            spr->pos1.y += yerror > 0 ? 1 : -1;
     }
 }
 #undef framesCount
@@ -43,11 +56,22 @@ void SCBMoveSpriteErrorCorrection(struct Sprite* spr)
 #undef yerror
 #undef totalFramesPast
 #undef framesPast
+#undef delay
 
 void SCB_SpriteDeleteWhenAffineEnds(struct Sprite* sprite)
 {
     if (sprite->affineAnimEnded) {
         FreeSpriteOamMatrix(sprite);
+        obj_free(sprite);
+        DestroySprite(sprite);
+    }
+}
+
+void SCB_SpriteDeleteWhenAnimEnds(struct Sprite* sprite)
+{
+    if (sprite->animEnded) {
+        FreeSpriteOamMatrix(sprite);
+        obj_free(sprite);
         DestroySprite(sprite);
     }
 }
@@ -56,6 +80,15 @@ void SCB_SpriteDeleteAfter10Frames(struct Sprite* sprite)
 {
     sprite->data[0]++;
     if (sprite->data[0] == 10) {
+        FreeSpriteOamMatrix(sprite);
+        DestroySprite(sprite);
+    }
+}
+
+void SCB_SpriteDeleteAfter20Frames(struct Sprite* sprite)
+{
+    sprite->data[0]++;
+    if (sprite->data[0] == 20) {
         FreeSpriteOamMatrix(sprite);
         DestroySprite(sprite);
     }
@@ -98,6 +131,7 @@ void AnimOrbitFastStepNoPriority(struct Sprite *sprite)
         if (sprite->data[5]) {
             FreeSpriteOamMatrix(sprite);
             obj_free(sprite);
+            return;
         }
         sprite->callback = (oac_nullsub);
     }
@@ -173,29 +207,44 @@ void SpriteTravelRandDirFlash(struct Sprite* sprite)
     };
 }
 
-void ManualRotationAttempt(struct Sprite* sprite)
+void SpriteTravelDir(struct Sprite* sprite)
 {
-    sprite->final_oam.affine_mode = 1;
-    sprite->affineAnimPaused = true;
-    u8 matrixNum = sprite->final_oam.matrix_num;
-    struct ObjAffineSrcData src;
-    src.xScale = 1 * 256;
-    src.yScale = 1 * 256;
-    src.rotation = (sprite->data[0]) << 8;
-    ObjAffineSet(&src, (void *)&gOamMatrices[matrixNum], 1, 2);
-    sprite->pos2.x = Sin(sprite->data[0], 20) - 32;
-    sprite->pos2.y = Cos(sprite->data[0], 20) - 52;
-    sprite->centerToCornerVecX = 0;
-    sprite->centerToCornerVecY = 0;
-    //CalcCenterToCornerVec(sprite, 0, 3, 1);
-    sprite->data[0] = (sprite->data[0] + 1) & 0xFF;
-    if (sprite->data[1])
-        sprite->callback = oac_nullsub;
-
-    if (sprite->data[0] == 0)
-        sprite->data[1] = 1;
-    else
-        sprite->data[1] = 0;
+    switch (sprite->data[0]) {
+        case 0:
+        {
+            sprite->final_oam.affine_mode = 1;
+            struct RotscaleFrame* affineTable = (void*)malloc_and_clear(sizeof(struct RotscaleFrame) * 2);
+            affineTable[0].scale_delta_x = 6;
+            affineTable[0].scale_delta_y = 6;
+            affineTable[0].rot_delta = sprite->data[1];
+            affineTable[0].duration = 1;
+            affineTable[0].field_6 = 0;
+            affineTable[1].scale_delta_x = 0x7FFF;
+            u32* ptr = (u32*)malloc_and_clear(4);
+            *ptr = (u32)affineTable;
+            sprite->rotscale_table = (void*)ptr;
+            StartSpriteAffineAnim(sprite, 0);
+            sprite->data[0]++;
+            sprite->final_oam.priority = rand_range(2, 4);
+        }
+        default:
+        {
+            sprite->data[4] += sprite->data[3];
+            sprite->pos2.x = Sin(sprite->data[1], sprite->data[4]);
+            sprite->pos2.y = Cos(sprite->data[1], sprite->data[4]);
+            sprite->invisible = false;
+            if (sprite->data[4] > sprite->data[2]) {
+                // sprite has traveled 80 pixels from origin
+                sprite->callback = oac_nullsub;
+                u32** ptr = (u32**)sprite->rotscale_table;
+                free(*ptr);
+                free(ptr);
+                FreeSpriteOamMatrix(sprite);
+                obj_free(sprite);
+            }
+            break;
+        }
+    };
 }
 
 

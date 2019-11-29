@@ -117,12 +117,15 @@ const pchar appSettingsError[] = _("Error: Winrar is expired.");
 
 void SettingsAppCB()
 {
+    extern void SettingsGuiHandler(void);
+    SetMainCallback(SettingsGuiHandler);
+    gMain.state = 0;
     return;
 }
 
 bool SettingsIsValid()
 {
-    return false;
+    return true;
 }
 
 /* Web-Mart Application */

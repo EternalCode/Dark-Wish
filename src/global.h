@@ -28,8 +28,8 @@ extern void AddOpponentPokemonToPlayer(void);
 extern u8 PokemonCountUsableMoves(struct Pokemon* p);
 
 /* EventObjects and sprite fetching */
-#define EVENTID_DIR(i) (gEventObjects[i].direction & 0xF)
-#define EVENTOBJ_DIR(n) (n->direction & 0xF)
+#define EVENTID_DIR(i) (gEventObjects[i].facingDirection & 0xF)
+#define EVENTOBJ_DIR(n) (n->facingDirection & 0xF)
 struct Sprite* GetSpriteFromGfxTag(u16 tag);
 extern void ClearSpriteData(struct Sprite* s);
 
@@ -56,6 +56,7 @@ extern struct TextColor textGreen;
 extern void CpuFastSet(void* src, void* dst, u32 mode);
 extern s32	Div(s32 num, s32 divisor);
 extern u32	Sqrt(u32 num);
+extern u16 ArcTan2(s16 x, s16 y);
 extern void ObjAffineSet(struct ObjAffineSrcData *src, void *dest, s32 count, s32 offset);
 
 /* Game clock */
