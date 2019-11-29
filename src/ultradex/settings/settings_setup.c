@@ -187,7 +187,6 @@ void SetBackgroundColors()
 
 
 
-
 void SettingsGuiHandler() {
     switch(gMain.state) {
         case 0:
@@ -259,6 +258,7 @@ void SettingsGuiHandler() {
         case 7:
             // handle input
             {
+                // TODO: Really need to change the UI for this color menu
                 // void C1UltraDexInteractionHandler(void);
                 // SetMainCallback(C1UltraDexInteractionHandler);
                 // gMain.state = 0;
