@@ -1394,7 +1394,7 @@ BEGIN_AFFINE_ANIM(hydropump)
     PLAY_AFFINE(2, 2, 0, 34)
 END_AFFINE()
 
-  
+
  /* bite sprite */
 ASSETS(bite, s64x64, 475);
 
@@ -1406,3 +1406,5 @@ END_OAM()
 MAKE_OAM(biteflipped)
 	OAM_VFLIP()
     OAM_PRIORITY(3)
+    OAM_SIZE(o64x64)
+END_OAM()
