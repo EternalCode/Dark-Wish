@@ -55,6 +55,7 @@
 #include "../../generated/images/battle_animations/impact6.h"
 #include "../../generated/images/battle_animations/impact7.h"
 #include "../../generated/images/battle_animations/wrap.h"
+#include "../../generated/images/battle_animations/bite.h"
 #include "../../generated/images/battle_animations/crosspoison.h"
 #include "../../generated/images/battle_animations/confuseray.h"
 #include "../../generated/images/battle_animations/innerray.h"
@@ -78,7 +79,6 @@
 #include "../../generated/images/battle_animations/protect.h"
 #include "../../generated/images/battle_animations/mist.h"
 #include "../../generated/images/battle_animations/hydropump.h"
-
 
 
 /* the impact sprite from tackle */
@@ -1373,7 +1373,7 @@ END_OAM()
 
 
 /* hydropump sprite */
-ASSETS(hydropump, s32x32 * 4, 468);
+ASSETS(hydropump, s32x32 * 4, 474);
 
 MAKE_OAM(hydropump)
     OAM_AFFINE()
@@ -1393,3 +1393,16 @@ BEGIN_AFFINE_ANIM(hydropump)
     PLAY_AFFINE(-68, -68, 0, 1)
     PLAY_AFFINE(2, 2, 0, 34)
 END_AFFINE()
+
+  
+ /* bite sprite */
+ASSETS(bite, s64x64, 475);
+
+MAKE_OAM(bite)
+    OAM_PRIORITY(3)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+MAKE_OAM(biteflipped)
+	OAM_VFLIP()
+    OAM_PRIORITY(3)
