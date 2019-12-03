@@ -72,13 +72,12 @@ SurfAnimation:
     BLOCKCMD
     rendersprite impactParticle targetx targety nullrsf
     spritetobg impactParticle 4 4
+    showbg 1
+    startscript hidebgafter10frames true
     OPENCMD
     pauseframes 7
-    showbg 1
     quakesprite target 2 0 5 1 false
-    deletesprite impactParticle
     waitthread 1
-    hidebg 1
     BLOCKCMD
     hidebg 2
     OPENCMD
@@ -87,7 +86,6 @@ SurfAnimation:
     spritepriority attacker 3
     nontransparent attacker
     nontransparent target
-    spritebgclear impactParticle
     deletesprite surf_left_particle
     deletesprite surf_right_particle
     setbgpos 2 0 0
@@ -119,7 +117,6 @@ opponentsurfload:
 playersurfbgmove:
     movebg 2 0xFFFC 4 36 UP false
     return
-
 
 opponentsurfbgmove:
     movebg 2 0xFFFC 4 36 DOWN false
@@ -160,6 +157,12 @@ reverse_surf_blend:
     goto reverse_surf_blend
 
 endscr_surf:
+    end
+
+hidebgafter10frames:
+    pauseframes 7
+    hidebg 1
+    deletesprite impactParticle
     end
 
 .pool
