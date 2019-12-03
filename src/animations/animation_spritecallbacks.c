@@ -207,9 +207,15 @@ void SpriteTravelRandDirFlash(struct Sprite* sprite)
     };
 }
 
+/*
+data[0] = untransparent distance
+data[1] = angle
+data[2] = 30 - dist to travel
+data[3] = 8  - speed
+*/
 void SpriteTravelDir(struct Sprite* sprite)
 {
-    switch (sprite->data[0]) {
+    switch (sprite->data[5]) {
         case 0:
         {
             sprite->final_oam.affine_mode = 1;
@@ -224,8 +230,7 @@ void SpriteTravelDir(struct Sprite* sprite)
             *ptr = (u32)affineTable;
             sprite->rotscale_table = (void*)ptr;
             StartSpriteAffineAnim(sprite, 0);
-            sprite->data[0]++;
-            sprite->final_oam.priority = rand_range(2, 4);
+            sprite->data[5]++;
         }
         default:
         {
@@ -233,6 +238,11 @@ void SpriteTravelDir(struct Sprite* sprite)
             sprite->pos2.x = Sin(sprite->data[1], sprite->data[4]);
             sprite->pos2.y = Cos(sprite->data[1], sprite->data[4]);
             sprite->invisible = false;
+            if (sprite->data[4] > sprite->data[0] && sprite->data[4] < sprite->data[0] + 64) {
+                sprite->final_oam.obj_mode = 0;
+            } else {
+                sprite->final_oam.obj_mode = 1;
+            }
             if (sprite->data[4] > sprite->data[2]) {
                 // sprite has traveled 80 pixels from origin
                 sprite->callback = oac_nullsub;
