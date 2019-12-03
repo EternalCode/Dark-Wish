@@ -136,6 +136,45 @@ finishfreeze:
     end
 .pool
 
+.equ freezeParticle, 0x9006
+.global animFreezeNoPalFade
+animFreezeNoPalFade:
+    BLOCKCMD
+    fastsetbattlers
+    copyvar 0x8000 targetx
+    copyvar 0x8001 targety
+    loadspritefull freezeSprite freezePalette freezeOam
+    copyvar initialSprite LASTRESULT
+    spritetobg target 8 8
+    fadespritebg 3 0xFFFF FADETO 0 8
+    setvar counter 0x0
+    OPENCMD
+
+freezeLoop2:
+    compare counter 8
+    if1 0x1 goto finishfreeze2
+    BLOCKCMD
+    loadsprite freezeSprite freezePalette freezeOam
+    copyvar freezeParticle LASTRESULT
+    semitransparent LASTRESULT
+    spriteblend2 LASTRESULT 8 0xFFFF
+    OPENCMD
+    animatesprite freezeParticle freezeAffine 0
+    runtask TaskFreezeEffect freezeParticle 0 0 0
+    pauseframes 2
+    addvar counter 1
+    goto freezeLoop2
+
+finishfreeze2:
+    fadespritebg 3 0xFFFF FADEFROM true 8
+    waittask TaskFreezeEffect
+    showsprite target
+    spritebgclear target
+    deletesprite initialSprite
+    clearblending
+    end
+.pool
+
 
 .equ confusedParticle1, 0x9006
 .equ confusedParticle2, 0x9009
