@@ -109,15 +109,17 @@ animFreeze:
     copyvar initialSprite LASTRESULT
     spritetobg target 8 8
     fadespritebg 3 0x6546 FADETO 0 10
-    spriteblend 8 8
     setvar counter 0x0
     OPENCMD
 
 freezeLoop:
     compare counter 8
     if1 0x1 goto finishfreeze
+    BLOCKCMD
     loadsprite freezeSprite freezePalette freezeOam
     copyvar freezeParticle LASTRESULT
+    semitransparent LASTRESULT
+    OPENCMD
     animatesprite freezeParticle freezeAffine 0
     runtask TaskFreezeEffect freezeParticle 0 0 0
     pauseframes 2
@@ -130,6 +132,7 @@ finishfreeze:
     showsprite target
     spritebgclear target
     deletesprite initialSprite
+    clearblending
     end
 .pool
 
