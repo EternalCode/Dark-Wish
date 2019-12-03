@@ -713,6 +713,11 @@ MAKE_OAM(smokeball)
     OAM_SIZE(o32x32)
 END_OAM()
 
+MAKE_OAM(smokeball_noaffine)
+    OAM_PRIORITY(3)
+    OAM_SIZE(o32x32)
+END_OAM()
+
 BEGIN_AFFINE_ANIM(smokeball)
     PLAY_AFFINE(-80, -80, 0, 1)
     PLAY_AFFINE(3, 3, 4, 8)
