@@ -79,6 +79,10 @@
 #include "../../generated/images/battle_animations/protect.h"
 #include "../../generated/images/battle_animations/mist.h"
 #include "../../generated/images/battle_animations/hydropump.h"
+#include "../../generated/images/battle_animations/surf_player_left.h"
+#include "../../generated/images/battle_animations/surf_player_right.h"
+#include "../../generated/images/battle_animations/surf_opp_left.h"
+#include "../../generated/images/battle_animations/surf_opp_right.h"
 
 
 /* the impact sprite from tackle */
@@ -1408,3 +1412,24 @@ MAKE_OAM(biteflipped)
     OAM_PRIORITY(3)
     OAM_SIZE(o64x64)
 END_OAM()
+
+
+/* Surf OAMs */
+ASSETS(surf_player_left, s64x64, 476);
+ASSETS(surf_opp_left, s64x64, 476);
+ASSETS(surf_player_right, s64x64, 477);
+ASSETS(surf_opp_right, s64x64, 477);
+
+MAKE_OAM(surf_player_left)
+    OAM_AFFINE()
+    OAM_SEMI_TRANSPARENT()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(surf_player_left)
+    PLAY_AFFINE(50, -150, 0, 1)
+    PLAY_AFFINE(-10, 10, 0, 10)
+    PLAY_AFFINE(0, 0, 0, 10)
+    PLAY_AFFINE(10, -10, 0, 15)
+END_AFFINE()

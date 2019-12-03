@@ -874,6 +874,14 @@
 .byte 0
 .endm
 
+.macro setbgpos id x y
+.byte 92
+.byte \id
+.hword \x
+.hword \y
+.byte 0
+.byte 0
+.endm
 
 .macro BLOCKCMD
 .byte 0xFE
