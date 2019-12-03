@@ -83,6 +83,7 @@
 #include "../../generated/images/battle_animations/surf_player_right.h"
 #include "../../generated/images/battle_animations/surf_opp_left.h"
 #include "../../generated/images/battle_animations/surf_opp_right.h"
+#include "../../generated/images/battle_animations/icebeam.h"
 
 
 /* the impact sprite from tackle */
@@ -142,7 +143,7 @@ END_ANIM()
 ASSETS(freeze, s32x32, 404);
 
 MAKE_OAM(freeze)
-    OAM_PRIORITY(3)
+    OAM_PRIORITY(1)
     OAM_SIZE(o32x32)
     OAM_AFFINE()
 END_OAM()
@@ -1433,3 +1434,14 @@ BEGIN_AFFINE_ANIM(surf_player_left)
     PLAY_AFFINE(0, 0, 0, 10)
     PLAY_AFFINE(10, -10, 0, 15)
 END_AFFINE()
+
+
+/* Ice beam sprite */
+ASSETS(icebeam, s32x32, 478);
+
+MAKE_OAM(icebeam)
+    OAM_AFFINE()
+    OAM_SEMI_TRANSPARENT()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
