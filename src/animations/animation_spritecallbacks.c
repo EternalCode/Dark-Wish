@@ -94,6 +94,15 @@ void SCB_SpriteDeleteAfter20Frames(struct Sprite* sprite)
     }
 }
 
+void SCB_SpriteDeleteAfter60Frames(struct Sprite* sprite)
+{
+    sprite->data[0]++;
+    if (sprite->data[0] == 60) {
+        FreeSpriteOamMatrix(sprite);
+        DestroySprite(sprite);
+    }
+}
+
 void AnimOrbitFastStep(struct Sprite *sprite)
 {
     if ((u16)(sprite->data[1] - 64) < 128)
