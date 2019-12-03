@@ -1196,3 +1196,46 @@ void TaskSpriteSingColors(u8 taskId)
 
 #undef gtargetx
 #undef gtargety
+
+void task_surfbgfade(u8 tid)
+{
+    s16* priv0 = &tasks[tid].priv[0];
+    switch (*priv0) {
+        case 0:
+            {
+            REG_BLDCNT = (BLDCNT_BG0_DST | BLDCNT_BG1_SRC | BLDCNT_BG2_SRC | BLDCNT_BG3_DST | BLDCNT_SPRITES_DST |
+                BLDCNT_BACKDROP_DST | BLDCNT_ALPHA_BLEND);
+            REG_BLDALPHA = BLDALPHA_BUILD(0, 16);
+            *priv0 = 1;
+            tasks[tid].priv[1] = 0;
+            tasks[tid].priv[2] = 16;
+            tasks[tid].priv[3] = 0;
+            }
+            break;
+        case 1:
+            {
+            if (tasks[tid].priv[1] == 16) {
+                *priv0 = 2;
+                return;
+            } else {
+                tasks[tid].priv[1]++;
+                tasks[tid].priv[2]--;
+                REG_BLDALPHA = BLDALPHA_BUILD(tasks[tid].priv[1], tasks[tid].priv[2]);
+            }
+            }
+            break;
+        case 2:
+            {
+            if (tasks[tid].priv[2] == 16) {
+                DestroyTask(tid);
+                return;
+            } else {
+                tasks[tid].priv[1]--;
+                tasks[tid].priv[2]++;
+                REG_BLDALPHA = BLDALPHA_BUILD(tasks[tid].priv[1], tasks[tid].priv[2]);
+            }
+            }
+            break;
+    }
+
+}
