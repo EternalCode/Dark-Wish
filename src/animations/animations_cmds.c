@@ -98,6 +98,7 @@ void ScriptCmd_getanglebetweenpts(void);
 void ScriptCmd_applycustomaffine(void);
 void ScriptCmd_fadebg1(void);
 void ScriptCmd_clonebattler(void);
+void ScriptCmd_setbgpos(void);
 
 
 
@@ -221,6 +222,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_applycustomaffine, // 89
     ScriptCmd_fadebg1, // 90
     ScriptCmd_clonebattler, // 91
+    ScriptCmd_setbgpos, // 91
 };
 
 
@@ -469,6 +471,7 @@ void ScriptCmd_RunAnimAvailableThread()
     for (u8 i = 0; i < ANIM_SCR_COUNT; i++) {
         if (gAnimationCore->animScriptPtr[i] == NULL) {
             gAnimationCore->animScriptPtr[i] = scriptPtr;
+            dprintf("Script to execute in thread %d\n", i);
             if (copyvars) {
                 for (u8 varId = 0; varId < ANIM_VAR_COUNT; varId++) {
                     gAnimationCore->corevars[i][varId] = gAnimationCore->corevars[ANIMSCR_THREAD][varId];
@@ -2005,6 +2008,16 @@ void ScriptCmd_clonebattler()
     LoadCompressedSpritePaletteUsingHeap(&pkmnSpritePal);
     struct Template pkmnTemp = {tag, tag, &opp_oam, nullframe, &pkmnSpriteGfx, nullrsf, (SpriteCallback)oac_nullsub};
     VarSet(0x900D, CreateSprite(&pkmnTemp, x, y, 0));
+}
+
+// set a bg's position
+void ScriptCmd_setbgpos()
+{
+    u8 bgid = ANIMSCR_READ_BYTE;
+    u16 x = ANIMSCR_READ_HWORD;
+    u16 y = ANIMSCR_READ_HWORD;
+    ChangeBgX(bgid, x, 0);
+    ChangeBgY(bgid, y, 0);
     ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
 }
