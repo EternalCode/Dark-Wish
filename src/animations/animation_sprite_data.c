@@ -1454,7 +1454,7 @@ MAKE_OAM(icebeam)
 END_OAM()
 
 
-/* Psybeam sprite */
+/* Psybeam & Aurorabeam sprite */
 ASSETS(psybeam, s8x16 * 3, 479);
 
 MAKE_OAM(psybeam)
@@ -1463,6 +1463,30 @@ MAKE_OAM(psybeam)
     OAM_SHAPE(TALL)
     OAM_SIZE(o8x16)
 END_OAM()
+
+MAKE_OAM(aurorabeam)
+    OAM_SEMI_TRANSPARENT()
+    OAM_PRIORITY(1)
+    OAM_AFFINE()
+    OAM_SHAPE(TALL)
+    OAM_SIZE(o8x16)
+END_OAM()
+
+
+BEGIN_AFFINE_ANIM(aurorabeamOdd)
+    PLAY_AFFINE(0, 0, -40, 1)
+    PLAY_AFFINE(0, 0, 10, 8)
+    PLAY_AFFINE(0, 0, -10, 8)
+    JUMP_AFFINE(1)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(aurorabeamEven)
+    PLAY_AFFINE(0, 0, 40, 1)
+    PLAY_AFFINE(0, 0, -10, 8)
+    PLAY_AFFINE(0, 0, 10, 8)
+    JUMP_AFFINE(1)
+END_AFFINE()
+
 
 BEGIN_FRAME_ANIM(psybeamFrames)
     SHOW_FRAME(0, s8x16, NOFLIP, 8)
