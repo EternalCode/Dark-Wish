@@ -1239,3 +1239,17 @@ void task_surfbgfade(u8 tid)
     }
 
 }
+
+
+void TaskRunPoisonTaskAfterFrames(u8 tid)
+{
+    s16 *counter = &tasks[tid].priv[5];
+    *counter += 1;
+    if (*counter > tasks[tid].priv[2]) {
+        tasks[tid].function = TaskMovePoisonBubble;
+        tasks[tid].priv[2] = 3;
+        tasks[tid].priv[3] = 12;
+        tasks[tid].priv[4] = 50;
+        *counter = 0;
+    }
+}

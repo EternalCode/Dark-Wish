@@ -1481,6 +1481,6 @@ MAKE_OAM(bubblebeam)
 END_OAM()
 
 BEGIN_AFFINE_ANIM(bubblebeam)
-    PLAY_AFFINE(-120, -120, 0, 1)
-    PLAY_AFFINE(2, 2, 0, 60)
+    PLAY_AFFINE(-240, -240, 0, 1)
+    PLAY_AFFINE(4, 4, 0, 60)
 END_AFFINE()
