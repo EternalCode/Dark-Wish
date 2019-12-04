@@ -84,6 +84,7 @@
 #include "../../generated/images/battle_animations/surf_opp_left.h"
 #include "../../generated/images/battle_animations/surf_opp_right.h"
 #include "../../generated/images/battle_animations/icebeam.h"
+#include "../../generated/images/battle_animations/psybeam.h"
 
 
 /* the impact sprite from tackle */
@@ -1450,3 +1451,20 @@ MAKE_OAM(icebeam)
     OAM_PRIORITY(1)
     OAM_SIZE(o32x32)
 END_OAM()
+
+
+/* Psybeam sprite */
+ASSETS(psybeam, s8x16 * 3, 479);
+
+MAKE_OAM(psybeam)
+    OAM_SEMI_TRANSPARENT()
+    OAM_PRIORITY(1)
+    OAM_SHAPE(TALL)
+    OAM_SIZE(o8x16)
+END_OAM()
+
+BEGIN_FRAME_ANIM(psybeamFrames)
+    SHOW_FRAME(0, s8x16, NOFLIP, 8)
+    SHOW_FRAME(1, s8x16, NOFLIP, 8)
+    SHOW_FRAME(2, s8x16, NOFLIP, 15)
+END_ANIM()
