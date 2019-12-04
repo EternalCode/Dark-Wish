@@ -85,6 +85,7 @@
 #include "../../generated/images/battle_animations/surf_opp_right.h"
 #include "../../generated/images/battle_animations/icebeam.h"
 #include "../../generated/images/battle_animations/psybeam.h"
+#include "../../generated/images/battle_animations/bubblebeam.h"
 
 
 /* the impact sprite from tackle */
@@ -1468,3 +1469,18 @@ BEGIN_FRAME_ANIM(psybeamFrames)
     SHOW_FRAME(1, s8x16, NOFLIP, 8)
     SHOW_FRAME(2, s8x16, NOFLIP, 15)
 END_ANIM()
+
+
+/* Bubblebeam sprite */
+ASSETS(bubblebeam, s32x32, 480);
+
+MAKE_OAM(bubblebeam)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(bubblebeam)
+    PLAY_AFFINE(-120, -120, 0, 1)
+    PLAY_AFFINE(2, 2, 0, 60)
+END_AFFINE()
