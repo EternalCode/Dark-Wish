@@ -1253,3 +1253,37 @@ void TaskRunPoisonTaskAfterFrames(u8 tid)
         *counter = 0;
     }
 }
+
+#define duration tasks[tid].priv[0]
+#define width tasks[tid].priv[1]
+#define height tasks[tid].priv[2]
+#define speed tasks[tid].priv[3]
+#define waveoffset tasks[tid].priv[4]
+#define originalX tasks[tid].priv[5]
+#define originalY tasks[tid].priv[6]
+#define dir tasks[tid].priv[7]
+
+
+void TaskAnimOrbitFastStepNoPriority(u8 tid)
+{
+    s16 xpos = Sin(waveoffset, width) + originalX;
+    s16 ypos = Cos(waveoffset, height) + originalY + (height);
+    // direction based change in offset
+    if (dir == 1) {
+        waveoffset = (waveoffset + speed) & 0xFF;
+    } else {
+        waveoffset = (waveoffset - speed) & 0xFF;
+    }
+    ChangeBgX(1, xpos << 8, 0);
+    ChangeBgY(1, ypos << 8, 0);
+    if (duration == 0) {
+        DestroyTask(tid);
+        ChangeBgY(1, originalY << 8, 0);
+        ChangeBgX(1, originalX << 8, 0);
+    }
+    duration--;
+}
+
+
+#undef xpos
+#undef ypos

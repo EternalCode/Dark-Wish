@@ -99,6 +99,7 @@ void ScriptCmd_applycustomaffine(void);
 void ScriptCmd_fadebg1(void);
 void ScriptCmd_clonebattler(void);
 void ScriptCmd_setbgpos(void);
+void ScriptCmd_depthlessorbitbg(void);
 
 
 
@@ -119,6 +120,7 @@ extern void TaskMoveBG(u8 taskId);
 extern void TaskWaitAnimMessage(u8 taskId);
 extern void TaskWaitForScrThread(u8 taskId);
 extern void TaskCreateSmallFireworkGeneric(u8 taskId);
+extern void TaskAnimOrbitFastStepNoPriority(u8 taskId);
 extern void battle_loop(void);
 extern void InitAnimLinearTranslation(struct Sprite *sprite);
 extern void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type, enum battle_string_ids id, u16 move_effect_id);
@@ -223,6 +225,7 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_fadebg1, // 90
     ScriptCmd_clonebattler, // 91
     ScriptCmd_setbgpos, // 91
+    ScriptCmd_depthlessorbitbg, // 91
 };
 
 
@@ -2020,6 +2023,35 @@ void ScriptCmd_setbgpos()
     ChangeBgY(bgid, y, 0);
     ANIMSCR_MOVE(2);
     ANIMSCR_CMD_NEXT;
+}
+
+// Make the sprite bg orbit spriteA with given customizations
+void ScriptCmd_depthlessorbitbg()
+{
+    ANIMSCR_MOVE(1);
+    // sprite
+    u8 taskId = CreateTask(TaskAnimOrbitFastStepNoPriority, 0);
+    struct Task* t = &tasks[taskId];
+
+    t->priv[0] = ANIMSCR_READ_HWORD; // duration
+    t->priv[0] = MAX(1, t->priv[0]);
+    t->priv[1] = ANIMSCR_READ_BYTE; // width
+    ANIMSCR_MOVE(1);
+    t->priv[2] = ANIMSCR_READ_HWORD; // height
+
+    t->priv[7] = ANIMSCR_READ_BYTE;// direction
+    if (t->priv[7]) {
+        // left
+        t->priv[1] = -t->priv[1];
+        t->priv[2] = -t->priv[2];
+    }
+    t->priv[3] = ANIMSCR_READ_BYTE; // speed
+    t->priv[4] = ANIMSCR_READ_HWORD; // wave offset (0 - 255) var
+    t->priv[4] = VarGet(t->priv[4]); // wave offset (0 - 255) var
+    t->priv[5] = bgid_get_x_offset(1) >> 8; // original bg x
+    t->priv[6] = bgid_get_y_offset(1) >> 8; // original bg y
+    ANIMSCR_CMD_NEXT;
+
 }
 
 
