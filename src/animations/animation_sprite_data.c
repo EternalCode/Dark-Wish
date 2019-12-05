@@ -776,6 +776,11 @@ MAKE_OAM(impact4)
     OAM_SIZE(o32x32)
 END_OAM()
 
+MAKE_OAM(peck)
+    OAM_PRIORITY(3)
+    OAM_SIZE(o32x32)
+END_OAM()
+
 
 /* Fly sprite */
 ASSETS(fly, s64x64, 440);
@@ -1540,4 +1545,18 @@ BEGIN_AFFINE_ANIM(hyperbeam_origin)
     PLAY_AFFINE(-5, -5, 10, 4)
     PLAY_AFFINE(5, 5, -10, 4)
     JUMP_AFFINE(0)
+END_AFFINE()
+
+
+/* Peck affine animation */
+BEGIN_AFFINE_ANIM(playerPeck)
+    PLAY_AFFINE(0, 0, 2, 2)
+    PLAY_AFFINE(0, 0, 0, 10)
+    PLAY_AFFINE(0, 0, -2, 2)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(opponentPeck)
+    PLAY_AFFINE(0, 0, -2, 2)
+    PLAY_AFFINE(0, 0, 0, 10)
+    PLAY_AFFINE(0, 0, 2, 2)
 END_AFFINE()
