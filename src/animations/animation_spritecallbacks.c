@@ -243,6 +243,12 @@ void SpriteTravelDir(struct Sprite* sprite)
         }
         default:
         {
+            sprite->data[6]++;
+            if (sprite->data[6] % 2) {
+                sprite->data[1] += 1;
+            } else {
+                sprite->data[1] -= 1;
+            }
             sprite->data[4] += sprite->data[3];
             sprite->pos2.x = Sin(sprite->data[1], sprite->data[4]);
             sprite->pos2.y = Cos(sprite->data[1], sprite->data[4]);
@@ -252,6 +258,53 @@ void SpriteTravelDir(struct Sprite* sprite)
             } else {
                 sprite->final_oam.obj_mode = 1;
             }
+            if (sprite->data[4] > sprite->data[2]) {
+                // sprite has traveled 80 pixels from origin
+                sprite->callback = oac_nullsub;
+                u32** ptr = (u32**)sprite->rotscale_table;
+                free(*ptr);
+                free(ptr);
+                FreeSpriteOamMatrix(sprite);
+                obj_free(sprite);
+            }
+            break;
+        }
+    };
+}
+
+
+
+void SpriteTravelDir_hyperbeam(struct Sprite* sprite)
+{
+    switch (sprite->data[5]) {
+        case 0:
+        {
+            sprite->final_oam.affine_mode = 1;
+            struct RotscaleFrame* affineTable = (void*)malloc_and_clear(sizeof(struct RotscaleFrame) * 8);
+            affineTable[0].scale_delta_x = -60;
+            affineTable[0].scale_delta_y = -60;
+            affineTable[0].rot_delta = sprite->data[1];
+            affineTable[0].duration = 1;
+            for (u8 i = 1; i < 8; i++) {
+                affineTable[i].scale_delta_x = 6;
+                affineTable[i].scale_delta_y = 6;
+                affineTable[i].rot_delta = 0;
+                affineTable[i].duration = 60;
+            }
+            //affineTable[1].scale_delta_x = 0x7FFF;
+            u32* ptr = (u32*)malloc_and_clear(4);
+            *ptr = (u32)affineTable;
+            sprite->rotscale_table = (void*)ptr;
+            StartSpriteAffineAnim(sprite, 0);
+            sprite->data[5]++;
+        }
+        default:
+        {
+            sprite->data[6]++;
+            sprite->data[4] += sprite->data[3];
+            sprite->pos2.x = Sin(sprite->data[1], sprite->data[4]);
+            sprite->pos2.y = Cos(sprite->data[1], sprite->data[4]);
+            sprite->invisible = false;
             if (sprite->data[4] > sprite->data[2]) {
                 // sprite has traveled 80 pixels from origin
                 sprite->callback = oac_nullsub;

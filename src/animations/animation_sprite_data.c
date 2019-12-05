@@ -86,6 +86,9 @@
 #include "../../generated/images/battle_animations/icebeam.h"
 #include "../../generated/images/battle_animations/psybeam.h"
 #include "../../generated/images/battle_animations/bubblebeam.h"
+#include "../../generated/images/battle_animations/hyperbeam.h"
+#include "../../generated/images/battle_animations/hyperbeam_player.h"
+#include "../../generated/images/battle_animations/hyperbeam_origin.h"
 
 
 /* the impact sprite from tackle */
@@ -1507,4 +1510,34 @@ END_OAM()
 BEGIN_AFFINE_ANIM(bubblebeam)
     PLAY_AFFINE(-240, -240, 0, 1)
     PLAY_AFFINE(4, 4, 0, 60)
+END_AFFINE()
+
+
+/* Hyperbeam sprite */
+ASSETS(hyperbeam_player, s32x32 * 2, 482);
+ASSETS(hyperbeam, s32x32 * 2, 482);
+ASSETS(hyperbeam_origin, s64x64, 483);
+
+MAKE_OAM(hyperbeam)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+MAKE_OAM(hyperbeam_origin)
+    OAM_AFFINE()
+    OAM_SEMI_TRANSPARENT()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o64x64)
+END_OAM()
+
+BEGIN_FRAME_ANIM(hyperbeamFrames)
+    SHOW_FRAME(1, s32x32, NOFLIP, 100)
+END_ANIM()
+
+
+BEGIN_AFFINE_ANIM(hyperbeam_origin)
+    PLAY_AFFINE(-5, -5, 10, 4)
+    PLAY_AFFINE(5, 5, -10, 4)
+    JUMP_AFFINE(0)
 END_AFFINE()
