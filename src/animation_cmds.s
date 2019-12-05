@@ -883,6 +883,19 @@
 .byte 0
 .endm
 
+.macro depthlessorbitbg duration width height dir speed waveoffset
+.byte 93
+.byte 0
+.hword \duration
+.byte \width
+.byte 0
+.hword \height
+.byte \dir
+.byte \speed
+.hword \waveoffset
+.endm
+
+
 .macro BLOCKCMD
 .byte 0xFE
 .endm
