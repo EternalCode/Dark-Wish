@@ -918,6 +918,14 @@ BEGIN_FRAME_ANIM(sandattackFrames)
     SHOW_FRAME(4, s32x32, NOFLIP, 2)
 END_ANIM()
 
+BEGIN_FRAME_ANIM(drillpeckFrames)
+    SHOW_FRAME(0, s32x32, NOFLIP, 3)
+    SHOW_FRAME(1, s32x32, NOFLIP, 3)
+    SHOW_FRAME(2, s32x32, NOFLIP, 2)
+    SHOW_FRAME(3, s32x32, NOFLIP, 2)
+    SHOW_FRAME(4, s32x32, NOFLIP, 2)
+END_ANIM()
+
 
 /* Headbutt star sprite */
 ASSETS(star, s16x16, 447);
@@ -1548,7 +1556,7 @@ BEGIN_AFFINE_ANIM(hyperbeam_origin)
 END_AFFINE()
 
 
-/* Peck affine animation */
+/* Peck target affine animation */
 BEGIN_AFFINE_ANIM(playerPeck)
     PLAY_AFFINE(0, 0, 2, 2)
     PLAY_AFFINE(0, 0, 0, 10)
@@ -1559,4 +1567,22 @@ BEGIN_AFFINE_ANIM(opponentPeck)
     PLAY_AFFINE(0, 0, -2, 2)
     PLAY_AFFINE(0, 0, 0, 10)
     PLAY_AFFINE(0, 0, 2, 2)
+END_AFFINE()
+
+
+/* Drillpeck attacker affine animation */
+BEGIN_AFFINE_ANIM(drillpeckPlayer)
+    PLAY_AFFINE(0, 0, -2, 2)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(drillpeckRestorePlayer)
+    PLAY_AFFINE(0, 0, 0, 2)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(drillpeckOpponent)
+    PLAY_AFFINE(0, 0, 2, 2)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(drillpeckRestoreOpponent)
+    PLAY_AFFINE(0, 0, 0, 2)
 END_AFFINE()
