@@ -2011,6 +2011,8 @@ void ScriptCmd_clonebattler()
     LoadCompressedSpritePaletteUsingHeap(&pkmnSpritePal);
     struct Template pkmnTemp = {tag, tag, &opp_oam, nullframe, &pkmnSpriteGfx, nullrsf, (SpriteCallback)oac_nullsub};
     VarSet(0x900D, CreateSprite(&pkmnTemp, x, y, 0));
+    ANIMSCR_MOVE(2);
+    ANIMSCR_CMD_NEXT;
 }
 
 // set a bg's position

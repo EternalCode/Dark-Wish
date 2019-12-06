@@ -110,7 +110,6 @@ PunchAnimation:
     if2 0 call punchPlayer
     if2 1 call punchOpponent
     animatesprite fistParticle fistAffine 0
-    // TODO Firework effect here
     setvar gLASTRESULT 0
     startscript ShadowPunchFirework false
     OPENCMD
