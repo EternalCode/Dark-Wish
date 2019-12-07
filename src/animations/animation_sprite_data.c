@@ -1607,3 +1607,17 @@ BEGIN_AFFINE_ANIM(rock)
     PLAY_AFFINE(-20, -20, 0, 1)
     PLAY_AFFINE(-8, -8, 0, 16)
 END_AFFINE()
+
+
+/* Strength affine animation */
+BEGIN_AFFINE_ANIM(strengthShrink)
+    PLAY_AFFINE(0, 0, 0, 2)
+    PLAY_AFFINE(-6, -6, 0, 10)
+    PLAY_AFFINE(0, 0, 0, 164)
+    PLAY_AFFINE(15, 15, 0, 6)
+    PLAY_AFFINE(0, 0, 0, 2)
+    PLAY_AFFINE(-15, -15, 0, 2)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(strengthGrow)
+END_AFFINE()
