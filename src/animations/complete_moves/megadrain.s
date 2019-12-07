@@ -14,8 +14,8 @@
 .equ oX, 0x9009
 .equ oY, 0x900A
 
-.global AbsorbAnimation
-AbsorbAnimation:
+.global MegaDrainAnimation
+MegaDrainAnimation:
     fastsetbattlers
     loadspritefull circularSprite circularPalette absorbOrbOam
     copyvar orbParticle LASTRESULT
@@ -26,7 +26,7 @@ AbsorbAnimation:
     spritetobg attacker 8 8
     addfadeplatformbg
     hidehpbars
-    beginfade 2 0 FADETO true 14
+    beginfade 2 0x33B6 FADETO true 8
     blendsemitransparent 8 8
 
 
@@ -42,7 +42,7 @@ loopOrbsLeech:
     // determine if orb travels from top or bottom
     animatesprite tempParticle2 absorbOrbShadowAffine 0
     OPENCMD
-    spriteblend2 tempParticle2 12 0x273E
+    spriteblend2 tempParticle2 12 0x22CF
     spriteblend2 tempParticle 12 0x273E
     BLOCKCMD
     rendersprite tempParticle targetx targety nullrsf
@@ -52,10 +52,10 @@ loopOrbsLeech:
     if2 0x0 goto orbTop
     if2 0x2 goto orbBot
     addvar counter 1
-    OPENCMD
     spritecallback tempParticle SCB_SpriteDeleteAfter30Frames
     spritecallback tempParticle2 SCB_SpriteDeleteAfter30Frames
-    compare counter 18
+    OPENCMD
+    compare counter 20
     if1 0x0 goto loopOrbsLeech
     waittask TaskTranslateSpriteHorizontal
     setvar counter 0
@@ -94,7 +94,7 @@ loopHealBulb:
     addfadeplatformbg
     clearblending
     showsprite attacker
-    beginfade 2 0 FADEFROM true 14
+    beginfade 2 0x33B6 FADEFROM true 8
     spritebgclear attacker
     deletesprite healParticle
     showhpbars
@@ -110,5 +110,6 @@ orbBot:
     arctranslate tempParticle attacker 270 90 amplitude 30
     arctranslate tempParticle2 attacker 270 90 amplitude 30
     return
+
 
 .pool
