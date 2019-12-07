@@ -94,6 +94,15 @@ void SCB_SpriteDeleteAfter20Frames(struct Sprite* sprite)
     }
 }
 
+void SCB_SpriteDeleteAfter30Frames(struct Sprite* sprite)
+{
+    sprite->data[0]++;
+    if (sprite->data[0] == 30) {
+        FreeSpriteOamMatrix(sprite);
+        obj_free(sprite);
+    }
+}
+
 void SCB_SpriteDeleteAfter60Frames(struct Sprite* sprite)
 {
     sprite->data[0]++;
