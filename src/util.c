@@ -22,6 +22,14 @@ s32	Div(s32 num, s32 divisor)
     return 0;
 }
 
+s32	DivMod(s32 num, s32 divisor)
+{
+    __asm__("swi 0x6");
+    __asm__("mov r0, r1");
+    __asm__("bx lr");
+    return 0;
+}
+
 u32	Sqrt(u32 num)
 {
     __asm__("swi 0x8");
@@ -275,4 +283,28 @@ void ClearSpriteData(struct Sprite* s)
 {
     for (u8 i = 0; i < 8; i++)
         s->data[i] = 0;
+}
+
+
+s32 GreatestCommonFactor(s32 dividend, s32 divisor)
+{
+    s32 old_remainder = 0;
+    if (dividend == divisor)
+        return divisor;
+    else if (DivMod(dividend, divisor) == 0)
+        return divisor;
+    else
+        old_remainder = 1;
+
+    // Euclidean algorithm
+    while (true) {
+        s32 remainder = DivMod(dividend, divisor);
+        if (remainder == 0){
+            return old_remainder;
+        } else {
+            dividend = divisor;
+            divisor = remainder;
+            old_remainder = remainder;
+        }
+    }
 }

@@ -7,6 +7,8 @@
 
 /* Util general */
 extern u16 rand_range(u16 min, u16 max);
+s32 GreatestCommonFactor(s32 dividend, s32 divisor);
+
 
 /* Pokemon sprite tables */
 extern struct CompressedSpriteSheet gMonStillFrontPicTable[246];
@@ -55,6 +57,7 @@ extern struct TextColor textGreen;
 #define CPUModeFS(size, mode) ((size >> 2) | (mode << 24))
 extern void CpuFastSet(void* src, void* dst, u32 mode);
 extern s32	Div(s32 num, s32 divisor);
+extern s32	DivMod(s32 num, s32 divisor);
 extern u32	Sqrt(u32 num);
 extern u16 ArcTan2(s16 x, s16 y);
 extern void ObjAffineSet(struct ObjAffineSrcData *src, void *dest, s32 count, s32 offset);
