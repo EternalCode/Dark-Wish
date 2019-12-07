@@ -45,6 +45,42 @@ FireworkFinish:
 
 .pool
 
+.global FireworkAnimationNoClearBg
+FireworkAnimationNoClearBg:
+    copyvar glowcolor gLASTRESULT
+    compare targetx 0
+    if1 1 goto FireworkNoClearBgPosInherited
+    fastsetbattlers
+
+FireworkNoClearBgPosInherited:
+    BLOCKCMD
+    loadspritefull glowballSprite glowballPalette glowballOam
+    copyvar glowballParticle LASTRESULT
+    spriteblend 8 8
+    hidebg 1
+    spritetobg target 8 8
+    showbg 1
+    OPENCMD
+
+FireworkNoClearBgLoop:
+    BLOCKCMD
+    runtask TaskCreateSmallFireworkImpact glowcolor 3 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 3 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 2 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 2 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 1 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 1 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 0 targetx targety
+    runtask TaskCreateSmallFireworkImpact glowcolor 0 targetx targety
+    OPENCMD
+
+FireworkNoClearBgFinish:
+    waittask TaskCreateSmallFireworkImpact
+    deletesprite glowballParticle
+    end
+
+.pool
+
 .global FireworkAnimationSmaller
 FireworkAnimationSmaller:
     copyvar glowcolor gLASTRESULT

@@ -541,6 +541,12 @@ BEGIN_AFFINE_ANIM(bigfistShrinkSlowly)
     PLAY_AFFINE(0, 0, 0, 28)
 END_AFFINE()
 
+BEGIN_AFFINE_ANIM(bigfistShrinkSlowly2)
+    PLAY_AFFINE(0, 0, 0, 8)
+    PLAY_AFFINE(-25, -25, 0, 4)
+    PLAY_AFFINE(0, 0, 0, 28)
+END_AFFINE()
+
 
 /* Vicegrip graphic */
 ASSETS(vicegrip, s32x32 * 4, 427);
