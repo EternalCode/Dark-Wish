@@ -10,5 +10,6 @@ extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effec
 void absorb_on_aftermove(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return;
-    QueueMessage(move, user, STRING_ABSORBED_ENERGY, NULL);
+    if (B_MOVE_DMG(user) > 0)
+        QueueMessage(move, user, STRING_ABSORBED_ENERGY, NULL);
 }
