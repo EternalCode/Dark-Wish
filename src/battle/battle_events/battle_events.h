@@ -48,7 +48,6 @@ extern void event_after_switch(struct action* a);
 
 extern void event_on_start(struct action* a);
 extern void event_before_move(struct action* a);
-extern void event_pre_move_hit(struct action* a);
 extern void event_config_move_hitlist(struct action* a);
 extern void event_pre_move_hit(struct action* current_action);
 extern void event_move_tryhit_external(struct action* current_action);

@@ -146,6 +146,7 @@ extern u16 stage_modify_stat(u16 stat, s8 mod, u8 id, u8 bank);
 #define B_LAST_DMG(bank) (gPkmnBank[bank]->battleData.last_damage)
 #define ALLY_OF(bank) (bank ^ 1)
 #define B_DID_CRIT(bank) (gPkmnBank[bank]->battleData.did_crit)
+#define B_LAST_HIT_BY(bank) (gPkmnBank[bank]->battleData.last_attacked_by)
 
 /*
  *

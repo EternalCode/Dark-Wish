@@ -9,16 +9,19 @@ extern bool QueueMessage(u16 move, u8 bank, enum battle_string_ids id, u16 effec
 // Counter
 void counter_on_damage(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
-    if (user == src) return;
-    if ((TARGET_OF(user) == src) && B_MOVE_IS_PHYSICAL(user))
-        B_MOVE_DMG(src) = B_MOVE_DMG(user) << 1;
+    if (user != src) return;
+    if (B_MOVE_IS_PHYSICAL(TARGET_OF(user))) {
+        B_MOVE_DMG(user) = B_LAST_DMG(user) << 1;
+        delete_callback_src((u32)counter_on_damage, user);
+    }
 }
 
 enum TryHitMoveStatus counter_on_tryhit(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return TRYHIT_USE_MOVE_NORMAL;
-    if (B_MOVE_DMG(src) < 1)
+    if (B_LAST_DMG(src) < 1 || !B_MOVE_IS_PHYSICAL(B_LAST_HIT_BY(src)))
         return TRYHIT_CANT_USE_MOVE;
+    TARGET_OF(user) = B_LAST_HIT_BY(user);
     return TRYHIT_USE_MOVE_NORMAL;
 }
 
