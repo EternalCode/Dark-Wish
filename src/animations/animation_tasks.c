@@ -1353,7 +1353,7 @@ void TaskTranslateSpriteHorizontal(u8 tid)
         s->pos1.x += xErr;
     if (duration % yErrFrameSkip == 0)
         s->pos1.y += yErr;
-
+    dprintf("%d * Sin of %d  is, %d\n", amplitude, startAngle, ((amplitude * Sin2(startAngle)) / 4096));
     s->pos1.y += (amplitude * Sin2(startAngle)) / 4096;
     startAngle += waveStep;
 

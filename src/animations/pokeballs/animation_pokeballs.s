@@ -18,12 +18,11 @@ AnimCapturePokeball:
     fastsetbattlers
     loadspritefull pokeballSprite pokeballPalette pokeballOam
     copyvar ballSprite LASTRESULT
-    rendersprite ballSprite 32 80 nullrsf
+    rendersprite ballSprite 26 80 nullrsf
 
     // throw ball curve
-    horizontalArcTranslate 0 160 ballSprite target 34 POKEBALL
-    runtask TaskTranslateSpriteHorizontalArc ballSprite 0 0 0
-    waittask TaskTranslateSpriteHorizontalArc
+    arctranslate ballSprite target 260 430 4 30
+    waittask TaskTranslateSpriteHorizontal
 
     // open ball
     setframessprite 0 ballSprite pokeballFrames
@@ -43,7 +42,9 @@ waitloop:
     // close ball
     setframessprite 1 ballSprite pokeballFrames
     waitanimation ballSprite
-    pauseframes 8
+    pauseframes 4
+    movesprite ballSprite 0 2 2 true
+    wait
     // ball perform bounces
     spritecallback ballSprite PokeballBounceInitSCB
     setvar 0x8000 0x0

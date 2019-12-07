@@ -2107,6 +2107,8 @@ void ScriptCmd_arcTranslate()
     t->priv[10] = VarGet(endAngle);
     t->priv[11] = (t->priv[10] - t->priv[9]) / duration;
     t->priv[12] = VarGet(amplitude);
+    dprintf("Xdist is %d, reached by going %d per frame and every %d frames going %d\n", xDist, xStep, skipFramesX, errX);
+    dprintf("Ydist is %d, reached by going %d per frame and every %d frames going %d\n", yDist, yStep, skipFramesY, errY);
 
     ANIMSCR_MOVE(3);
     ANIMSCR_CMD_NEXT;
