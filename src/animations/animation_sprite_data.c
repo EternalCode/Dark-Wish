@@ -89,6 +89,7 @@
 #include "../../generated/images/battle_animations/hyperbeam.h"
 #include "../../generated/images/battle_animations/hyperbeam_player.h"
 #include "../../generated/images/battle_animations/hyperbeam_origin.h"
+#include "../../generated/images/battle_animations/rock.h"
 
 
 /* the impact sprite from tackle */
@@ -1591,4 +1592,18 @@ END_AFFINE()
 
 BEGIN_AFFINE_ANIM(drillpeckRestoreOpponent)
     PLAY_AFFINE(0, 0, 0, 2)
+END_AFFINE()
+
+/* Seismic toss rocks sprite */
+ASSETS(rock, s32x32, 447);
+
+MAKE_OAM(rock)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(rock)
+    PLAY_AFFINE(-20, -20, 0, 1)
+    PLAY_AFFINE(-8, -8, 0, 16)
 END_AFFINE()
