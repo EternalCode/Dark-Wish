@@ -228,6 +228,8 @@ const pchar str_anticipation[] = _("{FOE}{ATTACKING_MON}’s {ABILITY_ARBITRARY}
 const pchar str_frisk[] = _("{FOE}{ATTACKING_MON} frisked {BANK_NAME}\nand found it’s {BANK_ITEM}");
 const pchar str_learn_move[] = _("{PSLOT_MON} learnt {MOVE_NAME_TWO}!\p");
 const pchar str_disabled_use[] = _("{FOE}{ATTACKING_MON}’s {ATTACK_NAME}\nis disabled!");
+const pchar str_absorbed_energy_p[] = _("Foe {DEFENDING_MON} had its\nenergy drained!");
+const pchar str_absorbed_energy_o[] = _("{DEFENDING_MON} had its\nenergy drained!");
 
 // stat names
 const pchar str_stat_atk[] = _("attack");
@@ -475,5 +477,5 @@ const pchar* battle_strings[STRINGS_TABLE_MAX] = {
    (pchar*)&str_confirm_forget, // 216
    (pchar*)&str_forgot_selected_move, // 217
    (pchar*)&str_disabled_use, // 218
-
+   (pchar*)&str_absorbed_energy_p, (pchar*)&str_absorbed_energy_o, // 219, 220
 };

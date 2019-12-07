@@ -1624,6 +1624,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_HEAL | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .drain = 50,
     .procs = &basic_proc,
+    .on_after_move = absorb_on_aftermove,
     .animation = (u8*)&AbsorbAnimation,
     },
 
@@ -1639,6 +1640,7 @@ struct move_data gBattleMoves[] = {
     .m_flags = FLAG_HEAL | FLAG_MIRROR | FLAG_PROTECT | FLAG_TARGET,
     .drain = 50,
     .procs = &basic_proc,
+    .on_after_move = absorb_on_aftermove,
     .animation = (u8*)&MegaDrainAnimation,
     },
 

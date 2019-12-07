@@ -253,6 +253,7 @@ void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type,
             case STRING_BOUNCED_BACK:
             case STRING_ELECTRIFIED:
             case STRING_SKY_DROP_START:
+            case STRING_ABSORBED_ENERGY:
                 fdecoder_battle(battle_strings[id + side], user_bank, moveId, move_effect_id);
                 break;
             case STRINGS_TABLE_MAX:
