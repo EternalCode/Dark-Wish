@@ -27,7 +27,7 @@ AbsorbAnimation:
     addfadeplatformbg
     hidehpbars
     beginfade 2 0 FADETO true 14
-    blendsemitransparent 10 6
+    blendsemitransparent 8 8
 
 
 loopOrbsLeech:
@@ -64,6 +64,9 @@ loopOrbsLeech:
     deletesprite innerOrbParticle
     loadspritefull absorbSprite absorbPalette absorbOam
     copyvar healParticle LASTRESULT
+    clearpalbuffer
+    addfadebg1
+    beginfade 0 0xFFFF FADETO false 10
 
 loopHealBulb:
     // heal bulb effect
@@ -86,6 +89,9 @@ loopHealBulb:
     addvar counter 1
     compare counter 4
     if1 0x0 goto loopHealBulb
+    beginfade 0 0xFFFF FADEFROM true 10
+    clearpalbuffer
+    addfadeplatformbg
     clearblending
     showsprite attacker
     beginfade 2 0 FADEFROM true 14

@@ -425,7 +425,7 @@ END_OAM()
 
 BEGIN_AFFINE_ANIM(absorbOrbShadow)
     PLAY_AFFINE(-250, -250, 0, 1)
-    PLAY_AFFINE(6, 6, 0, 30)
+    PLAY_AFFINE(4, 4, 0, 30)
 END_AFFINE()
 
 
