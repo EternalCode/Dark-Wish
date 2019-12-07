@@ -70,6 +70,34 @@ void TaskMoveBG(u8 taskId)
     }
 }
 
+void TaskMoveBGSeismicToss(u8 taskId)
+{
+    struct Task* t = &tasks[taskId];
+    switch (t->priv[0]) {
+        case 0:
+        {
+            t->priv[0] = 1;
+            t->priv[1] = bgid_get_y_offset(2) >> 8;
+            t->priv[2] = 64;
+            t->priv[3] = 1; //speed
+            t->priv[4] = 0; //delay
+            break;
+        }
+        case 1:
+        {
+            // sin(waveoff, amplitude) + original pos
+            s16 ypos = Sin(t->priv[2], 15) + (bgid_get_y_offset(2) >> 8);
+            ChangeBgY(2, ypos << 8, 0);
+            t->priv[4]++;
+            if (t->priv[4] % 2)
+                t->priv[2] += t->priv[3];
+            if (t->priv[2] >= 192) {
+                DestroyTask(taskId);
+            }
+        }
+    }
+}
+
 
 #undef id
 #undef deltaX
