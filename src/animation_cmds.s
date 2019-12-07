@@ -517,12 +517,12 @@
 .equ OPPONENTSIDE, 2
 @ -----------------------------------------------
 @speed is the amount of frames to travel the distance
-.macro horizontalArcTranslate startAngle endAngle varSrc varDst speed mode
+.macro horizontalArcTranslate startAngle endAngle spriteToTranslate varDst speed mode
 .byte 55
 .byte \speed
 .hword \startAngle
 .hword \endAngle
-.hword \varSrc
+.hword \spriteToTranslate
 .hword \varDst
 .byte \mode
 .byte 0
@@ -895,6 +895,22 @@
 .hword \waveoffset
 .endm
 
+
+@ Angles are in degrees and uses the Sin wave
+@ For best results, make sure endAngle - startAngle / duration is a whole number
+.macro arctranslate spriteToTranslate dstSprite varStartAngle varEndAngle varAmplitude duration
+.byte 94
+.byte 0
+.hword \spriteToTranslate
+.hword \dstSprite
+.hword \varStartAngle
+.hword \varEndAngle
+.hword \varAmplitude
+.byte \duration
+.byte 0
+.byte 0
+.byte 0
+.endm
 
 .macro BLOCKCMD
 .byte 0xFE

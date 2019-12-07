@@ -1311,7 +1311,66 @@ void TaskAnimOrbitFastStepNoPriority(u8 tid)
     }
     duration--;
 }
+#undef duration
+#undef width
+#undef height
+#undef speed
+#undef waveoffset
+#undef originalX
+#undef originalY
+#undef dir
 
 
-#undef xpos
-#undef ypos
+#define duration tasks[tid].priv[0]
+#define xStep tasks[tid].priv[1]
+#define yStep tasks[tid].priv[2]
+#define xErr tasks[tid].priv[3]
+#define xErrFrameSkip tasks[tid].priv[4]
+#define yErr tasks[tid].priv[5]
+#define yErrFrameSkip tasks[tid].priv[6]
+#define spriteId tasks[tid].priv[7]
+#define mode tasks[tid].priv[8]
+#define startAngle tasks[tid].priv[9]
+#define endAngle tasks[tid].priv[10]
+#define waveStep tasks[tid].priv[11]
+#define amplitude tasks[tid].priv[12]
+
+
+void TaskTranslateSpriteHorizontal(u8 tid)
+{
+    if (duration < 0) {
+        DestroyTask(tid);
+        return;
+    }
+
+    struct Sprite* s = &gSprites[spriteId];
+    if (duration != 0) {
+        s->pos1.x += xStep;
+        s->pos1.y += yStep;
+    }
+
+    if (duration % xErrFrameSkip == 0)
+        s->pos1.x += xErr;
+    if (duration % yErrFrameSkip == 0)
+        s->pos1.y += yErr;
+
+    s->pos1.y += (amplitude * Sin2(startAngle)) / 4096;
+    startAngle += waveStep;
+
+    duration--;
+
+}
+
+#undef duration
+#undef xStep
+#undef yStep
+#undef xErr
+#undef xErrFrameSkip
+#undef yErr
+#undef yErrFrameSkip
+#undef spriteId
+#undef mode
+#undef startAngle
+#undef endAngle
+#undef waveStep
+#undef amplitude

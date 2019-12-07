@@ -100,6 +100,7 @@ void ScriptCmd_fadebg1(void);
 void ScriptCmd_clonebattler(void);
 void ScriptCmd_setbgpos(void);
 void ScriptCmd_depthlessorbitbg(void);
+void ScriptCmd_arcTranslate(void);
 
 
 
@@ -121,6 +122,7 @@ extern void TaskWaitAnimMessage(u8 taskId);
 extern void TaskWaitForScrThread(u8 taskId);
 extern void TaskCreateSmallFireworkGeneric(u8 taskId);
 extern void TaskAnimOrbitFastStepNoPriority(u8 taskId);
+extern void TaskTranslateSpriteHorizontal(u8 taskId);
 extern void battle_loop(void);
 extern void InitAnimLinearTranslation(struct Sprite *sprite);
 extern void pick_battle_message(u16 moveId, u8 user_bank, enum BattleTypes battle_type, enum battle_string_ids id, u16 move_effect_id);
@@ -224,8 +226,9 @@ const AnimScriptFunc gAnimTable[] = {
     ScriptCmd_applycustomaffine, // 89
     ScriptCmd_fadebg1, // 90
     ScriptCmd_clonebattler, // 91
-    ScriptCmd_setbgpos, // 91
-    ScriptCmd_depthlessorbitbg, // 91
+    ScriptCmd_setbgpos, // 92
+    ScriptCmd_depthlessorbitbg, // 93
+    ScriptCmd_arcTranslate, // 94
 };
 
 
@@ -1082,7 +1085,7 @@ void ScriptCmd_return()
 /* if */
 void ScriptCmd_if()
 {
-    bool condition = ANIMSCR_READ_BYTE;
+    u8 condition = ANIMSCR_READ_BYTE;
     ANIMSCR_MOVE(2);
     if (ANIMSCR_CONDITION != condition) {
         // skip the condition true clause. This is 1 command and a script arg - 8 bytes including the padding
@@ -1105,10 +1108,6 @@ void ScriptCmd_compare()
         ANIMSCR_CONDITION = 1;
     } else if (var > value) {
         ANIMSCR_CONDITION = 2;
-    } else if (var <= value) {
-        ANIMSCR_CONDITION = 3;
-    } else if (var >= value) {
-        ANIMSCR_CONDITION = 4;
     }
     ANIMSCR_CMD_NEXT;
 }
@@ -2052,7 +2051,65 @@ void ScriptCmd_depthlessorbitbg()
     t->priv[5] = bgid_get_x_offset(1) >> 8; // original bg x
     t->priv[6] = bgid_get_y_offset(1) >> 8; // original bg y
     ANIMSCR_CMD_NEXT;
+}
 
+// Accurate arc translation
+void ScriptCmd_arcTranslate()
+{
+    ANIMSCR_MOVE(1);
+    u16 spriteId = ANIMSCR_READ_HWORD;
+    spriteId = VarGet(spriteId);
+    struct Sprite* src = &gSprites[spriteId];
+    u16 spriteIdDst = ANIMSCR_READ_HWORD;
+    struct Sprite* dst = &gSprites[VarGet(spriteIdDst)];
+    u16 startAngle = ANIMSCR_READ_HWORD;
+    u16 endAngle = ANIMSCR_READ_HWORD;
+    u16 amplitude = ANIMSCR_READ_HWORD;
+    u8 duration = ANIMSCR_READ_BYTE;
+
+    // get X and Y travel distance
+    s32 xDist = dst->pos1.x - src->pos1.x;
+    s32 yDist = dst->pos1.y - src->pos1.y;
+
+    // get x steps and error
+    s32 xStep = Div(xDist, duration);
+    s32 errX = DivMod(xDist, duration);
+    s32 skipFramesX = GreatestCommonFactor(duration, errX);
+    if (skipFramesX == errX) {
+        skipFramesX = Div(duration, errX);
+        errX = errX < 0 ? -1 : 1;
+    } else {
+        errX = Div(errX, skipFramesX);
+    }
+
+    // get y steps and error
+    s32 yStep = Div(yDist, duration);
+    s32 errY = DivMod(yDist, duration);
+    s32 skipFramesY = GreatestCommonFactor(duration, errY);
+    if (skipFramesY == errY) {
+        skipFramesY = Div(duration, errY);
+        errY = errY < 0 ? - 1 : 1;
+    } else {
+        errY = Div(errY, skipFramesY);
+    }
+
+    // setup task
+    struct Task* t = &tasks[CreateTask(TaskTranslateSpriteHorizontal, 0)];
+    t->priv[0] = duration;
+    t->priv[1] = xStep;
+    t->priv[2] = yStep;
+    t->priv[3] = errX;
+    t->priv[4] = skipFramesX;
+    t->priv[5] = errY;
+    t->priv[6] = skipFramesY;
+    t->priv[7] = spriteId;
+    t->priv[9] = VarGet(startAngle);
+    t->priv[10] = VarGet(endAngle);
+    t->priv[11] = (t->priv[10] - t->priv[9]) / duration;
+    t->priv[12] = VarGet(amplitude);
+
+    ANIMSCR_MOVE(3);
+    ANIMSCR_CMD_NEXT;
 }
 
 
