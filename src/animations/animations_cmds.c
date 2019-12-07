@@ -1584,8 +1584,8 @@ void ScriptCmd_fireworkeffect()
     s16 currentx = ANIMSCR_READ_HWORD;
     s16 currenty = ANIMSCR_READ_HWORD;
 
-    u8 blend = argbits & 1;
-    u8 left = argbits & 1;
+    u8 noblend = argbits & 1;
+    u8 left = argbits & 2;
     currentx = VarGet(currentx);
     currentx += left ? rand_range(0, 10) - 10 : rand_range(0, 10);
     currenty = VarGet(currenty);
@@ -1598,10 +1598,9 @@ void ScriptCmd_fireworkeffect()
     struct RotscaleFrame (**rotscale_table)[] = (void*)affine;
     gSprites[spriteId].rotscale_table = rotscale_table;
     gSprites[spriteId].final_oam.affine_mode = 1;
-    gSprites[spriteId].final_oam.priority = 3;
-    if (!blend) {
+    gSprites[spriteId].final_oam.priority = 1;
+    if (!noblend) {
         gSprites[spriteId].final_oam.obj_mode = 1;
-        gSprites[spriteId].final_oam.priority = 1;
     }
     struct Task* t = &tasks[CreateTask(TaskCreateSmallFireworkGeneric, 0)];
     t->priv[1] = spriteId;
