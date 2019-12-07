@@ -90,6 +90,7 @@
 #include "../../generated/images/battle_animations/hyperbeam_player.h"
 #include "../../generated/images/battle_animations/hyperbeam_origin.h"
 #include "../../generated/images/battle_animations/rock.h"
+#include "../../generated/images/battle_animations/absorb.h"
 
 
 /* the impact sprite from tackle */
@@ -409,6 +410,24 @@ END_OAM()
 BEGIN_AFFINE_ANIM(circular)
     PLAY_AFFINE(8, 8, 0, 32)
 END_AFFINE()
+
+MAKE_OAM(absorbOrb)
+    OAM_PRIORITY(0)
+    OAM_SIZE(o16x16)
+END_OAM()
+
+MAKE_OAM(absorbOrbShadow)
+    OAM_PRIORITY(1)
+    OAM_AFFINE()
+    OAM_SEMI_TRANSPARENT()
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(absorbOrbShadow)
+    PLAY_AFFINE(-250, -250, 0, 1)
+    PLAY_AFFINE(6, 6, 0, 30)
+END_AFFINE()
+
 
 
 /* the impact sprite from tackle - but white for blendability */
@@ -1595,7 +1614,7 @@ BEGIN_AFFINE_ANIM(drillpeckRestoreOpponent)
 END_AFFINE()
 
 /* Seismic toss rocks sprite */
-ASSETS(rock, s32x32, 447);
+ASSETS(rock, s32x32, 484);
 
 MAKE_OAM(rock)
     OAM_AFFINE()
@@ -1620,4 +1639,19 @@ BEGIN_AFFINE_ANIM(strengthShrink)
 END_AFFINE()
 
 BEGIN_AFFINE_ANIM(strengthGrow)
+END_AFFINE()
+
+
+/* Absorb healing stars sprite */
+ASSETS(absorb, s32x32, 485);
+
+MAKE_OAM(absorb)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(absorb)
+    PLAY_AFFINE(-300, -300, 0, 1)
+    PLAY_AFFINE(10, 10, 0, 20)
 END_AFFINE()
