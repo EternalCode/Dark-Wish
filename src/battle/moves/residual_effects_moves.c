@@ -136,6 +136,7 @@ enum TryHitMoveStatus leech_seed_on_tryhit(u8 user, u8 src, u16 move, struct ano
     if (BankMonHasType(TARGET_OF(user), TYPE_GRASS)) return TRYHIT_TARGET_MOVE_IMMUNITY; // immune
     u8 id = AddCallback(CB_ON_RESIDUAL, 8, CB_PERMA, TARGET_OF(user), (u32)leech_seed_on_residual);
     CB_MASTER[id].data_ptr = user;
+    CB_MASTER[id].remove_on_faint_or_switch = true;
     AddCallback(CB_ON_AFTER_MOVE, 0, 1, user, (u32)leech_seed_on_aftermove);
     return TRYHIT_USE_MOVE_NORMAL;
 }
