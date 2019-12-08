@@ -125,6 +125,8 @@ void event_fainted(struct action* current_action)
                 dprintf("Current HP was %d\n", B_CURRENT_HP(i));
                 do_damage(i, B_CURRENT_HP(i));
                 SyncBankToParty(i);
+                // clear callbacks from previous battler
+                DeleteGhostCallbacks(ACTION_BANK);
             }
             prepend_action(i, NULL, ActionFaint, EventFaint);
         }

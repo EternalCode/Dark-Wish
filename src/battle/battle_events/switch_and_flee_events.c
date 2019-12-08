@@ -113,8 +113,10 @@ void event_switch(struct action* current_action)
     SyncBankToParty(ACTION_BANK);
     // should clear existing ailment callbacks so send out mon doesn't get them applied
     clear_ailments_silent(ACTION_BANK);
-    gMain.state = 0;
+    // clear callbacks from previous battler
+    DeleteGhostCallbacks(ACTION_BANK);
     // the recall animation is in the switch scene folder; onlyplayer supported as of now
+    gMain.state = 0;
     SetMainCallback(pkmn_recall_animation);
 }
 

@@ -41,8 +41,9 @@
 
 struct anonymous_callback {
 	s8 priority;
-	u8 delay_before_effect : 7;
+	u8 delay_before_effect : 6;
 	u8 in_use : 1;
+	u8 remove_on_faint_or_switch : 1;
 	u8 duration;
 	u8 source_bank; // source bank using the effect
 	u8 cb_id; // execution timing, callback id
@@ -56,6 +57,7 @@ typedef u16 (*AnonymousCallback)(u8 user, u8 src, u16 move, struct anonymous_cal
 extern u8 AddCallback(u8 CB_id, s8 priority, u8 dur, u8 src, u32 func);
 extern bool callback_exists(u32 func);
 extern void delete_callback(u32 func);
+extern void DeleteGhostCallbacks(u8 user);
 
 // Building and running callbacks
 extern void BuildCallbackExecutionBuffer(u8 CB_id);

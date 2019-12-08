@@ -246,3 +246,13 @@ u8 id_by_acb(struct anonymous_callback* acb)
     }
     return ANON_CB_MAX;
 }
+
+
+void DeleteGhostCallbacks(u8 user)
+{
+    for (u8 i = 0; i < ANON_CB_MAX; i++) {
+        if ((CB_MASTER[i].source_bank == user) && (CB_MASTER[i].remove_on_faint_or_switch)) {
+            CB_MASTER[i].in_use = false;
+        }
+    }
+}
