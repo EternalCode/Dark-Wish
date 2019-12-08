@@ -105,11 +105,21 @@ u8 mean_look_on_effect(u8 user, u8 src, u16 move, struct anonymous_callback* acb
 
 
 // leech seed
+void leech_seed_on_aftermove(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
+{
+    if (user != src) return;
+    QueueMessage(move, TARGET_OF(user), STRING_SEEDED, NULL);
+    delete_callback_src((u32)leech_seed_on_aftermove, src);
+}
+
+
 u8 leech_seed_on_residual(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (user != src) return true;
     u8 dmg = MAX(1, (TOTAL_HP(user) / 8));
     if (do_damage_residual(user, dmg, NULL)) {
+        struct action* a = prepend_action(acb->data_ptr, user, ActionHighPriority, EventPlayAnimation);
+        a->script = (u32)&AbsorbAnimation;
         do_damage(user, dmg);
         CURRENT_MOVE(acb->data_ptr) = MOVE_LEECHSEED;
         B_MOVE_DMG(acb->data_ptr) = dmg;
@@ -126,6 +136,6 @@ enum TryHitMoveStatus leech_seed_on_tryhit(u8 user, u8 src, u16 move, struct ano
     if (BankMonHasType(TARGET_OF(user), TYPE_GRASS)) return TRYHIT_TARGET_MOVE_IMMUNITY; // immune
     u8 id = AddCallback(CB_ON_RESIDUAL, 8, CB_PERMA, TARGET_OF(user), (u32)leech_seed_on_residual);
     CB_MASTER[id].data_ptr = user;
-    QueueMessage(NULL, TARGET_OF(user), STRING_SEEDED, 0);
+    AddCallback(CB_ON_AFTER_MOVE, 0, 1, user, (u32)leech_seed_on_aftermove);
     return TRYHIT_USE_MOVE_NORMAL;
 }
