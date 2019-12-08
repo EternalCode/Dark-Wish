@@ -91,6 +91,8 @@
 #include "../../generated/images/battle_animations/hyperbeam_origin.h"
 #include "../../generated/images/battle_animations/rock.h"
 #include "../../generated/images/battle_animations/absorb.h"
+#include "../../generated/images/battle_animations/leechseed.h"
+#include "../../generated/images/battle_animations/leechseed_plant.h"
 
 
 /* the impact sprite from tackle */
@@ -1655,3 +1657,41 @@ BEGIN_AFFINE_ANIM(absorb)
     PLAY_AFFINE(-300, -300, 0, 1)
     PLAY_AFFINE(10, 10, 0, 20)
 END_AFFINE()
+
+
+/* Leech seed sprite */
+ASSETS(leechseed, s8x8, 486);
+ASSETS(leechseed_plant, s8x16 * 3, 487);
+
+MAKE_OAM(leechseed)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o8x8)
+END_OAM()
+
+MAKE_OAM(leechseed_plant)
+    OAM_AFFINE()
+    OAM_PRIORITY(0)
+    OAM_SHAPE(WIDE)
+    OAM_SIZE(o8x16)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(leechseed)
+    PLAY_AFFINE(-50, -50, 0, 1)
+    PLAY_AFFINE(3, 3, 2, 50)
+END_AFFINE()
+
+BEGIN_AFFINE_ANIM(leechseed_plant)
+    PLAY_AFFINE(0, 2, 0, 10)
+    PLAY_AFFINE(0, 0, 0, 10)
+    PLAY_AFFINE(0, -20, 0, 1)
+    PLAY_AFFINE(2, -2, 0, 10)
+    PLAY_AFFINE(-2, 2, 0, 10)
+    PLAY_AFFINE(0, 0, 0, 30)
+END_AFFINE()
+
+BEGIN_FRAME_ANIM(leechseed_plantFrames)
+    SHOW_FRAME(0, s8x16, NOFLIP, 18)
+    SHOW_FRAME(1, s8x16, NOFLIP, 12)
+    SHOW_FRAME(2, s8x16, NOFLIP, 120)
+END_ANIM()
