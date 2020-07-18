@@ -500,6 +500,7 @@ void ScriptCmd_waitframes()
     // alignment for read
     ANIMSCR_MOVE(1);
     u16 waitTime = ANIMSCR_READ_HWORD;
+    waitTime = VarGet(waitTime);
     u8 taskId = CreateTask(TaskWaitFrames, 0);
     tasks[taskId].priv[0] = waitTime;
     tasks[taskId].priv[1] = ANIMSCR_THREAD;
@@ -2072,6 +2073,7 @@ void ScriptCmd_arcTranslate()
     s32 yDist = dst->pos1.y - src->pos1.y;
 
     // get x steps and error
+    dprintf("xDist %d, yDist%d\n", xDist, yDist);
     s32 xStep = Div(xDist, duration);
     s32 errX = DivMod(xDist, duration);
     s32 skipFramesX = GreatestCommonFactor(duration, errX);

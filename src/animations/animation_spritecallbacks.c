@@ -364,3 +364,80 @@ void SCB_SpriteFeatherFall(struct Sprite* sprite)
     // move Y
     sprite->pos1.y += sprite->data[1];
 }
+
+
+void SCB_SpriteRiseFastFallSlow(struct Sprite* sprite)
+{
+    switch (sprite->data[1]) {
+        case 0:
+            sprite->data[3] = VarGet(0x9008) * 5; // counter
+            sprite->data[1]++;
+            break;
+        case 1:
+            // rise fast
+            sprite->final_oam.obj_mode = 0;
+            sprite->pos1.y -= rand() % 6;
+            if (sprite->data[2] == 15) {
+                sprite->data[1]++;
+                sprite->data[2] = 0;
+            } else {
+                sprite->data[2]++;
+            }
+            break;
+        case 2:
+            // pause a bit
+            if (sprite->data[2] > 5) {
+                sprite->data[2] = 0;
+                sprite->data[1]++;
+            } else {
+                sprite->data[2]++;
+            }
+            break;
+        case 3:
+            // fall slow
+            sprite->pos1.y += rand() % 2;
+            if (sprite->data[2] == 30) {
+                sprite->data[1]++;
+                sprite->data[2] = 0;
+            } else {
+                sprite->data[2]++;
+            }
+            break;
+        case 4:
+            // wait random time
+            if (sprite->data[2] == sprite->data[3]) {
+                sprite->data[2] = 0;
+                sprite->data[1]++;
+            } else {
+                sprite->data[2]++;
+            }
+            break;
+        case 5:
+        {
+            u8 steps = 16;
+            u16 spriteId2 = VarGet(0x9001); // get target
+            struct Sprite* s2 = &gSprites[spriteId2];
+            u8 delay = 1;
+
+            // calculate delta distances per movement
+            s32 x = s2->pos1.x - sprite->pos1.x;
+            s32 y = s2->pos1.y - sprite->pos1.y;
+            s16 xDelta = Div(x, steps);
+            s16 yDelta = Div(y, steps);
+            sprite->callback = SCBMoveSpriteErrorCorrection;
+            sprite->data[0] = steps;
+            sprite->data[1] = xDelta;
+            sprite->data[2] = yDelta;
+            if ((x - (xDelta * steps)) != 0)
+                sprite->data[3] = Div(steps, (x - (xDelta * steps))); // error minimization increment intervals
+            else
+                sprite->data[3] = 0;
+            if ((y - (yDelta * steps)) != 0)
+                sprite->data[4] = Div(steps, (y - (yDelta * steps))); // error minimization increment intervals
+            else
+                sprite->data[4] = 0;
+            sprite->data[7] = delay;
+            break;
+        }
+    };
+}

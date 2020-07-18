@@ -93,6 +93,7 @@
 #include "../../generated/images/battle_animations/absorb.h"
 #include "../../generated/images/battle_animations/leechseed.h"
 #include "../../generated/images/battle_animations/leechseed_plant.h"
+#include "../../generated/images/battle_animations/razorleaf.h"
 
 
 /* the impact sprite from tackle */
@@ -1695,3 +1696,21 @@ BEGIN_FRAME_ANIM(leechseed_plantFrames)
     SHOW_FRAME(1, s8x16, NOFLIP, 12)
     SHOW_FRAME(2, s8x16, NOFLIP, 120)
 END_ANIM()
+
+
+/* Razor leaf sprite */
+ASSETS(razorleaf, s16x16, 487);
+
+MAKE_OAM(razorleaf)
+    OAM_AFFINE()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o16x16)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(razorleaf)
+    PLAY_AFFINE(0, 0, 0, 1)
+    PLAY_AFFINE(0, 0, 2, 60)
+    PLAY_AFFINE(0, 0, 8, 10)
+    PLAY_AFFINE(0, 0, 16, 20)
+    PLAY_AFFINE(0, 0, 32, 30)
+END_AFFINE()
