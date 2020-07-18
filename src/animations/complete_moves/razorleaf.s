@@ -20,6 +20,10 @@ RazorLeafAnimation:
     copyvar ogY attackery
     loadspritefull razorleafSprite razorleafPalette razorleafOam
     copyvar leafParticle LASTRESULT
+    loadspritefull bimpact1Sprite bimpact1Palette bimpact1Oam
+    copyvar impactParticle LASTRESULT
+    spritetobg target 8 8
+    spriteblend 4 12
     hidehpbars
     BLOCKCMD
     sideof attacker
@@ -60,8 +64,13 @@ RazorLeafsFloatingOpp:
 
 RazorLeafPreProjectileSpawn:
     OPENCMD
-    pauseframes 110
-    quakebg 1 2 0 2 2 false
+    pauseframes 70
+    spriteblend2 impactParticle 10 0x12CB
+    rendersprite impactParticle targetx targety nullrsf
+    quakebg 1 2 0 4 2 false
+    pauseframes 20
+    deletesprite impactParticle
+    pauseframes 20
     showhpbars
     deletesprite leafParticle
     showsprite target
