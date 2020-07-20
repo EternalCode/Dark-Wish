@@ -36,6 +36,11 @@ void event_set_status(struct action* current_move)
                 status_applied = false;
             } else {
                 status_applied = true;
+                if (status_applied) {
+                    struct action* a = prepend_action(ACTION_BANK, bank, ActionHighPriority, EventPlayAnimation);
+                    a->action_bank = bank;
+                    a->script = (u32)&animParalyzed;
+                }
             }
             break;
         case AILMENT_BURN:

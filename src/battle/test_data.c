@@ -10,8 +10,8 @@ const bool USE_TESTS = true; // Change to false to not execute the test environm
 /* Player data */
 const static u16 playerSpecies = SPECIES_ABOMASNOW;
 const static u16 playerMove1 = MOVE_POISONPOWDER;
-const static u16 playerMove2 = MOVE_THUNDERPUNCH;
-const static u16 playerMove3 = MOVE_WATERGUN;
+const static u16 playerMove2 = MOVE_STUNSPORE;
+const static u16 playerMove3 = MOVE_SLEEPPOWDER;
 const static u16 playerMove4 = MOVE_SHADOWPUNCH;
 const static u8 playerLevel = 25;
 const static u16 playerItem = ITEM_ORANBERRY;
@@ -19,10 +19,10 @@ const u8 gPlayerAbility = ABILITY_TORRENT;
 
 /* Opponent data */
 const static u16 opponentSpecies = SPECIES_SEADRA;
-const static u16 opponentMove1 = MOVE_SOLARBEAM;
-const static u16 opponentMove2 = MOVE_SOLARBEAM;
-const static u16 opponentMove3 = MOVE_SOLARBEAM;
-const static u16 opponentMove4 = MOVE_SOLARBEAM;
+const static u16 opponentMove1 = MOVE_SLEEPPOWDER;
+const static u16 opponentMove2 = MOVE_SLEEPPOWDER;
+const static u16 opponentMove3 = MOVE_SLEEPPOWDER;
+const static u16 opponentMove4 = MOVE_SLEEPPOWDER;
 const static u8 opponentLevel = 16;
 const static u16 opponentItem = ITEM_SITRUSBERRY;
 const u8 gOpponentAbility = ABILITY_BLAZE;

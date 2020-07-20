@@ -97,6 +97,8 @@
 #include "../../generated/images/battle_animations/solarbeam.h"
 #include "../../generated/images/battle_animations/solarbeamTail.h"
 #include "../../generated/images/battle_animations/poisonpowder.h"
+#include "../../generated/images/battle_animations/stunspore.h"
+#include "../../generated/images/battle_animations/sleeppowder.h"
 
 
 /* the impact sprite from tackle */
@@ -1756,3 +1758,9 @@ BEGIN_FRAME_ANIM(poisonpowderFrames)
     SHOW_FRAME(2, s8x32, NOFLIP, 16)
     SHOW_FRAME(3, s8x32, NOFLIP, 8)
 END_ANIM()
+
+/* Stun spore */
+ASSETS(stunspore, s8x32 * 4, 491);
+
+/* Sleep powder */
+ASSETS(sleeppowder, s8x32 * 4, 492);
