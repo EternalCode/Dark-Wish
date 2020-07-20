@@ -441,3 +441,43 @@ void SCB_SpriteRiseFastFallSlow(struct Sprite* sprite)
         }
     };
 }
+
+
+void SCB_MovePowder(struct Sprite* sprite)
+{
+    s16 randFactor = 0;
+    switch (sprite->data[7]) {
+        case 0:
+            // pick sprite's position
+            randFactor = (rand() % 2) ? -(rand_range(0, 24)) : rand_range(0, 24);
+            sprite->pos1.x += randFactor;
+            sprite->pos1.y -= 16;
+            sprite->invisible = false;
+            sprite->data[6] = sprite->data[3];
+            sprite->data[7]++;
+            sprite->data[5] = 0;
+            break;
+        case 1:
+            if (sprite->data[0] <= 0) {
+                sprite->data[7]++;
+            }
+            // move X influenced by sin wave
+            if (sprite->data[5] % 3 == 0) {
+                // move the sprite up
+                sprite->pos1.y += 1;
+                sprite->data[0]--;
+                s16 differential = Sin(sprite->data[6], sprite->data[2]);
+                sprite->pos1.x += differential < 0 ? differential : 1;
+                dprintf("Pos: %d, inputs: %d and %d\n", Sin(sprite->data[6], sprite->data[2]), sprite->data[6], sprite->data[2]);
+                // update wave frequency
+                sprite->data[6] = (sprite->data[6] + sprite->data[1]) & 0xFF;
+            }
+            sprite->data[5]++;
+            break;
+        case 2:
+            // delete sprite
+            FreeSpriteOamMatrix(sprite);
+            DestroySprite(sprite);
+            break;
+    };
+}

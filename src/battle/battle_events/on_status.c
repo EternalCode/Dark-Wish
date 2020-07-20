@@ -63,6 +63,11 @@ void event_set_status(struct action* current_move)
             } else {
                 status_applied = true;
             }
+            if (status_applied) {
+                struct action* a = prepend_action(ACTION_BANK, bank, ActionHighPriority, EventPlayAnimation);
+                a->action_bank = bank;
+                a->script = (u32)&animPoisonEffect;
+            }
 			break;
         case AILMENT_SLEEP:
             // sleep isn't affected by type

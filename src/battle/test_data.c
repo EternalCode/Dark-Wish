@@ -9,7 +9,7 @@ const bool USE_TESTS = true; // Change to false to not execute the test environm
 
 /* Player data */
 const static u16 playerSpecies = SPECIES_ABOMASNOW;
-const static u16 playerMove1 = MOVE_SOLARBEAM;
+const static u16 playerMove1 = MOVE_POISONPOWDER;
 const static u16 playerMove2 = MOVE_THUNDERPUNCH;
 const static u16 playerMove3 = MOVE_WATERGUN;
 const static u16 playerMove4 = MOVE_SHADOWPUNCH;

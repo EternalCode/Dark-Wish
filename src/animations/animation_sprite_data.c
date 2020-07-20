@@ -96,6 +96,7 @@
 #include "../../generated/images/battle_animations/razorleaf.h"
 #include "../../generated/images/battle_animations/solarbeam.h"
 #include "../../generated/images/battle_animations/solarbeamTail.h"
+#include "../../generated/images/battle_animations/poisonpowder.h"
 
 
 /* the impact sprite from tackle */
@@ -1739,3 +1740,19 @@ BEGIN_AFFINE_ANIM(solarbeamBulbs)
     PLAY_AFFINE(-20, -20, 0, 1)
     PLAY_AFFINE(-10, -10, 0, 30)
 END_AFFINE()
+
+
+/* Poison powder */
+ASSETS(poisonpowder, s8x32 * 4, 490);
+
+MAKE_OAM(poisonpowder)
+    OAM_PRIORITY(2)
+    OAM_SIZE(o8x32)
+END_OAM()
+
+BEGIN_FRAME_ANIM(poisonpowderFrames)
+    SHOW_FRAME(0, s8x32, NOFLIP, 32)
+    SHOW_FRAME(1, s8x32, NOFLIP, 16)
+    SHOW_FRAME(2, s8x32, NOFLIP, 16)
+    SHOW_FRAME(3, s8x32, NOFLIP, 8)
+END_ANIM()
