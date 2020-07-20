@@ -94,6 +94,8 @@
 #include "../../generated/images/battle_animations/leechseed.h"
 #include "../../generated/images/battle_animations/leechseed_plant.h"
 #include "../../generated/images/battle_animations/razorleaf.h"
+#include "../../generated/images/battle_animations/solarbeam.h"
+#include "../../generated/images/battle_animations/solarbeamTail.h"
 
 
 /* the impact sprite from tackle */
@@ -1713,4 +1715,27 @@ BEGIN_AFFINE_ANIM(razorleaf)
     PLAY_AFFINE(0, 0, 8, 10)
     PLAY_AFFINE(0, 0, 16, 20)
     PLAY_AFFINE(0, 0, 32, 30)
+END_AFFINE()
+
+
+/* Solarbeam */
+ASSETS(solarbeam, s32x32, 488);
+ASSETS(solarbeamTail, s32x32, 489);
+
+MAKE_OAM(solarbeam)
+    OAM_AFFINE()
+    OAM_SEMI_TRANSPARENT()
+    OAM_PRIORITY(1)
+    OAM_SIZE(o32x32)
+END_OAM()
+
+BEGIN_AFFINE_ANIM(solarbeam)
+    PLAY_AFFINE(40, 40, 0, 1)
+    PLAY_AFFINE(-10, 0, 0, 30)
+END_AFFINE()
+
+
+BEGIN_AFFINE_ANIM(solarbeamBulbs)
+    PLAY_AFFINE(-20, -20, 0, 1)
+    PLAY_AFFINE(-10, -10, 0, 30)
 END_AFFINE()

@@ -637,11 +637,11 @@
 .hword \tilesh
 .endm
 
-.macro spritemovedst steps vara varb
+.macro spritemovedst steps varSrc varDst
 .byte 68
 .byte \steps
-.hword \vara
-.hword \varb
+.hword \varSrc
+.hword \varDst
 .byte 0
 .byte 0
 .endm

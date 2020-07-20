@@ -365,6 +365,7 @@ extern const u8* MegaDrainAnimation;
 extern const u8* LeechSeedAnimation;
 extern const u8* GrowthAnimation;
 extern const u8* RazorLeafAnimation;
+extern const u8* SolarBeamChargeAnimation;
 extern const u8* SolarBeamAnimation;
 extern const u8* PoisonPowderAnimation;
 extern const u8* StunSporeAnimation;

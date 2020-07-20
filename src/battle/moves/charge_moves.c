@@ -27,7 +27,13 @@ u8 before_move_charge_frame(u8 user, u8 string_id)
 u8 solarbeam_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)
 {
     if (src != user) return true;
-    return before_move_charge_frame(user, STRING_SOLARBEAM);
+    struct action* a = prepend_action(ACTION_BANK, ACTION_BANK, ActionHighPriority, EventPlayAnimation);
+    bool val = before_move_charge_frame(user, STRING_SOLARBEAM);
+    if (HAS_VOLATILE(user, VOLATILE_CHARGING)) {
+        a->action_bank = user;
+        a->script = (u32)&SolarBeamChargeAnimation;
+    }
+    return val;
 }
 
 u8 razor_wind_before_move(u8 user, u8 src, u16 move, struct anonymous_callback* acb)

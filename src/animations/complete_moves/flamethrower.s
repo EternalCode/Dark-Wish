@@ -19,6 +19,7 @@ FlamethrowerAnimation:
     hidehpbars
     beginfade 2 0x0056 FADETO true 10
     startscript BlendSpriteBgRed true
+    spritepriority attacker 1
 
 flamesLoop:
     BLOCKCMD
@@ -67,6 +68,7 @@ finishMove:
     hidebg 1
     spritebgclear target
     deletesprite flamesParticle
+    spritepriority attacker 3
     end
 
 flamesEmerge:
